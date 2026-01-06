@@ -9,6 +9,7 @@ export {
   validateAgentSpec,
   GENERIC_TERMS,
   VALID_FEATURES,
+  VALID_MODELS,
   FIELD_CONSTRAINTS,
   type ValidationError,
   type ValidationWarning,

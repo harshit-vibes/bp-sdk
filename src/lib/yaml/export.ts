@@ -3,14 +3,39 @@
  *
  * Exports blueprint and agent configurations to YAML format.
  * Generates a downloadable ZIP file containing all YAML files.
+ *
+ * YAML Schema (aligned with bp-sdk):
+ * - Agent YAML: name, description, model, temperature, role, goal, instructions,
+ *               features, usage_description (workers), sub_agents (managers)
+ * - Blueprint YAML: name, description, category, tags, visibility, root_agents
  */
 
 import yaml from "js-yaml";
 import JSZip from "jszip";
-import type { AgentYAMLSpec, BlueprintYAMLSpec } from "@/lib/types";
+import type { AgentYAMLSpec } from "@/lib/types";
+
+/**
+ * Consistent slugify function for filenames
+ * Used across export and session storage for consistency
+ */
+export function slugify(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "");
+}
+
+/**
+ * Get canonical filename for an agent
+ * Ensures consistent naming across all YAML operations
+ */
+export function getAgentFilename(spec: AgentYAMLSpec): string {
+  return spec.filename || `${slugify(spec.name)}.yaml`;
+}
 
 /**
  * Agent YAML structure for export
+ * Includes metadata fields for proper blueprint reconstruction
  */
 interface AgentYAMLExport {
   name: string;
@@ -20,8 +45,10 @@ interface AgentYAMLExport {
   role: string;
   goal: string;
   instructions: string;
-  usage_description?: string;
   features: string[];
+  // Optional fields
+  usage_description?: string;  // For workers: when to delegate to this agent
+  sub_agents?: string[];       // For managers: worker agent filenames
 }
 
 /**
@@ -33,13 +60,14 @@ interface BlueprintYAMLExport {
   category: string;
   tags: string[];
   visibility: string;
-  root_agents: string[];
+  root_agents: string[];  // All agent filenames (manager first, then workers)
 }
 
 /**
  * Convert AgentYAMLSpec to exportable format
+ * Includes sub_agents for managers to enable proper blueprint reconstruction
  */
-function specToExport(spec: AgentYAMLSpec): AgentYAMLExport {
+function specToExport(spec: AgentYAMLSpec, allSpecs?: AgentYAMLSpec[]): AgentYAMLExport {
   const exported: AgentYAMLExport = {
     name: spec.name,
     description: spec.description,
@@ -51,9 +79,22 @@ function specToExport(spec: AgentYAMLSpec): AgentYAMLExport {
     features: spec.features || [],
   };
 
-  // Only include usage_description for workers
+  // Include usage_description for workers
   if (spec.usage_description) {
     exported.usage_description = spec.usage_description;
+  }
+
+  // Include sub_agents for managers (list of worker filenames)
+  if (spec.is_manager && allSpecs) {
+    const workerFilenames = allSpecs
+      .filter((s) => !s.is_manager)
+      .map((s) => getAgentFilename(s));
+    if (workerFilenames.length > 0) {
+      exported.sub_agents = workerFilenames;
+    }
+  } else if (spec.sub_agents && spec.sub_agents.length > 0) {
+    // Use existing sub_agents if provided
+    exported.sub_agents = spec.sub_agents;
   }
 
   return exported;
@@ -61,9 +102,15 @@ function specToExport(spec: AgentYAMLSpec): AgentYAMLExport {
 
 /**
  * Generate agent YAML content
+ *
+ * @param spec - Agent specification
+ * @param allSpecs - Optional: all agent specs (for computing sub_agents on managers)
  */
-export function generateAgentYAML(spec: AgentYAMLSpec): string {
-  const exportData = specToExport(spec);
+export function generateAgentYAML(
+  spec: AgentYAMLSpec,
+  allSpecs?: AgentYAMLSpec[]
+): string {
+  const exportData = specToExport(spec, allSpecs);
 
   // Use block scalar style for long strings
   const yamlOptions: yaml.DumpOptions = {
@@ -74,7 +121,7 @@ export function generateAgentYAML(spec: AgentYAMLSpec): string {
     forceQuotes: false,
   };
 
-  // Custom handling for multi-line strings
+  // Build formatted object with proper field ordering
   const formatted: Record<string, unknown> = {
     name: exportData.name,
     description: exportData.description,
@@ -86,8 +133,13 @@ export function generateAgentYAML(spec: AgentYAMLSpec): string {
     features: exportData.features,
   };
 
+  // Add optional fields in proper order
   if (exportData.usage_description) {
     formatted.usage_description = exportData.usage_description;
+  }
+
+  if (exportData.sub_agents && exportData.sub_agents.length > 0) {
+    formatted.sub_agents = exportData.sub_agents;
   }
 
   return yaml.dump(formatted, yamlOptions);
@@ -95,6 +147,10 @@ export function generateAgentYAML(spec: AgentYAMLSpec): string {
 
 /**
  * Generate blueprint YAML content
+ *
+ * root_agents includes all agent filenames:
+ * - Manager agent first (entry point)
+ * - Worker agents in order
  */
 export function generateBlueprintYAML(
   name: string,
@@ -106,8 +162,26 @@ export function generateBlueprintYAML(
     visibility?: string;
   }
 ): string {
-  // Find manager agent (first one)
+  // Find manager and workers
   const managerSpec = agentSpecs.find((s) => s.is_manager);
+  const workerSpecs = agentSpecs.filter((s) => !s.is_manager);
+
+  // Build root_agents array: manager first, then workers
+  const rootAgents: string[] = [];
+
+  if (managerSpec) {
+    rootAgents.push(getAgentFilename(managerSpec));
+  }
+
+  // Add worker filenames in order
+  for (const worker of workerSpecs) {
+    rootAgents.push(getAgentFilename(worker));
+  }
+
+  // Fallback if no agents
+  if (rootAgents.length === 0) {
+    rootAgents.push("manager.yaml");
+  }
 
   const blueprint: BlueprintYAMLExport = {
     name,
@@ -115,7 +189,7 @@ export function generateBlueprintYAML(
     category: options?.category || "general",
     tags: options?.tags || [],
     visibility: options?.visibility || "private",
-    root_agents: [managerSpec?.filename || "manager.yaml"],
+    root_agents: rootAgents,
   };
 
   return yaml.dump(blueprint, {
@@ -162,7 +236,7 @@ function generateReadme(
 
   readme += `## Usage\n\n`;
   readme += "```bash\n";
-  readme += `bp create ${blueprintName.toLowerCase().replace(/\\s+/g, "-")}/blueprint.yaml\n`;
+  readme += `bp create ${slugify(blueprintName)}/blueprint.yaml\n`;
   readme += "```\n\n";
 
   readme += `---\n\n`;
@@ -201,9 +275,10 @@ export async function exportToZip(
   }
 
   // Generate and add agent YAML files
+  // Pass allSpecs for proper sub_agents computation on manager
   for (const spec of agentSpecs) {
-    const yamlContent = generateAgentYAML(spec);
-    const filename = spec.filename || `${spec.name.toLowerCase().replace(/\s+/g, "_")}.yaml`;
+    const yamlContent = generateAgentYAML(spec, agentSpecs);
+    const filename = getAgentFilename(spec);  // Use consistent filename helper
     agentsFolder.file(filename, yamlContent);
   }
 

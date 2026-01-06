@@ -51,6 +51,33 @@ export const VALID_FEATURES = [
   "llm_judge",
 ];
 
+/** Known valid model identifiers (aligned with agent-fields.ts) */
+export const VALID_MODELS = [
+  // OpenAI
+  "gpt-4o",
+  "gpt-4o-mini",
+  "gpt-4.1",
+  "gpt-4.1-mini",
+  "gpt-4-turbo",
+  "gpt-3.5-turbo",
+  // Anthropic (with prefix)
+  "anthropic/claude-sonnet-4-20250514",
+  "anthropic/claude-3-5-sonnet-20241022",
+  "anthropic/claude-3-5-haiku-20241022",
+  "anthropic/claude-3-opus-20240229",
+  // Google (with prefix)
+  "gemini/gemini-2.0-flash",
+  "gemini/gemini-1.5-pro",
+  "gemini/gemini-1.5-flash",
+  // Groq (with prefix)
+  "groq/llama-3.3-70b-versatile",
+  "groq/llama-3.1-70b-versatile",
+  // Perplexity (with prefix)
+  "perplexity/sonar-reasoning",
+  "perplexity/sonar-reasoning-pro",
+  "perplexity/sonar-deep-research",
+];
+
 /** Field constraints from SDK */
 export const FIELD_CONSTRAINTS = {
   name: { min: 1, max: 100 },
@@ -177,6 +204,28 @@ export function validateAgentSpec(spec: AgentYAMLSpec): ValidationResult {
         type: "error",
       });
     }
+  }
+
+  // Model validation (warning for unknown models, not error)
+  if (spec.model) {
+    if (!VALID_MODELS.includes(spec.model)) {
+      // Check if it looks like a valid model format (provider/model-name)
+      const hasValidFormat = /^[a-z]+\/[a-z0-9.-]+$/i.test(spec.model) ||
+                            /^gpt-[0-9.]+(-[a-z]+)?$/i.test(spec.model);
+      if (!hasValidFormat) {
+        warnings.push({
+          field: "model",
+          message: `Unknown model "${spec.model}". Ensure it's a valid model identifier.`,
+          type: "warning",
+        });
+      }
+    }
+  } else {
+    errors.push({
+      field: "model",
+      message: "Model is required",
+      type: "error",
+    });
   }
 
   // Features validation

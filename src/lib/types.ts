@@ -182,6 +182,8 @@ export interface CraftResponse {
 
 export interface CreateRequest {
   session_id: string;
+  /** Agent specs to create - sent directly to avoid session state issues */
+  agent_specs?: AgentYAMLSpec[];
 }
 
 export interface CreateResponse {

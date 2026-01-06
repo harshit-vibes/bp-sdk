@@ -62,5 +62,8 @@ export {
   type AgentStep,
 } from "./agent-stepper";
 
+// YAML viewer (for session file display)
+export { YAMLViewer, type YAMLViewerProps } from "./yaml-viewer";
+
 // Re-export schema types for convenience
 export type { SelectorOption as SchemaOption } from "@/lib/schemas/selector";

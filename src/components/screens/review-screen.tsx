@@ -3,14 +3,14 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useState } from "react";
-import { Sparkles, AlertCircle, AlertTriangle, Edit2, CheckCircle2, Download, Loader2 } from "lucide-react";
+import { Sparkles, AlertCircle, AlertTriangle, Edit2, Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { BlueprintResult } from "@/lib/schemas/review";
 import type { InfoItem, AgentYAMLSpec } from "@/lib/types";
 import { exportAndDownload } from "@/lib/yaml";
 import type { ValidationResult } from "@/lib/validation";
-import { InfoItemsForm, AgentStepper, type AgentStep } from "@/components/builder";
+import { InfoItemsForm, AgentStepper, YAMLViewer, type AgentStep } from "@/components/builder";
 import { ManagerChat } from "@/components/chat";
 
 export interface ReviewScreenProps {
@@ -118,18 +118,9 @@ export function ReviewScreen({
 
       {/* Content area */}
       <div className="flex-1 overflow-y-auto p-6">
-        {/* Validation alerts */}
-        {validationResult && (
+        {/* Validation alerts - only show errors/warnings, not success */}
+        {validationResult && (hasErrors || hasWarnings) && (
           <div className="mb-4 space-y-2">
-            {/* Success state - no errors or warnings */}
-            {!hasErrors && !hasWarnings && validationResult.score >= 80 && (
-              <div className="flex items-start gap-2 p-3 bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 rounded-lg text-sm text-green-700 dark:text-green-300">
-                <CheckCircle2 className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                <div>
-                  <span className="font-medium">Looking good!</span> Agent configuration passes all quality checks.
-                </div>
-              </div>
-            )}
             {/* Errors */}
             {hasErrors && validationResult.errors.map((err, i) => (
               <div
@@ -156,31 +147,11 @@ export function ReviewScreen({
                 </div>
               </div>
             ))}
-            {/* Quality score badge - always shown */}
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              {validationResult.score >= 80 ? (
-                <CheckCircle2 className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
-              ) : validationResult.score >= 60 ? (
-                <AlertTriangle className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
-              ) : (
-                <AlertCircle className="h-3.5 w-3.5 text-red-600 dark:text-red-400" />
-              )}
-              <span>Quality Score:</span>
-              <span
-                className={cn(
-                  "px-2 py-0.5 rounded-full font-medium",
-                  validationResult.score >= 80
-                    ? "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300"
-                    : validationResult.score >= 60
-                      ? "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300"
-                      : "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300"
-                )}
-              >
-                {validationResult.score}%
-              </span>
-            </div>
           </div>
         )}
+
+        {/* Session YAML files viewer */}
+        <YAMLViewer className="mb-4" />
 
         {/* Edit mode: Show form instead of markdown */}
         {isEditMode && editItems.length > 0 && onEditChange ? (
