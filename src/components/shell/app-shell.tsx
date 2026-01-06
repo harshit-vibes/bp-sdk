@@ -1,0 +1,277 @@
+"use client";
+
+import { useMemo, useState, useCallback, useEffect } from "react";
+import { useBuilder } from "@/lib/hooks/use-builder";
+import { DEFAULT_STATEMENT_TEMPLATE } from "@/lib/schemas/selector";
+import { StageHeader } from "./stage-header";
+import { ActionGroup, buildAgentSteps } from "@/components/builder";
+import { GuidedChat } from "@/components/screens/guided-chat";
+import { ReviewScreen } from "@/components/screens/review-screen";
+import { SetupScreen, getStoredCredentials, type ApiCredentials } from "@/components/screens";
+import { cn } from "@/lib/utils";
+import { buildAgentInfoItems, agentSpecToAnswers, answersToAgentSpec } from "@/lib/agent-fields";
+
+export interface AppShellProps {
+  /** Additional class names */
+  className?: string;
+}
+
+/**
+ * AppShell - Main container for the Blueprint Builder journey
+ *
+ * Uses stage-based API calls instead of streaming:
+ * 0. Setup: User enters API credentials
+ * 1. Define: User fills GuidedChat statement
+ * 2. Design: POST /api/builder/architect → architecture review
+ * 3. Build: POST /api/builder/craft → agent review (per agent)
+ * 4. Launch: POST /api/builder/create → success
+ */
+export function AppShell({ className }: AppShellProps) {
+  const builder = useBuilder();
+
+  // Setup state - track if credentials are configured
+  const [isSetupComplete, setIsSetupComplete] = useState<boolean | null>(null);
+  const [credentials, setCredentials] = useState<ApiCredentials | null>(null);
+
+  // Check for stored credentials on mount
+  useEffect(() => {
+    const stored = getStoredCredentials();
+    if (stored) {
+      setCredentials(stored);
+      setIsSetupComplete(true);
+    } else {
+      setIsSetupComplete(false);
+    }
+  }, []);
+
+  // Handle setup completion
+  const handleSetupComplete = useCallback((creds: ApiCredentials) => {
+    setCredentials(creds);
+    setIsSetupComplete(true);
+  }, []);
+
+  // State for GuidedChat statement
+  const [statementReady, setStatementReady] = useState(false);
+  const [currentStatement, setCurrentStatement] = useState<string | null>(null);
+
+  // Track max reached stage for navigation
+  const [maxReachedStage, setMaxReachedStage] = useState(1);
+
+  // Update max reached stage when current stage advances
+  // Also reset all local state when builder stage goes back to "define" (after reset)
+  useEffect(() => {
+    if (builder.stage === 1 && builder.builderStage === "define" && !builder.sessionId) {
+      // Reset all local state when starting fresh (no session = new journey)
+      setMaxReachedStage(1);
+      setStatementReady(false);
+      setCurrentStatement(null);
+    } else if (builder.stage > maxReachedStage) {
+      setMaxReachedStage(builder.stage);
+    }
+  }, [builder.stage, builder.builderStage, builder.sessionId, maxReachedStage]);
+
+  // Handle statement changes from GuidedChat
+  const handleStatementChange = useCallback((canSubmit: boolean, statement: string | null) => {
+    setStatementReady(canSubmit);
+    setCurrentStatement(statement);
+  }, []);
+
+  // Handle submit for GuidedChat
+  const handleSubmitStatement = useCallback(() => {
+    if (currentStatement) {
+      builder.submitStatement(currentStatement);
+    }
+  }, [currentStatement, builder]);
+
+  // Handle primary action based on stage
+  const handlePrimary = useCallback(() => {
+    if (builder.actionMode === "submit") {
+      handleSubmitStatement();
+    } else if (builder.builderStage === "design-review") {
+      builder.approveArchitecture();
+    } else if (builder.builderStage === "craft-review") {
+      builder.approveAgent();
+    }
+  }, [builder, handleSubmitStatement]);
+
+  // Handle revise action based on stage
+  const handleSecondary = useCallback((feedback: string) => {
+    if (builder.builderStage === "design-review") {
+      builder.reviseArchitecture(feedback);
+    } else if (builder.builderStage === "craft-review") {
+      builder.reviseAgent(feedback);
+    }
+  }, [builder]);
+
+  // Check if we're in "restarting" mode
+  const isRestarting = builder.stage === 1 && maxReachedStage > 1;
+
+  // Determine if primary button should be disabled
+  const isPrimaryDisabled = useMemo(() => {
+    if (builder.isLoading) return true;
+    if (builder.actionMode === "submit") {
+      return !statementReady;
+    }
+    // Disable approve button if there are validation errors
+    if (builder.validationResult?.errors && builder.validationResult.errors.length > 0) {
+      return true;
+    }
+    return false;
+  }, [builder.actionMode, builder.isLoading, statementReady, builder.validationResult]);
+
+  // Convert blueprintResult to the format expected by ReviewScreen
+  const blueprintInfo = builder.blueprintResult ? {
+    id: builder.blueprintResult.blueprint_id,
+    name: builder.blueprintResult.blueprint_name || builder.blueprintResult.blueprint_id,
+    studio_url: builder.blueprintResult.studio_url,
+    manager_id: builder.blueprintResult.manager_id,
+    organization_id: builder.blueprintResult.organization_id,
+    created_at: builder.blueprintResult.created_at,
+    share_type: builder.blueprintResult.share_type,
+  } : undefined;
+
+  // Build agent steps for the stepper (only during Build stage)
+  const agentSteps = useMemo(() => {
+    // Only show stepper during craft-review stage
+    if (builder.builderStage !== "craft-review") {
+      return [];
+    }
+    return buildAgentSteps(
+      builder.architecture,
+      builder.currentAgentIndex,
+      builder.agentSpecs.length
+    );
+  }, [builder.architecture, builder.currentAgentIndex, builder.agentSpecs.length, builder.builderStage]);
+
+  // Edit mode: Build form items for current agent spec
+  const editItems = useMemo(() => {
+    // Use editedSpec if in edit mode, otherwise currentAgentSpec
+    const spec = builder.isEditMode && builder.editedSpec
+      ? builder.editedSpec
+      : builder.currentAgentSpec;
+
+    if (!spec || builder.builderStage !== "craft-review") {
+      return [];
+    }
+
+    const isManager = builder.currentAgentIndex === 0;
+    return buildAgentInfoItems(spec, isManager);
+  }, [builder.isEditMode, builder.editedSpec, builder.currentAgentSpec, builder.builderStage, builder.currentAgentIndex]);
+
+  // Edit mode: Convert current spec to form answers
+  const editAnswers = useMemo(() => {
+    const spec = builder.isEditMode && builder.editedSpec
+      ? builder.editedSpec
+      : builder.currentAgentSpec;
+
+    if (!spec) {
+      return {};
+    }
+
+    return agentSpecToAnswers(spec);
+  }, [builder.isEditMode, builder.editedSpec, builder.currentAgentSpec]);
+
+  // Handle edit form changes
+  const handleEditChange = useCallback((id: string, value: string) => {
+    if (!builder.editedSpec) return;
+
+    // Convert the single field change to a spec update
+    const updates = answersToAgentSpec(builder.editedSpec, { [id]: value });
+    builder.updateAgentSpec(updates);
+  }, [builder]);
+
+  // Show loading state while checking for stored credentials
+  if (isSetupComplete === null) {
+    return (
+      <div className={cn("flex flex-col h-full bg-background items-center justify-center", className)}>
+        <div className="text-muted-foreground text-sm">Loading...</div>
+      </div>
+    );
+  }
+
+  // Show setup screen if credentials not configured
+  if (!isSetupComplete) {
+    return (
+      <div className={cn("flex flex-col h-full bg-background", className)}>
+        <SetupScreen onComplete={handleSetupComplete} />
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={cn(
+        "flex flex-col h-full bg-background",
+        className
+      )}
+    >
+      {/* Header - title, instruction, and stage progress */}
+      <StageHeader
+        stage={builder.stage}
+        maxReachedStage={maxReachedStage}
+        onStageClick={() => {}}
+      />
+
+      {/* Main Content - takes remaining space */}
+      <main className="flex-1 min-h-0 overflow-hidden">
+        {builder.screenType === "guided-chat" ? (
+          <GuidedChat
+            template={DEFAULT_STATEMENT_TEMPLATE}
+            onStatementChange={handleStatementChange}
+          />
+        ) : (
+          <ReviewScreen
+            content={builder.reviewContent}
+            isComplete={builder.actionMode === "complete"}
+            blueprint={blueprintInfo}
+            infoItems={[]}
+            infoAnswers={{}}
+            onInfoChange={() => {}}
+            infoDisabled={builder.isLoading}
+            agentSteps={agentSteps}
+            validationResult={builder.validationResult}
+            isEditMode={builder.isEditMode}
+            editItems={editItems}
+            editAnswers={editAnswers}
+            onEditChange={handleEditChange}
+            agentSpecs={builder.agentSpecs}
+          />
+        )}
+      </main>
+
+      {/* Error display */}
+      {builder.error && (
+        <div className="px-4 py-2 bg-destructive/10 text-destructive text-sm">
+          {builder.error}
+        </div>
+      )}
+
+      {/* Footer - action buttons */}
+      <ActionGroup
+        key={builder.actionMode}
+        mode={builder.actionMode === "loading" ? "hitl" : builder.actionMode}
+        isLoading={builder.isLoading}
+        isDisabled={isPrimaryDisabled}
+        primaryLabel={
+          builder.actionMode === "submit"
+            ? (isRestarting ? "Restart & Build" : "Start Building")
+            : builder.builderStage === "design-review"
+              ? "Approve Architecture"
+              : builder.builderStage === "craft-review"
+                ? `Approve Agent (${builder.currentAgentIndex + 1}/${builder.totalAgents})`
+                : undefined
+        }
+        onPrimary={handlePrimary}
+        onSecondary={handleSecondary}
+        onCreateAnother={builder.reset}
+        blueprintUrl={builder.blueprintResult?.studio_url}
+        blueprintName={builder.blueprintResult?.blueprint_id}
+        validationResult={builder.validationResult}
+        isEditMode={builder.isEditMode}
+        onEdit={builder.builderStage === "craft-review" ? builder.enterEditMode : undefined}
+        onCancelEdit={builder.exitEditMode}
+        onSaveEdit={builder.saveEditedAgent}
+      />
+    </div>
+  );
+}
