@@ -29,7 +29,7 @@ interface CreateRequest {
 interface ManagedAgent {
   id: string;
   name: string;
-  usage_description: string;
+  tool_usage_description: string;
 }
 
 export async function POST(request: NextRequest) {
@@ -89,10 +89,11 @@ export async function POST(request: NextRequest) {
       }
 
       // 2. Build managed_agents list for manager
-      const managedAgents: ManagedAgent[] = workerSpecs.map((worker, index) => ({
-        id: workerIds[index],
-        name: worker.name,
-        usage_description: worker.usage_description || `Use ${worker.name} for specialized tasks`,
+      // Use workersData (which has correct id-spec pairing) to avoid index mismatch bugs
+      const managedAgents: ManagedAgent[] = workersData.map(({ id, spec }) => ({
+        id,
+        name: spec.name,
+        tool_usage_description: spec.usage_description || `Use ${spec.name} for specialized tasks`,
       }));
 
       // 3. Create MANAGER with managed_agents
