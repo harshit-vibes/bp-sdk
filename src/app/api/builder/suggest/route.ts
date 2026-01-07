@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { callAgentForJSON, getCredentialsFromCookies, AGENT_IDS } from "@/lib/lyzr";
 
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8000";
-
-// Fallback suggestions if backend/AI call fails (8 options each)
-const FALLBACK_SUGGESTIONS: Record<string, string[]> = {
+// Default suggestions by type (fallback)
+const DEFAULT_SUGGESTIONS: Record<string, string[]> = {
   architecture: [
     "Add more worker agents",
     "Simplify the structure",
@@ -36,44 +35,61 @@ interface SuggestRequest {
   context?: string;
 }
 
-interface SuggestResponse {
-  suggestions: string[];
+interface SuggestResult {
+  suggestions?: string[];
 }
 
 /**
  * POST /api/builder/suggest
  *
- * Generates 8 contextual revision suggestions based on current spec.
- * Uses a fast AI model for quick response times.
+ * Generates contextual revision suggestions based on current spec.
+ * Calls the suggest agent if available, falls back to static/generated suggestions.
  */
 export async function POST(request: NextRequest) {
   try {
     const body: SuggestRequest = await request.json();
+    const { session_id, type, agent_name, role, goal, instructions, context } = body;
+    const suggestionType = type || "agent";
 
-    // Try backend first
-    try {
-      const response = await fetch(`${BACKEND_URL}/api/v1/builder/suggest`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-        signal: AbortSignal.timeout(5000), // 5 second timeout
-      });
+    // Get credentials from cookies
+    const cookieHeader = request.headers.get("cookie");
+    const { apiKey } = getCredentialsFromCookies(cookieHeader);
 
-      if (response.ok) {
-        const data: SuggestResponse = await response.json();
-        return NextResponse.json(data);
+    // Try to call the suggest agent if configured
+    if (apiKey && AGENT_IDS.suggest) {
+      try {
+        const prompt = `Generate 8 revision suggestions for ${suggestionType === "architecture" ? "a blueprint architecture" : `an agent named "${agent_name}"`}.
+
+${suggestionType === "agent" && role ? `Agent role: ${role}` : ""}
+${suggestionType === "agent" && goal ? `Agent goal: ${goal}` : ""}
+${suggestionType === "agent" && instructions ? `Current instructions (first 500 chars): ${instructions.slice(0, 500)}` : ""}
+${context ? `Context: ${context}` : ""}
+
+Return ONLY a JSON object with a "suggestions" array containing 8 short, actionable suggestion strings (5-10 words each).
+Focus on practical improvements the user can make.`;
+
+        const result = await callAgentForJSON<SuggestResult>({
+          agentId: AGENT_IDS.suggest,
+          apiKey,
+          sessionId: session_id || `suggest-${Date.now()}`,
+          message: prompt,
+        });
+
+        if (result.suggestions && result.suggestions.length >= 4) {
+          return NextResponse.json({ suggestions: result.suggestions.slice(0, 8) });
+        }
+      } catch (error) {
+        console.error("Suggest agent error, using fallback:", error);
       }
-    } catch {
-      // Backend not available, fall through to fallback
     }
 
-    // Use fallback suggestions with context awareness
-    const fallbackType = body.type || "agent";
-    let suggestions = [...FALLBACK_SUGGESTIONS[fallbackType]];
+    // Fallback: generate contextual suggestions or use defaults
+    let suggestions: string[];
 
-    // Customize based on context
-    if (body.type === "agent" && body.agent_name) {
+    if (suggestionType === "agent" && agent_name) {
       suggestions = generateContextualSuggestions(body);
+    } else {
+      suggestions = [...DEFAULT_SUGGESTIONS[suggestionType]];
     }
 
     return NextResponse.json({ suggestions });
@@ -87,7 +103,7 @@ export async function POST(request: NextRequest) {
 }
 
 /**
- * Generate context-aware suggestions based on agent spec
+ * Generate context-aware suggestions based on agent spec (fallback)
  */
 function generateContextualSuggestions(body: SuggestRequest): string[] {
   const suggestions: string[] = [];
@@ -112,7 +128,7 @@ function generateContextualSuggestions(body: SuggestRequest): string[] {
   );
 
   // Agent-type specific
-  if (body.role?.toLowerCase().includes("manager")) {
+  if (body.role?.toLowerCase().includes("manager") || body.role?.toLowerCase().includes("coordinator")) {
     suggestions.push("Improve delegation logic");
   } else {
     suggestions.push("Clarify when to be used");

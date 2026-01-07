@@ -212,7 +212,7 @@ export const mockResponses = {
       blueprint: {
         id: 'bp-test-12345',
         name: 'Customer Support Automation',
-        studio_url: 'https://studio.lyzr.ai/blueprints/bp-test-12345',
+        studio_url: 'https://studio.lyzr.ai/blueprint?blueprint=bp-test-12345',
       },
     },
   ],

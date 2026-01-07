@@ -1,44 +1,56 @@
 import { NextRequest, NextResponse } from "next/server";
+import { streamFromAgent, getCredentialsFromCookies } from "@/lib/lyzr";
+import { v4 as uuidv4 } from "uuid";
 
-// Backend API URL - configurable via environment variable
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8000";
+interface ChatRequest {
+  manager_id: string;
+  message: string;
+  session_id?: string;
+}
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const body: ChatRequest = await request.json();
+    const { manager_id, message, session_id } = body;
 
-    // Forward request to FastAPI backend (v1 API)
-    const response = await fetch(`${BACKEND_URL}/api/v1/builder/chat`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    });
-
-    if (!response.ok) {
-      // Try to get error details from backend
-      let errorDetail = `Backend error: ${response.status}`;
-      try {
-        const errorBody = await response.text();
-        errorDetail = errorBody || errorDetail;
-      } catch {
-        // Couldn't read body
-      }
+    if (!manager_id || !message) {
       return NextResponse.json(
-        { error: errorDetail },
-        { status: response.status }
+        { error: "manager_id and message are required" },
+        { status: 400 }
       );
     }
 
-    const data = await response.json();
-    return NextResponse.json(data);
+    // Get credentials from cookies
+    const cookieHeader = request.headers.get("cookie");
+    const { apiKey } = getCredentialsFromCookies(cookieHeader);
+
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: "API key not found. Please set up your credentials." },
+        { status: 401 }
+      );
+    }
+
+    // Generate session ID if not provided
+    const chatSessionId = session_id || uuidv4();
+
+    // Call the manager agent
+    const response = await streamFromAgent({
+      agentId: manager_id,
+      apiKey,
+      sessionId: chatSessionId,
+      message,
+      userId: "builder-chat-user",
+    });
+
+    return NextResponse.json({
+      response,
+      session_id: chatSessionId,
+    });
   } catch (error) {
-    console.error("Builder chat API error:", error);
+    console.error("Chat API error:", error);
     return NextResponse.json(
-      {
-        error: error instanceof Error ? error.message : "Internal server error",
-      },
+      { error: error instanceof Error ? error.message : "Internal server error" },
       { status: 500 }
     );
   }

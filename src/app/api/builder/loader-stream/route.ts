@@ -1,9 +1,7 @@
 import { NextRequest } from "next/server";
 
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8000";
-
-// Fallback witty messages if AI call fails
-const FALLBACK_MESSAGES = [
+// Witty loading messages
+const LOADING_MESSAGES = [
   "Convincing the AI to think creatively... 🧠",
   "Teaching agents the fine art of task delegation... 📋",
   "Brewing some intelligent responses... ☕",
@@ -18,18 +16,14 @@ const FALLBACK_MESSAGES = [
  * GET /api/builder/loader-stream
  *
  * Server-Sent Events endpoint that streams entertaining loading messages.
- * Uses a fast AI model to generate contextual, funny loading text.
  *
  * Query params:
  * - stage: Current builder stage (e.g., "designing", "crafting", "creating")
- * - context: Additional context (e.g., agent name, domain)
  */
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const stage = searchParams.get("stage") || "building";
-  const context = searchParams.get("context") || "";
 
-  // Create a readable stream for SSE
   const encoder = new TextEncoder();
 
   const stream = new ReadableStream({
@@ -37,50 +31,30 @@ export async function GET(request: NextRequest) {
       let messageIndex = 0;
       let isOpen = true;
 
-      // Helper to send SSE message
       const sendMessage = (text: string) => {
         if (!isOpen) return;
         const data = JSON.stringify({ text });
         controller.enqueue(encoder.encode(`data: ${data}\n\n`));
       };
 
-      // Try to get AI-generated messages from backend, fallback to local generation
-      const generateMessage = async (): Promise<string> => {
-        try {
-          // Try backend first
-          const response = await fetch(
-            `${BACKEND_URL}/api/v1/builder/loader-text?stage=${encodeURIComponent(stage)}&context=${encodeURIComponent(context)}`,
-            { method: "GET", signal: AbortSignal.timeout(3000) }
-          );
-
-          if (response.ok) {
-            const data = await response.json();
-            return data.text || FALLBACK_MESSAGES[messageIndex % FALLBACK_MESSAGES.length];
-          }
-        } catch {
-          // Backend not available, use fallback
-        }
-
-        // Use fallback messages with stage context
+      const generateMessage = (): string => {
         const stagePrefix = getStagePrefix(stage);
-        const fallback = FALLBACK_MESSAGES[messageIndex % FALLBACK_MESSAGES.length];
+        const fallback = LOADING_MESSAGES[messageIndex % LOADING_MESSAGES.length];
         return `${stagePrefix}${fallback}`;
       };
 
       // Send initial message immediately
-      const initialMessage = await generateMessage();
-      sendMessage(initialMessage);
+      sendMessage(generateMessage());
       messageIndex++;
 
       // Send new messages every 4 seconds
-      const interval = setInterval(async () => {
+      const interval = setInterval(() => {
         if (!isOpen) {
           clearInterval(interval);
           return;
         }
 
-        const message = await generateMessage();
-        sendMessage(message);
+        sendMessage(generateMessage());
         messageIndex++;
 
         // Stop after 10 messages (40 seconds max)
@@ -109,7 +83,6 @@ export async function GET(request: NextRequest) {
   });
 }
 
-// Get context-aware prefix for the stage
 function getStagePrefix(stage: string): string {
   switch (stage) {
     case "designing":

@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { callAgentForJSON, getCredentialsFromCookies, AGENT_IDS } from "@/lib/lyzr";
 
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8000";
-
-// Fallback loading messages by stage
-const FALLBACK_MESSAGES: Record<string, string[]> = {
+// Loading messages by stage (fallback)
+const LOADING_MESSAGES: Record<string, string[]> = {
   designing: [
     "Consulting the architecture council...",
     "Sketching the blueprint foundation...",
@@ -38,50 +37,65 @@ const FALLBACK_MESSAGES: Record<string, string[]> = {
   ],
 };
 
+interface LoaderResult {
+  text?: string;
+  message?: string;
+}
+
 /**
  * GET /api/builder/loader-text
  *
  * Returns a witty loading text message for the given stage.
- * Tries backend first, falls back to local messages.
+ * Calls the loader agent if available, falls back to static messages.
  */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const stage = searchParams.get("stage") || "designing";
-    const context = searchParams.get("context") || "";
 
-    // Try backend first
-    try {
-      const backendUrl = new URL(`${BACKEND_URL}/api/v1/builder/loader-text`);
-      backendUrl.searchParams.set("stage", stage);
-      if (context) {
-        backendUrl.searchParams.set("context", context);
-      }
+    // Get credentials from cookies
+    const cookieHeader = request.headers.get("cookie");
+    const { apiKey } = getCredentialsFromCookies(cookieHeader);
 
-      const response = await fetch(backendUrl.toString(), {
-        method: "GET",
-        signal: AbortSignal.timeout(3000), // 3 second timeout
-      });
+    // Try to call the loader agent if configured
+    if (apiKey && AGENT_IDS.loader) {
+      try {
+        const prompt = `Generate a single witty, creative loading message for the "${stage}" stage of building an AI agent blueprint.
 
-      if (response.ok) {
-        const data = await response.json();
-        if (data.text) {
-          return NextResponse.json(data);
+Stage meanings:
+- designing: Analyzing requirements and designing the agent architecture
+- crafting: Writing detailed instructions and configurations for each agent
+- creating: Creating the agents and assembling the blueprint in the system
+- options: Loading dynamic options for user selection
+
+Return ONLY a JSON object with a "text" field containing ONE creative loading message (10-20 words).
+Be playful, slightly humorous, and reference AI/agents in a fun way.`;
+
+        const result = await callAgentForJSON<LoaderResult>({
+          agentId: AGENT_IDS.loader,
+          apiKey,
+          sessionId: `loader-${Date.now()}`,
+          message: prompt,
+        });
+
+        if (result.text || result.message) {
+          return NextResponse.json({ text: result.text || result.message });
         }
+      } catch (error) {
+        console.error("Loader agent error, using fallback:", error);
       }
-    } catch {
-      // Backend not available, fall through to fallback
     }
 
-    // Generate fallback message
-    const messages = FALLBACK_MESSAGES[stage] || FALLBACK_MESSAGES.designing;
+    // Fallback to static messages
+    const messages = LOADING_MESSAGES[stage] || LOADING_MESSAGES.designing;
     const randomIndex = Math.floor(Math.random() * messages.length);
+
     return NextResponse.json({ text: messages[randomIndex] });
   } catch (error) {
     console.error("Loader text API error:", error);
     return NextResponse.json(
       { text: "Loading..." },
-      { status: 200 } // Return 200 even on error so UI doesn't break
+      { status: 200 }
     );
   }
 }

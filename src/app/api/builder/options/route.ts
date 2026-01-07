@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { callAgentForJSON, getCredentialsFromCookies, AGENT_IDS } from "@/lib/lyzr";
 
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8000";
-
-// Fallback options if backend/AI call fails (8 options each)
+// Fallback options for each slot type
 const FALLBACK_OPTIONS: Record<string, Array<{ value: string; label: string; description?: string }>> = {
   role: [
     { value: "product manager", label: "Product Manager", description: "Building and shipping products" },
@@ -44,15 +43,15 @@ interface OptionsRequest {
   };
 }
 
-interface OptionsResponse {
-  options: Array<{ value: string; label: string; description?: string }>;
+interface OptionsResult {
+  options?: Array<{ value: string; label: string; description?: string }>;
 }
 
 /**
  * POST /api/builder/options
  *
  * Fetches dynamic options for statement slots.
- * Options can be contextualized based on previous selections.
+ * Calls the options agent if available, falls back to static options.
  */
 export async function POST(request: NextRequest) {
   try {
@@ -67,41 +66,39 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Try backend first
-    try {
-      const response = await fetch(`${BACKEND_URL}/api/v1/builder/options`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slot_type, context }),
-        signal: AbortSignal.timeout(5000), // 5 second timeout
-      });
+    // Get credentials from cookies
+    const cookieHeader = request.headers.get("cookie");
+    const { apiKey } = getCredentialsFromCookies(cookieHeader);
 
-      if (response.ok) {
-        const data: OptionsResponse = await response.json();
-        if (data.options && data.options.length >= 4) {
-          return NextResponse.json(data);
+    // Try to call the options agent if configured
+    if (apiKey && AGENT_IDS.options) {
+      try {
+        const prompt = `Generate 8 options for the "${slot_type}" slot in a blueprint builder statement.
+${context?.role ? `Context - User role: ${context.role}` : ""}
+${context?.problem ? `Context - Problem: ${context.problem}` : ""}
+
+Return ONLY a JSON object with an "options" array. Each option should have:
+- value: the actual value (lowercase)
+- label: display label (Title Case)
+- description: short description (5-10 words)`;
+
+        const result = await callAgentForJSON<OptionsResult>({
+          agentId: AGENT_IDS.options,
+          apiKey,
+          sessionId: `options-${Date.now()}`,
+          message: prompt,
+        });
+
+        if (result.options && result.options.length >= 4) {
+          return NextResponse.json({ options: result.options.slice(0, 8) });
         }
+      } catch (error) {
+        console.error("Options agent error, using fallback:", error);
       }
-    } catch {
-      // Backend not available, fall through to fallback
     }
 
-    // Generate contextual fallback options
-    let options = [...FALLBACK_OPTIONS[slot_type]];
-
-    // For problem and domain, we could filter/prioritize based on context
-    // but for now just return the full list
-    if (context?.role && slot_type === "problem") {
-      // Could prioritize problems relevant to the role
-      // For now, just return all options
-    }
-
-    if (context?.problem && slot_type === "domain") {
-      // Could prioritize domains relevant to the problem
-      // For now, just return all options
-    }
-
-    return NextResponse.json({ options });
+    // Fallback to static options
+    return NextResponse.json({ options: FALLBACK_OPTIONS[slot_type] });
   } catch (error) {
     console.error("Options API error:", error);
     return NextResponse.json(
