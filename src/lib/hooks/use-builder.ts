@@ -40,6 +40,7 @@ import {
   clearSession,
 } from "@/lib/stores";
 import type { UnifiedStage, BuildProgress } from "@/lib/schemas/stage";
+import { generateReadme, AGENT_IDS } from "@/lib/lyzr";
 
 // Action mode for footer buttons
 export type ActionMode = "submit" | "hitl" | "complete" | "loading";
@@ -349,7 +350,7 @@ Requirements: ${requirements || ""}`;
     return response.json();
   }, [sessionId, architecture, requirements]);
 
-  const callCreate = useCallback(async (specs: AgentYAMLSpec[]): Promise<CreateResponse> => {
+  const callCreate = useCallback(async (specs: AgentYAMLSpec[], readmeContent?: string): Promise<CreateResponse> => {
     if (!sessionId) {
       throw new Error("Missing session");
     }
@@ -362,6 +363,7 @@ Requirements: ${requirements || ""}`;
       body: JSON.stringify({
         session_id: sessionId,
         agent_specs: specs,
+        readme: readmeContent,
       }),
     });
 
@@ -572,8 +574,33 @@ Requirements: ${requirements || ""}`;
         // (backward compatible until API is updated)
         const flatRequest = toFlatAgentSpecs(gate.data!);
 
+        // Generate README silently in background (don't block on failure)
+        let readmeContent: string | undefined;
+        if (AGENT_IDS.readmeBuilder && sessionId) {
+          try {
+            const managerSpec = agentSpecs.find((s) => s.is_manager);
+            readmeContent = await generateReadme({
+              agentId: AGENT_IDS.readmeBuilder,
+              sessionId,
+              blueprintName: managerSpec?.name?.replace("Coordinator", "Blueprint") || "Blueprint",
+              blueprintDescription: managerSpec?.description || "AI agent blueprint",
+              agents: agentSpecs.map((spec) => ({
+                name: spec.name,
+                role: spec.role,
+                goal: spec.goal,
+                is_manager: spec.is_manager,
+                instructions: spec.instructions,
+              })),
+            });
+            console.log("[useBuilder] README generated successfully");
+          } catch (readmeErr) {
+            // Silently log error - README is optional, don't block blueprint creation
+            console.warn("[useBuilder] README generation failed (non-blocking):", readmeErr);
+          }
+        }
+
         // Pass all agent specs directly to ensure all workers are created
-        const result = await callCreate(flatRequest.agent_specs);
+        const result = await callCreate(flatRequest.agent_specs, readmeContent);
         setBlueprintResult(result);
         setBuilderStage("complete");
 

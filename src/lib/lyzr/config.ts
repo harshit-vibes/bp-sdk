@@ -16,6 +16,7 @@ export const AGENT_IDS = {
   suggest: process.env.SUGGEST_AGENT_ID || "",
   replySuggester: process.env.REPLY_SUGGESTER_AGENT_ID || "",
   ideaSuggester: process.env.IDEA_SUGGESTER_AGENT_ID || "",
+  readmeBuilder: process.env.README_BUILDER_AGENT_ID || "",
 };
 
 /**

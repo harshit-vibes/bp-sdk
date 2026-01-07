@@ -23,6 +23,7 @@ interface AgentYAMLSpec {
 interface CreateRequest {
   session_id: string;
   agent_specs?: AgentYAMLSpec[];
+  readme?: string;
 }
 
 interface ManagedAgent {
@@ -34,7 +35,7 @@ interface ManagedAgent {
 export async function POST(request: NextRequest) {
   try {
     const body: CreateRequest = await request.json();
-    const { session_id, agent_specs } = body;
+    const { session_id, agent_specs, readme } = body;
 
     if (!session_id) {
       return NextResponse.json(
@@ -126,7 +127,7 @@ export async function POST(request: NextRequest) {
       };
 
       // Build payload (matches SDK's build_blueprint_payload)
-      const blueprintPayload = {
+      const blueprintPayload: Record<string, unknown> = {
         name: blueprintName,
         description: managerSpec.description,
         orchestration_type: "Manager Agent",
@@ -137,6 +138,16 @@ export async function POST(request: NextRequest) {
         is_template: false,
         category: "general",
       };
+
+      // Add README documentation if provided (matches SDK structure)
+      if (readme) {
+        blueprintPayload.blueprint_info = {
+          documentation_data: {
+            markdown: readme,
+          },
+          type: "markdown",
+        };
+      }
 
       const blueprintResponse = await fetch(
         `${BLUEPRINT_API_URL}/api/v1/blueprints/blueprints?organization_id=${orgId}`,

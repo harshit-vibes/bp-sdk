@@ -208,13 +208,11 @@ export function ReviewScreen({
 
         {/* Blueprint complete state - Chat-focused UI */}
         {isComplete && blueprint && blueprint.manager_id && (
-          <div className="flex flex-col h-full">
-            <ManagerChat
-              managerId={blueprint.manager_id}
-              blueprintId={blueprint.id}
-              className="flex-1 min-h-[400px]"
-            />
-          </div>
+          <ManagerChat
+            managerId={blueprint.manager_id}
+            blueprintId={blueprint.id}
+            className="min-h-[300px]"
+          />
         )}
       </div>
     </div>

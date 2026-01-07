@@ -71,5 +71,11 @@ export {
   type StreamingLoaderProps,
 } from "./streaming-loader";
 
+// README builder (for generating blueprint documentation)
+export {
+  ReadmeBuilder,
+  type ReadmeBuilderProps,
+} from "./readme-builder";
+
 // Re-export schema types for convenience
 export type { SelectorOption as SchemaOption } from "@/lib/schemas/selector";
