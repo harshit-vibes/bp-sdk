@@ -195,7 +195,7 @@ export function ManagerChat({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Bot className="h-4 w-4 text-orange-500" />
-            <span className="text-sm font-medium">Chat with Manager</span>
+            <span className="text-sm font-medium">Chat Playground</span>
           </div>
           {blueprintId && (
             <button

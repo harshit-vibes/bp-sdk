@@ -153,6 +153,8 @@ export function getInfoItems(state: BuilderState): InfoItem[] {
 /**
  * Generate markdown from HITL preview data.
  * This creates structured content for architecture review.
+ *
+ * Pattern-agnostic: first agent = coordinator, rest = specialists
  */
 function generatePreviewMarkdown(hitl: HITLSuggestion): string | null {
   const preview = hitl.preview;
@@ -166,29 +168,32 @@ function generatePreviewMarkdown(hitl: HITLSuggestion): string | null {
     lines.push("");
   }
 
-  // Add pattern info
-  if (preview.pattern) {
-    lines.push(`**Pattern:** ${preview.pattern.replace(/_/g, " ")}`);
-    lines.push("");
-  }
+  // Pattern-agnostic agents array
+  if (preview.agents && preview.agents.length > 0) {
+    const [coordinator, ...specialists] = preview.agents;
 
-  // Add manager section
-  if (preview.manager) {
-    lines.push("## Manager Agent");
-    lines.push(`**${preview.manager.name}**`);
+    // Coordinator section (first agent)
+    lines.push("## Coordinator");
     lines.push("");
-    lines.push(preview.manager.purpose);
+    lines.push(`### ${coordinator.name}`);
     lines.push("");
-  }
+    lines.push(`**Role:** ${coordinator.role}`);
+    lines.push("");
+    lines.push(`**Goal:** ${coordinator.goal}`);
+    lines.push("");
 
-  // Add workers section
-  if (preview.workers && preview.workers.length > 0) {
-    lines.push("## Worker Agents");
-    lines.push("");
-    for (const worker of preview.workers) {
-      lines.push(`### ${worker.name}`);
-      lines.push(worker.purpose);
+    // Specialists section (rest of agents)
+    if (specialists.length > 0) {
+      lines.push("## Specialists");
       lines.push("");
+      for (const specialist of specialists) {
+        lines.push(`### ${specialist.name}`);
+        lines.push("");
+        lines.push(`**Role:** ${specialist.role}`);
+        lines.push("");
+        lines.push(`**Goal:** ${specialist.goal}`);
+        lines.push("");
+      }
     }
   }
 

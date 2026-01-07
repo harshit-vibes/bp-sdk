@@ -127,11 +127,6 @@ export function useBuilder(): UseBuilderReturn {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Preserved pattern from architecture (Gate 1 output)
-  const [orchestrationPattern, setOrchestrationPattern] = useState<
-    "single_agent" | "manager_workers"
-  >("manager_workers");
-
   // Edit mode state
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedSpec, setEditedSpec] = useState<AgentYAMLSpec | null>(null);
@@ -142,10 +137,10 @@ export function useBuilder(): UseBuilderReturn {
 
   // === DERIVED VALUES ===
 
-  // Total agents to craft (1 manager + N workers)
+  // Total agents to craft (coordinator + specialists)
   const totalAgents = useMemo(() => {
-    if (!architecture) return 0;
-    return 1 + architecture.workers.length;
+    if (!architecture?.agents) return 0;
+    return architecture.agents.length;
   }, [architecture]);
 
   // Current agent being crafted/reviewed
@@ -202,28 +197,16 @@ export function useBuilder(): UseBuilderReturn {
   // Build sub-steps for navigation (shown during Build stage including architecture review)
   const buildSubSteps: BuildSubStep[] = useMemo(() => {
     // Show sub-steps during entire Build stage (architecture + crafting)
-    if (unifiedStage !== "build" || !architecture) return [];
+    if (unifiedStage !== "build" || !architecture?.agents) return [];
     // Don't show during designing (loading) phase
     if (builderStage === "designing") return [];
 
-    const steps: BuildSubStep[] = [];
-
-    // Add agent steps - manager first, then workers
-    steps.push({
-      id: "manager",
-      label: architecture.manager.name,
-      index: 0,
-    });
-
-    architecture.workers.forEach((worker, i) => {
-      steps.push({
-        id: `worker-${i}`,
-        label: worker.name,
-        index: i + 1, // 0 = manager, 1+ = workers
-      });
-    });
-
-    return steps;
+    // Map agents to sub-steps (first = coordinator, rest = specialists)
+    return architecture.agents.map((agent, index) => ({
+      id: index === 0 ? "coordinator" : `specialist-${index - 1}`,
+      label: agent.name,
+      index,
+    }));
   }, [unifiedStage, builderStage, architecture]);
 
   // Review content (markdown for display)
@@ -232,7 +215,7 @@ export function useBuilder(): UseBuilderReturn {
       return "Working on it...";
     }
 
-    if (builderStage === "design-review" && architecture) {
+    if (builderStage === "design-review" && architecture?.agents) {
       return generateArchitectureMarkdown(architecture);
     }
 
@@ -250,10 +233,10 @@ export function useBuilder(): UseBuilderReturn {
 
   // Review title
   const reviewTitle = useMemo(() => {
-    if (builderStage === "design-review") return "Review Architecture";
+    if (builderStage === "design-review") return "Review Design";
     if (builderStage === "craft-review" && currentAgentSpec) {
-      const agentType = currentAgentIndex === 0 ? "Manager" : "Worker";
-      return `Review ${agentType} Agent (${currentAgentIndex + 1}/${totalAgents})`;
+      const agentType = currentAgentIndex === 0 ? "Coordinator" : "Specialist";
+      return `Review ${agentType} (${currentAgentIndex + 1}/${totalAgents})`;
     }
     if (builderStage === "complete") return "Blueprint Created";
     return "";
@@ -287,7 +270,42 @@ export function useBuilder(): UseBuilderReturn {
       throw new Error(errorData.error || `HTTP ${response.status}`);
     }
 
-    return response.json();
+    const data = await response.json();
+
+    // Transform old format (manager/workers) to new pattern-agnostic format (agents)
+    if (data.agents) {
+      // Already in new format
+      return data as ArchitectResponse;
+    }
+
+    // Convert old format to new format
+    const agents: Array<{ name: string; role: string; goal: string }> = [];
+
+    // Manager becomes coordinator (first agent)
+    if (data.manager) {
+      agents.push({
+        name: data.manager.name,
+        role: data.manager.purpose?.split(".")[0] || "Workflow coordinator",
+        goal: data.manager.purpose || "Orchestrate the workflow",
+      });
+    }
+
+    // Workers become specialists
+    if (data.workers && Array.isArray(data.workers)) {
+      for (const worker of data.workers) {
+        agents.push({
+          name: worker.name,
+          role: worker.purpose?.split(".")[0] || "Specialist",
+          goal: worker.purpose || "Handle specialized tasks",
+        });
+      }
+    }
+
+    return {
+      session_id: data.session_id,
+      reasoning: data.reasoning || "",
+      agents,
+    };
   }, [sessionId]);
 
   const callCrafter = useCallback(async (
@@ -297,14 +315,16 @@ export function useBuilder(): UseBuilderReturn {
     agentIndex: number,
     workerNames: string[]
   ): Promise<CraftResponse> => {
-    if (!sessionId || !architecture) {
+    if (!sessionId || !architecture?.agents) {
       throw new Error("Missing session or architecture");
     }
 
     // Build context string
-    const context = `Pattern: ${architecture.pattern}
-Manager: ${architecture.manager.name} - ${architecture.manager.purpose}
-Workers: ${architecture.workers.map(w => `${w.name} - ${w.purpose}`).join(", ")}
+    const [coordinator, ...specialists] = architecture.agents;
+    const context = `Coordinator: ${coordinator.name}
+- Role: ${coordinator.role}
+- Goal: ${coordinator.goal}
+Specialists: ${specialists.map(s => `${s.name} (${s.role})`).join(", ")}
 Requirements: ${requirements || ""}`;
 
     const response = await fetch("/api/builder/craft", {
@@ -363,7 +383,6 @@ Requirements: ${requirements || ""}`;
       setAgentSpecs([]);
       setCurrentAgentIndex(0);
       setBlueprintResult(null);
-      setOrchestrationPattern("manager_workers");
     }
 
     setIsLoading(true);
@@ -376,10 +395,8 @@ Requirements: ${requirements || ""}`;
 
       // Gate 1: Validate architecture output
       const gate = validateArchitectureGate({
-        pattern: result.pattern,
         reasoning: result.reasoning,
-        manager: result.manager,
-        workers: result.workers,
+        agents: result.agents,
       });
 
       if (!gate.valid) {
@@ -387,8 +404,6 @@ Requirements: ${requirements || ""}`;
         // Continue anyway but log the issues - architecture is still usable
       }
 
-      // Preserve pattern type from architecture
-      setOrchestrationPattern(result.pattern);
       setSessionId(result.session_id);
       setArchitecture(result);
       setBuilderStage("design-review");
@@ -401,7 +416,7 @@ Requirements: ${requirements || ""}`;
   }, [callArchitect, requirements, architecture, agentSpecs]);
 
   const craftNextAgent = useCallback(async (agentIndex?: number, retryCount = 0) => {
-    if (!architecture) return;
+    if (!architecture?.agents) return;
 
     // Use passed index or fall back to current state (for initial call)
     const indexToUse = agentIndex ?? currentAgentIndex;
@@ -413,21 +428,20 @@ Requirements: ${requirements || ""}`;
     setBuilderStage("crafting");
 
     try {
-      const isManager = indexToUse === 0;
-      const agentInfo = isManager
-        ? architecture.manager
-        : architecture.workers[indexToUse - 1];
+      const isCoordinator = indexToUse === 0;
+      const agentInfo = architecture.agents[indexToUse];
 
-      const workerNames = isManager
-        ? architecture.workers.map(w => w.name)
+      // Specialists (non-coordinators) don't need to know about other agents
+      const specialistNames = isCoordinator
+        ? architecture.agents.slice(1).map(a => a.name)
         : [];
 
       const result = await callCrafter(
         agentInfo.name,
-        agentInfo.purpose,
-        isManager,
+        `${agentInfo.role}: ${agentInfo.goal}`,
+        isCoordinator,
         currentAgentIndex,
-        workerNames
+        specialistNames
       );
 
       // === Background Quality Gate ===
@@ -446,14 +460,14 @@ Requirements: ${requirements || ""}`;
         );
       }
 
-      // Ensure manager has sub_agents linking to workers
+      // Ensure coordinator has sub_agents linking to specialists
       const agentYaml = result.agent_yaml;
-      if (isManager && architecture.workers.length > 0) {
-        // Generate worker filenames to set as sub_agents
-        const workerFilenames = architecture.workers.map((w) =>
-          `${w.name.toLowerCase().replace(/\s+/g, "-")}.yaml`
+      if (isCoordinator && architecture.agents.length > 1) {
+        // Generate specialist filenames to set as sub_agents
+        const specialistFilenames = architecture.agents.slice(1).map((a) =>
+          `${a.name.toLowerCase().replace(/\s+/g, "-")}.yaml`
         );
-        agentYaml.sub_agents = workerFilenames;
+        agentYaml.sub_agents = specialistFilenames;
       }
 
       setAgentSpecs((prev) => [...prev, agentYaml]);
@@ -537,10 +551,12 @@ Requirements: ${requirements || ""}`;
         }
 
         // Gate 3: Validate complete blueprint request before creating
+        // Derive pattern from agent count (no longer stored in state)
+        const derivedPattern = agentSpecs.length === 1 ? "single_agent" : "manager_workers";
         const gate = buildAndValidateBlueprintRequest(
           sessionId || "",
           agentSpecs,
-          orchestrationPattern
+          derivedPattern
         );
 
         if (!gate.valid) {
@@ -576,34 +592,32 @@ Requirements: ${requirements || ""}`;
         setIsLoading(false);
       }
     }
-  }, [currentAgentIndex, totalAgents, craftNextAgent, callCreate, agentSpecs, sessionId, orchestrationPattern]);
+  }, [currentAgentIndex, totalAgents, craftNextAgent, callCreate, agentSpecs, sessionId]);
 
   const reviseAgent = useCallback(async (feedback: string) => {
-    if (!architecture) return;
+    if (!architecture?.agents) return;
 
     setIsLoading(true);
     setError(null);
     setBuilderStage("crafting");
 
     try {
-      const isManager = currentAgentIndex === 0;
-      const agentInfo = isManager
-        ? architecture.manager
-        : architecture.workers[currentAgentIndex - 1];
+      const isCoordinator = currentAgentIndex === 0;
+      const agentInfo = architecture.agents[currentAgentIndex];
 
-      const workerNames = isManager
-        ? architecture.workers.map(w => w.name)
+      const specialistNames = isCoordinator
+        ? architecture.agents.slice(1).map(a => a.name)
         : [];
 
       // Include feedback in the purpose
-      const revisedPurpose = `${agentInfo.purpose}\n\nRevision feedback: ${feedback}`;
+      const revisedPurpose = `${agentInfo.role}: ${agentInfo.goal}\n\nRevision feedback: ${feedback}`;
 
       const result = await callCrafter(
         agentInfo.name,
         revisedPurpose,
-        isManager,
+        isCoordinator,
         currentAgentIndex,
-        workerNames
+        specialistNames
       );
 
       // Replace the current agent spec
@@ -634,7 +648,6 @@ Requirements: ${requirements || ""}`;
     setBlueprintResult(null);
     setIsLoading(false);
     setError(null);
-    setOrchestrationPattern("manager_workers");
     setIsEditMode(false);
     setEditedSpec(null);
     setIsDefineReadOnly(false);
@@ -823,31 +836,34 @@ Requirements: ${requirements || ""}`;
 
 function generateArchitectureMarkdown(arch: ArchitectResponse): string {
   const lines: string[] = [];
+  const [coordinator, ...specialists] = arch.agents;
 
   // Summary as blockquote
   lines.push(`> ${arch.reasoning}`);
   lines.push("");
-  lines.push(`**Pattern:** \`${arch.pattern.replace(/_/g, " ")}\``);
-  lines.push("");
   lines.push("---");
   lines.push("");
 
-  // Manager section
-  lines.push("## Manager");
+  // Coordinator section
+  lines.push("## Coordinator");
   lines.push("");
-  lines.push(`### ${arch.manager.name}`);
+  lines.push(`### ${coordinator.name}`);
   lines.push("");
-  lines.push(arch.manager.purpose);
+  lines.push(`**Role:** ${coordinator.role}`);
+  lines.push("");
+  lines.push(`**Goal:** ${coordinator.goal}`);
   lines.push("");
 
-  // Workers section
-  if (arch.workers.length > 0) {
-    lines.push("## Workers");
+  // Specialists section
+  if (specialists.length > 0) {
+    lines.push("## Specialists");
     lines.push("");
-    for (const worker of arch.workers) {
-      lines.push(`### ${worker.name}`);
+    for (const specialist of specialists) {
+      lines.push(`### ${specialist.name}`);
       lines.push("");
-      lines.push(worker.purpose);
+      lines.push(`**Role:** ${specialist.role}`);
+      lines.push("");
+      lines.push(`**Goal:** ${specialist.goal}`);
       lines.push("");
     }
   }
@@ -861,10 +877,10 @@ function generateAgentMarkdown(
   total: number
 ): string {
   const lines: string[] = [];
-  const agentType = index === 0 ? "Manager" : "Worker";
+  const agentType = index === 0 ? "Coordinator" : "Specialist";
 
   lines.push(`## ${spec.name}`);
-  lines.push(`*${agentType} Agent (${index + 1}/${total})*`);
+  lines.push(`*${agentType} (${index + 1}/${total})*`);
   lines.push("");
   lines.push(spec.description);
   lines.push("");

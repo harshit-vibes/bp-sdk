@@ -6,10 +6,8 @@ import { Page } from '@playwright/test';
 
 export interface ArchitectResponse {
   session_id: string;
-  pattern: 'single_agent' | 'manager_workers';
   reasoning: string;
-  manager: { name: string; purpose: string };
-  workers: Array<{ name: string; purpose: string }>;
+  agents: Array<{ name: string; role: string; goal: string }>;
 }
 
 export interface AgentYAMLSpec {
@@ -46,20 +44,33 @@ export interface CreateResponse {
  */
 export const mockBuilderResponses = {
   /**
-   * Architect response - returns architecture JSON
+   * Architect response - returns architecture JSON (pattern-agnostic)
+   * First agent = coordinator, rest = specialists
    */
   architect: (sessionId: string = 'test-session-123'): ArchitectResponse => ({
     session_id: sessionId,
-    pattern: 'manager_workers',
-    reasoning: 'Customer support requires multiple specialized skills: classification, prioritization, and response drafting. A manager-workers pattern allows each phase to be handled by a focused agent.',
-    manager: {
-      name: 'Support Coordinator',
-      purpose: 'Orchestrates the customer support workflow by routing tickets through classification, prioritization, and response drafting stages.',
-    },
-    workers: [
-      { name: 'Ticket Classifier', purpose: 'Categorizes incoming tickets by type: billing, technical, general inquiry.' },
-      { name: 'Priority Assessor', purpose: 'Determines ticket urgency based on sentiment, keywords, and customer tier.' },
-      { name: 'Response Drafter', purpose: 'Generates initial response drafts based on ticket category and priority.' },
+    reasoning: 'Customer support requires multiple specialized skills: classification, prioritization, and response drafting. A multi-agent system allows each phase to be handled by a focused specialist.',
+    agents: [
+      {
+        name: 'Support Coordinator',
+        role: 'Customer support workflow orchestrator',
+        goal: 'Route incoming tickets through classification, prioritization, and response drafting stages to ensure efficient and accurate customer support resolution.',
+      },
+      {
+        name: 'Ticket Classifier',
+        role: 'Support ticket classification specialist',
+        goal: 'Categorize incoming tickets by type (billing, technical, general inquiry) using pattern recognition and contextual analysis.',
+      },
+      {
+        name: 'Priority Assessor',
+        role: 'Ticket priority assessment specialist',
+        goal: 'Determine ticket urgency level based on sentiment analysis, keywords, and customer tier information.',
+      },
+      {
+        name: 'Response Drafter',
+        role: 'Customer response drafting specialist',
+        goal: 'Generate professional, helpful initial response drafts based on ticket category and priority level.',
+      },
     ],
   }),
 

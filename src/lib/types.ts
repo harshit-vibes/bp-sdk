@@ -45,14 +45,10 @@ export interface AgentYAMLSpec {
 }
 
 export interface ArchitecturePreview {
-  pattern: "single_agent" | "manager_workers";
-  manager: {
+  agents: Array<{
     name: string;
-    purpose: string;
-  };
-  workers: Array<{
-    name: string;
-    purpose: string;
+    role: string;
+    goal: string;
   }>;
 }
 
@@ -63,9 +59,7 @@ export interface HITLSuggestion {
   info_items: InfoItem[];
   preview?: {
     // For confirm_architecture
-    pattern?: string;
-    manager?: { name: string; purpose: string };
-    workers?: Array<{ name: string; purpose: string }>;
+    agents?: Array<{ name: string; role: string; goal: string }>;
     // For review_agent
     agent_yaml?: AgentYAMLSpec;
   };
@@ -153,15 +147,11 @@ export interface ArchitectRequest {
 
 export interface ArchitectResponse {
   session_id: string;
-  pattern: "single_agent" | "manager_workers";
   reasoning: string;
-  manager: {
+  agents: Array<{
     name: string;
-    purpose: string;
-  };
-  workers: Array<{
-    name: string;
-    purpose: string;
+    role: string;
+    goal: string;
   }>;
 }
 

@@ -52,16 +52,15 @@ function formatZodErrors(error: ZodError): string[] {
 /**
  * Gate 1: Architecture Validation
  *
- * Validates the output from the Architect Agent before allowing
+ * Validates the output from the Design Agent before allowing
  * the user to proceed to agent crafting.
  *
  * Checks:
- * - Valid pattern type (single_agent or manager_workers)
- * - Manager name and purpose are present
- * - Workers present only for manager_workers pattern
- * - Pattern matches worker count (single_agent=0, manager_workers=1+)
+ * - Reasoning is present
+ * - At least one agent (coordinator) exists
+ * - All agents have valid name, role, goal
  *
- * @param data - Raw architecture output from Architect Agent
+ * @param data - Raw architecture output from Design Agent
  * @returns GateResult with validated ArchitectureOutput on success
  */
 export function validateArchitectureGate(data: unknown): GateResult<ArchitectureOutput> {
