@@ -202,7 +202,7 @@ export function SetupScreen({ onComplete, className }: SetupScreenProps) {
               </button>
             </div>
             <p className="text-xs text-muted-foreground">
-              Found in Lyzr Studio &rarr; Settings &rarr; API Keys
+              Go to <a href="https://studio.lyzr.ai/account/" target="_blank" rel="noopener noreferrer" className="text-orange-500 hover:underline">studio.lyzr.ai/account</a> and click &quot;Copy API Key&quot;
             </p>
           </div>
 
@@ -257,7 +257,7 @@ export function SetupScreen({ onComplete, className }: SetupScreenProps) {
             )}
             {!bearerToken && (
               <p className="text-xs text-muted-foreground">
-                Contact your administrator for this token
+                Open DevTools → Network → find &quot;by_organisation&quot; request → copy from Authorization header
               </p>
             )}
           </div>
@@ -276,7 +276,7 @@ export function SetupScreen({ onComplete, className }: SetupScreenProps) {
               placeholder="org_xxx..."
             />
             <p className="text-xs text-muted-foreground">
-              Your Lyzr organization identifier
+              From same Network request → check payload for organisation-id
             </p>
           </div>
 
