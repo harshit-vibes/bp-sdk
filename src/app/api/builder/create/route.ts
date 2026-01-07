@@ -162,7 +162,7 @@ export async function POST(request: NextRequest) {
         session_id,
         blueprint_id: blueprintId,
         blueprint_name: blueprintName,
-        studio_url: `https://studio.lyzr.ai/blueprint?blueprint=${blueprintId}`,
+        studio_url: `https://studio.lyzr.ai/lyzr-manager?blueprint=${blueprintId}`,
         manager_id: managerId,
         worker_ids: workerIds,
         organization_id: orgId,

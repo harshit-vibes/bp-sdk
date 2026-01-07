@@ -202,7 +202,7 @@ Analyze each incoming ticket and assign it to one of these categories:
   create: (sessionId: string = 'test-session-123'): CreateResponse => ({
     session_id: sessionId,
     blueprint_id: 'bp-test-12345',
-    studio_url: 'https://studio.lyzr.ai/blueprint?blueprint=bp-test-12345',
+    studio_url: 'https://studio.lyzr.ai/lyzr-manager?blueprint=bp-test-12345',
     manager_id: 'agent-manager-123',
     worker_ids: ['agent-worker-1', 'agent-worker-2', 'agent-worker-3'],
   }),
