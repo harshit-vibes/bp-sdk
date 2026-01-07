@@ -44,8 +44,11 @@ export { CustomInput, type CustomInputProps } from "./custom-input";
 // Step indicator (for alternative progress display)
 export {
   StepIndicator,
+  UnifiedStepIndicator,
   type StepIndicatorProps,
+  type UnifiedStepIndicatorProps,
   type Step,
+  type BuildSubStep,
 } from "./step-indicator";
 
 // Action group (shared between screens)
@@ -62,8 +65,11 @@ export {
   type AgentStep,
 } from "./agent-stepper";
 
-// YAML viewer (for session file display)
-export { YAMLViewer, type YAMLViewerProps } from "./yaml-viewer";
+// Streaming loader (for entertaining loading states)
+export {
+  StreamingLoader,
+  type StreamingLoaderProps,
+} from "./streaming-loader";
 
 // Re-export schema types for convenience
 export type { SelectorOption as SchemaOption } from "@/lib/schemas/selector";

@@ -27,13 +27,13 @@ test.describe('ActionGroup - Footer Buttons', () => {
   test('should enable submit button when statement complete', async ({ page }) => {
     // Fill all slots
     await page.locator('button').filter({ hasText: 'role' }).first().click();
-    await page.getByText('Product Manager').click();
+    await page.getByRole('button', { name: /Product Manager/i }).click();
 
     await page.locator('button').filter({ hasText: 'problem to solve' }).first().click();
-    await page.getByText('Automate Repetitive Work').click();
+    await page.getByRole('button', { name: /Automate Repetitive Work/i }).click();
 
     await page.locator('button').filter({ hasText: 'area' }).first().click();
-    await page.getByText('Customer Support').click();
+    await page.getByRole('button', { name: /Customer Support/i }).first().click();
 
     // Submit button should be enabled
     const submitButton = page.getByRole('button', { name: /start building/i });

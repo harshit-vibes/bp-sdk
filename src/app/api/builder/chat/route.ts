@@ -7,8 +7,8 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    // Forward request to FastAPI backend
-    const response = await fetch(`${BACKEND_URL}/api/builder/chat`, {
+    // Forward request to FastAPI backend (v1 API)
+    const response = await fetch(`${BACKEND_URL}/api/v1/builder/chat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

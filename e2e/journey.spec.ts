@@ -24,13 +24,13 @@ test.describe('Stage-Based Blueprint Building Journey', () => {
 
     // Fill all statement slots
     await page.locator('button').filter({ hasText: 'role' }).first().click();
-    await page.getByText('Product Manager').click();
+    await page.getByRole('button', { name: /Product Manager/i }).click();
 
     await page.locator('button').filter({ hasText: 'problem to solve' }).first().click();
-    await page.getByText('Automate Repetitive Work').click();
+    await page.getByRole('button', { name: /Automate Repetitive Work/i }).click();
 
     await page.locator('button').filter({ hasText: 'area' }).first().click();
-    await page.getByText('Customer Support').click();
+    await page.getByRole('button', { name: /Customer Support/i }).first().click();
 
     // Submit the statement - triggers architect API call
     const submitButton = page.getByRole('button', { name: /start building/i });
@@ -103,11 +103,11 @@ test.describe('Stage-Based Blueprint Building Journey', () => {
 
     // Quick journey through all stages
     await page.locator('button').filter({ hasText: 'role' }).first().click();
-    await page.getByText('Product Manager').click();
+    await page.getByRole('button', { name: /Product Manager/i }).click();
     await page.locator('button').filter({ hasText: 'problem to solve' }).first().click();
-    await page.getByText('Automate Repetitive Work').click();
+    await page.getByRole('button', { name: /Automate Repetitive Work/i }).click();
     await page.locator('button').filter({ hasText: 'area' }).first().click();
-    await page.getByText('Customer Support').click();
+    await page.getByRole('button', { name: /Customer Support/i }).first().click();
     await page.getByRole('button', { name: /start building/i }).click();
 
     // Approve architecture
@@ -190,11 +190,11 @@ test.describe('HITL Interactions', () => {
 
     // Complete stage 1
     await page.locator('button').filter({ hasText: 'role' }).first().click();
-    await page.getByText('Product Manager').click();
+    await page.getByRole('button', { name: /Product Manager/i }).click();
     await page.locator('button').filter({ hasText: 'problem to solve' }).first().click();
-    await page.getByText('Automate Repetitive Work').click();
+    await page.getByRole('button', { name: /Automate Repetitive Work/i }).click();
     await page.locator('button').filter({ hasText: 'area' }).first().click();
-    await page.getByText('Customer Support').click();
+    await page.getByRole('button', { name: /Customer Support/i }).first().click();
     await page.getByRole('button', { name: /start building/i }).click();
 
     // Wait for architecture HITL
@@ -262,11 +262,11 @@ test.describe('HITL Interactions', () => {
 
     // Quick path to agent HITL
     await page.locator('button').filter({ hasText: 'role' }).first().click();
-    await page.getByText('Product Manager').click();
+    await page.getByRole('button', { name: /Product Manager/i }).click();
     await page.locator('button').filter({ hasText: 'problem to solve' }).first().click();
-    await page.getByText('Automate Repetitive Work').click();
+    await page.getByRole('button', { name: /Automate Repetitive Work/i }).click();
     await page.locator('button').filter({ hasText: 'area' }).first().click();
-    await page.getByText('Customer Support').click();
+    await page.getByRole('button', { name: /Customer Support/i }).first().click();
     await page.getByRole('button', { name: /start building/i }).click();
 
     // Approve architecture
@@ -304,11 +304,11 @@ test.describe('Error Handling', () => {
 
     // Complete stage 1 and submit
     await page.locator('button').filter({ hasText: 'role' }).first().click();
-    await page.getByText('Product Manager').click();
+    await page.getByRole('button', { name: /Product Manager/i }).click();
     await page.locator('button').filter({ hasText: 'problem to solve' }).first().click();
-    await page.getByText('Automate Repetitive Work').click();
+    await page.getByRole('button', { name: /Automate Repetitive Work/i }).click();
     await page.locator('button').filter({ hasText: 'area' }).first().click();
-    await page.getByText('Customer Support').click();
+    await page.getByRole('button', { name: /Customer Support/i }).first().click();
     await page.getByRole('button', { name: /start building/i }).click();
 
     // Should show error message
@@ -342,11 +342,11 @@ test.describe('Error Handling', () => {
 
     // Complete stage 1 and submit
     await page.locator('button').filter({ hasText: 'role' }).first().click();
-    await page.getByText('Product Manager').click();
+    await page.getByRole('button', { name: /Product Manager/i }).click();
     await page.locator('button').filter({ hasText: 'problem to solve' }).first().click();
-    await page.getByText('Automate Repetitive Work').click();
+    await page.getByRole('button', { name: /Automate Repetitive Work/i }).click();
     await page.locator('button').filter({ hasText: 'area' }).first().click();
-    await page.getByText('Customer Support').click();
+    await page.getByRole('button', { name: /Customer Support/i }).first().click();
     await page.getByRole('button', { name: /start building/i }).click();
 
     // Approve architecture
@@ -366,11 +366,11 @@ test.describe('Error Handling', () => {
 
     // Quick journey through all stages
     await page.locator('button').filter({ hasText: 'role' }).first().click();
-    await page.getByText('Product Manager').click();
+    await page.getByRole('button', { name: /Product Manager/i }).click();
     await page.locator('button').filter({ hasText: 'problem to solve' }).first().click();
-    await page.getByText('Automate Repetitive Work').click();
+    await page.getByRole('button', { name: /Automate Repetitive Work/i }).click();
     await page.locator('button').filter({ hasText: 'area' }).first().click();
-    await page.getByText('Customer Support').click();
+    await page.getByRole('button', { name: /Customer Support/i }).first().click();
     await page.getByRole('button', { name: /start building/i }).click();
 
     // Approve architecture
@@ -430,11 +430,11 @@ test.describe('Session Management', () => {
 
     // Complete stage 1 and submit
     await page.locator('button').filter({ hasText: 'role' }).first().click();
-    await page.getByText('Product Manager').click();
+    await page.getByRole('button', { name: /Product Manager/i }).click();
     await page.locator('button').filter({ hasText: 'problem to solve' }).first().click();
-    await page.getByText('Automate Repetitive Work').click();
+    await page.getByRole('button', { name: /Automate Repetitive Work/i }).click();
     await page.locator('button').filter({ hasText: 'area' }).first().click();
-    await page.getByText('Customer Support').click();
+    await page.getByRole('button', { name: /Customer Support/i }).first().click();
     await page.getByRole('button', { name: /start building/i }).click();
 
     // Wait for architect response

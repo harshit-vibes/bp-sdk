@@ -19,11 +19,11 @@ test.describe('YAML Session Storage', () => {
 
     // Complete stage 1 - Define
     await page.locator('button').filter({ hasText: 'role' }).first().click();
-    await page.getByText('Product Manager').click();
+    await page.getByRole('button', { name: /Product Manager/i }).click();
     await page.locator('button').filter({ hasText: 'problem to solve' }).first().click();
-    await page.getByText('Automate Repetitive Work').click();
+    await page.getByRole('button', { name: /Automate Repetitive Work/i }).click();
     await page.locator('button').filter({ hasText: 'area' }).first().click();
-    await page.getByText('Customer Support').click();
+    await page.getByRole('button', { name: /Customer Support/i }).first().click();
     await page.getByRole('button', { name: /start building/i }).click();
 
     // Approve architecture
@@ -47,11 +47,11 @@ test.describe('YAML Session Storage', () => {
 
     // Quick path through stage 1
     await page.locator('button').filter({ hasText: 'role' }).first().click();
-    await page.getByText('Product Manager').click();
+    await page.getByRole('button', { name: /Product Manager/i }).click();
     await page.locator('button').filter({ hasText: 'problem to solve' }).first().click();
-    await page.getByText('Automate Repetitive Work').click();
+    await page.getByRole('button', { name: /Automate Repetitive Work/i }).click();
     await page.locator('button').filter({ hasText: 'area' }).first().click();
-    await page.getByText('Customer Support').click();
+    await page.getByRole('button', { name: /Customer Support/i }).first().click();
     await page.getByRole('button', { name: /start building/i }).click();
 
     // Approve architecture
@@ -79,11 +79,11 @@ test.describe('YAML Session Storage', () => {
 
     // Quick path to agent review
     await page.locator('button').filter({ hasText: 'role' }).first().click();
-    await page.getByText('Product Manager').click();
+    await page.getByRole('button', { name: /Product Manager/i }).click();
     await page.locator('button').filter({ hasText: 'problem to solve' }).first().click();
-    await page.getByText('Automate Repetitive Work').click();
+    await page.getByRole('button', { name: /Automate Repetitive Work/i }).click();
     await page.locator('button').filter({ hasText: 'area' }).first().click();
-    await page.getByText('Customer Support').click();
+    await page.getByRole('button', { name: /Customer Support/i }).first().click();
     await page.getByRole('button', { name: /start building/i }).click();
 
     // Approve architecture
@@ -104,11 +104,11 @@ test.describe('YAML Session Storage', () => {
 
     // Complete full journey
     await page.locator('button').filter({ hasText: 'role' }).first().click();
-    await page.getByText('Product Manager').click();
+    await page.getByRole('button', { name: /Product Manager/i }).click();
     await page.locator('button').filter({ hasText: 'problem to solve' }).first().click();
-    await page.getByText('Automate Repetitive Work').click();
+    await page.getByRole('button', { name: /Automate Repetitive Work/i }).click();
     await page.locator('button').filter({ hasText: 'area' }).first().click();
-    await page.getByText('Customer Support').click();
+    await page.getByRole('button', { name: /Customer Support/i }).first().click();
     await page.getByRole('button', { name: /start building/i }).click();
 
     // Approve architecture
@@ -152,11 +152,11 @@ test.describe('YAML Session Storage', () => {
 
     // Complete full journey
     await page.locator('button').filter({ hasText: 'role' }).first().click();
-    await page.getByText('Product Manager').click();
+    await page.getByRole('button', { name: /Product Manager/i }).click();
     await page.locator('button').filter({ hasText: 'problem to solve' }).first().click();
-    await page.getByText('Automate Repetitive Work').click();
+    await page.getByRole('button', { name: /Automate Repetitive Work/i }).click();
     await page.locator('button').filter({ hasText: 'area' }).first().click();
-    await page.getByText('Customer Support').click();
+    await page.getByRole('button', { name: /Customer Support/i }).first().click();
     await page.getByRole('button', { name: /start building/i }).click();
 
     // Approve architecture
@@ -200,11 +200,11 @@ test.describe('YAML Session Storage', () => {
 
     // Quick path to agent review
     await page.locator('button').filter({ hasText: 'role' }).first().click();
-    await page.getByText('Product Manager').click();
+    await page.getByRole('button', { name: /Product Manager/i }).click();
     await page.locator('button').filter({ hasText: 'problem to solve' }).first().click();
-    await page.getByText('Automate Repetitive Work').click();
+    await page.getByRole('button', { name: /Automate Repetitive Work/i }).click();
     await page.locator('button').filter({ hasText: 'area' }).first().click();
-    await page.getByText('Customer Support').click();
+    await page.getByRole('button', { name: /Customer Support/i }).first().click();
     await page.getByRole('button', { name: /start building/i }).click();
 
     // Approve architecture
@@ -236,11 +236,11 @@ test.describe('YAML Session with Edit Mode', () => {
 
     // Quick path to agent review
     await page.locator('button').filter({ hasText: 'role' }).first().click();
-    await page.getByText('Product Manager').click();
+    await page.getByRole('button', { name: /Product Manager/i }).click();
     await page.locator('button').filter({ hasText: 'problem to solve' }).first().click();
-    await page.getByText('Automate Repetitive Work').click();
+    await page.getByRole('button', { name: /Automate Repetitive Work/i }).click();
     await page.locator('button').filter({ hasText: 'area' }).first().click();
-    await page.getByText('Customer Support').click();
+    await page.getByRole('button', { name: /Customer Support/i }).first().click();
     await page.getByRole('button', { name: /start building/i }).click();
 
     // Approve architecture

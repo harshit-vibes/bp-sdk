@@ -19,9 +19,10 @@ const PLACEHOLDER_PATTERNS = [
   /\bXXX\b/i,
   /\bTBD\b/i,
 
-  // Bracketed placeholders
-  /\[(?:insert|add|your|placeholder|example|fill)[^\]]*\]/i,
-  /\{(?:insert|add|your|placeholder|example|fill)[^}]*\}/i,
+  // Bracketed placeholders - match backend's strict patterns
+  // Backend uses: r"\[.*\]" and r"\{.*\}" which matches ANY brackets
+  /\[[^\]]+\]/,  // Any [content] in square brackets
+  /\{[^}]+\}/,   // Any {content} in curly brackets
 
   // Generic placeholder text
   /lorem\s+ipsum/i,

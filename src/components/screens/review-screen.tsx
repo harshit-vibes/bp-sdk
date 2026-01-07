@@ -2,15 +2,11 @@
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { useState } from "react";
-import { Sparkles, AlertCircle, AlertTriangle, Edit2, Download, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Edit2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { BlueprintResult } from "@/lib/schemas/review";
-import type { InfoItem, AgentYAMLSpec } from "@/lib/types";
-import { exportAndDownload } from "@/lib/yaml";
-import type { ValidationResult } from "@/lib/validation";
-import { InfoItemsForm, AgentStepper, YAMLViewer, type AgentStep } from "@/components/builder";
+import type { InfoItem } from "@/lib/types";
+import { InfoItemsForm, StreamingLoader } from "@/components/builder";
 import { ManagerChat } from "@/components/chat";
 
 export interface ReviewScreenProps {
@@ -28,12 +24,6 @@ export interface ReviewScreenProps {
   onInfoChange?: (id: string, value: string) => void;
   /** Whether info items form is disabled */
   infoDisabled?: boolean;
-  /** Agent steps for Build stage progress indicator */
-  agentSteps?: AgentStep[];
-  /** Handler when an agent step is clicked (for navigation) */
-  onAgentStepClick?: (index: number) => void;
-  /** Validation result for current agent spec */
-  validationResult?: ValidationResult | null;
   /** Whether currently in edit mode */
   isEditMode?: boolean;
   /** Edit form items (when in edit mode) */
@@ -42,8 +32,10 @@ export interface ReviewScreenProps {
   editAnswers?: Record<string, string>;
   /** Handler for edit form changes */
   onEditChange?: (id: string, value: string) => void;
-  /** Agent specs for YAML export (available at completion) */
-  agentSpecs?: AgentYAMLSpec[];
+  /** Whether currently loading (show streaming loader) */
+  isLoading?: boolean;
+  /** Current builder stage for loader context */
+  builderStage?: string;
   /** Additional class names */
   className?: string;
 }
@@ -71,90 +63,28 @@ export function ReviewScreen({
   infoAnswers = {},
   onInfoChange,
   infoDisabled = false,
-  agentSteps = [],
-  onAgentStepClick,
-  validationResult,
   isEditMode = false,
   editItems = [],
   editAnswers = {},
   onEditChange,
-  agentSpecs = [],
+  isLoading = false,
+  builderStage = "",
   className,
 }: ReviewScreenProps) {
-  const hasErrors = validationResult?.errors && validationResult.errors.length > 0;
-  const hasWarnings = validationResult?.warnings && validationResult.warnings.length > 0;
-
-  // Export state
-  const [isExporting, setIsExporting] = useState(false);
-
-  // Handle YAML export
-  const handleExport = async () => {
-    if (!blueprint || agentSpecs.length === 0) return;
-
-    setIsExporting(true);
-    try {
-      await exportAndDownload(blueprint.name, agentSpecs, {
-        visibility: blueprint.share_type || "private",
-        includeReadme: true,
-      });
-    } catch (error) {
-      console.error("Export failed:", error);
-    } finally {
-      setIsExporting(false);
-    }
-  };
+  // Note: validationResult removed from props - quality issues handled in background
 
   return (
     <div className={cn("flex flex-col h-full", className)}>
-      {/* Agent stepper for Build stage */}
-      {agentSteps.length > 0 && (
-        <div className="px-4 py-2 border-b bg-orange-50/50 dark:bg-orange-950/20">
-          <AgentStepper
-            agents={agentSteps}
-            onAgentClick={onAgentStepClick}
-          />
-        </div>
-      )}
-
       {/* Content area */}
-      <div className="flex-1 overflow-y-auto p-6">
-        {/* Validation alerts - only show errors/warnings, not success */}
-        {validationResult && (hasErrors || hasWarnings) && (
-          <div className="mb-4 space-y-2">
-            {/* Errors */}
-            {hasErrors && validationResult.errors.map((err, i) => (
-              <div
-                key={`error-${i}`}
-                className="flex items-start gap-2 p-3 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-700 dark:text-red-300"
-              >
-                <AlertCircle className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                <div>
-                  <span className="font-medium capitalize">{err.field}:</span>{" "}
-                  {err.message}
-                </div>
-              </div>
-            ))}
-            {/* Warnings */}
-            {hasWarnings && validationResult.warnings.map((warn, i) => (
-              <div
-                key={`warning-${i}`}
-                className="flex items-start gap-2 p-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg text-sm text-amber-700 dark:text-amber-300"
-              >
-                <AlertTriangle className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                <div>
-                  <span className="font-medium capitalize">{warn.field}:</span>{" "}
-                  {warn.message}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Session YAML files viewer */}
-        <YAMLViewer className="mb-4" />
-
-        {/* Edit mode: Show form instead of markdown */}
-        {isEditMode && editItems.length > 0 && onEditChange ? (
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+        {/* Loading state: Show streaming loader */}
+        {isLoading ? (
+          <StreamingLoader
+            stage={builderStage}
+            isActive={isLoading}
+          />
+        ) : isEditMode && editItems.length > 0 && onEditChange ? (
+          /* Edit mode: Show form instead of markdown */
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground border-b pb-3">
               <Edit2 className="h-4 w-4" />
@@ -169,41 +99,58 @@ export function ReviewScreen({
           </div>
         ) : (
           /* Normal mode: Show markdown content */
-          <div className="prose prose-sm dark:prose-invert max-w-none">
+          <div className="prose prose-sm dark:prose-invert max-w-none prose-headings:text-foreground prose-p:text-foreground/90">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{
               h1: ({ children }) => (
-                <h1 className="text-xl font-bold mb-4 text-foreground">{children}</h1>
+                <h1 className="text-xl sm:text-2xl font-bold mb-3 mt-2 text-foreground">{children}</h1>
               ),
               h2: ({ children }) => (
-                <h2 className="text-lg font-semibold mb-3 mt-6 text-foreground">{children}</h2>
+                <h2 className="text-base sm:text-lg font-semibold mb-2 mt-6 text-orange-600 dark:text-orange-400 uppercase tracking-wide">
+                  {children}
+                </h2>
               ),
               h3: ({ children }) => (
-                <h3 className="text-base font-semibold mb-2 mt-4 text-foreground">{children}</h3>
+                <h3 className="text-base sm:text-lg font-semibold mb-1 mt-3 text-foreground">{children}</h3>
+              ),
+              h4: ({ children }) => (
+                <h4 className="text-sm sm:text-base font-semibold mb-1 mt-3 text-foreground/90">{children}</h4>
               ),
               p: ({ children }) => (
-                <p className="mb-3 text-sm leading-relaxed text-foreground/90">{children}</p>
+                <p className="mb-3 text-sm leading-relaxed text-foreground/80">{children}</p>
               ),
               ul: ({ children }) => (
-                <ul className="mb-4 space-y-1 text-sm">{children}</ul>
+                <ul className="mb-3 ml-1 space-y-1.5 text-sm list-none">{children}</ul>
               ),
               ol: ({ children }) => (
-                <ol className="mb-4 space-y-1 text-sm list-decimal list-inside">{children}</ol>
+                <ol className="mb-3 ml-1 space-y-1.5 text-sm list-decimal list-inside">{children}</ol>
               ),
               li: ({ children }) => (
-                <li className="text-foreground/90">{children}</li>
+                <li className="text-foreground/80 flex items-start gap-2">
+                  <span className="text-orange-500 mt-1 flex-shrink-0 text-xs">●</span>
+                  <span>{children}</span>
+                </li>
+              ),
+              strong: ({ children }) => (
+                <strong className="font-semibold text-foreground">{children}</strong>
+              ),
+              em: ({ children }) => (
+                <em className="italic text-foreground/70">{children}</em>
               ),
               code: ({ className, children, ...props }) => {
                 const isInline = !className;
                 return isInline ? (
-                  <code className="px-1.5 py-0.5 rounded bg-muted text-xs font-mono" {...props}>
+                  <code
+                    className="px-1.5 py-0.5 rounded bg-muted text-foreground text-xs font-mono"
+                    {...props}
+                  >
                     {children}
                   </code>
                 ) : (
                   <code
                     className={cn(
-                      "block p-3 rounded-lg bg-muted text-xs font-mono overflow-x-auto",
+                      "block p-3 rounded-lg bg-muted text-foreground text-xs font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed",
                       className
                     )}
                     {...props}
@@ -213,25 +160,33 @@ export function ReviewScreen({
                 );
               },
               pre: ({ children }) => (
-                <pre className="mb-4 rounded-lg overflow-hidden">{children}</pre>
+                <pre className="mb-3 rounded-lg overflow-hidden bg-muted">{children}</pre>
               ),
               blockquote: ({ children }) => (
-                <blockquote className="border-l-4 border-orange-500 pl-4 my-4 italic text-muted-foreground">
+                <blockquote className="border-l-2 border-orange-400 pl-3 py-1 my-3 text-sm italic text-foreground/70">
                   {children}
                 </blockquote>
               ),
+              hr: () => (
+                <hr className="my-4 border-t border-border/50" />
+              ),
               table: ({ children }) => (
-                <div className="overflow-x-auto mb-4">
+                <div className="overflow-x-auto mb-3 rounded-lg border border-border">
                   <table className="min-w-full text-sm border-collapse">{children}</table>
                 </div>
               ),
               th: ({ children }) => (
-                <th className="border border-border px-3 py-2 bg-muted text-left font-semibold">
+                <th className="border-b border-border px-3 py-2 bg-muted text-left font-semibold text-foreground text-xs">
                   {children}
                 </th>
               ),
               td: ({ children }) => (
-                <td className="border border-border px-3 py-2">{children}</td>
+                <td className="border-b border-border px-3 py-2 text-foreground/80 text-sm">{children}</td>
+              ),
+              a: ({ children, href }) => (
+                <a href={href} className="text-orange-600 dark:text-orange-400 underline underline-offset-2 hover:text-orange-700 dark:hover:text-orange-300" target="_blank" rel="noopener noreferrer">
+                  {children}
+                </a>
               ),
             }}
           >
@@ -251,76 +206,14 @@ export function ReviewScreen({
           />
         )}
 
-        {/* Blueprint info card for complete state */}
-        {isComplete && blueprint && (
-          <div className="mt-6 p-6 rounded-xl bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-950/40 dark:to-amber-950/40 border-2 border-orange-200 dark:border-orange-800">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-orange-500 text-white">
-                <Sparkles className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold">{blueprint.name}</h3>
-                <p className="text-xs text-muted-foreground">Blueprint Created Successfully</p>
-              </div>
-            </div>
-
-            {/* Blueprint Metadata */}
-            <div className="grid grid-cols-2 gap-3 text-sm">
-              <div className="p-2 rounded-lg bg-white/50 dark:bg-black/20">
-                <span className="text-xs text-muted-foreground block">Blueprint ID</span>
-                <code className="text-xs font-mono">{blueprint.id}</code>
-              </div>
-              {blueprint.manager_id && (
-                <div className="p-2 rounded-lg bg-white/50 dark:bg-black/20">
-                  <span className="text-xs text-muted-foreground block">Manager ID</span>
-                  <code className="text-xs font-mono">{blueprint.manager_id}</code>
-                </div>
-              )}
-              {blueprint.organization_id && (
-                <div className="p-2 rounded-lg bg-white/50 dark:bg-black/20">
-                  <span className="text-xs text-muted-foreground block">Organization ID</span>
-                  <code className="text-xs font-mono">{blueprint.organization_id}</code>
-                </div>
-              )}
-              {blueprint.share_type && (
-                <div className="p-2 rounded-lg bg-white/50 dark:bg-black/20">
-                  <span className="text-xs text-muted-foreground block">Visibility</span>
-                  <span className="text-xs capitalize">{blueprint.share_type}</span>
-                </div>
-              )}
-              {blueprint.created_at && (
-                <div className="p-2 rounded-lg bg-white/50 dark:bg-black/20 col-span-2">
-                  <span className="text-xs text-muted-foreground block">Created At</span>
-                  <span className="text-xs">{new Date(blueprint.created_at).toLocaleString()}</span>
-                </div>
-              )}
-            </div>
-
-            {/* Export to YAML button */}
-            {agentSpecs.length > 0 && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleExport}
-                disabled={isExporting}
-                className="mt-4 w-full border-orange-300 hover:bg-orange-100 dark:border-orange-700 dark:hover:bg-orange-900/30"
-              >
-                {isExporting ? (
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                ) : (
-                  <Download className="h-4 w-4 mr-2" />
-                )}
-                {isExporting ? "Exporting..." : "Export to YAML"}
-              </Button>
-            )}
-
-            {/* Manager Chat */}
-            {blueprint.manager_id && (
-              <ManagerChat
-                managerId={blueprint.manager_id}
-                className="mt-4"
-              />
-            )}
+        {/* Blueprint complete state - Chat-focused UI */}
+        {isComplete && blueprint && blueprint.manager_id && (
+          <div className="flex flex-col h-full">
+            <ManagerChat
+              managerId={blueprint.manager_id}
+              blueprintId={blueprint.id}
+              className="flex-1 min-h-[400px]"
+            />
           </div>
         )}
       </div>

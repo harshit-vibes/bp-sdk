@@ -51,7 +51,7 @@ test.describe('GuidedChat - Statement Builder', () => {
     await expect(page.getByRole('dialog')).toBeVisible();
 
     // Select "Product Manager"
-    await page.getByText('Product Manager').click();
+    await page.getByRole('button', { name: /Product Manager/i }).click();
 
     // Dialog should close
     await expect(page.getByRole('dialog')).not.toBeVisible();
@@ -88,15 +88,15 @@ test.describe('GuidedChat - Statement Builder', () => {
   test('should enable submit button when all slots are filled', async ({ page }) => {
     // Fill role
     await page.locator('button').filter({ hasText: 'role' }).first().click();
-    await page.getByText('Product Manager').click();
+    await page.getByRole('button', { name: /Product Manager/i }).click();
 
     // Fill problem
     await page.locator('button').filter({ hasText: 'problem to solve' }).first().click();
-    await page.getByText('Automate Repetitive Work').click();
+    await page.getByRole('button', { name: /Automate Repetitive Work/i }).click();
 
     // Fill domain
     await page.locator('button').filter({ hasText: 'area' }).first().click();
-    await page.getByText('Customer Support').click();
+    await page.getByRole('button', { name: /Customer Support/i }).first().click();
 
     // Submit button should now be enabled
     const submitButton = page.getByRole('button', { name: /start building/i });
@@ -108,13 +108,13 @@ test.describe('GuidedChat - Statement Builder', () => {
 
     // Fill all slots
     await main.locator('button').filter({ hasText: 'role' }).first().click();
-    await page.getByRole('dialog').getByText('Product Manager').click();
+    await page.getByRole('dialog').getByRole('button', { name: /Product Manager/i }).click();
 
     await main.locator('button').filter({ hasText: 'problem to solve' }).first().click();
-    await page.getByRole('dialog').getByText('Lead Qualification').click();
+    await page.getByRole('dialog').getByRole('button', { name: /Lead Qualification/i }).click();
 
     await main.locator('button').filter({ hasText: 'area' }).first().click();
-    await page.getByRole('dialog').getByText('Sales').click();
+    await page.getByRole('dialog').getByRole('button', { name: /Sales/i }).first().click();
 
     // Check that selected values are shown in the statement (lowercase)
     await expect(main.getByText('product manager')).toBeVisible();
@@ -139,7 +139,7 @@ test.describe('GuidedChat - Statement Builder', () => {
 
     // Fill role
     await main.locator('button').filter({ hasText: 'role' }).first().click();
-    await page.getByRole('dialog').getByText('Product Manager').click();
+    await page.getByRole('dialog').getByRole('button', { name: /Product Manager/i }).click();
 
     // Verify selection
     await expect(main.getByText('product manager')).toBeVisible();
@@ -149,7 +149,7 @@ test.describe('GuidedChat - Statement Builder', () => {
     await expect(page.getByRole('dialog')).toBeVisible();
 
     // Select different role
-    await page.getByRole('dialog').getByText('Sales Leader').click();
+    await page.getByRole('dialog').getByRole('button', { name: /Sales Leader/i }).click();
 
     // Verify new selection
     await expect(main.getByText('sales leader')).toBeVisible();
@@ -165,13 +165,13 @@ test.describe('GuidedChat - Submission Flow', () => {
   test('should submit statement and transition to review screen', async ({ page }) => {
     // Fill all slots
     await page.locator('button').filter({ hasText: 'role' }).first().click();
-    await page.getByText('Product Manager').click();
+    await page.getByRole('button', { name: /Product Manager/i }).click();
 
     await page.locator('button').filter({ hasText: 'problem to solve' }).first().click();
-    await page.getByText('Automate Repetitive Work').click();
+    await page.getByRole('button', { name: /Automate Repetitive Work/i }).click();
 
     await page.locator('button').filter({ hasText: 'area' }).first().click();
-    await page.getByText('Customer Support').click();
+    await page.getByRole('button', { name: /Customer Support/i }).first().click();
 
     // Submit
     const submitButton = page.getByRole('button', { name: /start building/i });
@@ -190,13 +190,13 @@ test.describe('GuidedChat - Submission Flow', () => {
   test('should show loading state during API call', async ({ page }) => {
     // Fill all slots
     await page.locator('button').filter({ hasText: 'role' }).first().click();
-    await page.getByText('Product Manager').click();
+    await page.getByRole('button', { name: /Product Manager/i }).click();
 
     await page.locator('button').filter({ hasText: 'problem to solve' }).first().click();
-    await page.getByText('Automate Repetitive Work').click();
+    await page.getByRole('button', { name: /Automate Repetitive Work/i }).click();
 
     await page.locator('button').filter({ hasText: 'area' }).first().click();
-    await page.getByText('Customer Support').click();
+    await page.getByRole('button', { name: /Customer Support/i }).first().click();
 
     // Submit
     const submitButton = page.getByRole('button', { name: /start building/i });

@@ -5,9 +5,9 @@ import { Silk } from "@/components/ui/silk";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen w-full overflow-hidden">
-      {/* Animated Silk Background */}
-      <div className="absolute inset-0">
+    <div className="relative min-h-dvh w-full overflow-hidden">
+      {/* Animated Silk Background - hidden on mobile for performance */}
+      <div className="absolute inset-0 hidden sm:block">
         <Silk
           speed={1.7}
           scale={1}
@@ -17,9 +17,10 @@ export default function Home() {
         />
       </div>
 
-      {/* Blueprint Builder App */}
-      <div className="relative z-10 flex min-h-screen items-center justify-center p-4">
-        <div className="w-full max-w-2xl h-[90vh] rounded-2xl overflow-hidden shadow-2xl bg-background/95 backdrop-blur-sm">
+      {/* Mobile: Full viewport with solid background */}
+      {/* Desktop: Centered card with backdrop blur */}
+      <div className="relative z-10 flex min-h-dvh w-full items-center justify-center p-0 sm:p-4">
+        <div className="w-full h-dvh sm:h-[90vh] sm:max-w-2xl sm:rounded-2xl overflow-hidden sm:shadow-2xl bg-background sm:bg-background/95 sm:backdrop-blur-sm">
           <AppShell />
         </div>
       </div>

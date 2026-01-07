@@ -4,7 +4,7 @@ import { useMemo, useState, useCallback, useEffect } from "react";
 import { useBuilder } from "@/lib/hooks/use-builder";
 import { DEFAULT_STATEMENT_TEMPLATE } from "@/lib/schemas/selector";
 import { StageHeader } from "./stage-header";
-import { ActionGroup, buildAgentSteps } from "@/components/builder";
+import { ActionGroup } from "@/components/builder";
 import { GuidedChat } from "@/components/screens/guided-chat";
 import { ReviewScreen } from "@/components/screens/review-screen";
 import { SetupScreen, getStoredCredentials, type ApiCredentials } from "@/components/screens";
@@ -53,27 +53,28 @@ export function AppShell({ className }: AppShellProps) {
   // State for GuidedChat statement
   const [statementReady, setStatementReady] = useState(false);
   const [currentStatement, setCurrentStatement] = useState<string | null>(null);
+  // State for GuidedChat slot selections (persisted across navigation)
+  const [slotSelections, setSlotSelections] = useState<Record<string, string | null>>({});
 
-  // Track max reached stage for navigation
-  const [maxReachedStage, setMaxReachedStage] = useState(1);
-
-  // Update max reached stage when current stage advances
-  // Also reset all local state when builder stage goes back to "define" (after reset)
+  // Reset local state when builder goes back to "define" (after reset)
   useEffect(() => {
-    if (builder.stage === 1 && builder.builderStage === "define" && !builder.sessionId) {
+    if (builder.builderStage === "define" && !builder.sessionId) {
       // Reset all local state when starting fresh (no session = new journey)
-      setMaxReachedStage(1);
       setStatementReady(false);
       setCurrentStatement(null);
-    } else if (builder.stage > maxReachedStage) {
-      setMaxReachedStage(builder.stage);
+      setSlotSelections({});
     }
-  }, [builder.stage, builder.builderStage, builder.sessionId, maxReachedStage]);
+  }, [builder.builderStage, builder.sessionId]);
 
   // Handle statement changes from GuidedChat
   const handleStatementChange = useCallback((canSubmit: boolean, statement: string | null) => {
     setStatementReady(canSubmit);
     setCurrentStatement(statement);
+  }, []);
+
+  // Handle slot selection changes from GuidedChat (for persistence)
+  const handleSelectionsChange = useCallback((selections: Record<string, string | null>) => {
+    setSlotSelections(selections);
   }, []);
 
   // Handle submit for GuidedChat
@@ -86,7 +87,12 @@ export function AppShell({ className }: AppShellProps) {
   // Handle primary action based on stage
   const handlePrimary = useCallback(() => {
     if (builder.actionMode === "submit") {
-      handleSubmitStatement();
+      // If in read-only mode, enter edit mode first
+      if (builder.isDefineReadOnly) {
+        builder.enterDefineEditMode();
+      } else {
+        handleSubmitStatement();
+      }
     } else if (builder.builderStage === "design-review") {
       builder.approveArchitecture();
     } else if (builder.builderStage === "craft-review") {
@@ -103,21 +109,17 @@ export function AppShell({ className }: AppShellProps) {
     }
   }, [builder]);
 
-  // Check if we're in "restarting" mode
-  const isRestarting = builder.stage === 1 && maxReachedStage > 1;
-
   // Determine if primary button should be disabled
   const isPrimaryDisabled = useMemo(() => {
     if (builder.isLoading) return true;
     if (builder.actionMode === "submit") {
+      // In read-only mode, Edit button is always enabled
+      if (builder.isDefineReadOnly) return false;
+      // In edit mode, only enable when statement is ready
       return !statementReady;
     }
-    // Disable approve button if there are validation errors
-    if (builder.validationResult?.errors && builder.validationResult.errors.length > 0) {
-      return true;
-    }
     return false;
-  }, [builder.actionMode, builder.isLoading, statementReady, builder.validationResult]);
+  }, [builder.actionMode, builder.isLoading, builder.isDefineReadOnly, statementReady]);
 
   // Convert blueprintResult to the format expected by ReviewScreen
   const blueprintInfo = builder.blueprintResult ? {
@@ -129,19 +131,6 @@ export function AppShell({ className }: AppShellProps) {
     created_at: builder.blueprintResult.created_at,
     share_type: builder.blueprintResult.share_type,
   } : undefined;
-
-  // Build agent steps for the stepper (only during Build stage)
-  const agentSteps = useMemo(() => {
-    // Only show stepper during craft-review stage
-    if (builder.builderStage !== "craft-review") {
-      return [];
-    }
-    return buildAgentSteps(
-      builder.architecture,
-      builder.currentAgentIndex,
-      builder.agentSpecs.length
-    );
-  }, [builder.architecture, builder.currentAgentIndex, builder.agentSpecs.length, builder.builderStage]);
 
   // Edit mode: Build form items for current agent spec
   const editItems = useMemo(() => {
@@ -180,6 +169,33 @@ export function AppShell({ className }: AppShellProps) {
     builder.updateAgentSpec(updates);
   }, [builder]);
 
+  // Build revision context for suggestions
+  const revisionContext = useMemo(() => {
+    if (!builder.sessionId) return undefined;
+
+    // For architecture review
+    if (builder.builderStage === "design-review") {
+      return {
+        sessionId: builder.sessionId,
+        type: "architecture" as const,
+      };
+    }
+
+    // For agent review
+    if (builder.builderStage === "craft-review" && builder.currentAgentSpec) {
+      return {
+        sessionId: builder.sessionId,
+        type: "agent" as const,
+        agentName: builder.currentAgentSpec.name,
+        role: builder.currentAgentSpec.role,
+        goal: builder.currentAgentSpec.goal,
+        instructions: builder.currentAgentSpec.instructions,
+      };
+    }
+
+    return undefined;
+  }, [builder.sessionId, builder.builderStage, builder.currentAgentSpec]);
+
   // Show loading state while checking for stored credentials
   if (isSetupComplete === null) {
     return (
@@ -205,11 +221,25 @@ export function AppShell({ className }: AppShellProps) {
         className
       )}
     >
-      {/* Header - title, instruction, and stage progress */}
+      {/* Header - title, instruction, and unified stage progress */}
       <StageHeader
-        stage={builder.stage}
-        maxReachedStage={maxReachedStage}
-        onStageClick={() => {}}
+        unifiedStage={builder.unifiedStage}
+        buildProgress={builder.buildProgress}
+        buildSubSteps={builder.buildSubSteps}
+        // -1 during architecture review (no agent selected), otherwise current agent index
+        currentSubStep={builder.builderStage === "design-review" ? -1 : builder.currentAgentIndex}
+        maxCompletedSubStep={builder.agentSpecs.length - 1}
+        hasBuildProgress={builder.architecture !== null}
+        onStageClick={(stage) => {
+          if (stage === "define") {
+            builder.navigateToDefine();
+          } else if (stage === "build") {
+            builder.navigateToBuild();
+          }
+        }}
+        onSubStepClick={builder.navigateToSubStep}
+        isArchitectureReview={builder.builderStage === "design-review"}
+        currentAgentName={builder.currentAgentSpec?.name}
       />
 
       {/* Main Content - takes remaining space */}
@@ -217,7 +247,10 @@ export function AppShell({ className }: AppShellProps) {
         {builder.screenType === "guided-chat" ? (
           <GuidedChat
             template={DEFAULT_STATEMENT_TEMPLATE}
+            initialSelections={slotSelections}
             onStatementChange={handleStatementChange}
+            onSelectionsChange={handleSelectionsChange}
+            disabled={builder.isDefineReadOnly}
           />
         ) : (
           <ReviewScreen
@@ -228,13 +261,12 @@ export function AppShell({ className }: AppShellProps) {
             infoAnswers={{}}
             onInfoChange={() => {}}
             infoDisabled={builder.isLoading}
-            agentSteps={agentSteps}
-            validationResult={builder.validationResult}
             isEditMode={builder.isEditMode}
             editItems={editItems}
             editAnswers={editAnswers}
             onEditChange={handleEditChange}
-            agentSpecs={builder.agentSpecs}
+            isLoading={builder.isLoading}
+            builderStage={builder.builderStage}
           />
         )}
       </main>
@@ -254,7 +286,9 @@ export function AppShell({ className }: AppShellProps) {
         isDisabled={isPrimaryDisabled}
         primaryLabel={
           builder.actionMode === "submit"
-            ? (isRestarting ? "Restart & Build" : "Start Building")
+            ? builder.isDefineReadOnly
+              ? "Edit"
+              : "Start Building"
             : builder.builderStage === "design-review"
               ? "Approve Architecture"
               : builder.builderStage === "craft-review"
@@ -265,12 +299,19 @@ export function AppShell({ className }: AppShellProps) {
         onSecondary={handleSecondary}
         onCreateAnother={builder.reset}
         blueprintUrl={builder.blueprintResult?.studio_url}
-        blueprintName={builder.blueprintResult?.blueprint_id}
-        validationResult={builder.validationResult}
+        blueprintName={builder.blueprintResult?.blueprint_name}
         isEditMode={builder.isEditMode}
-        onEdit={builder.builderStage === "craft-review" ? builder.enterEditMode : undefined}
         onCancelEdit={builder.exitEditMode}
         onSaveEdit={builder.saveEditedAgent}
+        revisionContext={revisionContext}
+        blueprintContext={builder.blueprintResult ? {
+          sessionId: builder.blueprintResult.session_id,
+          blueprintName: builder.blueprintResult.blueprint_name,
+          agentTypes: [
+            "manager",
+            ...builder.blueprintResult.worker_ids.map(() => "worker")
+          ],
+        } : undefined}
       />
     </div>
   );

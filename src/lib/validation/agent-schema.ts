@@ -124,7 +124,7 @@ export function validateAgentSpec(spec: AgentYAMLSpec): ValidationResult {
     });
   }
 
-  // Role validation (15-80 chars, no generic terms)
+  // Role validation (15-80 chars)
   if (spec.role) {
     if (spec.role.length < FIELD_CONSTRAINTS.role.min) {
       errors.push({
@@ -139,19 +139,7 @@ export function validateAgentSpec(spec: AgentYAMLSpec): ValidationResult {
         type: "error",
       });
     }
-
-    // Check for generic terms
-    const lowerRole = spec.role.toLowerCase();
-    for (const term of GENERIC_TERMS) {
-      if (lowerRole.includes(term)) {
-        warnings.push({
-          field: "role",
-          message: `Role contains generic term "${term}". Use more specific terminology.`,
-          type: "warning",
-        });
-        break;
-      }
-    }
+    // Note: Generic terms check moved to background quality validation (auto-retry)
   }
 
   // Goal validation (50-300 chars)
@@ -206,49 +194,16 @@ export function validateAgentSpec(spec: AgentYAMLSpec): ValidationResult {
     }
   }
 
-  // Model validation (warning for unknown models, not error)
-  if (spec.model) {
-    if (!VALID_MODELS.includes(spec.model)) {
-      // Check if it looks like a valid model format (provider/model-name)
-      const hasValidFormat = /^[a-z]+\/[a-z0-9.-]+$/i.test(spec.model) ||
-                            /^gpt-[0-9.]+(-[a-z]+)?$/i.test(spec.model);
-      if (!hasValidFormat) {
-        warnings.push({
-          field: "model",
-          message: `Unknown model "${spec.model}". Ensure it's a valid model identifier.`,
-          type: "warning",
-        });
-      }
-    }
-  } else {
+  // Model validation (required field only - don't warn about unknown models)
+  if (!spec.model) {
     errors.push({
       field: "model",
       message: "Model is required",
       type: "error",
     });
   }
-
-  // Features validation
-  if (spec.features && Array.isArray(spec.features)) {
-    for (const feature of spec.features) {
-      if (!VALID_FEATURES.includes(feature)) {
-        warnings.push({
-          field: "features",
-          message: `Unknown feature "${feature}"`,
-          type: "warning",
-        });
-      }
-    }
-  }
-
-  // Worker-specific: usage_description required for non-managers
-  if (!spec.is_manager && (!spec.usage_description || spec.usage_description.trim() === "")) {
-    warnings.push({
-      field: "usage_description",
-      message: "Workers should have a usage description explaining when the manager should use this worker",
-      type: "warning",
-    });
-  }
+  // Note: Unknown model/feature warnings removed - model lists are never complete
+  // Note: usage_description warning removed - handled at generation time
 
   // Calculate quality score
   const score = calculateQualityScore(spec, errors, warnings);

@@ -24,15 +24,22 @@ import type {
   AgentYAMLSpec,
   BuilderStage,
 } from "@/lib/types";
-import { validateAgentSpec, type ValidationResult } from "@/lib/validation";
+import {
+  validateAgentSpec,
+  validateArchitectureGate,
+  validateAgentGate,
+  buildAndValidateBlueprintRequest,
+  detectPlaceholders,
+  GENERIC_TERMS,
+  type ValidationResult,
+} from "@/lib/validation";
+import { toFlatAgentSpecs } from "@/lib/schemas";
 import {
   saveAgentToSession,
   saveBlueprintToSession,
   clearSession,
 } from "@/lib/stores";
-
-// UI Stage mapping (for header display)
-export type UIStage = 1 | 2 | 3 | 4 | 5;
+import type { UnifiedStage, BuildProgress } from "@/lib/schemas/stage";
 
 // Action mode for footer buttons
 export type ActionMode = "submit" | "hitl" | "complete" | "loading";
@@ -40,12 +47,30 @@ export type ActionMode = "submit" | "hitl" | "complete" | "loading";
 // Screen type
 export type ScreenType = "guided-chat" | "review";
 
+/**
+ * Sub-step within the Build stage
+ */
+export interface BuildSubStep {
+  id: string;
+  label: string;
+  index: number;
+}
+
 interface UseBuilderReturn {
   // Stage info
-  stage: UIStage;
   builderStage: BuilderStage;
   actionMode: ActionMode;
   screenType: ScreenType;
+
+  // Unified stage progress (3-stage: Define → Build → Complete)
+  unifiedStage: UnifiedStage;
+  buildProgress: BuildProgress | undefined;
+
+  // Navigation
+  buildSubSteps: BuildSubStep[];
+  navigateToDefine: () => void;
+  navigateToBuild: () => void;
+  navigateToSubStep: (index: number) => void;
 
   // Data
   sessionId: string | null;
@@ -84,6 +109,10 @@ interface UseBuilderReturn {
   exitEditMode: () => void;
   updateAgentSpec: (spec: Partial<AgentYAMLSpec>) => void;
   saveEditedAgent: () => void;
+
+  // Define step edit mode
+  isDefineReadOnly: boolean;
+  enterDefineEditMode: () => void;
 }
 
 export function useBuilder(): UseBuilderReturn {
@@ -98,9 +127,18 @@ export function useBuilder(): UseBuilderReturn {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Preserved pattern from architecture (Gate 1 output)
+  const [orchestrationPattern, setOrchestrationPattern] = useState<
+    "single_agent" | "manager_workers"
+  >("manager_workers");
+
   // Edit mode state
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedSpec, setEditedSpec] = useState<AgentYAMLSpec | null>(null);
+
+  // Define step: read-only mode when returning from Build
+  // When true, options are disabled until user clicks "Edit"
+  const [isDefineReadOnly, setIsDefineReadOnly] = useState(false);
 
   // === DERIVED VALUES ===
 
@@ -118,25 +156,6 @@ export function useBuilder(): UseBuilderReturn {
     return null;
   }, [builderStage, agentSpecs, currentAgentIndex]);
 
-  // Map builder stage to UI stage (1-5)
-  const stage: UIStage = useMemo(() => {
-    switch (builderStage) {
-      case "define":
-        return 1;
-      case "designing":
-      case "design-review":
-        return 3; // Skip to Design (no Explore phase in new flow)
-      case "crafting":
-      case "craft-review":
-        return 4;
-      case "creating":
-      case "complete":
-        return 5;
-      default:
-        return 1;
-    }
-  }, [builderStage]);
-
   // Action mode for footer buttons
   const actionMode: ActionMode = useMemo(() => {
     if (isLoading) return "loading";
@@ -150,6 +169,62 @@ export function useBuilder(): UseBuilderReturn {
   const screenType: ScreenType = useMemo(() => {
     return builderStage === "define" ? "guided-chat" : "review";
   }, [builderStage]);
+
+  // Unified stage (3-stage progress: Define → Build → Complete)
+  const unifiedStage: UnifiedStage = useMemo(() => {
+    if (builderStage === "define") return "define";
+    if (builderStage === "complete") return "complete";
+    return "build"; // designing, design-review, crafting, craft-review, creating
+  }, [builderStage]);
+
+  // Build progress (N/M for the Build stage - agents only)
+  const buildProgress: BuildProgress | undefined = useMemo(() => {
+    if (unifiedStage !== "build") return undefined;
+
+    // Total = just the agents (no architecture step)
+    const total = totalAgents;
+
+    // Current progress based on stage
+    let current = 0;
+    if (builderStage === "designing" || builderStage === "design-review") {
+      current = 0; // Architecture phase, no agents yet
+    } else if (builderStage === "crafting") {
+      current = currentAgentIndex; // Working on agent N (0-indexed)
+    } else if (builderStage === "craft-review") {
+      current = currentAgentIndex + 1; // Agent N done (1-indexed for display)
+    } else if (builderStage === "creating") {
+      current = total; // All agents done
+    }
+
+    return { current, total };
+  }, [unifiedStage, builderStage, totalAgents, currentAgentIndex]);
+
+  // Build sub-steps for navigation (shown during Build stage including architecture review)
+  const buildSubSteps: BuildSubStep[] = useMemo(() => {
+    // Show sub-steps during entire Build stage (architecture + crafting)
+    if (unifiedStage !== "build" || !architecture) return [];
+    // Don't show during designing (loading) phase
+    if (builderStage === "designing") return [];
+
+    const steps: BuildSubStep[] = [];
+
+    // Add agent steps - manager first, then workers
+    steps.push({
+      id: "manager",
+      label: architecture.manager.name,
+      index: 0,
+    });
+
+    architecture.workers.forEach((worker, i) => {
+      steps.push({
+        id: `worker-${i}`,
+        label: worker.name,
+        index: i + 1, // 0 = manager, 1+ = workers
+      });
+    });
+
+    return steps;
+  }, [unifiedStage, builderStage, architecture]);
 
   // Review content (markdown for display)
   const reviewContent = useMemo(() => {
@@ -166,7 +241,8 @@ export function useBuilder(): UseBuilderReturn {
     }
 
     if (builderStage === "complete" && blueprintResult) {
-      return `# Blueprint Created!\n\nYour blueprint **${blueprintResult.blueprint_id}** has been created successfully.`;
+      // Content is displayed via the compact header + chat UI, no markdown needed
+      return "";
     }
 
     return "";
@@ -280,6 +356,16 @@ Requirements: ${requirements || ""}`;
   // === ACTIONS ===
 
   const submitStatement = useCallback(async (statement: string) => {
+    // Smart reset: only clear progress if statement changed AND we have existing progress
+    const isNewStatement = requirements && statement !== requirements;
+    if (isNewStatement && (architecture || agentSpecs.length > 0)) {
+      setArchitecture(null);
+      setAgentSpecs([]);
+      setCurrentAgentIndex(0);
+      setBlueprintResult(null);
+      setOrchestrationPattern("manager_workers");
+    }
+
     setIsLoading(true);
     setError(null);
     setBuilderStage("designing");
@@ -287,6 +373,22 @@ Requirements: ${requirements || ""}`;
 
     try {
       const result = await callArchitect(statement);
+
+      // Gate 1: Validate architecture output
+      const gate = validateArchitectureGate({
+        pattern: result.pattern,
+        reasoning: result.reasoning,
+        manager: result.manager,
+        workers: result.workers,
+      });
+
+      if (!gate.valid) {
+        console.warn("Architecture gate validation failed:", gate.errors);
+        // Continue anyway but log the issues - architecture is still usable
+      }
+
+      // Preserve pattern type from architecture
+      setOrchestrationPattern(result.pattern);
       setSessionId(result.session_id);
       setArchitecture(result);
       setBuilderStage("design-review");
@@ -296,22 +398,25 @@ Requirements: ${requirements || ""}`;
     } finally {
       setIsLoading(false);
     }
-  }, [callArchitect]);
+  }, [callArchitect, requirements, architecture, agentSpecs]);
 
-  const craftNextAgent = useCallback(async (retryCount = 0) => {
+  const craftNextAgent = useCallback(async (agentIndex?: number, retryCount = 0) => {
     if (!architecture) return;
 
-    const MAX_RETRIES = 2;
+    // Use passed index or fall back to current state (for initial call)
+    const indexToUse = agentIndex ?? currentAgentIndex;
+
+    const MAX_RETRIES = 5;
 
     setIsLoading(true);
     setError(null);
     setBuilderStage("crafting");
 
     try {
-      const isManager = currentAgentIndex === 0;
+      const isManager = indexToUse === 0;
       const agentInfo = isManager
         ? architecture.manager
-        : architecture.workers[currentAgentIndex - 1];
+        : architecture.workers[indexToUse - 1];
 
       const workerNames = isManager
         ? architecture.workers.map(w => w.name)
@@ -325,23 +430,39 @@ Requirements: ${requirements || ""}`;
         workerNames
       );
 
-      // Validate the generated agent spec
-      const validation = validateAgentSpec(result.agent_yaml);
-
-      // If validation has errors and we haven't exceeded retries, retry
-      if (!validation.valid && retryCount < MAX_RETRIES) {
-        console.log(`Agent QC failed (attempt ${retryCount + 1}/${MAX_RETRIES}), retrying...`);
-        // Retry with incremented count
-        return craftNextAgent(retryCount + 1);
+      // === Background Quality Gate ===
+      // All quality issues trigger automatic retry - user never sees them
+      const shouldRetry = checkAgentQuality(result.agent_yaml);
+      if (shouldRetry && retryCount < MAX_RETRIES) {
+        console.log(`Agent quality check failed (attempt ${retryCount + 1}/${MAX_RETRIES}), retrying...`);
+        return craftNextAgent(indexToUse, retryCount + 1);
       }
 
-      setAgentSpecs(prev => [...prev, result.agent_yaml]);
+      // If still failing after all retries, show error
+      if (shouldRetry) {
+        throw new Error(
+          "Unable to generate a valid agent configuration. " +
+          "The app is experiencing an issue. Please report to harshit.choudhary@lyzr.ai"
+        );
+      }
+
+      // Ensure manager has sub_agents linking to workers
+      const agentYaml = result.agent_yaml;
+      if (isManager && architecture.workers.length > 0) {
+        // Generate worker filenames to set as sub_agents
+        const workerFilenames = architecture.workers.map((w) =>
+          `${w.name.toLowerCase().replace(/\s+/g, "-")}.yaml`
+        );
+        agentYaml.sub_agents = workerFilenames;
+      }
+
+      setAgentSpecs((prev) => [...prev, agentYaml]);
       setBuilderStage("craft-review");
 
       // Save agent YAML to session store
-      saveAgentToSession(result.agent_yaml);
+      saveAgentToSession(agentYaml);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to craft agent");
+      setError(err instanceof Error ? err.message : "Failed to craft agent. Please report to harshit.choudhary@lyzr.ai");
       setBuilderStage("design-review");
     } finally {
       setIsLoading(false);
@@ -349,8 +470,8 @@ Requirements: ${requirements || ""}`;
   }, [architecture, currentAgentIndex, callCrafter]);
 
   const approveArchitecture = useCallback(async () => {
-    // Start crafting the first agent (manager)
-    await craftNextAgent();
+    // Start crafting the first agent (manager) - explicitly pass index 0
+    await craftNextAgent(0);
   }, [craftNextAgent]);
 
   const reviseArchitecture = useCallback(async (feedback: string) => {
@@ -359,6 +480,10 @@ Requirements: ${requirements || ""}`;
     setIsLoading(true);
     setError(null);
     setBuilderStage("designing");
+
+    // Reset agent-related state when architecture is revised
+    setAgentSpecs([]);
+    setCurrentAgentIndex(0);
 
     try {
       // Include feedback in requirements
@@ -379,9 +504,9 @@ Requirements: ${requirements || ""}`;
     const nextIndex = currentAgentIndex + 1;
 
     if (nextIndex < totalAgents) {
-      // More agents to craft
+      // More agents to craft - pass the next index explicitly to avoid stale closure
       setCurrentAgentIndex(nextIndex);
-      await craftNextAgent();
+      await craftNextAgent(nextIndex);
     } else {
       // All agents crafted, create blueprint
       setIsLoading(true);
@@ -389,8 +514,50 @@ Requirements: ${requirements || ""}`;
       setBuilderStage("creating");
 
       try {
+        // Pre-check: Scan all agents for placeholder text before sending to backend
+        for (const spec of agentSpecs) {
+          const fieldsToCheck = [
+            { name: "instructions", value: spec.instructions },
+            { name: "description", value: spec.description },
+            { name: "role", value: spec.role },
+            { name: "goal", value: spec.goal },
+            { name: "usage_description", value: spec.usage_description },
+          ].filter(f => f.value);
+
+          for (const field of fieldsToCheck) {
+            const placeholders = detectPlaceholders(field.value as string);
+            if (placeholders.length > 0) {
+              console.error(`Agent "${spec.name}" has placeholder in ${field.name}:`, placeholders);
+              setError(`Agent "${spec.name}" contains placeholder text in ${field.name}. Please revise.`);
+              setBuilderStage("craft-review");
+              setIsLoading(false);
+              return;
+            }
+          }
+        }
+
+        // Gate 3: Validate complete blueprint request before creating
+        const gate = buildAndValidateBlueprintRequest(
+          sessionId || "",
+          agentSpecs,
+          orchestrationPattern
+        );
+
+        if (!gate.valid) {
+          console.error("Blueprint validation failed:", gate.errors);
+          // Show first error to user
+          setError(`Validation failed: ${gate.errors[0]}`);
+          setBuilderStage("craft-review");
+          setIsLoading(false);
+          return;
+        }
+
+        // Convert validated hierarchical request to flat array for API
+        // (backward compatible until API is updated)
+        const flatRequest = toFlatAgentSpecs(gate.data!);
+
         // Pass all agent specs directly to ensure all workers are created
-        const result = await callCreate(agentSpecs);
+        const result = await callCreate(flatRequest.agent_specs);
         setBlueprintResult(result);
         setBuilderStage("complete");
 
@@ -409,7 +576,7 @@ Requirements: ${requirements || ""}`;
         setIsLoading(false);
       }
     }
-  }, [currentAgentIndex, totalAgents, craftNextAgent, callCreate, agentSpecs]);
+  }, [currentAgentIndex, totalAgents, craftNextAgent, callCreate, agentSpecs, sessionId, orchestrationPattern]);
 
   const reviseAgent = useCallback(async (feedback: string) => {
     if (!architecture) return;
@@ -467,11 +634,82 @@ Requirements: ${requirements || ""}`;
     setBlueprintResult(null);
     setIsLoading(false);
     setError(null);
+    setOrchestrationPattern("manager_workers");
     setIsEditMode(false);
     setEditedSpec(null);
+    setIsDefineReadOnly(false);
 
     // Clear YAML session store
     clearSession();
+  }, []);
+
+  // === NAVIGATION ACTIONS ===
+
+  /**
+   * Navigate back to Define stage - preserves Build progress
+   * Progress is only reset when user submits a NEW statement
+   * Sets read-only mode if there's existing progress (user must click Edit to change)
+   */
+  const navigateToDefine = useCallback(() => {
+    // Just switch stage - preserve all progress
+    setBuilderStage("define");
+    setIsEditMode(false);
+    setEditedSpec(null);
+    setError(null);
+    // If there's existing progress, enter read-only mode
+    // User must click "Edit" to modify the statement
+    if (architecture) {
+      setIsDefineReadOnly(true);
+    }
+    // Keep: architecture, agentSpecs, currentAgentIndex, blueprintResult, requirements
+  }, [architecture]);
+
+  /**
+   * Navigate to Build stage - always goes to Architecture review
+   * Click sub-steps to navigate to specific agents
+   */
+  const navigateToBuild = useCallback(() => {
+    if (!architecture) return; // No progress to return to
+    setBuilderStage("design-review");
+    setIsEditMode(false);
+    setEditedSpec(null);
+    setError(null);
+  }, [architecture]);
+
+  /**
+   * Navigate to a specific agent sub-step within Build stage
+   * Index 0 = Manager, 1+ = Workers
+   *
+   * Navigation rules:
+   * - Can navigate to any completed step (0 to agentSpecs.length - 1)
+   * - Cannot navigate beyond what's been completed
+   * - Going backward then forward doesn't reset progress (unless you make changes)
+   */
+  const navigateToSubStep = useCallback((targetIndex: number) => {
+    const maxCompleted = agentSpecs.length - 1;
+
+    // Can only navigate to completed steps
+    if (targetIndex > maxCompleted) return;
+
+    // Skip if already at this step
+    if (targetIndex === currentAgentIndex) return;
+
+    // Exit edit mode if active
+    setIsEditMode(false);
+    setEditedSpec(null);
+    setError(null);
+
+    // Navigate to the target agent review
+    setCurrentAgentIndex(targetIndex);
+    setBuilderStage("craft-review");
+  }, [agentSpecs.length, currentAgentIndex]);
+
+  /**
+   * Enter edit mode for Define step
+   * Enables the slot selectors so user can change their statement
+   */
+  const enterDefineEditMode = useCallback(() => {
+    setIsDefineReadOnly(false);
   }, []);
 
   // === EDIT MODE ACTIONS ===
@@ -523,10 +761,19 @@ Requirements: ${requirements || ""}`;
 
   return {
     // Stage info
-    stage,
     builderStage,
     actionMode,
     screenType,
+
+    // Unified stage progress (3-stage: Define → Build → Complete)
+    unifiedStage,
+    buildProgress,
+
+    // Navigation (use currentAgentIndex for current step, agentSpecs.length - 1 for max completed)
+    buildSubSteps,
+    navigateToDefine,
+    navigateToBuild,
+    navigateToSubStep,
 
     // Data
     sessionId,
@@ -565,6 +812,10 @@ Requirements: ${requirements || ""}`;
     exitEditMode,
     updateAgentSpec,
     saveEditedAgent,
+
+    // Define step edit mode
+    isDefineReadOnly,
+    enterDefineEditMode,
   };
 }
 
@@ -573,22 +824,29 @@ Requirements: ${requirements || ""}`;
 function generateArchitectureMarkdown(arch: ArchitectResponse): string {
   const lines: string[] = [];
 
-  lines.push(`## ${arch.reasoning}`);
+  // Summary as blockquote
+  lines.push(`> ${arch.reasoning}`);
   lines.push("");
-  lines.push(`**Pattern:** ${arch.pattern.replace(/_/g, " ")}`);
+  lines.push(`**Pattern:** \`${arch.pattern.replace(/_/g, " ")}\``);
+  lines.push("");
+  lines.push("---");
   lines.push("");
 
-  lines.push("### Manager Agent");
-  lines.push(`**${arch.manager.name}**`);
+  // Manager section
+  lines.push("## Manager");
+  lines.push("");
+  lines.push(`### ${arch.manager.name}`);
   lines.push("");
   lines.push(arch.manager.purpose);
   lines.push("");
 
+  // Workers section
   if (arch.workers.length > 0) {
-    lines.push("### Worker Agents");
+    lines.push("## Workers");
     lines.push("");
     for (const worker of arch.workers) {
-      lines.push(`#### ${worker.name}`);
+      lines.push(`### ${worker.name}`);
+      lines.push("");
       lines.push(worker.purpose);
       lines.push("");
     }
@@ -632,4 +890,45 @@ function generateAgentMarkdown(
   lines.push("```");
 
   return lines.join("\n");
+}
+
+/**
+ * Check agent quality - returns true if agent should be retried
+ * Consolidates all quality checks that would cause backend rejection
+ */
+function checkAgentQuality(spec: AgentYAMLSpec): boolean {
+  // 1. Check for placeholder text in critical fields
+  const textFields = [
+    spec.instructions,
+    spec.description,
+    spec.role,
+    spec.goal,
+    spec.usage_description,
+  ].filter(Boolean);
+
+  const hasPlaceholders = textFields.some(
+    (field) => detectPlaceholders(field as string).length > 0
+  );
+  if (hasPlaceholders) return true;
+
+  // 2. Check for generic terms in role (backend rejects these)
+  if (spec.role) {
+    const lowerRole = spec.role.toLowerCase();
+    const hasGenericTerm = GENERIC_TERMS.some((term) =>
+      lowerRole.includes(term.toLowerCase())
+    );
+    if (hasGenericTerm) return true;
+  }
+
+  // 3. Basic field validation (backend will reject)
+  if (!spec.name || spec.name.length < 1) return true;
+  if (!spec.description || spec.description.length < 20) return true;
+  if (!spec.instructions || spec.instructions.length < 50) return true;
+  if (!spec.model) return true;
+
+  // 4. Role/goal length validation
+  if (spec.role && (spec.role.length < 15 || spec.role.length > 80)) return true;
+  if (spec.goal && (spec.goal.length < 50 || spec.goal.length > 300)) return true;
+
+  return false;
 }

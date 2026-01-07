@@ -5,7 +5,7 @@
  * They require:
  * - The FastAPI backend running on port 8000
  * - The Next.js frontend running on port 3000
- * - Valid Lyzr credentials in .env
+ * - Valid Lyzr credentials in environment variables
  *
  * Run with: npm run test:e2e:integration
  *
@@ -23,19 +23,33 @@ import { test, expect, type Page } from '@playwright/test';
 // Increase timeout for real API calls (LLM responses take time)
 test.setTimeout(300000); // 5 minutes per test
 
+// Cookie names (must match setup-screen.tsx)
+const COOKIE_NAMES = {
+  API_KEY: "bp_builder_api_key",
+  BEARER_TOKEN: "bp_builder_bearer_token",
+  ORG_ID: "bp_builder_org_id",
+};
+
+// Load credentials from environment
+const CREDENTIALS = {
+  apiKey: process.env.LYZR_API_KEY || '',
+  bearerToken: process.env.BLUEPRINT_BEARER_TOKEN || '',
+  orgId: process.env.LYZR_ORG_ID || '',
+};
+
 // Helper to fill the statement builder
 async function fillStatementBuilder(page: Page) {
   // Fill role
   await page.locator('button').filter({ hasText: 'role' }).first().click();
-  await page.getByText('Product Manager').click();
+  await page.getByRole('button', { name: /Product Manager/i }).click();
 
   // Fill problem
   await page.locator('button').filter({ hasText: 'problem to solve' }).first().click();
-  await page.getByText('Automate Repetitive Work').click();
+  await page.getByRole('button', { name: /Automate Repetitive Work/i }).click();
 
   // Fill domain
   await page.locator('button').filter({ hasText: 'area' }).first().click();
-  await page.getByText('Customer Support').click();
+  await page.getByRole('button', { name: /Customer Support/i }).first().click();
 }
 
 // Helper to wait for loading to complete
@@ -49,6 +63,19 @@ async function waitForLoading(page: Page, timeout = 60000) {
   }
 }
 
+// Helper to set credentials cookies
+async function setCredentialsCookies(page: Page) {
+  if (!CREDENTIALS.apiKey || !CREDENTIALS.bearerToken || !CREDENTIALS.orgId) {
+    throw new Error('Missing credentials. Set LYZR_API_KEY, BLUEPRINT_BEARER_TOKEN, and LYZR_ORG_ID environment variables.');
+  }
+
+  await page.context().addCookies([
+    { name: COOKIE_NAMES.API_KEY, value: CREDENTIALS.apiKey, path: '/', domain: 'localhost' },
+    { name: COOKIE_NAMES.BEARER_TOKEN, value: CREDENTIALS.bearerToken, path: '/', domain: 'localhost' },
+    { name: COOKIE_NAMES.ORG_ID, value: CREDENTIALS.orgId, path: '/', domain: 'localhost' },
+  ]);
+}
+
 test.describe('Real Stage-Based Blueprint Building Journey', () => {
   test.beforeEach(async ({ page }) => {
     // Capture browser console logs for debugging (only errors)
@@ -57,6 +84,9 @@ test.describe('Real Stage-Based Blueprint Building Journey', () => {
         console.log(`[browser error] ${msg.text()}`);
       }
     });
+
+    // Set credentials cookies to skip setup screen
+    await setCredentialsCookies(page);
 
     await page.goto('/');
     await page.waitForLoadState('networkidle');
@@ -184,6 +214,9 @@ test.describe('Real Stage-Based Blueprint Building Journey', () => {
 test.describe('Create Another Flow', () => {
   test('should reset and start new journey', async ({ page }) => {
     const header = page.locator('header');
+
+    // Set credentials cookies to skip setup screen
+    await setCredentialsCookies(page);
 
     // First, complete a journey
     await page.goto('/');

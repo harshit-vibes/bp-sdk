@@ -1,7 +1,7 @@
 /**
  * Stage Schema Definitions
  *
- * Defines the structure for journey stages (Define, Explore, Design, Build, Launch)
+ * Unified 3-stage journey: Define → Build (N/M) → Complete
  */
 
 import { z } from "zod";
@@ -15,10 +15,23 @@ export const ScreenTypeSchema = z.enum(["guided-chat", "review"]);
 export type ScreenType = z.infer<typeof ScreenTypeSchema>;
 
 /**
+ * Unified stage type for simplified progress
+ */
+export type UnifiedStage = "define" | "build" | "complete";
+
+/**
+ * Build progress for the Build stage
+ */
+export interface BuildProgress {
+  current: number;
+  total: number;
+}
+
+/**
  * Stage schema - defines a single stage in the journey
  */
 export const StageSchema = z.object({
-  /** Unique stage identifier (1-5) */
+  /** Unique stage identifier (1-3 for unified stages) */
   id: z.number().int().min(1).max(5),
 
   /** Short stage name for footer indicator */
@@ -39,11 +52,35 @@ export type Stage = z.infer<typeof StageSchema>;
 /**
  * Stage list schema - the complete journey
  */
-export const StageListSchema = z.array(StageSchema).length(5);
+export const StageListSchema = z.array(StageSchema).min(3).max(5);
 export type StageList = z.infer<typeof StageListSchema>;
 
 /**
- * Default stages configuration
+ * Unified 3-stage configuration
+ */
+export const UNIFIED_STAGES: { id: UnifiedStage; name: string; title: string; instruction: string }[] = [
+  {
+    id: "define",
+    name: "Define",
+    title: "Define Your Problem",
+    instruction: "Click the underlined phrases to describe your problem",
+  },
+  {
+    id: "build",
+    name: "Build",
+    title: "Building Your Blueprint",
+    instruction: "Review and approve your agent specifications",
+  },
+  {
+    id: "complete",
+    name: "Complete",
+    title: "Blueprint Ready",
+    instruction: "Your blueprint has been created",
+  },
+];
+
+/**
+ * Default stages configuration (legacy, for backward compatibility)
  */
 export const DEFAULT_STAGES: StageList = [
   {
