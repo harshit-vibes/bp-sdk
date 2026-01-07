@@ -440,7 +440,7 @@ Requirements: ${requirements || ""}`;
         agentInfo.name,
         `${agentInfo.role}: ${agentInfo.goal}`,
         isCoordinator,
-        currentAgentIndex,
+        indexToUse,  // Fixed: was currentAgentIndex (stale state)
         specialistNames
       );
 
