@@ -101,41 +101,56 @@ export async function callAgentForJSON<T = Record<string, unknown>>(params: {
 }): Promise<T> {
   const { agentId, apiKey, sessionId, message, userId = "builder-user" } = params;
 
-  // Use non-streaming endpoint for JSON responses
-  const response = await fetch(`${AGENT_API_URL}/v3/inference/chat/`, {
-    method: "POST",
-    headers: {
-      "X-API-Key": apiKey,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      agent_id: agentId,
-      session_id: sessionId,
-      user_id: userId,
-      message,
-    }),
-  });
+  // Create abort controller for timeout (8 seconds to stay within Vercel's 10s limit)
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 8000);
 
-  if (!response.ok) {
-    const errorText = await response.text().catch(() => "Unknown error");
-    throw new Error(`Agent API error: ${response.status} - ${errorText}`);
+  try {
+    // Use non-streaming endpoint for JSON responses
+    const response = await fetch(`${AGENT_API_URL}/v3/inference/chat/`, {
+      method: "POST",
+      headers: {
+        "X-API-Key": apiKey,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        agent_id: agentId,
+        session_id: sessionId,
+        user_id: userId,
+        message,
+      }),
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      const errorText = await response.text().catch(() => "Unknown error");
+      throw new Error(`Agent API error: ${response.status} - ${errorText}`);
+    }
+
+    const data = await response.json();
+
+    // Debug logging
+    console.log("[callAgentForJSON] Raw API response keys:", Object.keys(data));
+    console.log("[callAgentForJSON] Response length:", JSON.stringify(data).length);
+
+    // Extract the response text from the API response structure
+    // API returns: { response: "...", session_id: "...", ... }
+    const responseText = data.response || data.message || data.content || JSON.stringify(data);
+
+    console.log("[callAgentForJSON] Response text length:", responseText.length);
+    console.log("[callAgentForJSON] Response text (first 500):", responseText.slice(0, 500));
+    console.log("[callAgentForJSON] Response text (last 200):", responseText.slice(-200));
+
+    return parseAgentJSON<T>(responseText);
+  } catch (error) {
+    clearTimeout(timeoutId);
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error('Agent request timed out after 8 seconds. The agent may be overloaded.');
+    }
+    throw error;
   }
-
-  const data = await response.json();
-
-  // Debug logging
-  console.log("[callAgentForJSON] Raw API response keys:", Object.keys(data));
-  console.log("[callAgentForJSON] Response length:", JSON.stringify(data).length);
-
-  // Extract the response text from the API response structure
-  // API returns: { response: "...", session_id: "...", ... }
-  const responseText = data.response || data.message || data.content || JSON.stringify(data);
-
-  console.log("[callAgentForJSON] Response text length:", responseText.length);
-  console.log("[callAgentForJSON] Response text (first 500):", responseText.slice(0, 500));
-  console.log("[callAgentForJSON] Response text (last 200):", responseText.slice(-200));
-
-  return parseAgentJSON<T>(responseText);
 }
 
 /**
