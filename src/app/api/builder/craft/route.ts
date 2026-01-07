@@ -97,11 +97,15 @@ ${context}${workerList}
 
 Return ONLY valid JSON with the agent_yaml specification.`;
 
-    // Call crafter agent
+    // Call crafter agent with unique session per agent to prevent memory contamination
+    // Each agent gets its own session so the LLM doesn't recall/repeat previous agents
+    // Include timestamp to ensure revisions also get fresh sessions
+    const craftSessionId = `${session_id}-craft-${agent_index}-${Date.now()}`;
+
     const result = await callAgentForJSON<CraftResult>({
       agentId: AGENT_IDS.crafter,
       apiKey,
-      sessionId: session_id,
+      sessionId: craftSessionId,
       message: prompt,
     });
 
