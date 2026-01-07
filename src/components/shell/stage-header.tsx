@@ -62,9 +62,9 @@ export function StageHeader({
   let title = stageData.title;
   if (unifiedStage === "build") {
     if (isArchitectureReview) {
-      title = "Review Architecture";
+      title = "Review Your Design";
     } else if (currentAgentName && buildProgress) {
-      title = `Review ${currentAgentName}`;
+      title = `Review: ${currentAgentName}`;
     }
   }
 

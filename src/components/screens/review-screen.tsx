@@ -88,7 +88,7 @@ export function ReviewScreen({
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground border-b pb-3">
               <Edit2 className="h-4 w-4" />
-              <span>Editing Agent Configuration</span>
+              <span>Edit Details</span>
             </div>
             <InfoItemsForm
               items={editItems}

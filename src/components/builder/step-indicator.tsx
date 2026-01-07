@@ -72,9 +72,9 @@ export function UnifiedStepIndicator({
   onSubStepClick,
 }: UnifiedStepIndicatorProps) {
   const stages: { id: UnifiedStage; label: string }[] = [
-    { id: "define", label: "Define" },
-    { id: "build", label: "Architect" },
-    { id: "complete", label: "Build" },
+    { id: "define", label: "Describe" },
+    { id: "build", label: "Design" },
+    { id: "complete", label: "Create" },
   ];
 
   const stageOrder: UnifiedStage[] = ["define", "build", "complete"];

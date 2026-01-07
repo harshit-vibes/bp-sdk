@@ -290,9 +290,9 @@ export function AppShell({ className }: AppShellProps) {
               ? "Edit"
               : "Start Building"
             : builder.builderStage === "design-review"
-              ? "Approve Architecture"
+              ? "Approve Design"
               : builder.builderStage === "craft-review"
-                ? `Approve Agent (${builder.currentAgentIndex + 1}/${builder.totalAgents})`
+                ? `Approve (${builder.currentAgentIndex + 1} of ${builder.totalAgents})`
                 : undefined
         }
         onPrimary={handlePrimary}

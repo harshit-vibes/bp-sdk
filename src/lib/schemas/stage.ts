@@ -61,21 +61,21 @@ export type StageList = z.infer<typeof StageListSchema>;
 export const UNIFIED_STAGES: { id: UnifiedStage; name: string; title: string; instruction: string }[] = [
   {
     id: "define",
-    name: "Define",
-    title: "Define Your Problem",
-    instruction: "Click the underlined phrases to describe your problem",
+    name: "Describe",
+    title: "Describe Your Need",
+    instruction: "Click the underlined words to describe what you need",
   },
   {
     id: "build",
-    name: "Build",
-    title: "Building Your Blueprint",
-    instruction: "Review and approve your agent specifications",
+    name: "Design",
+    title: "Design Your Solution",
+    instruction: "Review and approve your solution",
   },
   {
     id: "complete",
-    name: "Complete",
-    title: "Blueprint Ready",
-    instruction: "Your blueprint has been created",
+    name: "Create",
+    title: "Ready to Use",
+    instruction: "Your solution has been created",
   },
 ];
 
