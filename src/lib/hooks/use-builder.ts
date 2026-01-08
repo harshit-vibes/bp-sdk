@@ -768,8 +768,9 @@ Requirements: ${requirements || ""}`;
     // Can only navigate to completed steps
     if (targetIndex > maxCompleted) return;
 
-    // Skip if already at this step
-    if (targetIndex === currentAgentIndex) return;
+    // Skip if already at this step AND already in craft-review
+    // (allows navigating from design-review back to any agent)
+    if (targetIndex === currentAgentIndex && builderStage === "craft-review") return;
 
     // Exit edit mode if active
     setIsEditMode(false);
@@ -779,7 +780,7 @@ Requirements: ${requirements || ""}`;
     // Navigate to the target agent review
     setCurrentAgentIndex(targetIndex);
     setBuilderStage("craft-review");
-  }, [agentSpecs.length, currentAgentIndex]);
+  }, [agentSpecs.length, currentAgentIndex, builderStage]);
 
   /**
    * Enter edit mode for Define step
