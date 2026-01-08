@@ -71,6 +71,7 @@ interface UseBuilderReturn {
   buildSubSteps: BuildSubStep[];
   navigateToDefine: () => void;
   navigateToBuild: () => void;
+  navigateToComplete: () => void;
   navigateToSubStep: (index: number) => void;
 
   // Data
@@ -754,6 +755,18 @@ Requirements: ${requirements || ""}`;
   }, [architecture]);
 
   /**
+   * Navigate to Complete stage - shows the success screen
+   * Only works if blueprint has been created
+   */
+  const navigateToComplete = useCallback(() => {
+    if (!blueprintResult) return; // No blueprint to show
+    setBuilderStage("complete");
+    setIsEditMode(false);
+    setEditedSpec(null);
+    setError(null);
+  }, [blueprintResult]);
+
+  /**
    * Navigate to a specific agent sub-step within Build stage
    * Index 0 = Manager, 1+ = Workers
    *
@@ -851,6 +864,7 @@ Requirements: ${requirements || ""}`;
     buildSubSteps,
     navigateToDefine,
     navigateToBuild,
+    navigateToComplete,
     navigateToSubStep,
 
     // Data

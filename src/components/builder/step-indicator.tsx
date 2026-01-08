@@ -40,6 +40,8 @@ export interface UnifiedStepIndicatorProps {
   maxCompletedSubStep?: number;
   /** Whether Build stage has existing progress (allows clicking when on Define) */
   hasBuildProgress?: boolean;
+  /** Whether Complete stage has been reached (blueprint created) */
+  hasCompletedBlueprint?: boolean;
   /** Called when a main stage is clicked */
   onStageClick?: (stage: UnifiedStage) => void;
   /** Called when a sub-step is clicked */
@@ -68,6 +70,7 @@ export function UnifiedStepIndicator({
   currentSubStep = 0,
   maxCompletedSubStep = -1,
   hasBuildProgress = false,
+  hasCompletedBlueprint = false,
   onStageClick,
   onSubStepClick,
 }: UnifiedStepIndicatorProps) {
@@ -92,10 +95,12 @@ export function UnifiedStepIndicator({
           const isCurrent = s.id === stage;
           const isLast = index === stages.length - 1;
 
-          // Clickable if completed, or if it's Architect with progress
+          // Clickable if completed, or if it's Architect with progress, or if it's Create with completed blueprint
           const canClick = s.id === "build"
             ? (isCompleted || hasBuildProgress || (stage === "build" && buildProgress && buildProgress.current > 0))
-            : isCompleted;
+            : s.id === "complete"
+              ? (isCompleted || hasCompletedBlueprint)
+              : isCompleted;
           const isClickable = canClick && onStageClick;
 
           const handleClick = () => {

@@ -230,11 +230,14 @@ export function AppShell({ className }: AppShellProps) {
         currentSubStep={builder.builderStage === "design-review" ? -1 : builder.currentAgentIndex}
         maxCompletedSubStep={builder.agentSpecs.length - 1}
         hasBuildProgress={builder.architecture !== null}
+        hasCompletedBlueprint={builder.blueprintResult !== null}
         onStageClick={(stage) => {
           if (stage === "define") {
             builder.navigateToDefine();
           } else if (stage === "build") {
             builder.navigateToBuild();
+          } else if (stage === "complete") {
+            builder.navigateToComplete();
           }
         }}
         onSubStepClick={builder.navigateToSubStep}

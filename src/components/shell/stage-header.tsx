@@ -17,6 +17,8 @@ export interface StageHeaderProps {
   maxCompletedSubStep?: number;
   /** Whether Build stage has existing progress (allows clicking when on Define) */
   hasBuildProgress?: boolean;
+  /** Whether Complete stage has been reached (blueprint created) */
+  hasCompletedBlueprint?: boolean;
   /** Called when a main stage is clicked */
   onStageClick?: (stage: UnifiedStage) => void;
   /** Called when a sub-step is clicked */
@@ -50,6 +52,7 @@ export function StageHeader({
   currentSubStep,
   maxCompletedSubStep,
   hasBuildProgress,
+  hasCompletedBlueprint,
   onStageClick,
   onSubStepClick,
   isArchitectureReview,
@@ -88,6 +91,7 @@ export function StageHeader({
         currentSubStep={currentSubStep}
         maxCompletedSubStep={maxCompletedSubStep}
         hasBuildProgress={hasBuildProgress}
+        hasCompletedBlueprint={hasCompletedBlueprint}
         onStageClick={onStageClick}
         onSubStepClick={onSubStepClick}
       />
