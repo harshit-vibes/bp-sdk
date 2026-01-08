@@ -16,7 +16,7 @@
  * 7. Complete: Show success with Studio URL
  */
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import type {
   ArchitectResponse,
   CraftResponse,
@@ -131,6 +131,13 @@ export function useBuilder(): UseBuilderReturn {
   // Edit mode state
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedSpec, setEditedSpec] = useState<AgentYAMLSpec | null>(null);
+
+  // Ref to always have latest agentSpecs (fixes React closure stale state issues)
+  const agentSpecsRef = useRef<AgentYAMLSpec[]>([]);
+  useEffect(() => {
+    agentSpecsRef.current = agentSpecs;
+    console.log("[useBuilder] agentSpecsRef updated, count:", agentSpecs.length);
+  }, [agentSpecs]);
 
   // Define step: read-only mode when returning from Build
   // When true, options are disabled until user clicks "Edit"
@@ -472,7 +479,19 @@ Requirements: ${requirements || ""}`;
         agentYaml.sub_agents = specialistFilenames;
       }
 
-      setAgentSpecs((prev) => [...prev, agentYaml]);
+      // DEBUG: Log what's being added to state with unique identifier
+      const instrHash = agentYaml.instructions?.length || 0;
+      console.log(`[craftNextAgent] Adding agent to state: index=${indexToUse}, name="${agentYaml.name}", instrLen=${instrHash}`);
+      console.log(`[craftNextAgent] Agent role="${agentYaml.role}", goal first 50="${agentYaml.goal?.substring(0, 50)}"`);
+
+      setAgentSpecs((prev) => {
+        // Log ALL specs in the array to detect any duplication
+        console.log(`[craftNextAgent] State update: prev.length=${prev.length}, adding "${agentYaml.name}"`);
+        prev.forEach((spec, i) => {
+          console.log(`[craftNextAgent]   Existing[${i}]: name="${spec.name}", instrLen=${spec.instructions?.length}`);
+        });
+        return [...prev, agentYaml];
+      });
       setBuilderStage("craft-review");
 
       // Save agent YAML to session store
@@ -530,8 +549,12 @@ Requirements: ${requirements || ""}`;
       setBuilderStage("creating");
 
       try {
+        // IMPORTANT: Use ref to get latest state, avoiding stale closure issues
+        const currentSpecs = agentSpecsRef.current;
+        console.log("[useBuilder] Using agentSpecsRef.current, count:", currentSpecs.length);
+
         // Pre-check: Scan all agents for placeholder text before sending to backend
-        for (const spec of agentSpecs) {
+        for (const spec of currentSpecs) {
           const fieldsToCheck = [
             { name: "instructions", value: spec.instructions },
             { name: "description", value: spec.description },
@@ -552,12 +575,19 @@ Requirements: ${requirements || ""}`;
           }
         }
 
+        // DEBUG: Log agentSpecs before validation (using ref value)
+        console.log("[useBuilder] currentSpecs count:", currentSpecs.length);
+        currentSpecs.forEach((spec, i) => {
+          console.log(`[useBuilder] Agent ${i}: name="${spec.name}", is_manager=${spec.is_manager}`);
+          console.log(`[useBuilder] Agent ${i}: instructions first 100:`, spec.instructions?.substring(0, 100));
+        });
+
         // Gate 3: Validate complete blueprint request before creating
         // Derive pattern from agent count (no longer stored in state)
-        const derivedPattern = agentSpecs.length === 1 ? "single_agent" : "manager_workers";
+        const derivedPattern = currentSpecs.length === 1 ? "single_agent" : "manager_workers";
         const gate = buildAndValidateBlueprintRequest(
           sessionId || "",
-          agentSpecs,
+          currentSpecs,
           derivedPattern
         );
 
@@ -574,17 +604,24 @@ Requirements: ${requirements || ""}`;
         // (backward compatible until API is updated)
         const flatRequest = toFlatAgentSpecs(gate.data!);
 
+        // DEBUG: Log flatRequest after transformation
+        console.log("[useBuilder] flatRequest.agent_specs count:", flatRequest.agent_specs.length);
+        flatRequest.agent_specs.forEach((spec, i) => {
+          console.log(`[useBuilder] flatRequest[${i}]: name="${spec.name}", is_manager=${spec.is_manager}`);
+          console.log(`[useBuilder] flatRequest[${i}]: instructions first 100:`, spec.instructions?.substring(0, 100));
+        });
+
         // Generate README silently in background (don't block on failure)
         let readmeContent: string | undefined;
         if (AGENT_IDS.readmeBuilder && sessionId) {
           try {
-            const managerSpec = agentSpecs.find((s) => s.is_manager);
+            const managerSpec = currentSpecs.find((s) => s.is_manager);
             readmeContent = await generateReadme({
               agentId: AGENT_IDS.readmeBuilder,
               sessionId,
               blueprintName: managerSpec?.name?.replace("Coordinator", "Blueprint") || "Blueprint",
               blueprintDescription: managerSpec?.description || "AI agent blueprint",
-              agents: agentSpecs.map((spec) => ({
+              agents: currentSpecs.map((spec) => ({
                 name: spec.name,
                 role: spec.role,
                 goal: spec.goal,
@@ -605,11 +642,11 @@ Requirements: ${requirements || ""}`;
         setBuilderStage("complete");
 
         // Save blueprint YAML to session store
-        const managerSpec = agentSpecs.find((s) => s.is_manager);
+        const managerSpec = currentSpecs.find((s) => s.is_manager);
         saveBlueprintToSession(
           result.blueprint_name || result.blueprint_id,
           managerSpec?.description || "",
-          agentSpecs,
+          currentSpecs,
           { visibility: result.share_type || "private" }
         );
       } catch (err) {

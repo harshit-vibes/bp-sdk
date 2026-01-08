@@ -35,6 +35,17 @@ interface CraftResult {
   instructions?: string;
 }
 
+// Simple hash function for debugging - creates a short fingerprint of a string
+function hashString(str: string): string {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return Math.abs(hash).toString(36).substring(0, 8);
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body: CraftRequest = await request.json();
@@ -128,6 +139,17 @@ Return ONLY valid JSON with the agent_yaml specification.`;
       features: agentYaml.features || (is_manager ? ["memory"] : []),
       sub_agents: agentYaml.sub_agents || [],
     };
+
+    // DEBUG: Log the exact response being returned
+    console.log("[CRAFT] ===== RETURNING AGENT YAML =====");
+    console.log(`[CRAFT] agent_name: ${agent_name}`);
+    console.log(`[CRAFT] agent_index: ${agent_index}`);
+    console.log(`[CRAFT] normalized name: ${normalizedYaml.name}`);
+    console.log(`[CRAFT] normalized role: ${normalizedYaml.role}`);
+    console.log(`[CRAFT] instructions length: ${normalizedYaml.instructions?.length}`);
+    console.log(`[CRAFT] instructions first 100: ${normalizedYaml.instructions?.substring(0, 100)}`);
+    console.log(`[CRAFT] instructions hash: ${hashString(normalizedYaml.instructions || "")}`);
+    console.log("[CRAFT] ================================");
 
     return NextResponse.json({
       session_id,

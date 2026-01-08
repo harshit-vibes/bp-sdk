@@ -341,7 +341,7 @@ export function GuidedChat({
   };
 
   return (
-    <div className={cn("flex items-center justify-center h-full overflow-auto p-4 sm:p-6", className)}>
+    <div className={cn("flex items-center justify-center flex-1 min-h-0 overflow-auto p-4 sm:p-6", className)}>
       <div className="max-w-xl text-center">
         {/* Problem-focused statement */}
         <div className="text-lg sm:text-xl md:text-2xl font-light leading-relaxed tracking-tight">

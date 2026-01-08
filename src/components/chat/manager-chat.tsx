@@ -186,12 +186,12 @@ export function ManagerChat({
   return (
     <div
       className={cn(
-        "flex flex-col border rounded-lg bg-background",
+        "flex flex-col border rounded-lg bg-background overflow-hidden",
         className
       )}
     >
       {/* Chat header */}
-      <div className="px-3 py-2 border-b bg-muted/30">
+      <div className="flex-shrink-0 px-3 py-2 border-b bg-muted/30">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Bot className="h-4 w-4 text-orange-500" />
@@ -215,7 +215,7 @@ export function ManagerChat({
       </div>
 
       {/* Messages area */}
-      <div className="flex-1 overflow-y-auto p-3 space-y-3">
+      <div className="flex-1 min-h-0 overflow-y-auto p-3 space-y-3">
         {messages.length === 0 && (
           <div className="text-center text-sm text-muted-foreground py-4">
             Send a message to start chatting with your blueprint&apos;s manager agent
@@ -299,7 +299,7 @@ export function ManagerChat({
       </div>
 
       {/* Input area */}
-      <div className="p-2 border-t">
+      <div className="flex-shrink-0 p-2 border-t">
         <div className="flex gap-2">
           <Input
             value={input}
@@ -322,7 +322,7 @@ export function ManagerChat({
 
       {/* Suggestions - below input, stacked in row */}
       {suggestions.length > 0 && !isLoading && (
-        <div className="px-2 pb-2 flex flex-row flex-wrap gap-1.5">
+        <div className="flex-shrink-0 px-2 pb-2 flex flex-row flex-wrap gap-1.5">
           {isLoadingSuggestions ? (
             <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
               <Loader2 className="h-3 w-3 animate-spin" />

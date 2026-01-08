@@ -26,16 +26,66 @@ interface CreateRequest {
   readme?: string;
 }
 
+// Agent data fetched from API (matches SDK pattern)
+interface AgentData {
+  name: string;
+  description: string;
+  agent_instructions: string;
+  agent_role?: string;
+  agent_goal?: string;
+  model: string;
+  temperature: number;
+  template_type: string;
+  tool_usage_description?: string;
+  features: Array<Record<string, unknown>>;
+  managed_agents: ManagedAgent[];
+  // Allow additional fields from API
+  [key: string]: unknown;
+}
+
 interface ManagedAgent {
   id: string;
   name: string;
   tool_usage_description: string;
 }
 
+/**
+ * Fetch agent data from Agent API (matches SDK pattern)
+ * The SDK ALWAYS fetches fresh data after creating agents
+ */
+async function fetchAgent(apiKey: string, agentId: string): Promise<AgentData> {
+  const response = await fetch(`${AGENT_API_URL}/v3/agents/${agentId}`, {
+    headers: { "X-API-Key": apiKey },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch agent ${agentId}: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  // Sanitize: ensure arrays are never null (matches SDK's sanitize_agent_data)
+  return {
+    ...data,
+    managed_agents: data.managed_agents || [],
+    tool_configs: data.tool_configs || [],
+    features: data.features || [],
+    tools: data.tools || [],
+    files: data.files || [],
+    artifacts: data.artifacts || [],
+    personas: data.personas || [],
+    messages: data.messages || [],
+    a2a_tools: data.a2a_tools || [],
+  };
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body: CreateRequest = await request.json();
     const { session_id, agent_specs, readme } = body;
+
+    console.log("[CREATE] ===== SIMPLIFIED SDK PATTERN =====");
+    console.log("[CREATE] Received specs count:", agent_specs?.length);
 
     if (!session_id) {
       return NextResponse.json(
@@ -77,43 +127,65 @@ export async function POST(request: NextRequest) {
     const createdAgentIds: string[] = [];
 
     try {
-      // 1. Create WORKERS FIRST (SDK pattern)
-      const workerIds: string[] = [];
-      const workersData: Array<{ id: string; spec: AgentYAMLSpec }> = [];
+      // ===== SDK PATTERN: Create agents then FETCH fresh data =====
 
-      for (const workerSpec of workerSpecs) {
+      // 1. Create WORKERS FIRST
+      const workerIds: string[] = [];
+
+      console.log("[CREATE] Step 1: Creating workers. Count:", workerSpecs.length);
+      for (let i = 0; i < workerSpecs.length; i++) {
+        const workerSpec = workerSpecs[i];
+        console.log(`[CREATE] Creating worker ${i}: "${workerSpec.name}"`);
         const workerId = await createAgent(apiKey, workerSpec, orgId);
+        console.log(`[CREATE] Worker ${i} created: ${workerId}`);
         createdAgentIds.push(workerId);
         workerIds.push(workerId);
-        workersData.push({ id: workerId, spec: workerSpec });
       }
 
-      // 2. Build managed_agents list for manager
-      // Use workersData (which has correct id-spec pairing) to avoid index mismatch bugs
-      const managedAgents: ManagedAgent[] = workersData.map(({ id, spec }) => ({
-        id,
+      // 2. Build managed_agents list for manager (using worker specs for names)
+      const managedAgents: ManagedAgent[] = workerSpecs.map((spec, i) => ({
+        id: workerIds[i],
         name: spec.name,
         tool_usage_description: spec.usage_description || `Use ${spec.name} for specialized tasks`,
       }));
 
       // 3. Create MANAGER with managed_agents
+      console.log(`[CREATE] Step 2: Creating manager: "${managerSpec.name}"`);
       const managerId = await createManagerAgent(apiKey, managerSpec, orgId, managedAgents);
+      console.log(`[CREATE] Manager created: ${managerId}`);
       createdAgentIds.push(managerId);
 
-      // 4. Build tree structure
-      const tree = buildBlueprintTree(
-        { id: managerId, spec: managerSpec },
-        workersData,
-        managedAgents
-      );
+      // ===== KEY FIX: FETCH fresh data from API (like SDK does) =====
+      console.log("[CREATE] Step 3: Fetching fresh agent data from API...");
 
-      // 5. Create blueprint with unique name
+      // Fetch manager data
+      const managerData = await fetchAgent(apiKey, managerId);
+      console.log(`[CREATE] Fetched manager: name="${managerData.name}", instrLen=${managerData.agent_instructions?.length}`);
+
+      // Fetch all workers data
+      const workersData: AgentData[] = [];
+      for (let i = 0; i < workerIds.length; i++) {
+        const workerData = await fetchAgent(apiKey, workerIds[i]);
+        console.log(`[CREATE] Fetched worker ${i}: name="${workerData.name}", instrLen=${workerData.agent_instructions?.length}`);
+        workersData.push(workerData);
+      }
+
+      // 4. Build tree using FETCHED data (not specs!)
+      console.log("[CREATE] Step 4: Building tree from fetched data...");
+      const tree = buildTreeFromAgentData(managerId, managerData, workerIds, workersData);
+
+      // Log tree contents
+      console.log("[CREATE] Tree agents:", Object.keys(tree.agents).map(id => {
+        const a = tree.agents[id];
+        return `${id.slice(-6)}:${a.name}`;
+      }).join(", "));
+
+      // 5. Create blueprint
       const timestamp = Date.now().toString(36).slice(-4);
       const blueprintName = managerSpec.name
         .replace("Coordinator", "Blueprint")
         .replace("Manager", "Blueprint") + `-${timestamp}`;
 
-      // Build blueprint_data (matches SDK structure)
       const blueprintData = {
         name: blueprintName,
         orchestration_type: "Manager Agent",
@@ -127,7 +199,6 @@ export async function POST(request: NextRequest) {
         },
       };
 
-      // Build payload (matches SDK's build_blueprint_payload)
       const blueprintPayload: Record<string, unknown> = {
         name: blueprintName,
         description: managerSpec.description,
@@ -140,7 +211,6 @@ export async function POST(request: NextRequest) {
         category: "general",
       };
 
-      // Add README documentation if provided (matches SDK structure)
       if (readme) {
         blueprintPayload.blueprint_info = {
           documentation_data: {
@@ -150,6 +220,7 @@ export async function POST(request: NextRequest) {
         };
       }
 
+      console.log("[CREATE] Step 5: Creating blueprint...");
       const blueprintResponse = await fetch(
         `${BLUEPRINT_API_URL}/api/v1/blueprints/blueprints?organization_id=${orgId}`,
         {
@@ -170,6 +241,9 @@ export async function POST(request: NextRequest) {
       const blueprintResult = await blueprintResponse.json();
       const blueprintId = blueprintResult._id || blueprintResult.id;
 
+      console.log("[CREATE] ✅ Blueprint created:", blueprintId);
+      console.log("[CREATE] ===== COMPLETE =====");
+
       return NextResponse.json({
         session_id,
         blueprint_id: blueprintId,
@@ -183,6 +257,7 @@ export async function POST(request: NextRequest) {
       });
     } catch (error) {
       // Rollback: delete any created agents
+      console.log("[CREATE] Rolling back, deleting agents:", createdAgentIds);
       for (const agentId of createdAgentIds) {
         try {
           await deleteAgent(apiKey, agentId);
@@ -318,6 +393,9 @@ async function createAgent(
 ): Promise<string> {
   const [providerId, credentialId] = getProviderInfo(spec.model);
 
+  console.log(`[createAgent] Creating agent: name="${spec.name}", model="${spec.model}"`);
+  console.log(`[createAgent] Instructions first 100:`, spec.instructions?.substring(0, 100));
+
   const payload: Record<string, unknown> = {
     name: spec.name,
     description: spec.description,
@@ -386,6 +464,15 @@ async function createManagerAgent(
 ): Promise<string> {
   const [providerId, credentialId] = getProviderInfo(spec.model);
 
+  console.log(`[createManagerAgent] Creating manager: name="${spec.name}", model="${spec.model}"`);
+  console.log(`[createManagerAgent] Instructions first 100:`, spec.instructions?.substring(0, 100));
+  console.log(`[createManagerAgent] Role: "${spec.role}"`);
+  console.log(`[createManagerAgent] Goal: "${spec.goal}"`);
+  console.log(`[createManagerAgent] Managed agents count:`, managedAgents.length);
+  managedAgents.forEach((ma, i) => {
+    console.log(`[createManagerAgent]   managed_agents[${i}]: id="${ma.id}", name="${ma.name}"`);
+  });
+
   const payload: Record<string, unknown> = {
     name: spec.name,
     description: spec.description,
@@ -451,7 +538,11 @@ async function deleteAgent(apiKey: string, agentId: string): Promise<void> {
 }
 
 /**
- * Build the blueprint tree structure (ReactFlow format) - matches SDK
+ * Build the blueprint tree structure from FETCHED agent data (matches SDK's TreeBuilder)
+ *
+ * KEY INSIGHT: The SDK always fetches agent data from API AFTER creation,
+ * then uses that fetched data to build the tree. This ensures the tree
+ * contains the actual stored agent data, not our input specs.
  */
 const LEVEL_SPACING = 300;
 const HORIZONTAL_SPACING = 500;
@@ -465,123 +556,84 @@ function calculateWorkerPositions(numWorkers: number): number[] {
   return Array.from({ length: numWorkers }, (_, i) => Math.floor(startX + i * HORIZONTAL_SPACING));
 }
 
-function buildAgentNode(
-  agentId: string,
-  spec: AgentYAMLSpec,
-  position: { x: number; y: number },
-  agentRole: "Manager" | "Worker",
-  managedAgents: ManagedAgent[] = []
-): Record<string, unknown> {
-  return {
-    id: agentId,
-    type: "agent",
-    position,
-    data: {
-      // Agent fields
-      name: spec.name,
-      description: spec.description,
-      agent_instructions: spec.instructions,
-      agent_role: spec.role,
-      agent_goal: spec.goal,
-      model: spec.model,
-      temperature: spec.temperature,
-      features: buildFeatures(spec.features || []),
-      tool_usage_description: spec.usage_description || "",
-      managed_agents: managedAgents,
-      // ReactFlow required fields
-      label: spec.name,
-      template_type: agentRole === "Manager" ? "MANAGER" : "STANDARD",
-      tool: "",
-      agent_id: agentId,
-    },
-  };
-}
-
-function buildEdge(
-  sourceId: string,
-  targetId: string,
-  usageDescription?: string
-): Record<string, unknown> {
-  const edge: Record<string, unknown> = {
-    id: `edge-${sourceId}-${targetId}`,
-    source: sourceId,
-    target: targetId,
-  };
-  if (usageDescription) {
-    edge.label = usageDescription;
-    edge.data = { usageDescription };
-  }
-  return edge;
-}
-
-function buildBlueprintTree(
-  manager: { id: string; spec: AgentYAMLSpec },
-  workers: Array<{ id: string; spec: AgentYAMLSpec }>,
-  managedAgents: ManagedAgent[]
-) {
+/**
+ * Build tree from fetched agent data (SDK pattern)
+ * Uses the actual agent data from Agent API, not our input specs
+ */
+function buildTreeFromAgentData(
+  managerId: string,
+  managerData: AgentData,
+  workerIds: string[],
+  workersData: AgentData[]
+): {
+  nodes: Array<Record<string, unknown>>;
+  edges: Array<Record<string, unknown>>;
+  agents: Record<string, AgentData>;
+} {
   const nodes: Array<Record<string, unknown>> = [];
   const edges: Array<Record<string, unknown>> = [];
-  const agents: Record<string, Record<string, unknown>> = {};
+  const agents: Record<string, AgentData> = {};
 
-  // Build manager node at center
-  const managerNode = buildAgentNode(
-    manager.id,
-    manager.spec,
-    { x: 0, y: 0 },
-    "Manager",
-    managedAgents
-  );
-  nodes.push(managerNode);
+  // Store manager in agents dict (using fetched data!)
+  agents[managerId] = managerData;
 
-  // Store manager in agents dict
-  agents[manager.id] = {
-    name: manager.spec.name,
-    description: manager.spec.description,
-    agent_instructions: manager.spec.instructions,
-    agent_role: manager.spec.role,
-    agent_goal: manager.spec.goal,
-    model: manager.spec.model,
-    temperature: manager.spec.temperature,
-    features: buildFeatures(manager.spec.features || []),
-    template_type: "MANAGER",
-    managed_agents: managedAgents,
-  };
-
-  // Calculate worker positions
-  const workerXPositions = calculateWorkerPositions(workers.length);
-
-  // Build worker nodes and edges
-  workers.forEach((worker, index) => {
-    const workerNode = buildAgentNode(
-      worker.id,
-      worker.spec,
-      { x: workerXPositions[index], y: LEVEL_SPACING },
-      "Worker"
-    );
-    nodes.push(workerNode);
-
-    // Edge from manager to worker with usage description
-    edges.push(buildEdge(manager.id, worker.id, worker.spec.usage_description));
-
-    // Store worker in agents dict
-    agents[worker.id] = {
-      name: worker.spec.name,
-      description: worker.spec.description,
-      agent_instructions: worker.spec.instructions,
-      agent_role: worker.spec.role,
-      agent_goal: worker.spec.goal,
-      model: worker.spec.model,
-      temperature: worker.spec.temperature,
-      features: buildFeatures(worker.spec.features || []),
-      tool_usage_description: worker.spec.usage_description,
-      template_type: "STANDARD",
-      managed_agents: [],
-    };
+  // Build manager node
+  nodes.push({
+    id: managerId,
+    type: "agent",
+    position: { x: 0, y: 0 },
+    data: {
+      // Full agent data embedded (like SDK)
+      ...managerData,
+      // ReactFlow required fields
+      label: managerData.name,
+      template_type: "MANAGER",
+      tool: "",
+      agent_role: "Manager",
+      agent_id: managerId,
+    },
   });
 
-  return {
-    nodes,
-    edges,
-    agents,
-  };
+  // Calculate worker positions
+  const workerXPositions = calculateWorkerPositions(workersData.length);
+
+  // Build worker nodes and edges
+  for (let i = 0; i < workerIds.length; i++) {
+    const workerId = workerIds[i];
+    const workerData = workersData[i];
+
+    // Store worker in agents dict (using fetched data!)
+    agents[workerId] = workerData;
+
+    // Build worker node
+    nodes.push({
+      id: workerId,
+      type: "agent",
+      position: { x: workerXPositions[i], y: LEVEL_SPACING },
+      data: {
+        // Full agent data embedded (like SDK)
+        ...workerData,
+        // ReactFlow required fields
+        label: workerData.name,
+        template_type: "STANDARD",
+        tool: "",
+        agent_role: "Worker",
+        agent_id: workerId,
+      },
+    });
+
+    // Edge from manager to worker
+    const edge: Record<string, unknown> = {
+      id: `edge-${managerId}-${workerId}`,
+      source: managerId,
+      target: workerId,
+    };
+    if (workerData.tool_usage_description) {
+      edge.label = workerData.tool_usage_description;
+      edge.data = { usageDescription: workerData.tool_usage_description };
+    }
+    edges.push(edge);
+  }
+
+  return { nodes, edges, agents };
 }

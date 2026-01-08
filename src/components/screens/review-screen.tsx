@@ -73,10 +73,16 @@ export function ReviewScreen({
 }: ReviewScreenProps) {
   // Note: validationResult removed from props - quality issues handled in background
 
+  // In complete mode with chat, use flex layout to fill space
+  const isCompleteWithChat = isComplete && blueprint && blueprint.manager_id;
+
   return (
-    <div className={cn("flex flex-col h-full", className)}>
-      {/* Content area */}
-      <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+    <div className={cn("flex flex-col flex-1 min-h-0", className)}>
+      {/* Content area - flex layout when showing chat playground */}
+      <div className={cn(
+        "flex-1 min-h-0 p-4 sm:p-6",
+        isCompleteWithChat ? "flex flex-col" : "overflow-y-auto"
+      )}>
         {/* Loading state: Show streaming loader */}
         {isLoading ? (
           <StreamingLoader
@@ -99,7 +105,10 @@ export function ReviewScreen({
           </div>
         ) : (
           /* Normal mode: Show markdown content */
-          <div className="prose prose-sm dark:prose-invert max-w-none prose-headings:text-foreground prose-p:text-foreground/90">
+          <div className={cn(
+            "prose prose-sm dark:prose-invert max-w-none prose-headings:text-foreground prose-p:text-foreground/90",
+            isCompleteWithChat && "flex-shrink-0"
+          )}>
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{
@@ -206,12 +215,12 @@ export function ReviewScreen({
           />
         )}
 
-        {/* Blueprint complete state - Chat-focused UI */}
-        {isComplete && blueprint && blueprint.manager_id && (
+        {/* Blueprint complete state - Chat-focused UI (fills remaining space) */}
+        {isCompleteWithChat && (
           <ManagerChat
             managerId={blueprint.manager_id}
             blueprintId={blueprint.id}
-            className="min-h-[300px]"
+            className="flex-1 min-h-0"
           />
         )}
       </div>
