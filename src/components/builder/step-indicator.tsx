@@ -91,16 +91,17 @@ export function UnifiedStepIndicator({
       {/* Simple breadcrumb navigation */}
       <nav className="flex items-center justify-center gap-1 text-sm">
         {stages.map((s, index) => {
-          const isCompleted = index < currentIndex;
+          // For "complete" stage, treat it as completed if blueprint exists
+          const isCompleted = s.id === "complete"
+            ? (index < currentIndex || hasCompletedBlueprint)
+            : index < currentIndex;
           const isCurrent = s.id === stage;
           const isLast = index === stages.length - 1;
 
-          // Clickable if completed, or if it's Architect with progress, or if it's Create with completed blueprint
+          // Clickable if completed, or if it's Architect with progress
           const canClick = s.id === "build"
             ? (isCompleted || hasBuildProgress || (stage === "build" && buildProgress && buildProgress.current > 0))
-            : s.id === "complete"
-              ? (isCompleted || hasCompletedBlueprint)
-              : isCompleted;
+            : isCompleted;
           const isClickable = canClick && onStageClick;
 
           const handleClick = () => {
