@@ -216,7 +216,7 @@ export function ReviewScreen({
         )}
 
         {/* Blueprint complete state - Chat-focused UI (fills remaining space) */}
-        {isCompleteWithChat && (
+        {isCompleteWithChat && blueprint.manager_id && (
           <ManagerChat
             managerId={blueprint.manager_id}
             blueprintId={blueprint.id}
