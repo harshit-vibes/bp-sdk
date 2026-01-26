@@ -205,10 +205,13 @@ export async function POST(request: NextRequest) {
         orchestration_type: "Manager Agent",
         orchestration_name: blueprintName,
         blueprint_data: blueprintData,
+        // Root-level fields (must match SDK's PayloadBuilder.build_blueprint_payload)
         share_type: "private",
         tags: [],
         is_template: false,
         category: "general",
+        shared_with_users: [],
+        shared_with_organizations: [],
       };
 
       if (readme) {
