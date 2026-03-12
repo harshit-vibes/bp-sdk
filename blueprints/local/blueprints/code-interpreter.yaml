@@ -1,0 +1,148 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Code Interpreter Agent
+  description: Multi-agent code execution system for data analysis with 
+    planning, code generation, result interpretation, and error handling 
+    capabilities.
+  category: featured
+  tags:
+    - featured
+    - multi-agent
+    - code-interpreter
+    - data-analysis
+    - automation
+    - python
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Users need to analyze data, perform calculations, and automate tasks but may not be programmers. Even technical users benefit from having code written, executed, and explained for them.
+
+    ### The Challenge
+    Effective code-based analysis requires understanding the task, writing correct code, interpreting results, and handling errors. Each step requires different skills that are difficult to combine in a single prompt.
+
+    ### What's At Stake
+    Without code execution capabilities, analysis is limited to what can be reasoned about directly. Complex calculations, data transformations, and statistical analyses require actual code.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Code interpretation is a multi-phase process: planning what to code, writing the code, understanding the output, and fixing problems. Separating these phases into specialist agents enables better handling of each.
+
+    ### The Method
+    A Code Interpreter Coordinator manages four specialists:
+
+    1. **Code Planner**: Analyzes user requests and creates execution plans with clear steps, dependencies, and requirements.
+
+    2. **Code Writer**: Generates clean, well-documented code for each planned step using appropriate languages and libraries.
+
+    3. **Output Interpreter**: Transforms raw code outputs into meaningful insights with clear explanations and recommendations.
+
+    4. **Error Handler**: Diagnoses execution errors, explains what went wrong, and provides corrected code.
+
+    ### Why This Works
+    Structured planning ensures comprehensive coverage. Specialized code generation produces cleaner implementations. Dedicated interpretation makes results accessible. Error handling enables recovery. The coordinator ties it all together.
+
+    ---
+
+    ## Capabilities
+
+    ### Task Planning
+    - Complex task decomposition
+    - Dependency identification
+    - Library requirement analysis
+    - Step sequencing
+
+    ### Code Generation
+    - Python for data analysis
+    - SQL for database queries
+    - Clean, documented code
+    - Error handling included
+
+    ### Languages Supported
+    - Python (primary)
+    - SQL
+    - General-purpose scripting
+
+    ### Analysis Types
+    - Statistical analysis
+    - Data transformation
+    - Aggregation and grouping
+    - Trend identification
+    - Pattern detection
+
+    ### Output Interpretation
+    - Plain language explanations
+    - Key finding extraction
+    - Statistical summaries
+    - Actionable recommendations
+
+    ### Error Handling
+    - Error diagnosis
+    - Root cause explanation
+    - Code correction
+    - Prevention guidance
+
+    ### Boundaries
+    - Code is generated, not executed in sandbox
+    - Best for analysis and computation tasks
+    - Requires clear task specification
+    - May need iteration for complex requests
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - A data analysis or computation task
+    - Clear description of desired output
+    - Any relevant data context
+
+    ### Your First Run
+    Try this prompt:
+
+    "I have a CSV file with columns: date, product_name, quantity_sold, price. Write code to analyze monthly sales trends, identify the top 5 products by revenue, and calculate month-over-month growth rates."
+
+    ### Pro Tips
+    - **Describe Your Data**: Include column names and data types
+    - **Specify Output Format**: Request tables, charts, or summaries
+    - **Iterate**: Ask for refinements after seeing initial results
+    - **Ask About Errors**: Use the error handler to learn from mistakes
+
+    ### Example Use Cases
+    - Sales data analysis
+    - Financial calculations
+    - Statistical summaries
+    - Data cleaning and transformation
+    - Automated report generation
+    - Custom calculations
+
+    ### Sample Interactions
+
+    Data Analysis:
+    Input: "Analyze customer churn from this dataset with columns: customer_id, signup_date, last_active, total_purchases"
+    Output: Code for churn calculation, cohort analysis, and visualization
+
+    Statistical Calculation:
+    Input: "Calculate the correlation between advertising spend and sales for each region"
+    Output: Code for correlation analysis with interpretation of results
+
+    Data Transformation:
+    Input: "Clean this messy dataset: remove duplicates, fill missing values, standardize date formats"
+    Output: Step-by-step cleaning code with explanations
+
+root_agents:
+  - ../agents/code-interpreter-coordinator.yaml
+ids:
+  blueprint: fc1cbaa3-9b6d-4089-9381-faa50c4f38b7
+  agents:
+    ../agents/code-interpreter-coordinator.yaml: 695c719ac2dad05ba69add21
+    ../agents/code-planner.yaml: 695c7198c2dad05ba69add1f
+    ../agents/code-writer.yaml: 695c7198457887dd859fb8ef
+    ../agents/output-interpreter.yaml: 695c7199c2dad05ba69add20
+    ../agents/error-handler.yaml: 695c719a457887dd859fb8f0

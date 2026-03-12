@@ -1,0 +1,146 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: LangGraph Plan-and-Execute Agent
+  description: Implements the Plan-and-Execute pattern with explicit planning 
+    phase, systematic step execution, progress monitoring, and adaptive 
+    re-planning.
+  category: featured
+  tags:
+    - featured
+    - multi-agent
+    - langgraph
+    - plan-execute
+    - reasoning
+    - orchestration
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Complex tasks require both strategic thinking and tactical execution. Jumping straight into action often leads to wasted effort, while over-planning without execution produces nothing.
+
+    ### The Challenge
+    Most AI systems either plan without executing or execute without planning. The challenge is combining deliberate upfront planning with systematic execution while remaining adaptive when plans meet reality.
+
+    ### What's At Stake
+    Without planning, execution is chaotic and inefficient. Without execution, plans are worthless. Without adaptation, rigid plans fail when conditions change. The goal is reliable achievement of complex objectives.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    The LangGraph Plan-and-Execute pattern explicitly separates planning from execution while maintaining a feedback loop. Plan completely, execute systematically, monitor continuously, and re-plan when needed.
+
+    ### The Method
+    A Plan-Execute Coordinator manages four specialists:
+
+    1. **Task Planner**: Creates comprehensive upfront plans with ordered steps, dependencies, success criteria, and fallback options.
+
+    2. **Step Executor**: Executes individual plan steps precisely, reporting outcomes, outputs, and any issues encountered.
+
+    3. **Progress Monitor**: Tracks execution against the plan, identifies deviations, and determines when re-planning is needed.
+
+    4. **Adaptive Re-Planner**: Revises plans when execution reveals issues, preserving progress while addressing root causes.
+
+    ### Why This Works
+    Upfront planning ensures thorough thinking. Step-by-step execution ensures completion. Continuous monitoring catches problems early. Adaptive re-planning handles reality. The result is reliable goal achievement.
+
+    ---
+
+    ## Capabilities
+
+    ### Strategic Planning
+    - Goal analysis and decomposition
+    - Step sequencing with dependencies
+    - Success criteria definition
+    - Risk identification
+    - Fallback planning
+
+    ### Systematic Execution
+    - One step at a time
+    - Precise action following
+    - Output verification
+    - Issue detection
+    - Clear status reporting
+
+    ### Progress Monitoring
+    - Step-by-step tracking
+    - Deviation detection
+    - Cumulative assessment
+    - Re-planning triggers
+    - Risk status updates
+
+    ### Adaptive Re-Planning
+    - Root cause diagnosis
+    - Progress preservation
+    - Plan revision
+    - Alternative approaches
+    - Confidence assessment
+
+    ### Execution Patterns
+    - Linear step execution
+    - Conditional branching
+    - Retry with modification
+    - Skip and workaround
+    - Full re-planning
+
+    ### Boundaries
+    - Best for multi-step complex tasks
+    - Requires clear goal definition
+    - More overhead than simple tasks warrant
+    - Relies on accurate progress assessment
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - A complex goal requiring multiple steps
+    - Clear definition of success
+    - Patience for systematic execution
+
+    ### Your First Run
+    Try this prompt:
+
+    "Create a comprehensive competitive analysis report for a new SaaS product entering the project management space. Include market research, competitor identification, feature comparison, and strategic recommendations."
+
+    ### Pro Tips
+    - **Define Success Clearly**: Better goals lead to better plans
+    - **Trust the Process**: Let planning complete before execution
+    - **Monitor Actively**: Check progress reports for early warnings
+    - **Embrace Re-planning**: Adaptation is strength, not failure
+
+    ### Example Use Cases
+    - Complex research projects
+    - Multi-phase implementations
+    - Strategic initiatives
+    - Process improvements
+    - Project execution
+
+    ### Sample Interactions
+
+    Research Project:
+    Input: "Research and recommend the best cloud provider for our startup"
+    Output: Planned research phases, executed comparisons, monitored findings, adapted based on discoveries
+
+    Implementation:
+    Input: "Implement a customer feedback collection system"
+    Output: Phased plan, step-by-step execution, progress tracking, adjustments for obstacles
+
+    Strategic Analysis:
+    Input: "Analyze our product-market fit and recommend pivots"
+    Output: Structured analysis plan, systematic data gathering, monitored insights, adapted recommendations
+
+root_agents:
+  - ../agents/plan-execute-coordinator.yaml
+ids:
+  blueprint: 78d9060a-c901-4f65-9b78-36b367313e40
+  agents:
+    ../agents/plan-execute-coordinator.yaml: 695c784f6363be71980eee71
+    ../agents/task-planner.yaml: 695c784c6363be71980eee6f
+    ../agents/step-executor.yaml: 695c784ca45696ac999e31dc
+    ../agents/progress-monitor.yaml: 695c784d6363be71980eee70
+    ../agents/adaptive-replanner.yaml: 695c784ea45696ac999e31dd

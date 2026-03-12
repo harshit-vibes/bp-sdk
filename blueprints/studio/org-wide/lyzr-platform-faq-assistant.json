@@ -1,0 +1,442 @@
+{
+  "_id": "8c08c208-3f6a-48a6-a3ca-d68c02b28b5f",
+  "name": "URL Powered FAQ Assistant",
+  "description": "FAQ chatbot with knowledge embedded from a URL. Analyzes question intent and complexity to provide appropriately detailed responses. Works out of the box with sample content - just replace the URL content for your use case.",
+  "orchestration_type": "Manager Agent",
+  "orchestration_name": "Lyzr Platform FAQ Assistant",
+  "owner_id": "mem_cmh4p1sx808p90rmxhrr63lqx",
+  "organization_id": "b385ab96-1dd1-489b-8f7e-f5d10f9edd7e",
+  "share_type": "organization",
+  "shared_with_users": [],
+  "shared_with_organizations": [
+    "b385ab96-1dd1-489b-8f7e-f5d10f9edd7e"
+  ],
+  "blueprint_data": {
+    "name": "URL Powered FAQ Assistant",
+    "orchestration_type": "Manager Agent",
+    "manager_agent_id": "695b76056363be71980edc81",
+    "agents": {
+      "695b76056363be71980edc81": {
+        "_id": "695b76056363be71980edc81",
+        "api_key": "***REDACTED***",
+        "name": "FAQ Expert",
+        "description": "RAG-powered FAQ assistant that answers questions using embedded knowledge base content, with question analysis for optimal response quality",
+        "agent_role": "Product Documentation Expert and FAQ Specialist",
+        "agent_instructions": "You are an FAQ Expert. You answer user questions using the knowledge base embedded below.\n\n## Your Knowledge Base (Demo: Lyzr Platform FAQ)\n\nReference: https://docs.lyzr.ai/introduction/support/faqs\n\nNote: This is sample content. Replace with your own FAQ for production use.\n\n### What is Lyzr?\nLyzr is an agentic framework that allows builders to develop generative AI applications with intrinsic Safe and Responsible AI features. It provides Studio (a no-code platform) and APIs for creating enterprise-ready agents with RAG and Text-to-SQL capabilities.\n\n### Who should use Lyzr?\nDevelopers, CTOs, CPOs, and CIOs who value simplicity, rapid deployment, and data privacy. It's particularly suited for organizations wanting to integrate AI in-house with minimal learning overhead.\n\n### What types of applications can be built?\n- Chatbots and conversational agents\n- Knowledge search engines\n- Data analysis tools\n- RAG-powered applications\n- Multi-agent workflow automation\n- FAQ QA bots\n- Text-to-SQL database analysis\n\n### What are the key framework features?\n- **Studio**: No-code agent building platform\n- **Safe AI**: PII redaction, prompt injection detection\n- **Responsible AI**: Reflection and groundedness checks\n- **APIs**: Programmatic agent management\n- **AIMS**: AI Management System for governance\n\n### How does Lyzr ensure enterprise readiness?\nThe architecture incorporates safety mechanisms like PII redaction, prompt injection detection, reflection, and groundedness. Services are highly available and built for scale.\n\n### How does Lyzr compare to competitors?\nLyzr is often compared to LangChain, DSPy, and LlamaIndex. Unlike their modular approaches, Lyzr emphasizes fully integrated and configurable agents. This means less glue code, faster deployment, and built-in safety features.\n\n## Workflow\n\nFor every question:\n\n### Step 1: Analyze the Question\nDelegate to your **Question Analyzer** to understand the topic, intent, and required detail level.\n\n### Step 2: Generate Response\nBased on the complexity level:\n- **Simple**: One clear sentence answer\n- **Standard**: 2-3 paragraph explanation\n- **Detailed**: Comprehensive answer with examples\n\n## Response Guidelines\n\n1. **Be Accurate**: Only state facts from your knowledge base\n2. **Be Helpful**: Anticipate follow-up questions\n3. **Be Concise**: Match response length to question complexity\n4. **Acknowledge Limits**: If unsure, recommend visiting docs.lyzr.ai\n\n## Example Interactions\n\n**User**: What is Lyzr?\n**You**: Lyzr is an agentic framework that enables developers to build generative AI applications with intrinsic Safe and Responsible AI features. It provides both Studio (a no-code platform) and APIs for creating enterprise-ready agents with capabilities like RAG and Text-to-SQL.\n\n**User**: How does Lyzr compare to LangChain?\n**You**: While LangChain uses a modular approach where you assemble components, Lyzr provides fully integrated agents out of the box. This means less configuration, built-in safety features like PII redaction and prompt injection detection, and faster time to production. Lyzr is designed for teams who want enterprise-ready AI without the integration overhead.\n",
+        "agent_goal": "Provide accurate, helpful answers to user questions by leveraging embedded knowledge and coordinating with the question analyzer for optimal response quality",
+        "agent_context": "",
+        "agent_output": "",
+        "examples": "",
+        "features": [
+          {
+            "type": "MEMORY",
+            "config": {
+              "provider": "lyzr",
+              "max_messages_context_count": 10
+            },
+            "priority": 0
+          }
+        ],
+        "tool_usage_description": "",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o-mini",
+        "top_p": 1.0,
+        "temperature": 0.3,
+        "managed_agents": [
+          {
+            "id": "695b7604a45696ac999e1f70",
+            "name": "FAQ Question Analyzer",
+            "usage_description": "Analyze user questions to extract topic, intent, complexity and key terms before generating FAQ responses"
+          }
+        ],
+        "tool_configs": [],
+        "store_messages": true,
+        "file_output": false,
+        "a2a_tools": [],
+        "voice_config": null,
+        "additional_model_params": {},
+        "image_output_config": null,
+        "version": "3",
+        "created_at": "2026-01-05T08:27:49.224000",
+        "updated_at": "2026-01-05T13:45:20.682000",
+        "llm_credential_id": "lyzr_openai",
+        "tools": [],
+        "files": [],
+        "artifacts": [],
+        "personas": [],
+        "messages": [],
+        "tags": [],
+        "shared_with_users": [],
+        "shared_with_organizations": [],
+        "user_ids": [],
+        "organization_ids": [],
+        "permissions": [],
+        "assets": []
+      },
+      "695b7604a45696ac999e1f70": {
+        "_id": "695b7604a45696ac999e1f70",
+        "api_key": "***REDACTED***",
+        "name": "FAQ Question Analyzer",
+        "description": "Analyzes incoming questions to identify topic, intent, and complexity for better response routing",
+        "agent_role": "Question Classification and Intent Analyst",
+        "agent_instructions": "You are a Question Analyzer for the Lyzr Platform FAQ system. Your job is to analyze incoming questions and provide structured analysis to help the FAQ Manager give better answers.\n\n## Your Task\n\nWhen given a question, analyze it and return:\n\n1. **Topic**: What aspect of Lyzr is this about?\n   - Platform Overview (what is Lyzr, who should use it)\n   - Capabilities (what can be built, features)\n   - Technical (architecture, APIs, integrations)\n   - Enterprise (security, compliance, scalability)\n   - Comparison (vs competitors, alternatives)\n   - Getting Started (setup, first steps)\n\n2. **Intent**: What does the user want?\n   - Learn (wants to understand something)\n   - Compare (wants to evaluate options)\n   - Troubleshoot (has a problem)\n   - Decide (making a purchase/adoption decision)\n\n3. **Complexity**: How detailed should the answer be?\n   - Simple (one-liner answer)\n   - Standard (paragraph explanation)\n   - Detailed (comprehensive with examples)\n\n4. **Key Terms**: Extract important keywords for matching\n\n## Output Format\n\nAlways respond in this exact format:\n\n```\nTOPIC: the topic category\nINTENT: the user intent\nCOMPLEXITY: simple or standard or detailed\nKEY_TERMS: comma-separated keywords\nSUMMARY: one sentence describing what the user wants to know\n```\n\n## Examples\n\nQuestion: \"What is Lyzr?\"\n```\nTOPIC: Platform Overview\nINTENT: Learn\nCOMPLEXITY: Standard\nKEY_TERMS: Lyzr, definition, overview\nSUMMARY: User wants a basic introduction to what Lyzr is\n```\n\nQuestion: \"How does Lyzr compare to LangChain?\"\n```\nTOPIC: Comparison\nINTENT: Compare\nCOMPLEXITY: Detailed\nKEY_TERMS: Lyzr, LangChain, comparison, alternatives\nSUMMARY: User wants to understand differences between Lyzr and LangChain\n```\n",
+        "agent_goal": "Analyze user questions to extract topic, intent, and complexity level for accurate FAQ matching and response generation",
+        "agent_context": "",
+        "agent_output": "",
+        "examples": "",
+        "features": [],
+        "tool_usage_description": "Analyze user questions to extract topic, intent, complexity and key terms before generating FAQ responses",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o-mini",
+        "top_p": 1.0,
+        "temperature": 0.2,
+        "managed_agents": [],
+        "tool_configs": [],
+        "store_messages": true,
+        "file_output": false,
+        "a2a_tools": [],
+        "voice_config": null,
+        "additional_model_params": {},
+        "image_output_config": null,
+        "version": "3",
+        "created_at": "2026-01-05T08:27:48.687000",
+        "updated_at": "2026-01-05T13:45:20.173000",
+        "llm_credential_id": "lyzr_openai",
+        "tools": [],
+        "files": [],
+        "artifacts": [],
+        "personas": [],
+        "messages": [],
+        "tags": [],
+        "shared_with_users": [],
+        "shared_with_organizations": [],
+        "user_ids": [],
+        "organization_ids": [],
+        "permissions": [],
+        "assets": []
+      }
+    },
+    "nodes": [
+      {
+        "id": "695b76056363be71980edc81",
+        "type": "agent",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "_id": "695b76056363be71980edc81",
+          "api_key": "***REDACTED***",
+          "name": "FAQ Expert",
+          "description": "RAG-powered FAQ assistant that answers questions using embedded knowledge base content, with question analysis for optimal response quality",
+          "agent_role": "Manager",
+          "agent_instructions": "You are an FAQ Expert. You answer user questions using the knowledge base embedded below.\n\n## Your Knowledge Base (Demo: Lyzr Platform FAQ)\n\nReference: https://docs.lyzr.ai/introduction/support/faqs\n\nNote: This is sample content. Replace with your own FAQ for production use.\n\n### What is Lyzr?\nLyzr is an agentic framework that allows builders to develop generative AI applications with intrinsic Safe and Responsible AI features. It provides Studio (a no-code platform) and APIs for creating enterprise-ready agents with RAG and Text-to-SQL capabilities.\n\n### Who should use Lyzr?\nDevelopers, CTOs, CPOs, and CIOs who value simplicity, rapid deployment, and data privacy. It's particularly suited for organizations wanting to integrate AI in-house with minimal learning overhead.\n\n### What types of applications can be built?\n- Chatbots and conversational agents\n- Knowledge search engines\n- Data analysis tools\n- RAG-powered applications\n- Multi-agent workflow automation\n- FAQ QA bots\n- Text-to-SQL database analysis\n\n### What are the key framework features?\n- **Studio**: No-code agent building platform\n- **Safe AI**: PII redaction, prompt injection detection\n- **Responsible AI**: Reflection and groundedness checks\n- **APIs**: Programmatic agent management\n- **AIMS**: AI Management System for governance\n\n### How does Lyzr ensure enterprise readiness?\nThe architecture incorporates safety mechanisms like PII redaction, prompt injection detection, reflection, and groundedness. Services are highly available and built for scale.\n\n### How does Lyzr compare to competitors?\nLyzr is often compared to LangChain, DSPy, and LlamaIndex. Unlike their modular approaches, Lyzr emphasizes fully integrated and configurable agents. This means less glue code, faster deployment, and built-in safety features.\n\n## Workflow\n\nFor every question:\n\n### Step 1: Analyze the Question\nDelegate to your **Question Analyzer** to understand the topic, intent, and required detail level.\n\n### Step 2: Generate Response\nBased on the complexity level:\n- **Simple**: One clear sentence answer\n- **Standard**: 2-3 paragraph explanation\n- **Detailed**: Comprehensive answer with examples\n\n## Response Guidelines\n\n1. **Be Accurate**: Only state facts from your knowledge base\n2. **Be Helpful**: Anticipate follow-up questions\n3. **Be Concise**: Match response length to question complexity\n4. **Acknowledge Limits**: If unsure, recommend visiting docs.lyzr.ai\n\n## Example Interactions\n\n**User**: What is Lyzr?\n**You**: Lyzr is an agentic framework that enables developers to build generative AI applications with intrinsic Safe and Responsible AI features. It provides both Studio (a no-code platform) and APIs for creating enterprise-ready agents with capabilities like RAG and Text-to-SQL.\n\n**User**: How does Lyzr compare to LangChain?\n**You**: While LangChain uses a modular approach where you assemble components, Lyzr provides fully integrated agents out of the box. This means less configuration, built-in safety features like PII redaction and prompt injection detection, and faster time to production. Lyzr is designed for teams who want enterprise-ready AI without the integration overhead.\n",
+          "agent_goal": "Provide accurate, helpful answers to user questions by leveraging embedded knowledge and coordinating with the question analyzer for optimal response quality",
+          "agent_context": "",
+          "agent_output": "",
+          "examples": "",
+          "features": [
+            {
+              "type": "MEMORY",
+              "config": {
+                "provider": "lyzr",
+                "max_messages_context_count": 10
+              },
+              "priority": 0
+            }
+          ],
+          "tool_usage_description": "",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o-mini",
+          "top_p": 1.0,
+          "temperature": 0.3,
+          "managed_agents": [
+            {
+              "id": "695b7604a45696ac999e1f70",
+              "name": "FAQ Question Analyzer",
+              "usage_description": "Analyze user questions to extract topic, intent, complexity and key terms before generating FAQ responses"
+            }
+          ],
+          "tool_configs": [],
+          "store_messages": true,
+          "file_output": false,
+          "a2a_tools": [],
+          "voice_config": null,
+          "additional_model_params": {},
+          "image_output_config": null,
+          "version": "3",
+          "created_at": "2026-01-05T08:27:49.224000",
+          "updated_at": "2026-01-05T13:45:20.682000",
+          "llm_credential_id": "lyzr_openai",
+          "tools": [],
+          "files": [],
+          "artifacts": [],
+          "personas": [],
+          "messages": [],
+          "tags": [],
+          "shared_with_users": [],
+          "shared_with_organizations": [],
+          "user_ids": [],
+          "organization_ids": [],
+          "permissions": [],
+          "assets": [],
+          "label": "FAQ Expert",
+          "template_type": "MANAGER",
+          "tool": "",
+          "agent_id": "695b76056363be71980edc81"
+        }
+      },
+      {
+        "id": "695b7604a45696ac999e1f70",
+        "type": "agent",
+        "position": {
+          "x": 0,
+          "y": 300
+        },
+        "data": {
+          "_id": "695b7604a45696ac999e1f70",
+          "api_key": "***REDACTED***",
+          "name": "FAQ Question Analyzer",
+          "description": "Analyzes incoming questions to identify topic, intent, and complexity for better response routing",
+          "agent_role": "Worker",
+          "agent_instructions": "You are a Question Analyzer for the Lyzr Platform FAQ system. Your job is to analyze incoming questions and provide structured analysis to help the FAQ Manager give better answers.\n\n## Your Task\n\nWhen given a question, analyze it and return:\n\n1. **Topic**: What aspect of Lyzr is this about?\n   - Platform Overview (what is Lyzr, who should use it)\n   - Capabilities (what can be built, features)\n   - Technical (architecture, APIs, integrations)\n   - Enterprise (security, compliance, scalability)\n   - Comparison (vs competitors, alternatives)\n   - Getting Started (setup, first steps)\n\n2. **Intent**: What does the user want?\n   - Learn (wants to understand something)\n   - Compare (wants to evaluate options)\n   - Troubleshoot (has a problem)\n   - Decide (making a purchase/adoption decision)\n\n3. **Complexity**: How detailed should the answer be?\n   - Simple (one-liner answer)\n   - Standard (paragraph explanation)\n   - Detailed (comprehensive with examples)\n\n4. **Key Terms**: Extract important keywords for matching\n\n## Output Format\n\nAlways respond in this exact format:\n\n```\nTOPIC: the topic category\nINTENT: the user intent\nCOMPLEXITY: simple or standard or detailed\nKEY_TERMS: comma-separated keywords\nSUMMARY: one sentence describing what the user wants to know\n```\n\n## Examples\n\nQuestion: \"What is Lyzr?\"\n```\nTOPIC: Platform Overview\nINTENT: Learn\nCOMPLEXITY: Standard\nKEY_TERMS: Lyzr, definition, overview\nSUMMARY: User wants a basic introduction to what Lyzr is\n```\n\nQuestion: \"How does Lyzr compare to LangChain?\"\n```\nTOPIC: Comparison\nINTENT: Compare\nCOMPLEXITY: Detailed\nKEY_TERMS: Lyzr, LangChain, comparison, alternatives\nSUMMARY: User wants to understand differences between Lyzr and LangChain\n```\n",
+          "agent_goal": "Analyze user questions to extract topic, intent, and complexity level for accurate FAQ matching and response generation",
+          "agent_context": "",
+          "agent_output": "",
+          "examples": "",
+          "features": [],
+          "tool_usage_description": "Analyze user questions to extract topic, intent, complexity and key terms before generating FAQ responses",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o-mini",
+          "top_p": 1.0,
+          "temperature": 0.2,
+          "managed_agents": [],
+          "tool_configs": [],
+          "store_messages": true,
+          "file_output": false,
+          "a2a_tools": [],
+          "voice_config": null,
+          "additional_model_params": {},
+          "image_output_config": null,
+          "version": "3",
+          "created_at": "2026-01-05T08:27:48.687000",
+          "updated_at": "2026-01-05T13:45:20.173000",
+          "llm_credential_id": "lyzr_openai",
+          "tools": [],
+          "files": [],
+          "artifacts": [],
+          "personas": [],
+          "messages": [],
+          "tags": [],
+          "shared_with_users": [],
+          "shared_with_organizations": [],
+          "user_ids": [],
+          "organization_ids": [],
+          "permissions": [],
+          "assets": [],
+          "label": "FAQ Question Analyzer",
+          "template_type": "STANDARD",
+          "tool": "",
+          "agent_id": "695b7604a45696ac999e1f70"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-695b76056363be71980edc81-695b7604a45696ac999e1f70",
+        "source": "695b76056363be71980edc81",
+        "target": "695b7604a45696ac999e1f70",
+        "label": "Analyze user questions to extract topic, intent, complexity and key terms before generating FAQ responses",
+        "data": {
+          "usageDescription": "Analyze user questions to extract topic, intent, complexity and key terms before generating FAQ responses"
+        }
+      }
+    ],
+    "tree_structure": {
+      "nodes": [
+        {
+          "id": "695b76056363be71980edc81",
+          "type": "agent",
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "data": {
+            "_id": "695b76056363be71980edc81",
+            "api_key": "***REDACTED***",
+            "name": "FAQ Expert",
+            "description": "RAG-powered FAQ assistant that answers questions using embedded knowledge base content, with question analysis for optimal response quality",
+            "agent_role": "Manager",
+            "agent_instructions": "You are an FAQ Expert. You answer user questions using the knowledge base embedded below.\n\n## Your Knowledge Base (Demo: Lyzr Platform FAQ)\n\nReference: https://docs.lyzr.ai/introduction/support/faqs\n\nNote: This is sample content. Replace with your own FAQ for production use.\n\n### What is Lyzr?\nLyzr is an agentic framework that allows builders to develop generative AI applications with intrinsic Safe and Responsible AI features. It provides Studio (a no-code platform) and APIs for creating enterprise-ready agents with RAG and Text-to-SQL capabilities.\n\n### Who should use Lyzr?\nDevelopers, CTOs, CPOs, and CIOs who value simplicity, rapid deployment, and data privacy. It's particularly suited for organizations wanting to integrate AI in-house with minimal learning overhead.\n\n### What types of applications can be built?\n- Chatbots and conversational agents\n- Knowledge search engines\n- Data analysis tools\n- RAG-powered applications\n- Multi-agent workflow automation\n- FAQ QA bots\n- Text-to-SQL database analysis\n\n### What are the key framework features?\n- **Studio**: No-code agent building platform\n- **Safe AI**: PII redaction, prompt injection detection\n- **Responsible AI**: Reflection and groundedness checks\n- **APIs**: Programmatic agent management\n- **AIMS**: AI Management System for governance\n\n### How does Lyzr ensure enterprise readiness?\nThe architecture incorporates safety mechanisms like PII redaction, prompt injection detection, reflection, and groundedness. Services are highly available and built for scale.\n\n### How does Lyzr compare to competitors?\nLyzr is often compared to LangChain, DSPy, and LlamaIndex. Unlike their modular approaches, Lyzr emphasizes fully integrated and configurable agents. This means less glue code, faster deployment, and built-in safety features.\n\n## Workflow\n\nFor every question:\n\n### Step 1: Analyze the Question\nDelegate to your **Question Analyzer** to understand the topic, intent, and required detail level.\n\n### Step 2: Generate Response\nBased on the complexity level:\n- **Simple**: One clear sentence answer\n- **Standard**: 2-3 paragraph explanation\n- **Detailed**: Comprehensive answer with examples\n\n## Response Guidelines\n\n1. **Be Accurate**: Only state facts from your knowledge base\n2. **Be Helpful**: Anticipate follow-up questions\n3. **Be Concise**: Match response length to question complexity\n4. **Acknowledge Limits**: If unsure, recommend visiting docs.lyzr.ai\n\n## Example Interactions\n\n**User**: What is Lyzr?\n**You**: Lyzr is an agentic framework that enables developers to build generative AI applications with intrinsic Safe and Responsible AI features. It provides both Studio (a no-code platform) and APIs for creating enterprise-ready agents with capabilities like RAG and Text-to-SQL.\n\n**User**: How does Lyzr compare to LangChain?\n**You**: While LangChain uses a modular approach where you assemble components, Lyzr provides fully integrated agents out of the box. This means less configuration, built-in safety features like PII redaction and prompt injection detection, and faster time to production. Lyzr is designed for teams who want enterprise-ready AI without the integration overhead.\n",
+            "agent_goal": "Provide accurate, helpful answers to user questions by leveraging embedded knowledge and coordinating with the question analyzer for optimal response quality",
+            "agent_context": "",
+            "agent_output": "",
+            "examples": "",
+            "features": [
+              {
+                "type": "MEMORY",
+                "config": {
+                  "provider": "lyzr",
+                  "max_messages_context_count": 10
+                },
+                "priority": 0
+              }
+            ],
+            "tool_usage_description": "",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o-mini",
+            "top_p": 1.0,
+            "temperature": 0.3,
+            "managed_agents": [
+              {
+                "id": "695b7604a45696ac999e1f70",
+                "name": "FAQ Question Analyzer",
+                "usage_description": "Analyze user questions to extract topic, intent, complexity and key terms before generating FAQ responses"
+              }
+            ],
+            "tool_configs": [],
+            "store_messages": true,
+            "file_output": false,
+            "a2a_tools": [],
+            "voice_config": null,
+            "additional_model_params": {},
+            "image_output_config": null,
+            "version": "3",
+            "created_at": "2026-01-05T08:27:49.224000",
+            "updated_at": "2026-01-05T13:45:20.682000",
+            "llm_credential_id": "lyzr_openai",
+            "tools": [],
+            "files": [],
+            "artifacts": [],
+            "personas": [],
+            "messages": [],
+            "tags": [],
+            "shared_with_users": [],
+            "shared_with_organizations": [],
+            "user_ids": [],
+            "organization_ids": [],
+            "permissions": [],
+            "assets": [],
+            "label": "FAQ Expert",
+            "template_type": "MANAGER",
+            "tool": "",
+            "agent_id": "695b76056363be71980edc81"
+          }
+        },
+        {
+          "id": "695b7604a45696ac999e1f70",
+          "type": "agent",
+          "position": {
+            "x": 0,
+            "y": 300
+          },
+          "data": {
+            "_id": "695b7604a45696ac999e1f70",
+            "api_key": "***REDACTED***",
+            "name": "FAQ Question Analyzer",
+            "description": "Analyzes incoming questions to identify topic, intent, and complexity for better response routing",
+            "agent_role": "Worker",
+            "agent_instructions": "You are a Question Analyzer for the Lyzr Platform FAQ system. Your job is to analyze incoming questions and provide structured analysis to help the FAQ Manager give better answers.\n\n## Your Task\n\nWhen given a question, analyze it and return:\n\n1. **Topic**: What aspect of Lyzr is this about?\n   - Platform Overview (what is Lyzr, who should use it)\n   - Capabilities (what can be built, features)\n   - Technical (architecture, APIs, integrations)\n   - Enterprise (security, compliance, scalability)\n   - Comparison (vs competitors, alternatives)\n   - Getting Started (setup, first steps)\n\n2. **Intent**: What does the user want?\n   - Learn (wants to understand something)\n   - Compare (wants to evaluate options)\n   - Troubleshoot (has a problem)\n   - Decide (making a purchase/adoption decision)\n\n3. **Complexity**: How detailed should the answer be?\n   - Simple (one-liner answer)\n   - Standard (paragraph explanation)\n   - Detailed (comprehensive with examples)\n\n4. **Key Terms**: Extract important keywords for matching\n\n## Output Format\n\nAlways respond in this exact format:\n\n```\nTOPIC: the topic category\nINTENT: the user intent\nCOMPLEXITY: simple or standard or detailed\nKEY_TERMS: comma-separated keywords\nSUMMARY: one sentence describing what the user wants to know\n```\n\n## Examples\n\nQuestion: \"What is Lyzr?\"\n```\nTOPIC: Platform Overview\nINTENT: Learn\nCOMPLEXITY: Standard\nKEY_TERMS: Lyzr, definition, overview\nSUMMARY: User wants a basic introduction to what Lyzr is\n```\n\nQuestion: \"How does Lyzr compare to LangChain?\"\n```\nTOPIC: Comparison\nINTENT: Compare\nCOMPLEXITY: Detailed\nKEY_TERMS: Lyzr, LangChain, comparison, alternatives\nSUMMARY: User wants to understand differences between Lyzr and LangChain\n```\n",
+            "agent_goal": "Analyze user questions to extract topic, intent, and complexity level for accurate FAQ matching and response generation",
+            "agent_context": "",
+            "agent_output": "",
+            "examples": "",
+            "features": [],
+            "tool_usage_description": "Analyze user questions to extract topic, intent, complexity and key terms before generating FAQ responses",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o-mini",
+            "top_p": 1.0,
+            "temperature": 0.2,
+            "managed_agents": [],
+            "tool_configs": [],
+            "store_messages": true,
+            "file_output": false,
+            "a2a_tools": [],
+            "voice_config": null,
+            "additional_model_params": {},
+            "image_output_config": null,
+            "version": "3",
+            "created_at": "2026-01-05T08:27:48.687000",
+            "updated_at": "2026-01-05T13:45:20.173000",
+            "llm_credential_id": "lyzr_openai",
+            "tools": [],
+            "files": [],
+            "artifacts": [],
+            "personas": [],
+            "messages": [],
+            "tags": [],
+            "shared_with_users": [],
+            "shared_with_organizations": [],
+            "user_ids": [],
+            "organization_ids": [],
+            "permissions": [],
+            "assets": [],
+            "label": "FAQ Question Analyzer",
+            "template_type": "STANDARD",
+            "tool": "",
+            "agent_id": "695b7604a45696ac999e1f70"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "edge-695b76056363be71980edc81-695b7604a45696ac999e1f70",
+          "source": "695b76056363be71980edc81",
+          "target": "695b7604a45696ac999e1f70",
+          "label": "Analyze user questions to extract topic, intent, complexity and key terms before generating FAQ responses",
+          "data": {
+            "usageDescription": "Analyze user questions to extract topic, intent, complexity and key terms before generating FAQ responses"
+          }
+        }
+      ]
+    }
+  },
+  "blueprint_info": {
+    "documentation_data": {
+      "markdown": "## The Problem\n\n### The Situation\nUsers exploring the Lyzr platform have questions about what it is, what it can do, and how it compares to alternatives. They need quick, accurate answers without reading through extensive documentation.\n\n### The Challenge\nDocumentation is comprehensive but can be overwhelming. Users want specific answers to their questions, not to hunt through pages of content. They need a conversational interface that understands their intent.\n\n### What's At Stake\nPoor information access leads to confusion, delayed adoption, and frustrated potential users. Support teams get overwhelmed with repetitive questions that could be answered automatically.\n\n---\n\n## The Approach\n\n### The Key Insight\nFAQ answering benefits from two-stage processing: first understand what the user is really asking, then retrieve and present the most relevant information. Question analysis improves answer quality.\n\n### The Method\nA FAQ Expert coordinates with a Question Analyzer. The analyzer classifies the question by topic, intent, and complexity. The expert then searches the knowledge base and generates an appropriately-sized response.\n\n### Why This Works\nQuestion analysis ensures the response matches user expectations. Simple questions get concise answers. Complex comparisons get detailed explanations. The knowledge base ensures accuracy while the LLM provides natural conversation.\n\n---\n\n## Capabilities\n\n### Core Capabilities\n- Answers questions about Lyzr platform, features, and capabilities\n- Uses RAG to search official documentation for accurate information\n- Adapts response length based on question complexity\n- Remembers conversation context for follow-up questions\n\n### Knowledge Topics\n- Platform overview (what is Lyzr, who should use it)\n- Capabilities (what can be built, key features)\n- Technical details (Studio, APIs, integrations)\n- Enterprise features (security, compliance, scalability)\n- Comparisons (vs LangChain, DSPy, LlamaIndex)\n\n### Boundaries\n- Answers based on knowledge base content only\n- Cannot access real-time platform status or pricing\n- English language support\n- General platform questions (not account-specific)\n\n---\n\n## Getting Started\n\n### Prerequisites\n- Knowledge base with Lyzr documentation (attach after cloning)\n- Sample: https://docs.lyzr.ai/introduction/support/faqs\n\n### Your First Run\nTry these questions:\n- \"What is Lyzr?\"\n- \"Who should use Lyzr?\"\n- \"How does Lyzr compare to LangChain?\"\n- \"What types of applications can I build?\"\n\n### Pro Tips\n- Attach the Lyzr docs knowledge base for accurate answers\n- Add your own FAQ content for custom questions\n- Enable memory for multi-turn conversations\n- Customize the knowledge base for your specific use case\n"
+    },
+    "type": "markdown"
+  },
+  "version": "1.0.0",
+  "tags": [
+    "customer-service",
+    "starter",
+    "faq",
+    "rag",
+    "knowledge-base"
+  ],
+  "category": "customer-service",
+  "status": "draft",
+  "is_template": false,
+  "parent_blueprint_id": null,
+  "usage_count": 0,
+  "last_used_at": null,
+  "created_at": "2026-01-05T08:27:52.198000",
+  "updated_at": "2026-01-06T05:36:27.067000",
+  "published_at": null,
+  "is_owner": true,
+  "can_edit": true,
+  "can_share": true,
+  "can_delete": true,
+  "owner_name": null,
+  "owner_email": null,
+  "organization_name": null
+}

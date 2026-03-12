@@ -1,0 +1,90 @@
+# Blueprint Library Report
+
+> Generated: 2026-01-15 21:15
+
+## 📊 Summary
+
+**Ad-hoc Request BPs:** 0
+
+| Status | Count |
+|--------|-------|
+| ✅ Done (Public) | 0 |
+| 🔄 Review (Org) | 0 |
+| 🔨 In Progress (Private) | 0 |
+
+**Unowned Public BPs:** 29
+
+## 📋 Planned (Roadmap)
+
+### ✅ Done (Public)
+
+*None*
+
+### 🔄 Review (Organization)
+
+*None*
+
+### 🔨 In Progress (Private)
+
+*None*
+
+## 🎯 Ad-hoc Request BPs
+
+> Blueprints created outside the roadmap
+
+### ✅ Done (Public)
+
+*None*
+
+### 🔄 Review (Organization)
+
+*None*
+
+### 🔨 In Progress (Private)
+
+*None*
+
+## 📝 Backlog
+
+> Roadmap tasks not yet started
+
+*No backlog items - roadmap complete!* 🎉
+
+## 🔍 Unowned Public BPs
+
+> Blueprints from other users available for discovery
+
+| Name | Category | Roadmap Link | Platform Link |
+|------|----------|--------------|---------------|
+| Enterprise Prospect Search & Outreach | sales | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=45320c31-d8d3-409e-ae03-4ef923130194) |
+| Credit & Debit Card Dispute Resolution | general | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=f57217fb-baff-4dbc-8994-99480054a6e6) |
+| Stanford STORM Multi-Perspective Research | general | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=b65b9d93-74c9-4b39-ac54-5bb45d94e154) |
+| LLM Council – Multi-Model Consensus | general | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=b9a420cc-6a65-4b24-b15a-b680bfbf407a) |
+| Six Sigma Quality Methodology | general | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=a71ab872-8f17-4ff9-b68a-c60ac5d5eb08) |
+| Open Deep Research Synthesis | Research | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=415407d9-646a-4cbd-b1b8-be791f9c7fd8) |
+| Regulatory Compliance Assessment System | Legal | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=aa8b4d6d-8856-49f5-90fa-03c898dc94d3) |
+| Legal Contract Clause Analyzer | Legal | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=c148f781-a1e2-428a-b90c-825335d3b2ba) |
+| Daily News Digest | content-creation | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=1bb80a81-6617-4491-b026-b37b62feb9e6) |
+| IT Helpdesk Agent | customer-service | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=ee9fc5ae-2ee0-4bb5-a763-c7ca574d562e) |
+| Agent Sam - Fundraising Agent Blueprint | development | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=eb8e8cb3-b195-491d-9b62-1e5a2b518ef8) |
+| Google Veo3 Video Prompt Generator | content-creation | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=ee15bf6e-f4e0-419e-85af-35b80afd6380) |
+| Insurance Litigation Analyzer Agent | data-analysis | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=723dac00-eb91-4958-bcae-09877554cc00) |
+| FDA Compliance Draft Reviewer | data-analysis | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=865f765d-61da-4d85-b3bf-02c449679025) |
+| Market Color Analyst Agent - (clone) | data-analysis | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=5e9aef62-e2dc-435c-8ae4-2e3b085db53d) |
+| Interviewer & Evaluator Agent | general | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=be6adc36-f03f-4d0f-91b6-dc367cc947f2) |
+| PitchDeck Evaluator | data-analysis | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=814f0100-7d6b-4fd6-9729-a6a455a31943) |
+| HR Policy Generator | content-creation | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=1701a554-d7ac-45fe-b4c1-a3550a46c89a) |
+| AI HR Hiring Manager | data-analysis | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=ba958ae3-455f-421f-a01c-1f780b272dda) |
+| Internal/External Knowledge Aggregator | general | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=250f1509-ad01-415f-8315-2e2e5c07e22e) |
+| Warby Parker Frame Selector Helper | customer-service | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=4d133895-3978-4fe7-835e-b09e4ae65227) |
+| Financial Credit Tear Sheet | data-analysis | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=65c87ab3-1d4a-4ec2-a0c0-4559774d4c6a) |
+| Market Color Analyst Agent | data-analysis | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=7157df0a-c85c-4c73-bcc6-4360af023e0d) |
+| McKinsey Lilli Clone | data-analysis | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=5ec900c6-ccc9-412f-95d0-e7a681a1dc22) |
+| ArXiv AI Research Agents | general | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=44dd5f69-b5aa-4060-8f14-854c4740a4c2) |
+| Open Source Perplexity | general | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=69a5f0e6-c5dc-49cc-a755-19fc8eec1e38) |
+| Linkedin Post Generator | marketing | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=f6299f01-2428-41d9-893c-eb4fce5a71f4) |
+| Blog Writing Agent | marketing | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=393650a9-6347-49a5-ae7e-09a8e824e299) |
+| eBook Generator | marketing | - | [Open](https://studio.lyzr.ai/lyzr-manager?blueprint=5ebaa508-488c-443b-bf18-d92fbb99ffaf) |
+
+---
+*Generated by `bp list --report`*

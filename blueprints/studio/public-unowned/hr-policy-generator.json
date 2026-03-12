@@ -1,0 +1,611 @@
+{
+  "_id": "1701a554-d7ac-45fe-b4c1-a3550a46c89a",
+  "name": "HR Policy Generator",
+  "description": "Generates compliant HR policies through guiding users through requirements gathering, validating compliance with labor laws and regulations, and produces professional policy documents ready for implementation.",
+  "orchestration_type": "Manager Agent",
+  "orchestration_name": "HR Policy Generator",
+  "owner_id": "mem_cm9i22wia00kh0wsr6d2c70lj",
+  "organization_id": "b385ab96-1dd1-489b-8f7e-f5d10f9edd7e",
+  "share_type": "public",
+  "shared_with_users": [],
+  "shared_with_organizations": [],
+  "blueprint_data": {
+    "manager_agent_id": "68cc6e8703df3c0cc5327532",
+    "tree_structure": {
+      "nodes": [
+        {
+          "id": "68cc6e873b9ab9a255acb61d",
+          "position": {
+            "x": -207.8990215692737,
+            "y": 566.4115042947201
+          },
+          "type": "agent",
+          "data": {
+            "_id": "68cc6e873b9ab9a255acb61d",
+            "api_key": "***REDACTED***",
+            "name": "(R) Policy Requirements Agent [HR Policy Generator Manager]",
+            "description": "Interacts with the user to identify what type of policy they want generated (leave policy, workplace conduct, remote work/WFH, etc.) and any specific rules or conditions they\u2019d like to include.",
+            "agent_role": "User Requirements Collector",
+            "agent_instructions": "Ask clear, structured questions to understand which HR policy the user wants (leave, workplace, WFH, etc.). Gather all requirements such as eligibility, entitlements, restrictions, and approval workflows. Output should be a structured summary of user requirements.\n\nYOU MUST ASK FOR THE COUNTRY WHERE THE EMPLOYEES ARE AS THE FIRST QUESTION, TO UNDERSTAND WHERE THE POLICY MUST BE APPLICABLE FOR.\n\nYou can only ask a total of 6 questions. Try to get all the information in these 6. \n\nOnce you have all the answers say - thanks.",
+            "agent_goal": "Collect detailed information on the type of HR policy the user wants, including scope, applicability, and special conditions.",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [
+              {
+                "type": "MEMORY",
+                "config": {
+                  "max_messages_context_count": 24
+                },
+                "priority": 0
+              }
+            ],
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o",
+            "top_p": 1,
+            "temperature": 0.6,
+            "managed_agents": [],
+            "tool_configs": [],
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-18T20:41:43.524000",
+            "updated_at": "2025-09-18T21:10:13.574000",
+            "llm_credential_id": "gpt-4o-mini",
+            "template_type": "single_task",
+            "tool": ""
+          }
+        },
+        {
+          "id": "68cc6e8776943ad61d28813c",
+          "position": {
+            "x": 635.9954115595999,
+            "y": 1108.209040491555
+          },
+          "type": "agent",
+          "data": {
+            "_id": "68cc6e8776943ad61d28813c",
+            "api_key": "***REDACTED***",
+            "name": "(R) Compliance & Guidelines Agent [HR Policy Generator Manager]",
+            "description": "Uses Perplexity-powered search to retrieve current compliance requirements, labor laws, and best practices related to the requested policy.",
+            "agent_role": "You are an Expert Compliance Validator tasked with ENRICHING user requirements by incorporating mandatory COMPLIANCE GUIDELINES and LEGAL STANDARDS to ensure that policies are LAWFUL and UP-TO-DATE.",
+            "agent_instructions": "1. IDENTIFY the specific policy the user is trying to build and the relevant COUNTRY involved.\n2. CONDUCT a Perplexity search to gather comprehensive information on COMPLIANCE GUIDELINES, LABOR LAWS, and HR BEST PRACTICES applicable to the identified policy and country.\n3. COLLECT authoritative references to ensure the credibility of the information obtained.\n4. REVIEW the SEARCH RESULTS to ensure they cover all relevant COMPLIANCE, RULES, and LAWS associated with the policy.\n5. SUMMARIZE your findings into STRUCTURED COMPLIANCE NOTES.\n6. ENSURE the compliance notes can be easily MERGED with the user's requirements for seamless integration.\n\nMake sure your findings are THOROUGH and ADDRESS all necessary compliance and legal checks specific to the user's policy.",
+            "agent_goal": "Enrich user requirements with mandatory compliance guidelines and legal standards to ensure the policy is lawful and up-to-date.",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [],
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "Perplexity",
+            "model": "perplexity/sonar-pro",
+            "top_p": 1,
+            "temperature": 0.6,
+            "managed_agents": [],
+            "tool_configs": [],
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-18T20:41:43.641000",
+            "updated_at": "2025-09-18T20:56:16.082000",
+            "llm_credential_id": "lyzr_perplexity",
+            "template_type": "single_task",
+            "tool": ""
+          }
+        },
+        {
+          "id": "68cc6e879856bad60bbe4954",
+          "position": {
+            "x": 1779.4118407498759,
+            "y": 700
+          },
+          "type": "agent",
+          "data": {
+            "_id": "68cc6e879856bad60bbe4954",
+            "api_key": "***REDACTED***",
+            "name": "(R) Policy Drafting Agent [HR Policy Generator Manager]",
+            "description": "Generates the final HR policy by combining user requirements and compliance guidelines into a professional, clear, and compliant HR document.",
+            "agent_role": "Policy Generator",
+            "agent_instructions": "Take user requirements and compliance notes as inputs. \n\nDraft a polished HR policy in proper markdown format with clear sections (Purpose, Scope, Policy Details, Compliance, Enforcement, Revision). Ensure tone is professional and language is precise. Return final HR policy text.\n\nGenerate a professional HR policy based on what the user wants and ensuring the policy is completely compliant as required.\n\n\nDO NOT CREATE ANY DOCUMENT OR ARTIFACT, GIVE THE POLICY IN MARKDOWN TEXT FORMAT.",
+            "agent_goal": "Produce a professional HR policy that incorporates user input and compliance requirements, ensuring it is formatted, readable, and actionable.",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [],
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4.1",
+            "top_p": 1,
+            "temperature": 0.2,
+            "managed_agents": [],
+            "tool_configs": [],
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-18T20:41:43.739000",
+            "updated_at": "2025-09-18T21:09:28.919000",
+            "llm_credential_id": "gpt-4o-mini",
+            "template_type": "single_task",
+            "tool": ""
+          }
+        },
+        {
+          "id": "68cc6e8703df3c0cc5327532",
+          "position": {
+            "x": 720,
+            "y": 100
+          },
+          "type": "agent",
+          "data": {
+            "_id": "68cc6e8703df3c0cc5327532",
+            "api_key": "***REDACTED***",
+            "name": "HR Policy Generator Manager ",
+            "description": "Coordinates the creation of HR policies by orchestrating specialized sub-agents. Ensures the workflow captures user requirements, validates compliance guidelines, and produces a finalized HR policy document.",
+            "agent_role": "You are the Manager agent for HR Policy Generation",
+            "agent_instructions": "You are the HR Policy Generator Manager. Always return structured JSON with a Manager and multiple Role Agents.\nEnsure role agents collaborate in sequence: \n(1) gather requirements from the user\n(2) validate compliance and guidelines\n(3) generate the HR policy. Maintain professionalism and clarity in instructions. Never skip steps.\n\nFirst you have to ensure the policy requirements agent collects all the user input through 2-3 questions and then you pass that information to Compliance & guidelines agent to check compliance and finally generate the policy in markdown format through policy drafting agent.\n\nPolicy Requirements Agent [HR Policy Generator Manager] must ask 2-3 good set of questions to which the user must respond so that we have clarity on the what policy we need to build.\nOnce it has enough clarity, then we move to compliance agent and then draft policy.",
+            "agent_goal": "Orchestrate the process of creating tailored HR policies by directing role agents to collect user needs, validate compliance requirements, and generate a professional, compliant HR policy document.",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [
+              {
+                "type": "MEMORY",
+                "config": {
+                  "max_messages_context_count": 15
+                },
+                "priority": 0
+              }
+            ],
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4.1",
+            "top_p": 1,
+            "temperature": 0.7,
+            "managed_agents": [
+              {
+                "id": "68cc6e873b9ab9a255acb61d",
+                "name": "(R) Policy Requirements Agent [HR Policy Generator Manager]",
+                "usage_description": "The Manager 'HR Policy Generator Manager' assigns tasks to the role agent '(R) Policy Requirements Agent [HR Policy Generator Manager]'. This agent\u2019s goal is to Collect detailed information on the type of HR policy the user wants, including scope, applicability, and special conditions.. It should operate according to these instructions: Ask clear, structured questions to understand which HR policy the user wants (leave, workplace, WFH, etc.). Gather all requirements such as eligibility, entitlements, restrictions, and approval workflows. Output should be a structured summary of user requirements."
+              },
+              {
+                "id": "68cc6e8776943ad61d28813c",
+                "name": "(R) Compliance & Guidelines Agent [HR Policy Generator Manager]",
+                "usage_description": "The Manager 'HR Policy Generator Manager' assigns tasks to the role agent '(R) Compliance & Guidelines Agent [HR Policy Generator Manager]'. This agent\u2019s goal is to Enrich user requirements with mandatory compliance guidelines and legal standards to ensure the policy is lawful and up-to-date.. It should operate according to these instructions: Run a Perplexity search for compliance guidelines, labor laws, and HR best practices relevant to the requested policy. Include authoritative references. Summarize findings into structured compliance notes that can be merged with user requirements."
+              },
+              {
+                "id": "68cc6e879856bad60bbe4954",
+                "name": "(R) Policy Drafting Agent [HR Policy Generator Manager]",
+                "usage_description": "The Manager 'HR Policy Generator Manager' assigns tasks to the role agent '(R) Policy Drafting Agent [HR Policy Generator Manager]'. This agent\u2019s goal is to Produce a professional HR policy that incorporates user input and compliance requirements, ensuring it is formatted, readable, and actionable.. It should operate according to these instructions: Take user requirements and compliance notes as inputs. Draft a polished HR policy document with clear sections (Purpose, Scope, Policy Details, Compliance, Enforcement, Revision). Ensure tone is professional and language is precise. Return final HR policy text."
+              }
+            ],
+            "tool_configs": [],
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-18T20:41:43.844000",
+            "updated_at": "2025-09-18T21:02:01.172000",
+            "llm_credential_id": "gpt-4o",
+            "template_type": "single_task",
+            "tool": ""
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "68cc6e8703df3c0cc5327532-68cc6e873b9ab9a255acb61d",
+          "source": "68cc6e8703df3c0cc5327532",
+          "target": "68cc6e873b9ab9a255acb61d",
+          "label": "The Manager 'HR Policy Generator Manager' assigns tasks to the role agent '(R) Policy Requirements Agent [HR Policy Generator Manager]'. This agent\u2019s goal is to Collect detailed information on the type of HR policy the user wants, including scope, applicability, and special conditions.. It should operate according to these instructions: Ask clear, structured questions to understand which HR policy the user wants (leave, workplace, WFH, etc.). Gather all requirements such as eligibility, entitlements, restrictions, and approval workflows. Output should be a structured summary of user requirements."
+        },
+        {
+          "id": "68cc6e8703df3c0cc5327532-68cc6e8776943ad61d28813c",
+          "source": "68cc6e8703df3c0cc5327532",
+          "target": "68cc6e8776943ad61d28813c",
+          "label": "The Manager 'HR Policy Generator Manager' assigns tasks to the role agent '(R) Compliance & Guidelines Agent [HR Policy Generator Manager]'. This agent\u2019s goal is to Enrich user requirements with mandatory compliance guidelines and legal standards to ensure the policy is lawful and up-to-date.. It should operate according to these instructions: Run a Perplexity search for compliance guidelines, labor laws, and HR best practices relevant to the requested policy. Include authoritative references. Summarize findings into structured compliance notes that can be merged with user requirements."
+        },
+        {
+          "id": "68cc6e8703df3c0cc5327532-68cc6e879856bad60bbe4954",
+          "source": "68cc6e8703df3c0cc5327532",
+          "target": "68cc6e879856bad60bbe4954",
+          "label": "The Manager 'HR Policy Generator Manager' assigns tasks to the role agent '(R) Policy Drafting Agent [HR Policy Generator Manager]'. This agent\u2019s goal is to Produce a professional HR policy that incorporates user input and compliance requirements, ensuring it is formatted, readable, and actionable.. It should operate according to these instructions: Take user requirements and compliance notes as inputs. Draft a polished HR policy document with clear sections (Purpose, Scope, Policy Details, Compliance, Enforcement, Revision). Ensure tone is professional and language is precise. Return final HR policy text."
+        }
+      ]
+    },
+    "nodes": [
+      {
+        "id": "68cc6e873b9ab9a255acb61d",
+        "position": {
+          "x": -207.8990215692737,
+          "y": 566.4115042947201
+        },
+        "type": "agent",
+        "data": {
+          "_id": "68cc6e873b9ab9a255acb61d",
+          "api_key": "***REDACTED***",
+          "name": "(R) Policy Requirements Agent [HR Policy Generator Manager]",
+          "description": "Interacts with the user to identify what type of policy they want generated (leave policy, workplace conduct, remote work/WFH, etc.) and any specific rules or conditions they\u2019d like to include.",
+          "agent_role": "User Requirements Collector",
+          "agent_instructions": "Ask clear, structured questions to understand which HR policy the user wants (leave, workplace, WFH, etc.). Gather all requirements such as eligibility, entitlements, restrictions, and approval workflows. Output should be a structured summary of user requirements.\n\nYOU MUST ASK FOR THE COUNTRY WHERE THE EMPLOYEES ARE AS THE FIRST QUESTION, TO UNDERSTAND WHERE THE POLICY MUST BE APPLICABLE FOR.\n\nYou can only ask a total of 6 questions. Try to get all the information in these 6. \n\nOnce you have all the answers say - thanks.",
+          "agent_goal": "Collect detailed information on the type of HR policy the user wants, including scope, applicability, and special conditions.",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [
+            {
+              "type": "MEMORY",
+              "config": {
+                "max_messages_context_count": 24
+              },
+              "priority": 0
+            }
+          ],
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o",
+          "top_p": 1,
+          "temperature": 0.6,
+          "managed_agents": [],
+          "tool_configs": [],
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-18T20:41:43.524000",
+          "updated_at": "2025-09-18T21:10:13.574000",
+          "llm_credential_id": "gpt-4o-mini",
+          "template_type": "single_task",
+          "tool": ""
+        }
+      },
+      {
+        "id": "68cc6e8776943ad61d28813c",
+        "position": {
+          "x": 635.9954115595999,
+          "y": 1108.209040491555
+        },
+        "type": "agent",
+        "data": {
+          "_id": "68cc6e8776943ad61d28813c",
+          "api_key": "***REDACTED***",
+          "name": "(R) Compliance & Guidelines Agent [HR Policy Generator Manager]",
+          "description": "Uses Perplexity-powered search to retrieve current compliance requirements, labor laws, and best practices related to the requested policy.",
+          "agent_role": "You are an Expert Compliance Validator tasked with ENRICHING user requirements by incorporating mandatory COMPLIANCE GUIDELINES and LEGAL STANDARDS to ensure that policies are LAWFUL and UP-TO-DATE.",
+          "agent_instructions": "1. IDENTIFY the specific policy the user is trying to build and the relevant COUNTRY involved.\n2. CONDUCT a Perplexity search to gather comprehensive information on COMPLIANCE GUIDELINES, LABOR LAWS, and HR BEST PRACTICES applicable to the identified policy and country.\n3. COLLECT authoritative references to ensure the credibility of the information obtained.\n4. REVIEW the SEARCH RESULTS to ensure they cover all relevant COMPLIANCE, RULES, and LAWS associated with the policy.\n5. SUMMARIZE your findings into STRUCTURED COMPLIANCE NOTES.\n6. ENSURE the compliance notes can be easily MERGED with the user's requirements for seamless integration.\n\nMake sure your findings are THOROUGH and ADDRESS all necessary compliance and legal checks specific to the user's policy.",
+          "agent_goal": "Enrich user requirements with mandatory compliance guidelines and legal standards to ensure the policy is lawful and up-to-date.",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [],
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "Perplexity",
+          "model": "perplexity/sonar-pro",
+          "top_p": 1,
+          "temperature": 0.6,
+          "managed_agents": [],
+          "tool_configs": [],
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-18T20:41:43.641000",
+          "updated_at": "2025-09-18T20:56:16.082000",
+          "llm_credential_id": "lyzr_perplexity",
+          "template_type": "single_task",
+          "tool": ""
+        }
+      },
+      {
+        "id": "68cc6e879856bad60bbe4954",
+        "position": {
+          "x": 1779.4118407498759,
+          "y": 700
+        },
+        "type": "agent",
+        "data": {
+          "_id": "68cc6e879856bad60bbe4954",
+          "api_key": "***REDACTED***",
+          "name": "(R) Policy Drafting Agent [HR Policy Generator Manager]",
+          "description": "Generates the final HR policy by combining user requirements and compliance guidelines into a professional, clear, and compliant HR document.",
+          "agent_role": "Policy Generator",
+          "agent_instructions": "Take user requirements and compliance notes as inputs. \n\nDraft a polished HR policy in proper markdown format with clear sections (Purpose, Scope, Policy Details, Compliance, Enforcement, Revision). Ensure tone is professional and language is precise. Return final HR policy text.\n\nGenerate a professional HR policy based on what the user wants and ensuring the policy is completely compliant as required.\n\n\nDO NOT CREATE ANY DOCUMENT OR ARTIFACT, GIVE THE POLICY IN MARKDOWN TEXT FORMAT.",
+          "agent_goal": "Produce a professional HR policy that incorporates user input and compliance requirements, ensuring it is formatted, readable, and actionable.",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [],
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4.1",
+          "top_p": 1,
+          "temperature": 0.2,
+          "managed_agents": [],
+          "tool_configs": [],
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-18T20:41:43.739000",
+          "updated_at": "2025-09-18T21:09:28.919000",
+          "llm_credential_id": "gpt-4o-mini",
+          "template_type": "single_task",
+          "tool": ""
+        }
+      },
+      {
+        "id": "68cc6e8703df3c0cc5327532",
+        "position": {
+          "x": 720,
+          "y": 100
+        },
+        "type": "agent",
+        "data": {
+          "_id": "68cc6e8703df3c0cc5327532",
+          "api_key": "***REDACTED***",
+          "name": "HR Policy Generator Manager ",
+          "description": "Coordinates the creation of HR policies by orchestrating specialized sub-agents. Ensures the workflow captures user requirements, validates compliance guidelines, and produces a finalized HR policy document.",
+          "agent_role": "You are the Manager agent for HR Policy Generation",
+          "agent_instructions": "You are the HR Policy Generator Manager. Always return structured JSON with a Manager and multiple Role Agents.\nEnsure role agents collaborate in sequence: \n(1) gather requirements from the user\n(2) validate compliance and guidelines\n(3) generate the HR policy. Maintain professionalism and clarity in instructions. Never skip steps.\n\nFirst you have to ensure the policy requirements agent collects all the user input through 2-3 questions and then you pass that information to Compliance & guidelines agent to check compliance and finally generate the policy in markdown format through policy drafting agent.\n\nPolicy Requirements Agent [HR Policy Generator Manager] must ask 2-3 good set of questions to which the user must respond so that we have clarity on the what policy we need to build.\nOnce it has enough clarity, then we move to compliance agent and then draft policy.",
+          "agent_goal": "Orchestrate the process of creating tailored HR policies by directing role agents to collect user needs, validate compliance requirements, and generate a professional, compliant HR policy document.",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [
+            {
+              "type": "MEMORY",
+              "config": {
+                "max_messages_context_count": 15
+              },
+              "priority": 0
+            }
+          ],
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4.1",
+          "top_p": 1,
+          "temperature": 0.7,
+          "managed_agents": [
+            {
+              "id": "68cc6e873b9ab9a255acb61d",
+              "name": "(R) Policy Requirements Agent [HR Policy Generator Manager]",
+              "usage_description": "The Manager 'HR Policy Generator Manager' assigns tasks to the role agent '(R) Policy Requirements Agent [HR Policy Generator Manager]'. This agent\u2019s goal is to Collect detailed information on the type of HR policy the user wants, including scope, applicability, and special conditions.. It should operate according to these instructions: Ask clear, structured questions to understand which HR policy the user wants (leave, workplace, WFH, etc.). Gather all requirements such as eligibility, entitlements, restrictions, and approval workflows. Output should be a structured summary of user requirements."
+            },
+            {
+              "id": "68cc6e8776943ad61d28813c",
+              "name": "(R) Compliance & Guidelines Agent [HR Policy Generator Manager]",
+              "usage_description": "The Manager 'HR Policy Generator Manager' assigns tasks to the role agent '(R) Compliance & Guidelines Agent [HR Policy Generator Manager]'. This agent\u2019s goal is to Enrich user requirements with mandatory compliance guidelines and legal standards to ensure the policy is lawful and up-to-date.. It should operate according to these instructions: Run a Perplexity search for compliance guidelines, labor laws, and HR best practices relevant to the requested policy. Include authoritative references. Summarize findings into structured compliance notes that can be merged with user requirements."
+            },
+            {
+              "id": "68cc6e879856bad60bbe4954",
+              "name": "(R) Policy Drafting Agent [HR Policy Generator Manager]",
+              "usage_description": "The Manager 'HR Policy Generator Manager' assigns tasks to the role agent '(R) Policy Drafting Agent [HR Policy Generator Manager]'. This agent\u2019s goal is to Produce a professional HR policy that incorporates user input and compliance requirements, ensuring it is formatted, readable, and actionable.. It should operate according to these instructions: Take user requirements and compliance notes as inputs. Draft a polished HR policy document with clear sections (Purpose, Scope, Policy Details, Compliance, Enforcement, Revision). Ensure tone is professional and language is precise. Return final HR policy text."
+            }
+          ],
+          "tool_configs": [],
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-18T20:41:43.844000",
+          "updated_at": "2025-09-18T21:02:01.172000",
+          "llm_credential_id": "gpt-4o",
+          "template_type": "single_task",
+          "tool": ""
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "68cc6e8703df3c0cc5327532-68cc6e873b9ab9a255acb61d",
+        "source": "68cc6e8703df3c0cc5327532",
+        "target": "68cc6e873b9ab9a255acb61d",
+        "label": "The Manager 'HR Policy Generator Manager' assigns tasks to the role agent '(R) Policy Requirements Agent [HR Policy Generator Manager]'. This agent\u2019s goal is to Collect detailed information on the type of HR policy the user wants, including scope, applicability, and special conditions.. It should operate according to these instructions: Ask clear, structured questions to understand which HR policy the user wants (leave, workplace, WFH, etc.). Gather all requirements such as eligibility, entitlements, restrictions, and approval workflows. Output should be a structured summary of user requirements."
+      },
+      {
+        "id": "68cc6e8703df3c0cc5327532-68cc6e8776943ad61d28813c",
+        "source": "68cc6e8703df3c0cc5327532",
+        "target": "68cc6e8776943ad61d28813c",
+        "label": "The Manager 'HR Policy Generator Manager' assigns tasks to the role agent '(R) Compliance & Guidelines Agent [HR Policy Generator Manager]'. This agent\u2019s goal is to Enrich user requirements with mandatory compliance guidelines and legal standards to ensure the policy is lawful and up-to-date.. It should operate according to these instructions: Run a Perplexity search for compliance guidelines, labor laws, and HR best practices relevant to the requested policy. Include authoritative references. Summarize findings into structured compliance notes that can be merged with user requirements."
+      },
+      {
+        "id": "68cc6e8703df3c0cc5327532-68cc6e879856bad60bbe4954",
+        "source": "68cc6e8703df3c0cc5327532",
+        "target": "68cc6e879856bad60bbe4954",
+        "label": "The Manager 'HR Policy Generator Manager' assigns tasks to the role agent '(R) Policy Drafting Agent [HR Policy Generator Manager]'. This agent\u2019s goal is to Produce a professional HR policy that incorporates user input and compliance requirements, ensuring it is formatted, readable, and actionable.. It should operate according to these instructions: Take user requirements and compliance notes as inputs. Draft a polished HR policy document with clear sections (Purpose, Scope, Policy Details, Compliance, Enforcement, Revision). Ensure tone is professional and language is precise. Return final HR policy text."
+      }
+    ],
+    "agents": {
+      "68cc6e873b9ab9a255acb61d": {
+        "_id": "68cc6e873b9ab9a255acb61d",
+        "api_key": "***REDACTED***",
+        "name": "(R) Policy Requirements Agent [HR Policy Generator Manager]",
+        "description": "Interacts with the user to identify what type of policy they want generated (leave policy, workplace conduct, remote work/WFH, etc.) and any specific rules or conditions they\u2019d like to include.",
+        "agent_role": "User Requirements Collector",
+        "agent_instructions": "Ask clear, structured questions to understand which HR policy the user wants (leave, workplace, WFH, etc.). Gather all requirements such as eligibility, entitlements, restrictions, and approval workflows. Output should be a structured summary of user requirements.\n\nYOU MUST ASK FOR THE COUNTRY WHERE THE EMPLOYEES ARE AS THE FIRST QUESTION, TO UNDERSTAND WHERE THE POLICY MUST BE APPLICABLE FOR.\n\nYou can only ask a total of 6 questions. Try to get all the information in these 6. \n\nOnce you have all the answers say - thanks.",
+        "agent_goal": "Collect detailed information on the type of HR policy the user wants, including scope, applicability, and special conditions.",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [
+          {
+            "type": "MEMORY",
+            "config": {
+              "max_messages_context_count": 24
+            },
+            "priority": 0
+          }
+        ],
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o",
+        "top_p": 1,
+        "temperature": 0.6,
+        "managed_agents": [],
+        "tool_configs": [],
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-18T20:41:43.524000",
+        "updated_at": "2025-09-18T21:10:13.574000",
+        "llm_credential_id": "gpt-4o-mini",
+        "template_type": "single_task",
+        "tool": ""
+      },
+      "68cc6e8776943ad61d28813c": {
+        "_id": "68cc6e8776943ad61d28813c",
+        "api_key": "***REDACTED***",
+        "name": "(R) Compliance & Guidelines Agent [HR Policy Generator Manager]",
+        "description": "Uses Perplexity-powered search to retrieve current compliance requirements, labor laws, and best practices related to the requested policy.",
+        "agent_role": "You are an Expert Compliance Validator tasked with ENRICHING user requirements by incorporating mandatory COMPLIANCE GUIDELINES and LEGAL STANDARDS to ensure that policies are LAWFUL and UP-TO-DATE.",
+        "agent_instructions": "1. IDENTIFY the specific policy the user is trying to build and the relevant COUNTRY involved.\n2. CONDUCT a Perplexity search to gather comprehensive information on COMPLIANCE GUIDELINES, LABOR LAWS, and HR BEST PRACTICES applicable to the identified policy and country.\n3. COLLECT authoritative references to ensure the credibility of the information obtained.\n4. REVIEW the SEARCH RESULTS to ensure they cover all relevant COMPLIANCE, RULES, and LAWS associated with the policy.\n5. SUMMARIZE your findings into STRUCTURED COMPLIANCE NOTES.\n6. ENSURE the compliance notes can be easily MERGED with the user's requirements for seamless integration.\n\nMake sure your findings are THOROUGH and ADDRESS all necessary compliance and legal checks specific to the user's policy.",
+        "agent_goal": "Enrich user requirements with mandatory compliance guidelines and legal standards to ensure the policy is lawful and up-to-date.",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [],
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "Perplexity",
+        "model": "perplexity/sonar-pro",
+        "top_p": 1,
+        "temperature": 0.6,
+        "managed_agents": [],
+        "tool_configs": [],
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-18T20:41:43.641000",
+        "updated_at": "2025-09-18T20:56:16.082000",
+        "llm_credential_id": "lyzr_perplexity",
+        "template_type": "single_task",
+        "tool": ""
+      },
+      "68cc6e879856bad60bbe4954": {
+        "_id": "68cc6e879856bad60bbe4954",
+        "api_key": "***REDACTED***",
+        "name": "(R) Policy Drafting Agent [HR Policy Generator Manager]",
+        "description": "Generates the final HR policy by combining user requirements and compliance guidelines into a professional, clear, and compliant HR document.",
+        "agent_role": "Policy Generator",
+        "agent_instructions": "Take user requirements and compliance notes as inputs. \n\nDraft a polished HR policy in proper markdown format with clear sections (Purpose, Scope, Policy Details, Compliance, Enforcement, Revision). Ensure tone is professional and language is precise. Return final HR policy text.\n\nGenerate a professional HR policy based on what the user wants and ensuring the policy is completely compliant as required.\n\n\nDO NOT CREATE ANY DOCUMENT OR ARTIFACT, GIVE THE POLICY IN MARKDOWN TEXT FORMAT.",
+        "agent_goal": "Produce a professional HR policy that incorporates user input and compliance requirements, ensuring it is formatted, readable, and actionable.",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [],
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4.1",
+        "top_p": 1,
+        "temperature": 0.2,
+        "managed_agents": [],
+        "tool_configs": [],
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-18T20:41:43.739000",
+        "updated_at": "2025-09-18T21:09:28.919000",
+        "llm_credential_id": "gpt-4o-mini",
+        "template_type": "single_task",
+        "tool": ""
+      },
+      "68cc6e8703df3c0cc5327532": {
+        "_id": "68cc6e8703df3c0cc5327532",
+        "api_key": "***REDACTED***",
+        "name": "HR Policy Generator Manager ",
+        "description": "Coordinates the creation of HR policies by orchestrating specialized sub-agents. Ensures the workflow captures user requirements, validates compliance guidelines, and produces a finalized HR policy document.",
+        "agent_role": "You are the Manager agent for HR Policy Generation",
+        "agent_instructions": "You are the HR Policy Generator Manager. Always return structured JSON with a Manager and multiple Role Agents.\nEnsure role agents collaborate in sequence: \n(1) gather requirements from the user\n(2) validate compliance and guidelines\n(3) generate the HR policy. Maintain professionalism and clarity in instructions. Never skip steps.\n\nFirst you have to ensure the policy requirements agent collects all the user input through 2-3 questions and then you pass that information to Compliance & guidelines agent to check compliance and finally generate the policy in markdown format through policy drafting agent.\n\nPolicy Requirements Agent [HR Policy Generator Manager] must ask 2-3 good set of questions to which the user must respond so that we have clarity on the what policy we need to build.\nOnce it has enough clarity, then we move to compliance agent and then draft policy.",
+        "agent_goal": "Orchestrate the process of creating tailored HR policies by directing role agents to collect user needs, validate compliance requirements, and generate a professional, compliant HR policy document.",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [
+          {
+            "type": "MEMORY",
+            "config": {
+              "max_messages_context_count": 15
+            },
+            "priority": 0
+          }
+        ],
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4.1",
+        "top_p": 1,
+        "temperature": 0.7,
+        "managed_agents": [
+          {
+            "id": "68cc6e873b9ab9a255acb61d",
+            "name": "(R) Policy Requirements Agent [HR Policy Generator Manager]",
+            "usage_description": "The Manager 'HR Policy Generator Manager' assigns tasks to the role agent '(R) Policy Requirements Agent [HR Policy Generator Manager]'. This agent\u2019s goal is to Collect detailed information on the type of HR policy the user wants, including scope, applicability, and special conditions.. It should operate according to these instructions: Ask clear, structured questions to understand which HR policy the user wants (leave, workplace, WFH, etc.). Gather all requirements such as eligibility, entitlements, restrictions, and approval workflows. Output should be a structured summary of user requirements."
+          },
+          {
+            "id": "68cc6e8776943ad61d28813c",
+            "name": "(R) Compliance & Guidelines Agent [HR Policy Generator Manager]",
+            "usage_description": "The Manager 'HR Policy Generator Manager' assigns tasks to the role agent '(R) Compliance & Guidelines Agent [HR Policy Generator Manager]'. This agent\u2019s goal is to Enrich user requirements with mandatory compliance guidelines and legal standards to ensure the policy is lawful and up-to-date.. It should operate according to these instructions: Run a Perplexity search for compliance guidelines, labor laws, and HR best practices relevant to the requested policy. Include authoritative references. Summarize findings into structured compliance notes that can be merged with user requirements."
+          },
+          {
+            "id": "68cc6e879856bad60bbe4954",
+            "name": "(R) Policy Drafting Agent [HR Policy Generator Manager]",
+            "usage_description": "The Manager 'HR Policy Generator Manager' assigns tasks to the role agent '(R) Policy Drafting Agent [HR Policy Generator Manager]'. This agent\u2019s goal is to Produce a professional HR policy that incorporates user input and compliance requirements, ensuring it is formatted, readable, and actionable.. It should operate according to these instructions: Take user requirements and compliance notes as inputs. Draft a polished HR policy document with clear sections (Purpose, Scope, Policy Details, Compliance, Enforcement, Revision). Ensure tone is professional and language is precise. Return final HR policy text."
+          }
+        ],
+        "tool_configs": [],
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-18T20:41:43.844000",
+        "updated_at": "2025-09-18T21:02:01.172000",
+        "llm_credential_id": "gpt-4o",
+        "template_type": "single_task",
+        "tool": ""
+      }
+    }
+  },
+  "blueprint_info": {
+    "documentation_data": {
+      "markdown": "**Blueprint Documentation**\n\n**Overview**\nThis blueprint provides an AI-powered HR Policy Generator that orchestrates three specialized agents to create comprehensive, compliant HR policies. The system guides users through requirements gathering, validates compliance with labor laws and regulations, and produces professional policy documents ready for implementation.\n\n**How to Use**\n1. Step 1: 'Launch' the HR Policy Generator Manager agent after cloning the blueprint for PDF creation\n2. Step 2: Answer 2-3 structured questions about your desired HR policy (type, scope, special requirements)\n3. Step 3: The system automatically validates compliance requirements and legal standards\n4. Step 4: Review the generated HR policy document in markdown format\n5. Step 5: Make any necessary adjustments and finalize your policy\n\n**Configuration**\n* **Manager Agent: HR Policy Generator Manager**: Orchestrates the entire policy creation workflow, ensuring all steps are completed in sequence and managing communication between sub-agents\n* **Agent 1: Policy Requirements Agent**: Collects detailed requirements through structured questions about policy type, scope, eligibility, entitlements, and approval workflows\n* **Agent 2: Compliance & Guidelines Agent**: Enriches requirements with mandatory compliance guidelines, labor laws, and HR best practices through automated research\n* **Agent 3: Policy Drafting Agent**: Produces the final professional HR policy document incorporating all requirements and compliance standards\n\n**Requirements**\n* **Ready to Use** - This blueprint works immediately without any additional setup\n* Launch the HR Policy Generator Manager agent after cloning to use the blueprint\n* All agents are self-sufficient and don't require external tools or knowledge bases\n\n**Setup Instructions**\n**Post-Clone Steps**\n1. After cloning the blueprint, navigate to your Agents dashboard\n2. Locate \"HR Policy Generator Manager\" (the main orchestrator)\n3. Click \"Launch\" on the manager agent to start using the blueprint\n4. Begin interacting with the agent to generate your HR policy\n\n**Examples**\n\n**Example 1: Work From Home Policy**\n- User Input: \"I need a work from home policy\"\n- Agent Questions:\u00a0\n\u00a0 - \"What percentage of time can employees work remotely?\"\n\u00a0 - \"What are the eligibility criteria?\"\n\u00a0 - \"Are there any equipment provisions?\"\n- Output: Complete WFH policy with sections on eligibility, equipment, productivity expectations, and compliance requirements\n\n**Example 2: Annual Leave Policy**\n- User Input: \"Create an annual leave policy for our startup\"\n- Agent Questions:\n\u00a0 - \"How many leave days per year?\"\n\u00a0 - \"What's the accrual method?\"\n\u00a0 - \"Any carry-forward provisions?\"\n- Output: Comprehensive leave policy including accrual rates, approval process, blackout periods, and legal compliance\n\n**Example 3: Code of Conduct Policy**\n- User Input: \"We need a workplace code of conduct\"\n- Agent Questions:\n\u00a0 - \"What are your core company values?\"\n\u00a0 - \"Any specific behaviors to address?\"\n\u00a0 - \"What are the violation consequences?\"\n- Output: Detailed code of conduct covering professional behavior, ethics, disciplinary procedures, and reporting mechanisms\n\n**Important Notes**\n- The manager agent must be launched (not just opened) to initiate the workflow\n- The system will guide you through all necessary steps automatically\n- Final policies are generated in markdown format for easy editing and formatting\n- All generated policies include standard sections: Purpose, Scope, Policy Details, Compliance, Enforcement, and Revision"
+    },
+    "type": "markdown"
+  },
+  "version": "1.0.0",
+  "tags": [
+    "HR",
+    "Compliance",
+    "Legal"
+  ],
+  "category": "content-creation",
+  "status": "draft",
+  "is_template": false,
+  "parent_blueprint_id": null,
+  "usage_count": 0,
+  "last_used_at": null,
+  "created_at": "2025-09-18T21:25:29.094000",
+  "updated_at": "2025-09-18T21:25:29.094000",
+  "published_at": null,
+  "is_owner": false,
+  "can_edit": false,
+  "can_share": false,
+  "can_delete": false,
+  "owner_name": null,
+  "owner_email": null,
+  "organization_name": null
+}

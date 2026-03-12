@@ -1,0 +1,146 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: AutoGen Conversational Problem Solver
+  description: Multi-agent conversational system inspired by AutoGen patterns, 
+    featuring iterative proposal, critique, refinement, and verification cycles 
+    for collaborative problem-solving.
+  category: featured
+  tags:
+    - featured
+    - multi-agent
+    - autogen
+    - conversational
+    - problem-solving
+    - collaboration
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Complex problems benefit from multiple perspectives. Single-agent systems can miss edge cases, overlook alternatives, and lack self-correction mechanisms. Human teams naturally iterate through propose-critique-refine cycles.
+
+    ### The Challenge
+    Replicating effective human collaboration patterns in AI systems requires structured conversation flow, role specialization, and termination conditions. Without orchestration, multi-agent conversations can become circular or unfocused.
+
+    ### What's At Stake
+    Suboptimal solutions from single-pass generation. Missed opportunities for improvement. Solutions that fail in practice because edge cases were not considered during generation.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    AutoGen-style conversational patterns structure multi-agent dialogue into productive cycles. By separating proposal, critique, refinement, and verification into distinct roles, each agent can specialize while the orchestrator ensures convergence.
+
+    ### The Method
+    A Conversation Orchestrator manages four specialists in iterative dialogue:
+
+    1. **Solution Proposer**: Generates creative initial solutions with reasoning and alternatives. High temperature for divergent thinking.
+
+    2. **Critical Reviewer**: Provides constructive critique identifying strengths, weaknesses, and improvement opportunities. Structured feedback with priority levels.
+
+    3. **Solution Refiner**: Addresses critique systematically, producing improved versions while maintaining coherence. Documents changes and rationale.
+
+    4. **Verification Agent**: Validates solution quality against requirements. Signals when to terminate or continue iteration.
+
+    ### Why This Works
+    Role specialization prevents mode collapse. Structured iteration ensures depth. Verification provides quality gates. Orchestration maintains focus and prevents infinite loops. The conversation produces both a solution and a documented reasoning journey.
+
+    ---
+
+    ## Capabilities
+
+    ### Proposal Generation
+    - Divergent thinking for multiple approaches
+    - Structured problem understanding
+    - Clear reasoning documentation
+    - Alternative approaches considered
+    - Tradeoffs acknowledged upfront
+
+    ### Constructive Critique
+    - Specific, actionable feedback
+    - Priority classification (Critical, Important, Minor)
+    - Strengths acknowledged before weaknesses
+    - Edge case identification
+    - Improvement suggestions included
+
+    ### Iterative Refinement
+    - Systematic issue addressing
+    - Change documentation
+    - Coherence maintenance
+    - Thoughtful pushback on invalid critique
+    - Cumulative improvement tracking
+
+    ### Quality Verification
+    - Requirements coverage assessment
+    - Multi-dimensional quality scoring
+    - Consensus evaluation
+    - Termination recommendation
+    - Confidence calibration
+
+    ### Conversation Orchestration
+    - Turn management and phase tracking
+    - Context preservation across turns
+    - Conflict resolution
+    - Convergence monitoring
+    - Loop prevention (max 8 turns)
+
+    ### Boundaries
+    - Best for problems benefiting from multiple perspectives
+    - Requires clear problem statements
+    - More thorough but slower than single-agent
+    - May over-engineer simple problems
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - A problem or question requiring thoughtful solution development
+    - Tolerance for multi-turn conversation (typically 4-8 turns)
+    - Appreciation for documented reasoning
+
+    ### Your First Run
+    Try this prompt:
+
+    "Design a notification system for a mobile app that keeps users informed without causing notification fatigue. Consider different notification types, user preferences, and timing strategies."
+
+    ### Pro Tips
+    - **Provide Context**: More problem context enables better proposals
+    - **Be Specific**: Clear requirements help verification
+    - **Accept Iteration**: The best solutions emerge through refinement
+    - **Review the Journey**: The conversation history shows reasoning
+
+    ### Example Use Cases
+    - System architecture design decisions
+    - Policy and process development
+    - Technical specification writing
+    - Strategic planning and evaluation
+    - Complex problem decomposition
+
+    ### Sample Interactions
+
+    Architecture Decision:
+    Input: "Should we use microservices or monolith for a new e-commerce platform?"
+    Output: Evaluated proposal with tradeoffs, critiqued assumptions, refined recommendation
+
+    Process Design:
+    Input: "Design an employee onboarding process for a remote-first company"
+    Output: Comprehensive process with edge cases handled through iteration
+
+    Technical Specification:
+    Input: "Specify the API contract for a payment processing integration"
+    Output: Detailed spec refined through multiple critique cycles
+
+root_agents:
+  - ../agents/conversation-orchestrator.yaml
+ids:
+  blueprint: 0fa5a6c1-1903-4137-b801-340bc35384d8
+  agents:
+    ../agents/conversation-orchestrator.yaml: 695bf155457887dd859fb573
+    ../agents/solution-proposer.yaml: 695bf152457887dd859fb56e
+    ../agents/critical-reviewer.yaml: 695bf153c2dad05ba69ad985
+    ../agents/solution-refiner.yaml: 695bf153457887dd859fb571
+    ../agents/verification-agent.yaml: 695bf154c2dad05ba69ad986

@@ -1,0 +1,120 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Target Account Campaign Coordinator
+  description: Orchestrates personalized ABM campaigns for high-value accounts 
+    by coordinating account intelligence gathering, multi-channel content 
+    creation, and engagement tracking to drive account progression.
+  category: sales
+  tags:
+    - sales
+    - abm
+    - campaigns
+    - personalization
+    - account-based
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Account-Based Marketing targets high-value accounts with personalized campaigns. Each account needs custom research, tailored messaging, and coordinated outreach across email, LinkedIn, and content. This requires significant time investment per account.
+
+    ### The Challenge
+    Manual ABM is resource-intensive. Researching each account, mapping stakeholders, creating personalized content, and tracking engagement across channels takes hours per account. Marketing teams struggle to scale personalization without sacrificing quality.
+
+    ### What's At Stake
+    Generic outreach fails with enterprise accounts. Without personalization, campaigns get ignored. Without tracking, high-intent signals are missed. Sales cycles lengthen and conversion rates drop when ABM execution falls short.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Effective ABM requires three distinct capabilities working together: understanding the account, creating relevant content, and tracking engagement. By coordinating specialized agents, we can deliver personalized campaigns at scale.
+
+    ### The Method
+    A Campaign Coordinator manages three specialists:
+
+    1. **Account Analyst**: Researches target accounts to identify key stakeholders, business priorities, pain points, and engagement opportunities
+    2. **Content Specialist**: Creates personalized campaign content for email sequences, LinkedIn outreach, and content recommendations
+    3. **Engagement Tracker**: Monitors multi-channel engagement, scores account interest, and recommends next best actions
+
+    ### Why This Works
+    Each specialist focuses on what they do best. The Account Analyst provides the intelligence that makes personalization possible. The Content Specialist uses those insights to create resonant messaging. The Engagement Tracker ensures follow-up happens when accounts show interest. The Coordinator synthesizes everything into actionable campaign plans.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Target account intelligence gathering
+    - Stakeholder mapping and priority identification
+    - Personalized multi-channel content creation
+    - Email sequence generation
+    - LinkedIn outreach messaging
+    - Content asset recommendations
+    - Multi-channel engagement tracking
+    - Account scoring (hot/warm/cold)
+    - Next best action recommendations
+
+    ### Campaign Phases Supported
+    - Phase 1: Account research and intelligence
+    - Phase 2: Content creation and personalization
+    - Phase 3: Engagement monitoring and optimization
+    - Phase 4: Campaign synthesis and next steps
+
+    ### Channels Covered
+    - Email sequences (3-5 touch campaigns)
+    - LinkedIn (connection requests, direct messages)
+    - Content (case studies, whitepapers, webinars)
+    - Events (talking points, follow-up messaging)
+
+    ### Engagement Signals Tracked
+    - Email opens, clicks, replies
+    - LinkedIn profile views, connection accepts, message replies
+    - Content downloads, page views
+    - Event registrations, attendance
+
+    ### Boundaries
+    - Provides campaign strategy and content (no execution)
+    - Works with provided account information (no external research tools)
+    - English language primary focus
+    - B2B enterprise accounts primary use case
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    None - works out of the box.
+
+    ### Your First Run
+    Try this prompt:
+
+    "Create an ABM campaign for TechCorp, a 500-person B2B SaaS company in financial services. They recently raised Series C funding and are expanding their enterprise sales team. Key contacts include the VP of Sales and Head of Revenue Operations. Our solution helps with sales pipeline management and forecasting."
+
+    ### Pro Tips
+    - **Include Company Context**: Industry, size, and stage improve analysis accuracy
+    - **Name Key Stakeholders**: Specify roles for targeted content
+    - **Share Known Pain Points**: Helps focus messaging on relevant challenges
+    - **Provide Engagement Data**: For monitoring phase, include metrics from your campaigns
+    - **Iterate by Phase**: Start with analysis, then content, then tracking
+
+    ### Example Use Cases
+    - New account campaign planning
+    - Existing account re-engagement
+    - Multi-threaded account expansion
+    - Event follow-up campaigns
+    - Quarterly business review preparation
+    - Lost deal win-back campaigns
+
+root_agents:
+  - ../agents/campaign-coordinator.yaml
+ids:
+  blueprint: cc1c4141-7bf9-4284-819e-7022a22b0736
+  agents:
+    ../agents/campaign-coordinator.yaml: 695bd6b56363be71980ee85d
+    ../agents/account-analyst.yaml: 695bd6b1a45696ac999e2bbb
+    ../agents/content-specialist.yaml: 695bd6b26363be71980ee85c
+    ../agents/engagement-tracker.yaml: 695bd6b3a45696ac999e2bbc

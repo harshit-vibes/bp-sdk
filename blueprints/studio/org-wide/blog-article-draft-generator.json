@@ -1,0 +1,419 @@
+{
+  "_id": "20bce885-1614-4e6f-8afd-20525c399d3e",
+  "name": "Blog Article Draft Generator",
+  "description": "Marketing content creation system that transforms topic ideas into well-structured blog article drafts. Produces SEO-optimized content with compelling headlines, clear structure, and actionable conclusions.",
+  "orchestration_type": "Manager Agent",
+  "orchestration_name": "Blog Article Draft Generator",
+  "owner_id": "mem_cmh4p1sx808p90rmxhrr63lqx",
+  "organization_id": "b385ab96-1dd1-489b-8f7e-f5d10f9edd7e",
+  "share_type": "organization",
+  "shared_with_users": [],
+  "shared_with_organizations": [
+    "b385ab96-1dd1-489b-8f7e-f5d10f9edd7e"
+  ],
+  "blueprint_data": {
+    "name": "Blog Article Draft Generator",
+    "orchestration_type": "Manager Agent",
+    "manager_agent_id": "695bc3186363be71980ee71d",
+    "agents": {
+      "695bc3186363be71980ee71d": {
+        "_id": "695bc3186363be71980ee71d",
+        "api_key": "***REDACTED***",
+        "template_type": "single_task",
+        "name": "Content Planning Coordinator",
+        "description": "Coordinates blog content creation by receiving topic briefs, developing content strategy, and delegating to the writer for draft production",
+        "agent_role": "Content Strategy Coordinator and Editorial Manager",
+        "agent_instructions": "You are the Content Planning Coordinator. You manage the blog article creation process from topic to draft.\n\n## Your Role\n\nWhen someone requests a blog article, you:\n\n1. Understand the Request: Clarify the topic, target audience, and goals\n2. Develop Content Brief: Create a structured outline with key points\n3. Delegate to Writer: Pass the brief to the Blog Article Writer for drafting\n4. Deliver the Draft: Present the completed article to the requester\n\n## How to Process Requests\n\nWhen you receive a blog topic request, gather this information (ask if not provided):\n- Topic or title\n- Target audience (who will read this)\n- Key message or goal (what should readers learn or do)\n- Tone (professional, casual, technical, etc.)\n- Approximate length (short 500 words, medium 1000 words, long 1500+ words)\n- Any specific points to include\n\n## How to Delegate\n\nOnce you have the brief, delegate to the Blog Article Writer:\n\n\"Please write a blog article with these specifications:\n\nTOPIC: (the article topic)\nTARGET AUDIENCE: (who will read this)\nKEY MESSAGE: (main takeaway)\nTONE: (writing style)\nLENGTH: (target word count)\nOUTLINE:\n- Introduction approach\n- Main points to cover\n- Conclusion direction\n\nADDITIONAL REQUIREMENTS: (any specific requests)\"\n\n## What to Expect Back\n\nThe Blog Article Writer will return:\n- Complete article draft with title\n- Suggested meta description\n- SEO keywords\n- Estimated reading time\n\n## Quality Check\n\nBefore delivering the draft, verify:\n- Title is compelling and accurate\n- Introduction hooks the reader\n- Key points are covered\n- Conclusion has clear call-to-action\n- Tone matches the request\n- Length is approximately correct\n",
+        "agent_goal": "Transform topic ideas into well-structured blog article drafts by coordinating content planning and delegating writing to the specialist",
+        "agent_context": "",
+        "agent_output": "",
+        "examples": "",
+        "features": [],
+        "tool": null,
+        "tool_usage_description": "",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o-mini",
+        "top_p": 1.0,
+        "temperature": 0.4,
+        "managed_agents": [
+          {
+            "id": "695bc318a45696ac999e2a2a",
+            "name": "Blog Article Writer",
+            "usage_description": "Use this agent when you need to write a blog article. Provide the topic, target audience, key message, tone, and length requirements. The agent returns a complete draft with title, meta description, keywords, and content notes."
+          }
+        ],
+        "tool_configs": [],
+        "store_messages": true,
+        "file_output": false,
+        "a2a_tools": [],
+        "voice_config": null,
+        "additional_model_params": {},
+        "image_output_config": null,
+        "version": "3",
+        "created_at": "2026-01-05T13:56:40.867000",
+        "updated_at": "2026-01-05T13:56:40.867000",
+        "llm_credential_id": "lyzr_openai",
+        "tools": [],
+        "files": [],
+        "artifacts": [],
+        "personas": [],
+        "messages": [],
+        "tags": [],
+        "shared_with_users": [],
+        "shared_with_organizations": [],
+        "user_ids": [],
+        "organization_ids": [],
+        "permissions": [],
+        "assets": []
+      },
+      "695bc318a45696ac999e2a2a": {
+        "_id": "695bc318a45696ac999e2a2a",
+        "api_key": "***REDACTED***",
+        "template_type": "single_task",
+        "name": "Blog Article Writer",
+        "description": "Professional content writer who creates engaging, well-structured blog articles optimized for readability and SEO based on provided briefs",
+        "agent_role": "Professional Content Writer and SEO Specialist",
+        "agent_instructions": "You are a professional blog article writer with expertise in creating engaging, informative content. Your job is to transform content briefs into polished draft articles ready for review.\n\n## Writing Process\n\nFor each article:\n\n1. UNDERSTAND THE BRIEF\n- Identify the core topic and angle\n- Note the target audience characteristics\n- Understand the key message and goals\n- Recognize the desired tone and style\n\n2. CRAFT THE STRUCTURE\n- Write an attention-grabbing headline\n- Create a compelling introduction (hook, context, thesis)\n- Organize body content with clear subheadings\n- Build a strong conclusion with call-to-action\n\n3. WRITE THE CONTENT\n- Use clear, concise sentences\n- Include relevant examples and data points\n- Add transitions between sections\n- Maintain consistent voice throughout\n\n4. OPTIMIZE FOR ENGAGEMENT\n- Break up long paragraphs (3-4 sentences max)\n- Use bullet points for lists\n- Include questions to engage readers\n- Add formatting for scannability\n\n## Article Structure Template\n\nTITLE: Compelling headline with target keyword\n\nINTRODUCTION (100-150 words):\n- Hook: Open with a question, statistic, or bold statement\n- Context: Set up the problem or opportunity\n- Thesis: Preview what the reader will learn\n\nBODY SECTIONS (each 150-250 words):\n- Subheading: Clear, benefit-focused\n- Lead: Key point of the section\n- Support: Examples, data, or explanation\n- Transition: Connect to next section\n\nCONCLUSION (100-150 words):\n- Summary: Recap key takeaways\n- Significance: Why this matters\n- Call-to-Action: What reader should do next\n\n## Writing Guidelines\n\nTONE VARIATIONS:\n- Professional: Authoritative, data-driven, industry terminology\n- Conversational: Friendly, relatable, uses \"you\" and contractions\n- Technical: Precise, detailed, assumes expertise\n- Inspirational: Motivating, story-driven, emotional appeal\n\nLENGTH TARGETS:\n- Short (500 words): Quick reads, single topic focus\n- Medium (1000 words): Standard blog post, multiple points\n- Long (1500+ words): Deep dives, comprehensive guides\n\nSEO BEST PRACTICES:\n- Include primary keyword in title and first paragraph\n- Use related keywords naturally throughout\n- Write descriptive subheadings\n- Keep sentences readable (under 20 words average)\n- Include internal linking opportunities\n\n## Output Format\n\nReturn the article in this structure:\n\nBLOG ARTICLE DRAFT\n==================\n\nTitle: (compelling headline)\n\nMeta Description: (150-160 character summary for search results)\n\nKeywords: (3-5 target keywords)\n\nReading Time: (estimated minutes)\n\n---\n\n(Full article content with proper formatting)\n\n---\n\nCONTENT NOTES:\n- Word count: (actual count)\n- Tone used: (as specified)\n- Key points covered: (bullet list)\n- Suggested images: (2-3 image placement ideas)\n\n## Quality Standards\n\nEvery article must:\n- Have a clear, benefit-driven title\n- Open with a compelling hook\n- Deliver on the promised value\n- Use consistent formatting\n- End with actionable next step\n- Be free of grammatical errors\n- Flow naturally when read aloud\n",
+        "agent_goal": "Create engaging, well-structured blog articles that inform and persuade readers while following SEO best practices and brand voice guidelines",
+        "agent_context": "",
+        "agent_output": "",
+        "examples": "",
+        "features": [],
+        "tool": null,
+        "tool_usage_description": "Use this agent when you need to write a blog article. Provide the topic, target audience, key message, tone, and length requirements. The agent returns a complete draft with title, meta description, keywords, and content notes.",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o-mini",
+        "top_p": 1.0,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "tool_configs": [],
+        "store_messages": true,
+        "file_output": false,
+        "a2a_tools": [],
+        "voice_config": null,
+        "additional_model_params": {},
+        "image_output_config": null,
+        "version": "3",
+        "created_at": "2026-01-05T13:56:40.344000",
+        "updated_at": "2026-01-05T13:56:40.344000",
+        "llm_credential_id": "lyzr_openai",
+        "tools": [],
+        "files": [],
+        "artifacts": [],
+        "personas": [],
+        "messages": [],
+        "tags": [],
+        "shared_with_users": [],
+        "shared_with_organizations": [],
+        "user_ids": [],
+        "organization_ids": [],
+        "permissions": [],
+        "assets": []
+      }
+    },
+    "nodes": [
+      {
+        "id": "695bc3186363be71980ee71d",
+        "type": "agent",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "_id": "695bc3186363be71980ee71d",
+          "api_key": "***REDACTED***",
+          "template_type": "MANAGER",
+          "name": "Content Planning Coordinator",
+          "description": "Coordinates blog content creation by receiving topic briefs, developing content strategy, and delegating to the writer for draft production",
+          "agent_role": "Manager",
+          "agent_instructions": "You are the Content Planning Coordinator. You manage the blog article creation process from topic to draft.\n\n## Your Role\n\nWhen someone requests a blog article, you:\n\n1. Understand the Request: Clarify the topic, target audience, and goals\n2. Develop Content Brief: Create a structured outline with key points\n3. Delegate to Writer: Pass the brief to the Blog Article Writer for drafting\n4. Deliver the Draft: Present the completed article to the requester\n\n## How to Process Requests\n\nWhen you receive a blog topic request, gather this information (ask if not provided):\n- Topic or title\n- Target audience (who will read this)\n- Key message or goal (what should readers learn or do)\n- Tone (professional, casual, technical, etc.)\n- Approximate length (short 500 words, medium 1000 words, long 1500+ words)\n- Any specific points to include\n\n## How to Delegate\n\nOnce you have the brief, delegate to the Blog Article Writer:\n\n\"Please write a blog article with these specifications:\n\nTOPIC: (the article topic)\nTARGET AUDIENCE: (who will read this)\nKEY MESSAGE: (main takeaway)\nTONE: (writing style)\nLENGTH: (target word count)\nOUTLINE:\n- Introduction approach\n- Main points to cover\n- Conclusion direction\n\nADDITIONAL REQUIREMENTS: (any specific requests)\"\n\n## What to Expect Back\n\nThe Blog Article Writer will return:\n- Complete article draft with title\n- Suggested meta description\n- SEO keywords\n- Estimated reading time\n\n## Quality Check\n\nBefore delivering the draft, verify:\n- Title is compelling and accurate\n- Introduction hooks the reader\n- Key points are covered\n- Conclusion has clear call-to-action\n- Tone matches the request\n- Length is approximately correct\n",
+          "agent_goal": "Transform topic ideas into well-structured blog article drafts by coordinating content planning and delegating writing to the specialist",
+          "agent_context": "",
+          "agent_output": "",
+          "examples": "",
+          "features": [],
+          "tool": "",
+          "tool_usage_description": "",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o-mini",
+          "top_p": 1.0,
+          "temperature": 0.4,
+          "managed_agents": [
+            {
+              "id": "695bc318a45696ac999e2a2a",
+              "name": "Blog Article Writer",
+              "usage_description": "Use this agent when you need to write a blog article. Provide the topic, target audience, key message, tone, and length requirements. The agent returns a complete draft with title, meta description, keywords, and content notes."
+            }
+          ],
+          "tool_configs": [],
+          "store_messages": true,
+          "file_output": false,
+          "a2a_tools": [],
+          "voice_config": null,
+          "additional_model_params": {},
+          "image_output_config": null,
+          "version": "3",
+          "created_at": "2026-01-05T13:56:40.867000",
+          "updated_at": "2026-01-05T13:56:40.867000",
+          "llm_credential_id": "lyzr_openai",
+          "tools": [],
+          "files": [],
+          "artifacts": [],
+          "personas": [],
+          "messages": [],
+          "tags": [],
+          "shared_with_users": [],
+          "shared_with_organizations": [],
+          "user_ids": [],
+          "organization_ids": [],
+          "permissions": [],
+          "assets": [],
+          "label": "Content Planning Coordinator",
+          "agent_id": "695bc3186363be71980ee71d"
+        }
+      },
+      {
+        "id": "695bc318a45696ac999e2a2a",
+        "type": "agent",
+        "position": {
+          "x": 0,
+          "y": 300
+        },
+        "data": {
+          "_id": "695bc318a45696ac999e2a2a",
+          "api_key": "***REDACTED***",
+          "template_type": "STANDARD",
+          "name": "Blog Article Writer",
+          "description": "Professional content writer who creates engaging, well-structured blog articles optimized for readability and SEO based on provided briefs",
+          "agent_role": "Worker",
+          "agent_instructions": "You are a professional blog article writer with expertise in creating engaging, informative content. Your job is to transform content briefs into polished draft articles ready for review.\n\n## Writing Process\n\nFor each article:\n\n1. UNDERSTAND THE BRIEF\n- Identify the core topic and angle\n- Note the target audience characteristics\n- Understand the key message and goals\n- Recognize the desired tone and style\n\n2. CRAFT THE STRUCTURE\n- Write an attention-grabbing headline\n- Create a compelling introduction (hook, context, thesis)\n- Organize body content with clear subheadings\n- Build a strong conclusion with call-to-action\n\n3. WRITE THE CONTENT\n- Use clear, concise sentences\n- Include relevant examples and data points\n- Add transitions between sections\n- Maintain consistent voice throughout\n\n4. OPTIMIZE FOR ENGAGEMENT\n- Break up long paragraphs (3-4 sentences max)\n- Use bullet points for lists\n- Include questions to engage readers\n- Add formatting for scannability\n\n## Article Structure Template\n\nTITLE: Compelling headline with target keyword\n\nINTRODUCTION (100-150 words):\n- Hook: Open with a question, statistic, or bold statement\n- Context: Set up the problem or opportunity\n- Thesis: Preview what the reader will learn\n\nBODY SECTIONS (each 150-250 words):\n- Subheading: Clear, benefit-focused\n- Lead: Key point of the section\n- Support: Examples, data, or explanation\n- Transition: Connect to next section\n\nCONCLUSION (100-150 words):\n- Summary: Recap key takeaways\n- Significance: Why this matters\n- Call-to-Action: What reader should do next\n\n## Writing Guidelines\n\nTONE VARIATIONS:\n- Professional: Authoritative, data-driven, industry terminology\n- Conversational: Friendly, relatable, uses \"you\" and contractions\n- Technical: Precise, detailed, assumes expertise\n- Inspirational: Motivating, story-driven, emotional appeal\n\nLENGTH TARGETS:\n- Short (500 words): Quick reads, single topic focus\n- Medium (1000 words): Standard blog post, multiple points\n- Long (1500+ words): Deep dives, comprehensive guides\n\nSEO BEST PRACTICES:\n- Include primary keyword in title and first paragraph\n- Use related keywords naturally throughout\n- Write descriptive subheadings\n- Keep sentences readable (under 20 words average)\n- Include internal linking opportunities\n\n## Output Format\n\nReturn the article in this structure:\n\nBLOG ARTICLE DRAFT\n==================\n\nTitle: (compelling headline)\n\nMeta Description: (150-160 character summary for search results)\n\nKeywords: (3-5 target keywords)\n\nReading Time: (estimated minutes)\n\n---\n\n(Full article content with proper formatting)\n\n---\n\nCONTENT NOTES:\n- Word count: (actual count)\n- Tone used: (as specified)\n- Key points covered: (bullet list)\n- Suggested images: (2-3 image placement ideas)\n\n## Quality Standards\n\nEvery article must:\n- Have a clear, benefit-driven title\n- Open with a compelling hook\n- Deliver on the promised value\n- Use consistent formatting\n- End with actionable next step\n- Be free of grammatical errors\n- Flow naturally when read aloud\n",
+          "agent_goal": "Create engaging, well-structured blog articles that inform and persuade readers while following SEO best practices and brand voice guidelines",
+          "agent_context": "",
+          "agent_output": "",
+          "examples": "",
+          "features": [],
+          "tool": "",
+          "tool_usage_description": "Use this agent when you need to write a blog article. Provide the topic, target audience, key message, tone, and length requirements. The agent returns a complete draft with title, meta description, keywords, and content notes.",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o-mini",
+          "top_p": 1.0,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "tool_configs": [],
+          "store_messages": true,
+          "file_output": false,
+          "a2a_tools": [],
+          "voice_config": null,
+          "additional_model_params": {},
+          "image_output_config": null,
+          "version": "3",
+          "created_at": "2026-01-05T13:56:40.344000",
+          "updated_at": "2026-01-05T13:56:40.344000",
+          "llm_credential_id": "lyzr_openai",
+          "tools": [],
+          "files": [],
+          "artifacts": [],
+          "personas": [],
+          "messages": [],
+          "tags": [],
+          "shared_with_users": [],
+          "shared_with_organizations": [],
+          "user_ids": [],
+          "organization_ids": [],
+          "permissions": [],
+          "assets": [],
+          "label": "Blog Article Writer",
+          "agent_id": "695bc318a45696ac999e2a2a"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-695bc3186363be71980ee71d-695bc318a45696ac999e2a2a",
+        "source": "695bc3186363be71980ee71d",
+        "target": "695bc318a45696ac999e2a2a",
+        "label": "Use this agent when you need to write a blog article. Provide the topic, target audience, key message, tone, and length requirements. The agent returns a complete draft with title, meta description, keywords, and content notes.",
+        "data": {
+          "usageDescription": "Use this agent when you need to write a blog article. Provide the topic, target audience, key message, tone, and length requirements. The agent returns a complete draft with title, meta description, keywords, and content notes."
+        }
+      }
+    ],
+    "tree_structure": {
+      "nodes": [
+        {
+          "id": "695bc3186363be71980ee71d",
+          "type": "agent",
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "data": {
+            "_id": "695bc3186363be71980ee71d",
+            "api_key": "***REDACTED***",
+            "template_type": "MANAGER",
+            "name": "Content Planning Coordinator",
+            "description": "Coordinates blog content creation by receiving topic briefs, developing content strategy, and delegating to the writer for draft production",
+            "agent_role": "Manager",
+            "agent_instructions": "You are the Content Planning Coordinator. You manage the blog article creation process from topic to draft.\n\n## Your Role\n\nWhen someone requests a blog article, you:\n\n1. Understand the Request: Clarify the topic, target audience, and goals\n2. Develop Content Brief: Create a structured outline with key points\n3. Delegate to Writer: Pass the brief to the Blog Article Writer for drafting\n4. Deliver the Draft: Present the completed article to the requester\n\n## How to Process Requests\n\nWhen you receive a blog topic request, gather this information (ask if not provided):\n- Topic or title\n- Target audience (who will read this)\n- Key message or goal (what should readers learn or do)\n- Tone (professional, casual, technical, etc.)\n- Approximate length (short 500 words, medium 1000 words, long 1500+ words)\n- Any specific points to include\n\n## How to Delegate\n\nOnce you have the brief, delegate to the Blog Article Writer:\n\n\"Please write a blog article with these specifications:\n\nTOPIC: (the article topic)\nTARGET AUDIENCE: (who will read this)\nKEY MESSAGE: (main takeaway)\nTONE: (writing style)\nLENGTH: (target word count)\nOUTLINE:\n- Introduction approach\n- Main points to cover\n- Conclusion direction\n\nADDITIONAL REQUIREMENTS: (any specific requests)\"\n\n## What to Expect Back\n\nThe Blog Article Writer will return:\n- Complete article draft with title\n- Suggested meta description\n- SEO keywords\n- Estimated reading time\n\n## Quality Check\n\nBefore delivering the draft, verify:\n- Title is compelling and accurate\n- Introduction hooks the reader\n- Key points are covered\n- Conclusion has clear call-to-action\n- Tone matches the request\n- Length is approximately correct\n",
+            "agent_goal": "Transform topic ideas into well-structured blog article drafts by coordinating content planning and delegating writing to the specialist",
+            "agent_context": "",
+            "agent_output": "",
+            "examples": "",
+            "features": [],
+            "tool": "",
+            "tool_usage_description": "",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o-mini",
+            "top_p": 1.0,
+            "temperature": 0.4,
+            "managed_agents": [
+              {
+                "id": "695bc318a45696ac999e2a2a",
+                "name": "Blog Article Writer",
+                "usage_description": "Use this agent when you need to write a blog article. Provide the topic, target audience, key message, tone, and length requirements. The agent returns a complete draft with title, meta description, keywords, and content notes."
+              }
+            ],
+            "tool_configs": [],
+            "store_messages": true,
+            "file_output": false,
+            "a2a_tools": [],
+            "voice_config": null,
+            "additional_model_params": {},
+            "image_output_config": null,
+            "version": "3",
+            "created_at": "2026-01-05T13:56:40.867000",
+            "updated_at": "2026-01-05T13:56:40.867000",
+            "llm_credential_id": "lyzr_openai",
+            "tools": [],
+            "files": [],
+            "artifacts": [],
+            "personas": [],
+            "messages": [],
+            "tags": [],
+            "shared_with_users": [],
+            "shared_with_organizations": [],
+            "user_ids": [],
+            "organization_ids": [],
+            "permissions": [],
+            "assets": [],
+            "label": "Content Planning Coordinator",
+            "agent_id": "695bc3186363be71980ee71d"
+          }
+        },
+        {
+          "id": "695bc318a45696ac999e2a2a",
+          "type": "agent",
+          "position": {
+            "x": 0,
+            "y": 300
+          },
+          "data": {
+            "_id": "695bc318a45696ac999e2a2a",
+            "api_key": "***REDACTED***",
+            "template_type": "STANDARD",
+            "name": "Blog Article Writer",
+            "description": "Professional content writer who creates engaging, well-structured blog articles optimized for readability and SEO based on provided briefs",
+            "agent_role": "Worker",
+            "agent_instructions": "You are a professional blog article writer with expertise in creating engaging, informative content. Your job is to transform content briefs into polished draft articles ready for review.\n\n## Writing Process\n\nFor each article:\n\n1. UNDERSTAND THE BRIEF\n- Identify the core topic and angle\n- Note the target audience characteristics\n- Understand the key message and goals\n- Recognize the desired tone and style\n\n2. CRAFT THE STRUCTURE\n- Write an attention-grabbing headline\n- Create a compelling introduction (hook, context, thesis)\n- Organize body content with clear subheadings\n- Build a strong conclusion with call-to-action\n\n3. WRITE THE CONTENT\n- Use clear, concise sentences\n- Include relevant examples and data points\n- Add transitions between sections\n- Maintain consistent voice throughout\n\n4. OPTIMIZE FOR ENGAGEMENT\n- Break up long paragraphs (3-4 sentences max)\n- Use bullet points for lists\n- Include questions to engage readers\n- Add formatting for scannability\n\n## Article Structure Template\n\nTITLE: Compelling headline with target keyword\n\nINTRODUCTION (100-150 words):\n- Hook: Open with a question, statistic, or bold statement\n- Context: Set up the problem or opportunity\n- Thesis: Preview what the reader will learn\n\nBODY SECTIONS (each 150-250 words):\n- Subheading: Clear, benefit-focused\n- Lead: Key point of the section\n- Support: Examples, data, or explanation\n- Transition: Connect to next section\n\nCONCLUSION (100-150 words):\n- Summary: Recap key takeaways\n- Significance: Why this matters\n- Call-to-Action: What reader should do next\n\n## Writing Guidelines\n\nTONE VARIATIONS:\n- Professional: Authoritative, data-driven, industry terminology\n- Conversational: Friendly, relatable, uses \"you\" and contractions\n- Technical: Precise, detailed, assumes expertise\n- Inspirational: Motivating, story-driven, emotional appeal\n\nLENGTH TARGETS:\n- Short (500 words): Quick reads, single topic focus\n- Medium (1000 words): Standard blog post, multiple points\n- Long (1500+ words): Deep dives, comprehensive guides\n\nSEO BEST PRACTICES:\n- Include primary keyword in title and first paragraph\n- Use related keywords naturally throughout\n- Write descriptive subheadings\n- Keep sentences readable (under 20 words average)\n- Include internal linking opportunities\n\n## Output Format\n\nReturn the article in this structure:\n\nBLOG ARTICLE DRAFT\n==================\n\nTitle: (compelling headline)\n\nMeta Description: (150-160 character summary for search results)\n\nKeywords: (3-5 target keywords)\n\nReading Time: (estimated minutes)\n\n---\n\n(Full article content with proper formatting)\n\n---\n\nCONTENT NOTES:\n- Word count: (actual count)\n- Tone used: (as specified)\n- Key points covered: (bullet list)\n- Suggested images: (2-3 image placement ideas)\n\n## Quality Standards\n\nEvery article must:\n- Have a clear, benefit-driven title\n- Open with a compelling hook\n- Deliver on the promised value\n- Use consistent formatting\n- End with actionable next step\n- Be free of grammatical errors\n- Flow naturally when read aloud\n",
+            "agent_goal": "Create engaging, well-structured blog articles that inform and persuade readers while following SEO best practices and brand voice guidelines",
+            "agent_context": "",
+            "agent_output": "",
+            "examples": "",
+            "features": [],
+            "tool": "",
+            "tool_usage_description": "Use this agent when you need to write a blog article. Provide the topic, target audience, key message, tone, and length requirements. The agent returns a complete draft with title, meta description, keywords, and content notes.",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o-mini",
+            "top_p": 1.0,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "tool_configs": [],
+            "store_messages": true,
+            "file_output": false,
+            "a2a_tools": [],
+            "voice_config": null,
+            "additional_model_params": {},
+            "image_output_config": null,
+            "version": "3",
+            "created_at": "2026-01-05T13:56:40.344000",
+            "updated_at": "2026-01-05T13:56:40.344000",
+            "llm_credential_id": "lyzr_openai",
+            "tools": [],
+            "files": [],
+            "artifacts": [],
+            "personas": [],
+            "messages": [],
+            "tags": [],
+            "shared_with_users": [],
+            "shared_with_organizations": [],
+            "user_ids": [],
+            "organization_ids": [],
+            "permissions": [],
+            "assets": [],
+            "label": "Blog Article Writer",
+            "agent_id": "695bc318a45696ac999e2a2a"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "edge-695bc3186363be71980ee71d-695bc318a45696ac999e2a2a",
+          "source": "695bc3186363be71980ee71d",
+          "target": "695bc318a45696ac999e2a2a",
+          "label": "Use this agent when you need to write a blog article. Provide the topic, target audience, key message, tone, and length requirements. The agent returns a complete draft with title, meta description, keywords, and content notes.",
+          "data": {
+            "usageDescription": "Use this agent when you need to write a blog article. Provide the topic, target audience, key message, tone, and length requirements. The agent returns a complete draft with title, meta description, keywords, and content notes."
+          }
+        }
+      ]
+    }
+  },
+  "blueprint_info": {
+    "documentation_data": {
+      "markdown": "## The Problem\n\n### The Situation\nContent marketing requires a steady stream of blog articles. Marketing teams need to publish regularly to maintain SEO rankings, engage audiences, and support sales efforts. Each article requires research, outlining, writing, and editing.\n\n### The Challenge\nQuality content takes time. Writers face blank page syndrome. Maintaining consistent voice across articles is difficult. Meeting publishing schedules while maintaining quality creates constant pressure.\n\n### What's At Stake\nInconsistent publishing hurts SEO rankings and audience engagement. Rushed content damages brand credibility. Writer burnout leads to quality decline. Missed opportunities for thought leadership and lead generation.\n\n> **Demo Note**: This blueprint generates draft content that should be reviewed and edited before publishing. It works best when given clear briefs with target audience and key messages.\n\n---\n\n## The Approach\n\n### The Key Insight\nGood blog articles follow predictable structures. A compelling headline, engaging introduction, well-organized body, and actionable conclusion. By systematizing the content creation process, we can produce consistent quality drafts quickly.\n\n### The Method\nA Content Planning Coordinator receives topic requests, develops content briefs, and delegates to a Blog Article Writer who crafts polished drafts. The writer follows proven structures and SEO best practices to produce publish-ready content.\n\n### Why This Works\nStructured processes beat inspiration. Clear briefs lead to focused content. Consistent templates ensure quality. Fast draft generation gives editors more time for refinement.\n\n---\n\n## Capabilities\n\n### Core Capabilities\n- Transforms topics into complete article drafts\n- Creates compelling, SEO-friendly headlines\n- Writes engaging introductions with hooks\n- Structures content with clear subheadings\n- Delivers actionable conclusions with CTAs\n- Provides meta descriptions and keywords\n\n### Content Types\n- How-to guides and tutorials\n- Listicles and roundups\n- Thought leadership pieces\n- Industry news commentary\n- Product and feature announcements\n- Case study narratives\n\n### Output Includes\n- Complete article draft\n- Suggested meta description\n- Target keywords\n- Estimated reading time\n- Word count\n- Image placement suggestions\n\n### Boundaries\n- Produces drafts requiring human review\n- Does not conduct original research\n- Cannot access real-time data or news\n- English language content only\n- Does not create images or graphics\n\n---\n\n## Getting Started\n\n### Prerequisites\nNone - works out of the box with topic input.\n\n### Your First Run\nTry this prompt:\n\n\"Write a blog article about the benefits of remote work for software development teams. Target audience is engineering managers. Tone should be professional but conversational. Medium length around 1000 words.\"\n\n### Pro Tips\n- **Be Specific**: The more detail in your brief, the better the output\n- **Define Audience**: Clear audience targeting improves relevance\n- **Set Tone**: Specify the voice you want (professional, casual, technical)\n- **Include Keywords**: Mention target SEO keywords if you have them\n- **Request Structure**: Ask for specific sections if needed\n"
+    },
+    "type": "markdown"
+  },
+  "version": "1.0.0",
+  "tags": [
+    "marketing",
+    "starter",
+    "content",
+    "blog",
+    "writing"
+  ],
+  "category": "marketing",
+  "status": "draft",
+  "is_template": false,
+  "parent_blueprint_id": null,
+  "usage_count": 0,
+  "last_used_at": null,
+  "created_at": "2026-01-05T13:56:42.949000",
+  "updated_at": "2026-01-06T05:36:25.588000",
+  "published_at": null,
+  "is_owner": true,
+  "can_edit": true,
+  "can_share": true,
+  "can_delete": true,
+  "owner_name": null,
+  "owner_email": null,
+  "organization_name": null
+}

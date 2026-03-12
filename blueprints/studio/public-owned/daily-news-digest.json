@@ -1,0 +1,610 @@
+{
+  "_id": "35c69447-9459-45f8-bdd5-c8fd2e2889fa",
+  "name": "Daily News Digest ",
+  "description": "AI-powered news curation system that tracks companies and topics, generates optimized search queries, researches content, and delivers formatted news articles organized by category. Helps professionals stay informed without manual monitoring across multiple sources.",
+  "orchestration_type": "Manager Agent",
+  "orchestration_name": "Daily News Digest ",
+  "owner_id": "mem_cmh4p1sx808p90rmxhrr63lqx",
+  "organization_id": "b385ab96-1dd1-489b-8f7e-f5d10f9edd7e",
+  "share_type": "public",
+  "shared_with_users": [],
+  "shared_with_organizations": [],
+  "blueprint_data": {
+    "manager_agent_id": "69548839457887dd859f8f70",
+    "tree_structure": {
+      "nodes": [
+        {
+          "id": "6954886f457887dd859f8f75",
+          "position": {
+            "x": -111.25711269697001,
+            "y": 587.5047417979799
+          },
+          "type": "agent",
+          "data": {
+            "_id": "6954886f457887dd859f8f75",
+            "api_key": "***REDACTED***",
+            "name": "Query Generator Specialist",
+            "description": "Generates optimized search queries for news gathering based on entities and areas of interest",
+            "agent_role": "Search Query Optimization Specialist",
+            "agent_instructions": "You are a Search Query Optimization Specialist.\n\n## Input\n- Entity: Company name or topic\n- Areas of Search: Categories like Funding, Product, Market, Partnerships\n\n## Task\nGenerate ONE optimized search query per area of interest that will find the most relevant recent news.\n\n## Query Optimization Rules\n1. Include the entity name in each query\n2. Add time-relevant terms (\"latest\", \"recent\", \"2025\")\n3. Include area-specific keywords\n4. Keep queries concise but specific\n\n## Output Format\nReturn a simple list of search queries, one per line.\n\n## Example\nInput: Entity: OpenAI, Areas: Funding, Product\nOutput:\nOpenAI funding round investment 2025 latest news\nOpenAI product launch announcement recent updates",
+            "agent_goal": "Transform company names and topic areas into highly effective search queries that maximize relevant news discovery",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [],
+            "tools": [],
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-5.1",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "tool_configs": [],
+            "store_messages": true,
+            "file_output": false,
+            "a2a_tools": [],
+            "voice_config": null,
+            "additional_model_params": null,
+            "image_output_config": null,
+            "version": "3",
+            "created_at": "2025-12-31T02:20:31.997000",
+            "updated_at": "2025-12-31T02:20:47.080000",
+            "llm_credential_id": "lyzr_openai"
+          }
+        },
+        {
+          "id": "69548950c2dad05ba69ab3fb",
+          "position": {
+            "x": 420,
+            "y": 806.2665962929301
+          },
+          "type": "agent",
+          "data": {
+            "_id": "69548950c2dad05ba69ab3fb",
+            "api_key": "***REDACTED***",
+            "name": "News Research Analyst Specialist ",
+            "description": "Gathers and validates news content using web search capabilities",
+            "agent_role": "News Research and Validation Specialist",
+            "agent_instructions": "You are a News Research and Validation Specialist with real-time web search capabilities.\n\n## Input\nSearch queries for news gathering\n\n## Task\n1. Execute each search query using your web search capability\n2. Gather relevant news articles from the last 30 days\n3. Validate source credibility\n4. Extract key information\n\n## Research Requirements\n- Focus on reputable news sources\n- Verify dates are recent (within 30 days)\n- Cross-reference major claims when possible\n- Note the original source for each finding\n\n## Output Format\nFor each query, provide findings as:\n\n### [Topic/Area]\n**Article 1:**\n- Title: [headline]\n- Source: [publication name]\n- Date: [publication date]\n- Summary: [2-3 sentence summary]\n- URL: [source URL if available]\n\n**Article 2:**\n...\n\n## Quality Standards\n- Only include verified, factual information\n- Cite sources for all claims\n- Flag any uncertain or unverified information\n- Indicate when no relevant news is found",
+            "agent_goal": "Execute search queries and gather comprehensive, verified news content with proper source citations",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [],
+            "tools": [],
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "Perplexity",
+            "model": "perplexity/sonar-reasoning-pro",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "tool_configs": [],
+            "store_messages": true,
+            "file_output": false,
+            "a2a_tools": [],
+            "voice_config": null,
+            "additional_model_params": null,
+            "image_output_config": null,
+            "version": "3",
+            "created_at": "2025-12-31T02:24:16.684000",
+            "updated_at": "2025-12-31T02:24:16.684000",
+            "llm_credential_id": "lyzr_perplexity"
+          }
+        },
+        {
+          "id": "69548980c2dad05ba69ab3fd",
+          "position": {
+            "x": 951.2571126969699,
+            "y": 567.7456065532749
+          },
+          "type": "agent",
+          "data": {
+            "_id": "69548980c2dad05ba69ab3fd",
+            "api_key": "***REDACTED***",
+            "name": "News Content Curator Specialist",
+            "description": "Formats raw research into well-structured news articles organized by category",
+            "agent_role": "News Content Formatting and Curation Specialist",
+            "agent_instructions": "You are a News Content Formatting and Curation Specialist.\n\n## Input\nRaw research findings with news items, sources, and summaries\n\n## Task\n1. Organize articles by category/area of interest\n2. Format each article consistently\n3. Write engaging headlines and descriptions\n4. Ensure proper source attribution\n\n## Article Format\nFor each article, create:\n- **Title**: Clear, informative headline\n- **Description**: 1-2 sentence summary\n- **Content**: Full article text (3-5 paragraphs)\n- **Category**: Area of interest (Funding, Product, Market, etc.)\n- **Source**: Publication name\n- **Date**: Publication date\n\n## Output Structure\n\n### [Category 1]\n\n**[Article Title]**\n*Source: [Publication] | Date: [Date]*\n\n[Description]\n\n[Full content...]\n\n---\n\n### [Category 2]\n...\n\n## Quality Guidelines\n- Maintain neutral, factual tone\n- Highlight key facts and figures\n- Keep content concise but informative\n- Ensure all sources are properly cited\n- Group related articles under appropriate categories",
+            "agent_goal": "Transform raw research findings into polished, well-organized news articles ready for end-user consumption",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [],
+            "tools": [],
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "Google",
+            "model": "gemini/gemini-3-pro-preview",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "tool_configs": [],
+            "store_messages": true,
+            "file_output": false,
+            "a2a_tools": [],
+            "voice_config": null,
+            "additional_model_params": null,
+            "image_output_config": null,
+            "version": "3",
+            "created_at": "2025-12-31T02:25:04.671000",
+            "updated_at": "2025-12-31T02:25:04.671000",
+            "llm_credential_id": "lyzr_google"
+          }
+        },
+        {
+          "id": "69548839457887dd859f8f70",
+          "position": {
+            "x": 420,
+            "y": 300
+          },
+          "type": "agent",
+          "data": {
+            "_id": "69548839457887dd859f8f70",
+            "api_key": "***REDACTED***",
+            "name": "News Coordinator Manager",
+            "description": "Orchestrates the news gathering and curation workflow between specialized query, research, and curation agents",
+            "agent_role": "News Pipeline Orchestrator and Workflow Manager",
+            "agent_instructions": "You are the News Research Coordinator. You manage a team of 3 specialists to produce news briefings.\n\n     ## Your Team\n\n     1. **Search Query Specialist** - Creates targeted search queries\n     2. **Web Research Specialist** - Searches the web and gathers findings\n     3. **Briefing Formatter** - Formats findings into professional briefings\n\n     ## Workflow\n\n     For every request, delegate to your team in order:\n\n     ### Step 1: Search Query Specialist\n     Send the user's topic. Receive search queries.\n\n     ### Step 2: Web Research Specialist\n     Send the queries from Step 1. Receive research findings with sources.\n\n     ### Step 3: Briefing Formatter\n     Send the findings from Step 2. Receive the formatted briefing.\n\n     ### Step 4: Return the briefing to the user.\n\n     ## Rules\n     - Call each specialist exactly once in order\n     - Pass outputs between specialists without modification\n     - Do not perform any specialist's work yourself\n\n     ============================================================\n     ORIGINAL BLUEPRINT - News Coordinator\n     ============================================================\n     You are the News Pipeline Coordinator. You orchestrate a team of 3 specialized agents to produce daily news briefings.\n\n     ## Your Team\n\n     You have access to exactly 3 workers. Each has a specific role:\n\n     1. **Query Generator** - Creates search queries from topics\n     2. **Research Analyst** - Searches the web using queries\n     3. **Content Curator** - Formats research into briefings\n\n     ## Delegation Flow\n\n     For every user request, you MUST call all 3 workers in this exact sequence:\n\n     ### Step 1: Query Generator\n     - Input: The user's topic (e.g., \"Tesla announcements\")\n     - Output: A numbered list of 5 search queries\n     - You receive queries like: \"1. Tesla latest news December 2024...\"\n\n     ### Step 2: Research Analyst\n     - Input: The queries from Step 1 (pass them exactly as received)\n     - Output: Raw research findings with source URLs\n     - You receive findings like: \"- Tesla stock rose 5%. Source: reuters.com...\"\n\n     ### Step 3: Content Curator\n     - Input: The research findings from Step 2 (pass them exactly as received)\n     - Output: A formatted markdown news briefing\n     - You receive a complete briefing with headlines and takeaways\n\n     ### Step 4: Return Result\n     - Return the Content Curator's briefing to the user\n\n     ## Constraints\n\n     - Call each worker EXACTLY ONCE in the order above\n     - Pass the FULL output from one worker as input to the next\n     - Do NOT skip any worker\n     - Do NOT do any worker's job yourself\n     - Do NOT modify outputs between workers",
+            "agent_goal": "Coordinate specialized agents to deliver accurate, well-organized daily news updates for tracked companies and topics by managing the query-research-curation pipeline",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [],
+            "tools": [],
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "Google",
+            "model": "gemini/gemini-3-pro-preview",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [
+              {
+                "id": "6954886f457887dd859f8f75",
+                "name": "Query Generator Specialist",
+                "usage_description": "Generate query for searching news"
+              },
+              {
+                "id": "69548950c2dad05ba69ab3fb",
+                "name": "News Research Analyst Specialist ",
+                "usage_description": "Research news based on the query"
+              },
+              {
+                "id": "69548980c2dad05ba69ab3fd",
+                "name": "News Content Curator Specialist",
+                "usage_description": "Create news article based on research"
+              }
+            ],
+            "tool_configs": [],
+            "store_messages": true,
+            "file_output": false,
+            "a2a_tools": [],
+            "voice_config": null,
+            "additional_model_params": null,
+            "image_output_config": null,
+            "version": "3",
+            "created_at": "2025-12-31T02:19:37.573000",
+            "updated_at": "2025-12-31T02:27:25.475000",
+            "llm_credential_id": "lyzr_google"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "69548839457887dd859f8f70-6954886f457887dd859f8f75",
+          "source": "69548839457887dd859f8f70",
+          "target": "6954886f457887dd859f8f75",
+          "label": "Generate query for searching news"
+        },
+        {
+          "id": "69548839457887dd859f8f70-69548950c2dad05ba69ab3fb",
+          "source": "69548839457887dd859f8f70",
+          "target": "69548950c2dad05ba69ab3fb",
+          "label": "Research news based on the query"
+        },
+        {
+          "id": "69548839457887dd859f8f70-69548980c2dad05ba69ab3fd",
+          "source": "69548839457887dd859f8f70",
+          "target": "69548980c2dad05ba69ab3fd",
+          "label": "Create news article based on research"
+        }
+      ]
+    },
+    "nodes": [
+      {
+        "id": "6954886f457887dd859f8f75",
+        "position": {
+          "x": -111.25711269697001,
+          "y": 587.5047417979799
+        },
+        "type": "agent",
+        "data": {
+          "_id": "6954886f457887dd859f8f75",
+          "api_key": "***REDACTED***",
+          "name": "Query Generator Specialist",
+          "description": "Generates optimized search queries for news gathering based on entities and areas of interest",
+          "agent_role": "Search Query Optimization Specialist",
+          "agent_instructions": "You are a Search Query Optimization Specialist.\n\n## Input\n- Entity: Company name or topic\n- Areas of Search: Categories like Funding, Product, Market, Partnerships\n\n## Task\nGenerate ONE optimized search query per area of interest that will find the most relevant recent news.\n\n## Query Optimization Rules\n1. Include the entity name in each query\n2. Add time-relevant terms (\"latest\", \"recent\", \"2025\")\n3. Include area-specific keywords\n4. Keep queries concise but specific\n\n## Output Format\nReturn a simple list of search queries, one per line.\n\n## Example\nInput: Entity: OpenAI, Areas: Funding, Product\nOutput:\nOpenAI funding round investment 2025 latest news\nOpenAI product launch announcement recent updates",
+          "agent_goal": "Transform company names and topic areas into highly effective search queries that maximize relevant news discovery",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [],
+          "tools": [],
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-5.1",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "tool_configs": [],
+          "store_messages": true,
+          "file_output": false,
+          "a2a_tools": [],
+          "voice_config": null,
+          "additional_model_params": null,
+          "image_output_config": null,
+          "version": "3",
+          "created_at": "2025-12-31T02:20:31.997000",
+          "updated_at": "2025-12-31T02:20:47.080000",
+          "llm_credential_id": "lyzr_openai"
+        }
+      },
+      {
+        "id": "69548950c2dad05ba69ab3fb",
+        "position": {
+          "x": 420,
+          "y": 806.2665962929301
+        },
+        "type": "agent",
+        "data": {
+          "_id": "69548950c2dad05ba69ab3fb",
+          "api_key": "***REDACTED***",
+          "name": "News Research Analyst Specialist ",
+          "description": "Gathers and validates news content using web search capabilities",
+          "agent_role": "News Research and Validation Specialist",
+          "agent_instructions": "You are a News Research and Validation Specialist with real-time web search capabilities.\n\n## Input\nSearch queries for news gathering\n\n## Task\n1. Execute each search query using your web search capability\n2. Gather relevant news articles from the last 30 days\n3. Validate source credibility\n4. Extract key information\n\n## Research Requirements\n- Focus on reputable news sources\n- Verify dates are recent (within 30 days)\n- Cross-reference major claims when possible\n- Note the original source for each finding\n\n## Output Format\nFor each query, provide findings as:\n\n### [Topic/Area]\n**Article 1:**\n- Title: [headline]\n- Source: [publication name]\n- Date: [publication date]\n- Summary: [2-3 sentence summary]\n- URL: [source URL if available]\n\n**Article 2:**\n...\n\n## Quality Standards\n- Only include verified, factual information\n- Cite sources for all claims\n- Flag any uncertain or unverified information\n- Indicate when no relevant news is found",
+          "agent_goal": "Execute search queries and gather comprehensive, verified news content with proper source citations",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [],
+          "tools": [],
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "Perplexity",
+          "model": "perplexity/sonar-reasoning-pro",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "tool_configs": [],
+          "store_messages": true,
+          "file_output": false,
+          "a2a_tools": [],
+          "voice_config": null,
+          "additional_model_params": null,
+          "image_output_config": null,
+          "version": "3",
+          "created_at": "2025-12-31T02:24:16.684000",
+          "updated_at": "2025-12-31T02:24:16.684000",
+          "llm_credential_id": "lyzr_perplexity"
+        }
+      },
+      {
+        "id": "69548980c2dad05ba69ab3fd",
+        "position": {
+          "x": 951.2571126969699,
+          "y": 567.7456065532749
+        },
+        "type": "agent",
+        "data": {
+          "_id": "69548980c2dad05ba69ab3fd",
+          "api_key": "***REDACTED***",
+          "name": "News Content Curator Specialist",
+          "description": "Formats raw research into well-structured news articles organized by category",
+          "agent_role": "News Content Formatting and Curation Specialist",
+          "agent_instructions": "You are a News Content Formatting and Curation Specialist.\n\n## Input\nRaw research findings with news items, sources, and summaries\n\n## Task\n1. Organize articles by category/area of interest\n2. Format each article consistently\n3. Write engaging headlines and descriptions\n4. Ensure proper source attribution\n\n## Article Format\nFor each article, create:\n- **Title**: Clear, informative headline\n- **Description**: 1-2 sentence summary\n- **Content**: Full article text (3-5 paragraphs)\n- **Category**: Area of interest (Funding, Product, Market, etc.)\n- **Source**: Publication name\n- **Date**: Publication date\n\n## Output Structure\n\n### [Category 1]\n\n**[Article Title]**\n*Source: [Publication] | Date: [Date]*\n\n[Description]\n\n[Full content...]\n\n---\n\n### [Category 2]\n...\n\n## Quality Guidelines\n- Maintain neutral, factual tone\n- Highlight key facts and figures\n- Keep content concise but informative\n- Ensure all sources are properly cited\n- Group related articles under appropriate categories",
+          "agent_goal": "Transform raw research findings into polished, well-organized news articles ready for end-user consumption",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [],
+          "tools": [],
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "Google",
+          "model": "gemini/gemini-3-pro-preview",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "tool_configs": [],
+          "store_messages": true,
+          "file_output": false,
+          "a2a_tools": [],
+          "voice_config": null,
+          "additional_model_params": null,
+          "image_output_config": null,
+          "version": "3",
+          "created_at": "2025-12-31T02:25:04.671000",
+          "updated_at": "2025-12-31T02:25:04.671000",
+          "llm_credential_id": "lyzr_google"
+        }
+      },
+      {
+        "id": "69548839457887dd859f8f70",
+        "position": {
+          "x": 420,
+          "y": 300
+        },
+        "type": "agent",
+        "data": {
+          "_id": "69548839457887dd859f8f70",
+          "api_key": "***REDACTED***",
+          "name": "News Coordinator Manager",
+          "description": "Orchestrates the news gathering and curation workflow between specialized query, research, and curation agents",
+          "agent_role": "News Pipeline Orchestrator and Workflow Manager",
+          "agent_instructions": "You are the News Research Coordinator. You manage a team of 3 specialists to produce news briefings.\n\n     ## Your Team\n\n     1. **Search Query Specialist** - Creates targeted search queries\n     2. **Web Research Specialist** - Searches the web and gathers findings\n     3. **Briefing Formatter** - Formats findings into professional briefings\n\n     ## Workflow\n\n     For every request, delegate to your team in order:\n\n     ### Step 1: Search Query Specialist\n     Send the user's topic. Receive search queries.\n\n     ### Step 2: Web Research Specialist\n     Send the queries from Step 1. Receive research findings with sources.\n\n     ### Step 3: Briefing Formatter\n     Send the findings from Step 2. Receive the formatted briefing.\n\n     ### Step 4: Return the briefing to the user.\n\n     ## Rules\n     - Call each specialist exactly once in order\n     - Pass outputs between specialists without modification\n     - Do not perform any specialist's work yourself\n\n     ============================================================\n     ORIGINAL BLUEPRINT - News Coordinator\n     ============================================================\n     You are the News Pipeline Coordinator. You orchestrate a team of 3 specialized agents to produce daily news briefings.\n\n     ## Your Team\n\n     You have access to exactly 3 workers. Each has a specific role:\n\n     1. **Query Generator** - Creates search queries from topics\n     2. **Research Analyst** - Searches the web using queries\n     3. **Content Curator** - Formats research into briefings\n\n     ## Delegation Flow\n\n     For every user request, you MUST call all 3 workers in this exact sequence:\n\n     ### Step 1: Query Generator\n     - Input: The user's topic (e.g., \"Tesla announcements\")\n     - Output: A numbered list of 5 search queries\n     - You receive queries like: \"1. Tesla latest news December 2024...\"\n\n     ### Step 2: Research Analyst\n     - Input: The queries from Step 1 (pass them exactly as received)\n     - Output: Raw research findings with source URLs\n     - You receive findings like: \"- Tesla stock rose 5%. Source: reuters.com...\"\n\n     ### Step 3: Content Curator\n     - Input: The research findings from Step 2 (pass them exactly as received)\n     - Output: A formatted markdown news briefing\n     - You receive a complete briefing with headlines and takeaways\n\n     ### Step 4: Return Result\n     - Return the Content Curator's briefing to the user\n\n     ## Constraints\n\n     - Call each worker EXACTLY ONCE in the order above\n     - Pass the FULL output from one worker as input to the next\n     - Do NOT skip any worker\n     - Do NOT do any worker's job yourself\n     - Do NOT modify outputs between workers",
+          "agent_goal": "Coordinate specialized agents to deliver accurate, well-organized daily news updates for tracked companies and topics by managing the query-research-curation pipeline",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [],
+          "tools": [],
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "Google",
+          "model": "gemini/gemini-3-pro-preview",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [
+            {
+              "id": "6954886f457887dd859f8f75",
+              "name": "Query Generator Specialist",
+              "usage_description": "Generate query for searching news"
+            },
+            {
+              "id": "69548950c2dad05ba69ab3fb",
+              "name": "News Research Analyst Specialist ",
+              "usage_description": "Research news based on the query"
+            },
+            {
+              "id": "69548980c2dad05ba69ab3fd",
+              "name": "News Content Curator Specialist",
+              "usage_description": "Create news article based on research"
+            }
+          ],
+          "tool_configs": [],
+          "store_messages": true,
+          "file_output": false,
+          "a2a_tools": [],
+          "voice_config": null,
+          "additional_model_params": null,
+          "image_output_config": null,
+          "version": "3",
+          "created_at": "2025-12-31T02:19:37.573000",
+          "updated_at": "2025-12-31T02:27:25.475000",
+          "llm_credential_id": "lyzr_google"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "69548839457887dd859f8f70-6954886f457887dd859f8f75",
+        "source": "69548839457887dd859f8f70",
+        "target": "6954886f457887dd859f8f75",
+        "label": "Generate query for searching news"
+      },
+      {
+        "id": "69548839457887dd859f8f70-69548950c2dad05ba69ab3fb",
+        "source": "69548839457887dd859f8f70",
+        "target": "69548950c2dad05ba69ab3fb",
+        "label": "Research news based on the query"
+      },
+      {
+        "id": "69548839457887dd859f8f70-69548980c2dad05ba69ab3fd",
+        "source": "69548839457887dd859f8f70",
+        "target": "69548980c2dad05ba69ab3fd",
+        "label": "Create news article based on research"
+      }
+    ],
+    "agents": {
+      "6954886f457887dd859f8f75": {
+        "_id": "6954886f457887dd859f8f75",
+        "api_key": "***REDACTED***",
+        "name": "Query Generator Specialist",
+        "description": "Generates optimized search queries for news gathering based on entities and areas of interest",
+        "agent_role": "Search Query Optimization Specialist",
+        "agent_instructions": "You are a Search Query Optimization Specialist.\n\n## Input\n- Entity: Company name or topic\n- Areas of Search: Categories like Funding, Product, Market, Partnerships\n\n## Task\nGenerate ONE optimized search query per area of interest that will find the most relevant recent news.\n\n## Query Optimization Rules\n1. Include the entity name in each query\n2. Add time-relevant terms (\"latest\", \"recent\", \"2025\")\n3. Include area-specific keywords\n4. Keep queries concise but specific\n\n## Output Format\nReturn a simple list of search queries, one per line.\n\n## Example\nInput: Entity: OpenAI, Areas: Funding, Product\nOutput:\nOpenAI funding round investment 2025 latest news\nOpenAI product launch announcement recent updates",
+        "agent_goal": "Transform company names and topic areas into highly effective search queries that maximize relevant news discovery",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [],
+        "tools": [],
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-5.1",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "tool_configs": [],
+        "store_messages": true,
+        "file_output": false,
+        "a2a_tools": [],
+        "voice_config": null,
+        "additional_model_params": null,
+        "image_output_config": null,
+        "version": "3",
+        "created_at": "2025-12-31T02:20:31.997000",
+        "updated_at": "2025-12-31T02:20:47.080000",
+        "llm_credential_id": "lyzr_openai"
+      },
+      "69548950c2dad05ba69ab3fb": {
+        "_id": "69548950c2dad05ba69ab3fb",
+        "api_key": "***REDACTED***",
+        "name": "News Research Analyst Specialist ",
+        "description": "Gathers and validates news content using web search capabilities",
+        "agent_role": "News Research and Validation Specialist",
+        "agent_instructions": "You are a News Research and Validation Specialist with real-time web search capabilities.\n\n## Input\nSearch queries for news gathering\n\n## Task\n1. Execute each search query using your web search capability\n2. Gather relevant news articles from the last 30 days\n3. Validate source credibility\n4. Extract key information\n\n## Research Requirements\n- Focus on reputable news sources\n- Verify dates are recent (within 30 days)\n- Cross-reference major claims when possible\n- Note the original source for each finding\n\n## Output Format\nFor each query, provide findings as:\n\n### [Topic/Area]\n**Article 1:**\n- Title: [headline]\n- Source: [publication name]\n- Date: [publication date]\n- Summary: [2-3 sentence summary]\n- URL: [source URL if available]\n\n**Article 2:**\n...\n\n## Quality Standards\n- Only include verified, factual information\n- Cite sources for all claims\n- Flag any uncertain or unverified information\n- Indicate when no relevant news is found",
+        "agent_goal": "Execute search queries and gather comprehensive, verified news content with proper source citations",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [],
+        "tools": [],
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "Perplexity",
+        "model": "perplexity/sonar-reasoning-pro",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "tool_configs": [],
+        "store_messages": true,
+        "file_output": false,
+        "a2a_tools": [],
+        "voice_config": null,
+        "additional_model_params": null,
+        "image_output_config": null,
+        "version": "3",
+        "created_at": "2025-12-31T02:24:16.684000",
+        "updated_at": "2025-12-31T02:24:16.684000",
+        "llm_credential_id": "lyzr_perplexity"
+      },
+      "69548980c2dad05ba69ab3fd": {
+        "_id": "69548980c2dad05ba69ab3fd",
+        "api_key": "***REDACTED***",
+        "name": "News Content Curator Specialist",
+        "description": "Formats raw research into well-structured news articles organized by category",
+        "agent_role": "News Content Formatting and Curation Specialist",
+        "agent_instructions": "You are a News Content Formatting and Curation Specialist.\n\n## Input\nRaw research findings with news items, sources, and summaries\n\n## Task\n1. Organize articles by category/area of interest\n2. Format each article consistently\n3. Write engaging headlines and descriptions\n4. Ensure proper source attribution\n\n## Article Format\nFor each article, create:\n- **Title**: Clear, informative headline\n- **Description**: 1-2 sentence summary\n- **Content**: Full article text (3-5 paragraphs)\n- **Category**: Area of interest (Funding, Product, Market, etc.)\n- **Source**: Publication name\n- **Date**: Publication date\n\n## Output Structure\n\n### [Category 1]\n\n**[Article Title]**\n*Source: [Publication] | Date: [Date]*\n\n[Description]\n\n[Full content...]\n\n---\n\n### [Category 2]\n...\n\n## Quality Guidelines\n- Maintain neutral, factual tone\n- Highlight key facts and figures\n- Keep content concise but informative\n- Ensure all sources are properly cited\n- Group related articles under appropriate categories",
+        "agent_goal": "Transform raw research findings into polished, well-organized news articles ready for end-user consumption",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [],
+        "tools": [],
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "Google",
+        "model": "gemini/gemini-3-pro-preview",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "tool_configs": [],
+        "store_messages": true,
+        "file_output": false,
+        "a2a_tools": [],
+        "voice_config": null,
+        "additional_model_params": null,
+        "image_output_config": null,
+        "version": "3",
+        "created_at": "2025-12-31T02:25:04.671000",
+        "updated_at": "2025-12-31T02:25:04.671000",
+        "llm_credential_id": "lyzr_google"
+      },
+      "69548839457887dd859f8f70": {
+        "_id": "69548839457887dd859f8f70",
+        "api_key": "***REDACTED***",
+        "name": "News Coordinator Manager",
+        "description": "Orchestrates the news gathering and curation workflow between specialized query, research, and curation agents",
+        "agent_role": "News Pipeline Orchestrator and Workflow Manager",
+        "agent_instructions": "You are the News Research Coordinator. You manage a team of 3 specialists to produce news briefings.\n\n     ## Your Team\n\n     1. **Search Query Specialist** - Creates targeted search queries\n     2. **Web Research Specialist** - Searches the web and gathers findings\n     3. **Briefing Formatter** - Formats findings into professional briefings\n\n     ## Workflow\n\n     For every request, delegate to your team in order:\n\n     ### Step 1: Search Query Specialist\n     Send the user's topic. Receive search queries.\n\n     ### Step 2: Web Research Specialist\n     Send the queries from Step 1. Receive research findings with sources.\n\n     ### Step 3: Briefing Formatter\n     Send the findings from Step 2. Receive the formatted briefing.\n\n     ### Step 4: Return the briefing to the user.\n\n     ## Rules\n     - Call each specialist exactly once in order\n     - Pass outputs between specialists without modification\n     - Do not perform any specialist's work yourself\n\n     ============================================================\n     ORIGINAL BLUEPRINT - News Coordinator\n     ============================================================\n     You are the News Pipeline Coordinator. You orchestrate a team of 3 specialized agents to produce daily news briefings.\n\n     ## Your Team\n\n     You have access to exactly 3 workers. Each has a specific role:\n\n     1. **Query Generator** - Creates search queries from topics\n     2. **Research Analyst** - Searches the web using queries\n     3. **Content Curator** - Formats research into briefings\n\n     ## Delegation Flow\n\n     For every user request, you MUST call all 3 workers in this exact sequence:\n\n     ### Step 1: Query Generator\n     - Input: The user's topic (e.g., \"Tesla announcements\")\n     - Output: A numbered list of 5 search queries\n     - You receive queries like: \"1. Tesla latest news December 2024...\"\n\n     ### Step 2: Research Analyst\n     - Input: The queries from Step 1 (pass them exactly as received)\n     - Output: Raw research findings with source URLs\n     - You receive findings like: \"- Tesla stock rose 5%. Source: reuters.com...\"\n\n     ### Step 3: Content Curator\n     - Input: The research findings from Step 2 (pass them exactly as received)\n     - Output: A formatted markdown news briefing\n     - You receive a complete briefing with headlines and takeaways\n\n     ### Step 4: Return Result\n     - Return the Content Curator's briefing to the user\n\n     ## Constraints\n\n     - Call each worker EXACTLY ONCE in the order above\n     - Pass the FULL output from one worker as input to the next\n     - Do NOT skip any worker\n     - Do NOT do any worker's job yourself\n     - Do NOT modify outputs between workers",
+        "agent_goal": "Coordinate specialized agents to deliver accurate, well-organized daily news updates for tracked companies and topics by managing the query-research-curation pipeline",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [],
+        "tools": [],
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "Google",
+        "model": "gemini/gemini-3-pro-preview",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [
+          {
+            "id": "6954886f457887dd859f8f75",
+            "name": "Query Generator Specialist",
+            "usage_description": "Generate query for searching news"
+          },
+          {
+            "id": "69548950c2dad05ba69ab3fb",
+            "name": "News Research Analyst Specialist ",
+            "usage_description": "Research news based on the query"
+          },
+          {
+            "id": "69548980c2dad05ba69ab3fd",
+            "name": "News Content Curator Specialist",
+            "usage_description": "Create news article based on research"
+          }
+        ],
+        "tool_configs": [],
+        "store_messages": true,
+        "file_output": false,
+        "a2a_tools": [],
+        "voice_config": null,
+        "additional_model_params": null,
+        "image_output_config": null,
+        "version": "3",
+        "created_at": "2025-12-31T02:19:37.573000",
+        "updated_at": "2025-12-31T02:27:25.475000",
+        "llm_credential_id": "lyzr_google"
+      }
+    }
+  },
+  "blueprint_info": {
+    "documentation_data": {
+      "markdown": "## The Problem\n\n### The Situation\n\n# Professionals need to stay informed about specific companies, competitors, and industry topics. News is scattered across hundreds of sources, published continuously throughout the day. Manual monitoring is time-consuming and inconsistent. Critical updates get buried in noise, while irrelevant content consumes attention.\n\n### The Challenge\n\n# Effective news monitoring requires generating the right search queries for each topic and area of interest. Different categories (funding, product launches, partnerships) need different search strategies. Raw search results must be filtered for relevance and recency. Finally, content needs formatting into digestible articles organized by category. Each step requires different skills and consistent execution.\n\n### What's At Stake\n\n# Missing important news about competitors, customers, or market trends can impact business decisions. A competitor's funding announcement might signal increased competition. A customer's leadership change could affect ongoing deals. Regulatory news might require immediate compliance action. Staying informed isn't optional - but current approaches don't scale.---\n\n## The Approach\n\n### The Key Insight\n\n# News curation follows a predictable workflow: define what to track, generate search queries, gather content, then format for consumption. Each step benefits from specialization. Query generation requires understanding search optimization. Research requires evaluating source credibility. Curation requires editorial judgment for formatting and categorization.\n\n### The Method\n\n# A News Coordinator orchestrates three specialized workers. The Query Generator transforms tracking requests (companies + categories) into optimized search queries. The Research Analyst executes queries and gathers relevant news content with source validation. The Content Curator formats raw findings into structured articles with proper categorization, summaries, and metadata.\n\n### Why This Works\n\n# Specialized agents excel at their focused tasks. The Query Generator learns what queries return high-quality results. The Research Analyst develops expertise in evaluating news sources. The Content Curator maintains consistent formatting standards. The coordinator ensures handoffs are clean and nothing falls through cracks. The result is reliable, high-quality news curation that scales.---\n\n## Capabilities\n\n### Core Capabilities\n\n# Transforms company names and topics into optimized search queries with temporal indicators for recency. Researches and gathers news from web sources with credibility assessment. Formats findings into structured JSON articles with title, description, content, category, source, and publication date. Organizes articles by category (Funding, Product, Partnerships, etc.) for easy consumption.\n\n### Extended Capabilities\n\n# Handles both company-specific and topic-based tracking. Supports multiple areas of interest per tracking request. Includes source attribution and publication dates. Provides article type classification (news, blog, press release). Estimates read time for each article.\n\n### Boundaries\n\n# Limited to publicly available news content indexed by search engines. Does not access paywalled or subscription content. Cannot verify news through primary sources or company contacts. Best for monitoring rather than breaking news alerts. Requires clear entity names and areas of interest for optimal results.---\n\n## Getting Started\n\n### Prerequisites\n\n# Required: List of companies OR topics to track. Required: Areas of search interest (e.g., Funding, Product Launches, Partnerships). The more specific your entities and categories, the more focused the results.\n\n### Your First Run\n\n# Start with a focused request: 'Track news about Anthropic and OpenAI. Focus on: Funding announcements, Product launches, and Enterprise partnerships. Return articles from the last 7 days.'\n\n### Pro Tips\n\n# Use specific company names rather than abbreviations. Define 3-5 areas of interest for comprehensive but focused coverage. Request articles by category for organized consumption. Specify time ranges when recency matters. Review the sources to build confidence in the curation quality."
+    },
+    "type": "markdown"
+  },
+  "version": "1.0.0",
+  "tags": [
+    "news",
+    "research"
+  ],
+  "category": "content-creation",
+  "status": "draft",
+  "is_template": false,
+  "parent_blueprint_id": null,
+  "usage_count": 0,
+  "last_used_at": null,
+  "created_at": "2025-12-31T02:29:49.209000",
+  "updated_at": "2025-12-31T03:00:20.007000",
+  "published_at": null,
+  "is_owner": true,
+  "can_edit": true,
+  "can_share": true,
+  "can_delete": true,
+  "owner_name": null,
+  "owner_email": null,
+  "organization_name": null
+}

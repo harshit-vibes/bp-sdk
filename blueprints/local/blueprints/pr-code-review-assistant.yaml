@@ -1,0 +1,144 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Pull Request Code Review Assistant
+  description: Automates comprehensive code review for pull requests by 
+    analyzing security vulnerabilities, performance issues, code quality, and 
+    style consistency to provide actionable feedback.
+  category: tech
+  tags:
+    - tech
+    - code-review
+    - development
+    - devops
+    - security
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Development teams process dozens of pull requests daily. Each PR requires thorough review for security vulnerabilities, performance issues, code quality, and style consistency. Manual review is time-consuming and quality varies by reviewer experience.
+
+    ### The Challenge
+    Code review requires multiple specialized perspectives: security experts spot vulnerabilities that generalists miss, performance specialists identify subtle bottlenecks, and quality assessors catch maintainability issues. No single reviewer excels at all dimensions equally.
+
+    ### What's At Stake
+    Insufficient code review leads to security breaches, production performance issues, and accumulating technical debt. Conversely, overly thorough manual review becomes a bottleneck that slows development velocity.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Different aspects of code review require different expertise and focus. By delegating to specialists, each dimension gets thorough attention while the coordinator synthesizes a unified, prioritized report.
+
+    ### The Method
+    A PR Review Coordinator manages four specialist reviewers:
+
+    1. **Security Vulnerability Scanner**: Detects injection flaws, credential leaks, auth bypasses, and OWASP Top 10 vulnerabilities
+    2. **Performance Optimization Reviewer**: Identifies algorithmic complexity issues, N+1 queries, memory leaks, and scalability concerns
+    3. **Code Quality Assessor**: Evaluates maintainability, design patterns, error handling, and code smells
+    4. **Style Consistency Enforcer**: Checks naming conventions, documentation standards, and formatting consistency
+
+    ### Why This Works
+    Parallel specialist analysis provides depth without sacrificing speed. The coordinator synthesizes findings by severity, eliminating reviewer fatigue while ensuring nothing critical is missed. Structured output integrates with existing PR workflows.
+
+    ---
+
+    ## Capabilities
+
+    ### Security Analysis
+    - SQL/Command/XSS injection detection
+    - Hardcoded credentials and API keys
+    - Authentication/authorization gaps
+    - Insecure cryptography patterns
+    - OWASP Top 10 vulnerability scanning
+
+    ### Performance Analysis
+    - Algorithmic complexity assessment
+    - N+1 database query detection
+    - Memory leak identification
+    - Blocking operation detection
+    - Scalability concern flagging
+
+    ### Quality Analysis
+    - Code complexity metrics
+    - Design pattern evaluation
+    - Error handling review
+    - Code smell detection
+    - Maintainability scoring
+
+    ### Style Analysis
+    - Naming convention enforcement
+    - Documentation completeness check
+    - Import organization review
+    - Formatting consistency
+    - Type annotation coverage
+
+    ### Output Features
+    - Severity-prioritized findings
+    - File-grouped issue view
+    - Line-specific references
+    - Fix recommendations with examples
+    - Actionable author checklist
+
+    ### Boundaries
+    - Analyzes provided code diffs (no git integration)
+    - Language-agnostic pattern detection
+    - Recommendations only (no auto-fix)
+    - Best for application code (not infrastructure)
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    None - works out of the box.
+
+    ### Your First Run
+    Try this prompt:
+
+    "Review this PR:
+
+    Title: Add user authentication endpoint
+    Description: Implements JWT-based auth for /api/login
+
+    File: api/auth.py
+    ```python
+    import jwt
+
+    SECRET_KEY = 'my-secret-key-123'
+
+    def login(username, password):
+        query = f'SELECT * FROM users WHERE username = {username}'
+        user = db.execute(query)
+        if user and user.password == password:
+            token = jwt.encode({'user_id': user.id}, SECRET_KEY)
+            return token
+        return None
+    ```"
+
+    ### Pro Tips
+    - **Include Context**: PR title and description help understand intent
+    - **Provide Full Diffs**: More context yields better analysis
+    - **Specify Language**: Helps apply correct style conventions
+    - **Note Exceptions**: If something is intentional, mention it
+
+    ### Example Use Cases
+    - Pre-merge security validation
+    - Junior developer PR mentoring
+    - Legacy code modernization review
+    - Cross-team code quality standardization
+    - Compliance audit preparation
+
+root_agents:
+  - ../agents/pr-review-coordinator.yaml
+ids:
+  blueprint: 79fbf060-357d-4669-ae45-61f44aff7a1b
+  agents:
+    ../agents/pr-review-coordinator.yaml: 695be3a2c2dad05ba69ad8ae
+    ../agents/security-vulnerability-scanner.yaml: 695be39fc2dad05ba69ad8ac
+    ../agents/performance-optimization-reviewer.yaml: 695be3a0457887dd859fb481
+    ../agents/code-quality-assessor.yaml: 695be3a1c2dad05ba69ad8ad
+    ../agents/style-consistency-enforcer.yaml: 695be3a2457887dd859fb482

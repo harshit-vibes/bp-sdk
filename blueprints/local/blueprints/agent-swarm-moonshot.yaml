@@ -1,0 +1,131 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Agent Swarm - Strategic Research Moonshot
+  description: Dynamic parallel orchestration pattern that coordinates 
+    specialized analyst agents to deliver comprehensive strategic research 
+    through simultaneous multi-dimensional analysis and intelligent synthesis.
+  category: featured
+  tags:
+    - featured
+    - moonshot
+    - parallel
+    - research
+    - strategy
+    - multi-agent
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Executive teams face complex strategic decisions requiring analysis across multiple dimensions: market conditions, competitive dynamics, financial viability, risk factors, and regulatory requirements. Gathering this intelligence manually is slow and often incomplete.
+
+    ### The Challenge
+    Comprehensive strategic analysis traditionally requires sequential work by different specialists, creating bottlenecks. A market analyst finishes, then hands off to a financial analyst, then to risk assessment. This serial process multiplies latency and often misses cross-functional insights.
+
+    ### What's At Stake
+    Slow decision-making in fast-moving markets means missed opportunities. Incomplete analysis leads to blind spots. Organizations need both speed and depth, but traditional approaches force a trade-off between them.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    When strategic dimensions are independent, they can be analyzed simultaneously. A Swarm Coordinator can dispatch specialists in parallel, then synthesize their findings into a coherent strategic view. This achieves both speed through parallelization and depth through specialization.
+
+    ### The Method
+    A Swarm Coordinator orchestrates five expert analysts working in parallel:
+
+    1. **Market Intelligence Analyst**: Real-time market data via web search, trends, sizing, customer insights
+    2. **Competitive Strategy Analyst**: Competitive positioning, strategic frameworks, market dynamics
+    3. **Financial Modeling Specialist**: Unit economics, projections, ROI analysis, pricing strategy
+    4. **Risk Assessment Analyst**: Risk identification, probability-impact analysis, mitigation strategies
+    5. **Regulatory Compliance Advisor**: Regulatory requirements, compliance roadmap, legal considerations
+
+    ### Why This Works
+    Parallel execution reduces total latency from the sum of all analyses to the duration of the longest single analysis. Specialized agents produce higher quality outputs than generalists. The coordinator synthesizes findings, identifies cross-cutting themes, and resolves conflicts to deliver actionable recommendations.
+
+    ---
+
+    ## Capabilities
+
+    ### Parallel Research Dimensions
+    - Market intelligence with real-time web data
+    - Competitive analysis with strategic frameworks
+    - Financial modeling with projections and scenarios
+    - Risk assessment with mitigation strategies
+    - Regulatory analysis with compliance roadmaps
+
+    ### Dynamic Orchestration
+    - Query-aware specialist selection
+    - Parallel task distribution
+    - Intelligent result aggregation
+    - Conflict identification and resolution
+
+    ### Output Features
+    - Executive summary with key recommendation
+    - Dimension-by-dimension findings
+    - Cross-cutting themes across analysts
+    - Prioritized strategic recommendations
+    - Confidence assessment by area
+    - Decision framework with go/no-go guidance
+
+    ### Analysis Types Supported
+    - Market entry decisions
+    - Acquisition evaluation
+    - Product launch strategy
+    - Investment opportunities
+    - Partnership assessment
+    - Geographic expansion
+    - Competitive response planning
+
+    ### Boundaries
+    - Analyzes strategic questions with provided context
+    - Web search for market data via Perplexity integration
+    - Recommendations only, not direct actions
+    - General business strategy focus
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    None - works out of the box. Market Intelligence Analyst uses Perplexity for real-time web search.
+
+    ### Your First Run
+    Try this prompt:
+
+    "Should our B2B SaaS company expand into the European market? We currently serve 500 enterprise customers in North America with a project management platform. Revenue is $25M ARR growing 40% YoY. Consider market opportunity, competitive landscape, financial viability, risks, and regulatory requirements."
+
+    ### Pro Tips
+    - **Provide Context**: More context enables more specific analysis
+    - **Be Specific**: Name competitors, markets, products for focused research
+    - **Ask Complete Questions**: Questions touching all dimensions get the richest analysis
+    - **Request Depth**: Ask for specific frameworks like Porter's Five Forces or detailed financial projections
+
+    ### Example Use Cases
+    - M&A target evaluation
+    - New product market assessment
+    - Geographic expansion analysis
+    - Competitive response strategy
+    - Investment opportunity screening
+    - Partnership due diligence
+    - Strategic planning support
+
+    ### Sample Prompts
+    - "Evaluate acquiring CompanyX in the CRM space. What's the strategic fit, financial case, risks, and regulatory considerations?"
+    - "Should we launch a mobile-first version of our product for the SMB market? Analyze market opportunity, competition, economics, and risks."
+    - "Assess entering the AI-powered analytics market. Who are the key players, what are the economics, and what regulatory issues might we face?"
+
+root_agents:
+  - ../agents/agent-swarm-coordinator.yaml
+ids:
+  blueprint: 4ca1a5f0-053f-43c3-9c19-9a3b4b7d3f6e
+  agents:
+    ../agents/agent-swarm-coordinator.yaml: 695be5016363be71980eea2d
+    ../agents/agent-swarm-market-analyst.yaml: 695be4fda45696ac999e2dc7
+    ../agents/agent-swarm-competitive-analyst.yaml: 695be4fe6363be71980eea2b
+    ../agents/agent-swarm-financial-specialist.yaml: 695be4ffa45696ac999e2dc8
+    ../agents/agent-swarm-risk-analyst.yaml: 695be4ff6363be71980eea2c
+    ../agents/agent-swarm-regulatory-advisor.yaml: 695be500a45696ac999e2dc9

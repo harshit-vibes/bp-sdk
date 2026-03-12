@@ -1,0 +1,128 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Product Review Sentiment Analyzer
+  description: Multi-agent sentiment analysis system that processes product 
+    reviews to provide overall sentiment classification, aspect-based insights, 
+    trend detection, and actionable recommendations for product improvement.
+  category: data
+  tags:
+    - data
+    - analytics
+    - sentiment-analysis
+    - product-reviews
+    - customer-feedback
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Product teams receive thousands of reviews across e-commerce sites, app stores, and social media. These reviews contain valuable insights about what customers love and hate, but the volume makes manual analysis impractical.
+
+    ### The Challenge
+    Simple star ratings miss the nuance. A 3-star review might praise the product quality while criticizing customer support. Understanding which specific features drive satisfaction or complaints requires reading every review and tracking patterns over time.
+
+    ### What's At Stake
+    Missing emerging issues costs revenue. A sudden uptick in complaints about shipping could indicate a logistics problem. Declining sentiment about a feature might signal a regression. Without systematic analysis, these signals get lost in noise until they become crises.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Effective sentiment analysis requires three distinct capabilities: overall sentiment classification, aspect-based feature extraction, and temporal trend detection. Each requires specialized focus to perform well.
+
+    ### The Method
+    A Sentiment Analysis Coordinator orchestrates three specialized analysts:
+
+    1. **Sentiment Classifier**: Categorizes each review as positive, negative, or neutral with confidence scores and intensity levels
+    2. **Aspect Analyzer**: Extracts specific product features and determines sentiment for each (quality, usability, price, support, etc.)
+    3. **Trend Detector**: Identifies temporal patterns, emerging issues, and sentiment shifts over time
+
+    The coordinator synthesizes these analyses into actionable insights prioritized by business impact.
+
+    ### Why This Works
+    Parallel specialization means each analyst focuses on one task excellently. The coordinator cross-references findings to identify patterns like "negative sentiment about shipping is increasing" that no single analysis would reveal. The result is not just data, but prioritized recommendations.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Classifies sentiment with confidence scores and intensity
+    - Extracts feature-level sentiment (aspect-based analysis)
+    - Detects temporal trends and emerging issues
+    - Synthesizes findings into prioritized recommendations
+    - Handles multiple review sources (e-commerce, app stores, social)
+
+    ### Analysis Types
+    - Overall Sentiment Distribution (positive/neutral/negative percentages)
+    - Aspect-Based Breakdown (quality, usability, performance, design, price, support)
+    - Trend Detection (improving, declining, stable, volatile)
+    - Anomaly Alerts (sudden spikes or drops)
+    - Source Comparison (if reviews from multiple platforms)
+
+    ### Output Deliverables
+    - Executive summary with key metrics
+    - Top product strengths with evidence
+    - Critical issues requiring attention
+    - Trend insights and predictions
+    - Prioritized actionable recommendations
+
+    ### Supported Inputs
+    - Raw review text (single or batch)
+    - Reviews with timestamps (for trend analysis)
+    - Reviews with source information (for comparison)
+    - Reviews with ratings (optional, for correlation)
+
+    ### Boundaries
+    - Requires minimum 10 reviews for reliable analysis
+    - Trend analysis requires reviews with dates
+    - Works best with English text (other languages may reduce accuracy)
+    - Does not access external review platforms directly
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    None - works out of the box.
+
+    ### Your First Run
+    Try this prompt:
+
+    "Analyze these product reviews for our wireless headphones:
+
+    Review 1 (Jan 15): The sound quality is amazing! Best headphones I've owned. Battery lasts forever.
+    Review 2 (Jan 16): Sound is great but the ear cushions started peeling after 2 months. Disappointed.
+    Review 3 (Jan 18): Terrible customer support. Waited 3 weeks for a response about my warranty claim.
+    Review 4 (Jan 20): Love the noise cancellation. Perfect for my commute. Comfortable for long sessions.
+    Review 5 (Jan 22): Good sound but overpriced compared to competitors. Expected more features at this price.
+    Review 6 (Jan 25): Battery died after 6 months. Support was unhelpful. Would not recommend.
+    Review 7 (Jan 28): Excellent build quality. Sound is crisp and clear. Worth every penny.
+    Review 8 (Jan 30): The app is confusing to use. Had to watch tutorials just to pair them."
+
+    ### Pro Tips
+    - **Include Dates**: Adding dates enables trend analysis
+    - **Batch Reviews**: Analyze 50-100 reviews for statistically meaningful insights
+    - **Note Sources**: Mentioning if reviews come from Amazon vs App Store enables comparison
+    - **Ask Specifics**: Request focus on particular aspects like "focus on support sentiment"
+    - **Track Changes**: Re-run analysis after product updates to measure impact
+
+    ### Example Use Cases
+    - Post-launch sentiment monitoring
+    - Feature prioritization based on customer feedback
+    - Customer support quality assessment
+    - Competitive analysis (analyze competitor reviews)
+    - Product improvement validation
+
+root_agents:
+  - ../agents/sentiment-analysis-coordinator.yaml
+ids:
+  blueprint: b89c21ba-cede-4679-9207-387a50acf954
+  agents:
+    ../agents/sentiment-analysis-coordinator.yaml: 695bcf2b6363be71980ee7a3
+    ../agents/sentiment-classifier.yaml: 695bcf29a45696ac999e2aaf
+    ../agents/aspect-analyzer.yaml: 695bcf296363be71980ee7a2
+    ../agents/trend-detector.yaml: 695bcf2aa45696ac999e2ab0

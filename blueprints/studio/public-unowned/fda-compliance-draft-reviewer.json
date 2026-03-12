@@ -1,0 +1,155 @@
+{
+  "_id": "865f765d-61da-4d85-b3bf-02c449679025",
+  "name": "FDA Compliance Draft Reviewer",
+  "description": "The FDA Compliance Agent is an AI regulatory compliance checker that analyzes documents against FDA standards using keyword-based compliance rules and provides real-time feedback on regulatory adherence. It processes documents asynchronously and enables iterative refinement based on expert feedback.",
+  "orchestration_type": "Single Agent",
+  "orchestration_name": "FDA Compliance Draft Reviewer",
+  "owner_id": "mem_cm9i22wia00kh0wsr6d2c70lj",
+  "organization_id": "b385ab96-1dd1-489b-8f7e-f5d10f9edd7e",
+  "share_type": "public",
+  "shared_with_users": [],
+  "shared_with_organizations": [],
+  "blueprint_data": {
+    "manager_agent_id": "68da61a5caebf2c2faadedf1",
+    "tree_structure": {
+      "nodes": [
+        {
+          "id": "68da61a5caebf2c2faadedf1",
+          "position": {
+            "x": 772.5,
+            "y": 300
+          },
+          "type": "agent",
+          "data": {
+            "_id": "68da61a5caebf2c2faadedf1",
+            "api_key": "***REDACTED***",
+            "name": "FDA compliance Draft Reviewer agent",
+            "description": "Draft Review: Analyze document sections, Keyword Identification: Pinpoint required sections",
+            "agent_role": "You are an Expert MEDICAL DOCUMENT ANALYST AND ENHANCEMENT SPECIALIST. Your task is to ANALYZE and ENHANCE medical documents to ensure structural integrity, clarity, and keyword compliance.",
+            "agent_instructions": "Your task is to FOLLOW these structured steps to enhance the medical document:\n\n1. **INPUT**:\n   - **DOCUMENT UPLOAD**: RECEIVE a draft medical document uploaded by a doctor.\n   - **KEYWORD LIST ACCESS**: OBTAIN the pre-defined list of essential keywords relevant to the document type.\n\n2. **ANALYSIS AND IDENTIFICATION**:\n   - **STRUCTURAL ANALYSIS**: EVALUATE each section for LOGICAL FLOW and COHERENCE.\n   - **KEYWORD MATCHING**: CROSS-REFERENCE the document content with the keyword list to IDENTIFY and HIGHLIGHT missing or underrepresented keywords.\n   - **SECTION HIGHLIGHTING**: PINPOINT and MARK sections that require specific keywords.\n\n3. **OUTPUT GENERATION**:\n   - **REVISED DRAFT**: SUGGEST intelligent PLACEMENTS of keywords to IMPROVE compliance and clarity.\n   - **FEEDBACK REPORT**: PROVIDE a SUMMARY of modifications with RATIONALE for keyword insertions.\n\n4. **GUIDELINES**:\n   - **CLARITY AND PRECISION**: ENSURE medical accuracy and CLARITY in revised content.\n   - **CONSISTENCY**: MAINTAIN consistent TONE and TERMINOLOGY.\n   - **COMPLIANCE FOCUS**: ALIGN document content with MEDICAL and REGULATORY STANDARDS suitable for authorities like the FDA.\n\n5. **INTERACTION WITH USERS**:\n   - **FEEDBACK INTEGRATION**: INCORPORATE doctor's feedback to FURTHER REFINE the document.\n   - **FINALIZATION**: PREPARE the document for submission ensuring it MEETS all NECESSARY guidelines and standards.\n\nYou MUST ensure each step is followed to thoroughly ENHANCE the given medical document for clarity, precision, and compliance.",
+            "agent_goal": "",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": "{\n  \"fields\": [\n    {\n      \"name\": \"First Name\",\n      \"value\": \"John\",\n      \"datatype\": \"string\"\n    },\n    {\n      \"name\": \"Age\",\n      \"value\": 30,\n      \"datatype\": \"integer\"\n    },\n    {\n      \"name\": \"Subscribed\",\n      \"value\": true,\n      \"datatype\": \"boolean\"\n    }\n  ]\n}",
+            "features": [],
+            "tools": [],
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "tool_configs": [],
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-29T10:38:29.581000",
+            "updated_at": "2025-09-29T10:38:29.581000",
+            "llm_credential_id": "lyzr_openai"
+          }
+        }
+      ],
+      "edges": []
+    },
+    "nodes": [
+      {
+        "id": "68da61a5caebf2c2faadedf1",
+        "position": {
+          "x": 772.5,
+          "y": 300
+        },
+        "type": "agent",
+        "data": {
+          "_id": "68da61a5caebf2c2faadedf1",
+          "api_key": "***REDACTED***",
+          "name": "FDA compliance Draft Reviewer agent",
+          "description": "Draft Review: Analyze document sections, Keyword Identification: Pinpoint required sections",
+          "agent_role": "You are an Expert MEDICAL DOCUMENT ANALYST AND ENHANCEMENT SPECIALIST. Your task is to ANALYZE and ENHANCE medical documents to ensure structural integrity, clarity, and keyword compliance.",
+          "agent_instructions": "Your task is to FOLLOW these structured steps to enhance the medical document:\n\n1. **INPUT**:\n   - **DOCUMENT UPLOAD**: RECEIVE a draft medical document uploaded by a doctor.\n   - **KEYWORD LIST ACCESS**: OBTAIN the pre-defined list of essential keywords relevant to the document type.\n\n2. **ANALYSIS AND IDENTIFICATION**:\n   - **STRUCTURAL ANALYSIS**: EVALUATE each section for LOGICAL FLOW and COHERENCE.\n   - **KEYWORD MATCHING**: CROSS-REFERENCE the document content with the keyword list to IDENTIFY and HIGHLIGHT missing or underrepresented keywords.\n   - **SECTION HIGHLIGHTING**: PINPOINT and MARK sections that require specific keywords.\n\n3. **OUTPUT GENERATION**:\n   - **REVISED DRAFT**: SUGGEST intelligent PLACEMENTS of keywords to IMPROVE compliance and clarity.\n   - **FEEDBACK REPORT**: PROVIDE a SUMMARY of modifications with RATIONALE for keyword insertions.\n\n4. **GUIDELINES**:\n   - **CLARITY AND PRECISION**: ENSURE medical accuracy and CLARITY in revised content.\n   - **CONSISTENCY**: MAINTAIN consistent TONE and TERMINOLOGY.\n   - **COMPLIANCE FOCUS**: ALIGN document content with MEDICAL and REGULATORY STANDARDS suitable for authorities like the FDA.\n\n5. **INTERACTION WITH USERS**:\n   - **FEEDBACK INTEGRATION**: INCORPORATE doctor's feedback to FURTHER REFINE the document.\n   - **FINALIZATION**: PREPARE the document for submission ensuring it MEETS all NECESSARY guidelines and standards.\n\nYou MUST ensure each step is followed to thoroughly ENHANCE the given medical document for clarity, precision, and compliance.",
+          "agent_goal": "",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": "{\n  \"fields\": [\n    {\n      \"name\": \"First Name\",\n      \"value\": \"John\",\n      \"datatype\": \"string\"\n    },\n    {\n      \"name\": \"Age\",\n      \"value\": 30,\n      \"datatype\": \"integer\"\n    },\n    {\n      \"name\": \"Subscribed\",\n      \"value\": true,\n      \"datatype\": \"boolean\"\n    }\n  ]\n}",
+          "features": [],
+          "tools": [],
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "tool_configs": [],
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-29T10:38:29.581000",
+          "updated_at": "2025-09-29T10:38:29.581000",
+          "llm_credential_id": "lyzr_openai"
+        }
+      }
+    ],
+    "edges": [],
+    "agents": {
+      "68da61a5caebf2c2faadedf1": {
+        "_id": "68da61a5caebf2c2faadedf1",
+        "api_key": "***REDACTED***",
+        "name": "FDA compliance Draft Reviewer agent",
+        "description": "Draft Review: Analyze document sections, Keyword Identification: Pinpoint required sections",
+        "agent_role": "You are an Expert MEDICAL DOCUMENT ANALYST AND ENHANCEMENT SPECIALIST. Your task is to ANALYZE and ENHANCE medical documents to ensure structural integrity, clarity, and keyword compliance.",
+        "agent_instructions": "Your task is to FOLLOW these structured steps to enhance the medical document:\n\n1. **INPUT**:\n   - **DOCUMENT UPLOAD**: RECEIVE a draft medical document uploaded by a doctor.\n   - **KEYWORD LIST ACCESS**: OBTAIN the pre-defined list of essential keywords relevant to the document type.\n\n2. **ANALYSIS AND IDENTIFICATION**:\n   - **STRUCTURAL ANALYSIS**: EVALUATE each section for LOGICAL FLOW and COHERENCE.\n   - **KEYWORD MATCHING**: CROSS-REFERENCE the document content with the keyword list to IDENTIFY and HIGHLIGHT missing or underrepresented keywords.\n   - **SECTION HIGHLIGHTING**: PINPOINT and MARK sections that require specific keywords.\n\n3. **OUTPUT GENERATION**:\n   - **REVISED DRAFT**: SUGGEST intelligent PLACEMENTS of keywords to IMPROVE compliance and clarity.\n   - **FEEDBACK REPORT**: PROVIDE a SUMMARY of modifications with RATIONALE for keyword insertions.\n\n4. **GUIDELINES**:\n   - **CLARITY AND PRECISION**: ENSURE medical accuracy and CLARITY in revised content.\n   - **CONSISTENCY**: MAINTAIN consistent TONE and TERMINOLOGY.\n   - **COMPLIANCE FOCUS**: ALIGN document content with MEDICAL and REGULATORY STANDARDS suitable for authorities like the FDA.\n\n5. **INTERACTION WITH USERS**:\n   - **FEEDBACK INTEGRATION**: INCORPORATE doctor's feedback to FURTHER REFINE the document.\n   - **FINALIZATION**: PREPARE the document for submission ensuring it MEETS all NECESSARY guidelines and standards.\n\nYou MUST ensure each step is followed to thoroughly ENHANCE the given medical document for clarity, precision, and compliance.",
+        "agent_goal": "",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": "{\n  \"fields\": [\n    {\n      \"name\": \"First Name\",\n      \"value\": \"John\",\n      \"datatype\": \"string\"\n    },\n    {\n      \"name\": \"Age\",\n      \"value\": 30,\n      \"datatype\": \"integer\"\n    },\n    {\n      \"name\": \"Subscribed\",\n      \"value\": true,\n      \"datatype\": \"boolean\"\n    }\n  ]\n}",
+        "features": [],
+        "tools": [],
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "tool_configs": [],
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-29T10:38:29.581000",
+        "updated_at": "2025-09-29T10:38:29.581000",
+        "llm_credential_id": "lyzr_openai"
+      }
+    }
+  },
+  "blueprint_info": {
+    "documentation_data": {
+      "markdown": "# FDA Compliance Agent\n\nA Next.js application that leverages Lyzr AI's agent technology to provide FDA compliance checking capabilities.\n\n## Overview\n\nThis application provides an interface to interact with an FDA compliance checking agent powered by Lyzr AI. It features a modern UI built with Next.js, real-time compliance checking, and asynchronous job processing with Supabase for state management.\n\n## Features\n\n- Real-time FDA compliance checking\n- Asynchronous job processing\n- Modern, responsive UI\n- Dynamic RAG (Retrieval-Augmented Generation) integration through Lyzr AI\n- Job status tracking and persistence\n- Error handling and recovery\n\n## Tech Stack\n\n- **Frontend**: Next.js with TypeScript\n- **UI Components**: Tailwind CSS\n- **State Management**: Redux\n- **Database**: Supabase\n- **AI Integration**: Lyzr AI Agent API\n- **API Layer**: Next.js API Routes\n\n## Agent Integration\n\nThe application integrates with Lyzr AI's agent technology in the following ways:\n\n1. **Keyword-Based Compliance Checking**:\n\u00a0 \u00a0- Users can define custom keywords with descriptions for compliance checking\n\u00a0 \u00a0- Keywords are used to guide the agent's analysis of documents\n\u00a0 \u00a0- The agent processes documents against defined compliance criteria\n\n2. **Asynchronous Processing**:\n\u00a0 \u00a0- Compliance checks are processed asynchronously\n\u00a0 \u00a0- Jobs are tracked using Supabase for persistence\n\u00a0 \u00a0- Real-time status updates are available through polling\n\n## Setup\n\n1. Clone the repository\n2. Install dependencies:\n\u00a0 \u00a0```bash\n\u00a0 \u00a0npm install\n\u00a0 \u00a0```\n3. Copy `.env.example` to `.env.local` and fill in the required environment variables\n4. Run the development server:\n\u00a0 \u00a0```bash\n\u00a0 \u00a0npm run dev\n\u00a0 \u00a0```\n\n## Environment Variables\n\nSee `.env.example` for required environment variables.\n\n## Architecture\n\n### Frontend\n\n- `/app`: Next.js app directory containing pages and API routes\n- `/components`: Reusable React components\n- `/store`: Redux store configuration and slices\n- `/utils`: Utility functions and API clients\n\n### Backend (API Routes)\n\n- `/app/api/fda-compliance-agent`: Main API route for compliance checking\n- Handles asynchronous job processing\n- Integrates with Lyzr AI agent\n- Manages job state through Supabase\n\n### State Management\n\n- Redux store for frontend state\n- Supabase for job persistence and status tracking\n\n## API Endpoints\n\n### POST `/api/fda-compliance-agent`\n\nInitiates a compliance check:\n- Input: `{ message: string }` where message contains:\n\u00a0 - Initial check: `document: [text] \\n\\n keywords: [comma-separated keywords]`\n\u00a0 - Feedback: `finalized_document: [text] \\n\\n doctor_feedback: [feedback]`\n- Output: `{ jobId: string, status: string }`\n\n### GET `/api/fda-compliance-agent?jobId=<id>`\n\nChecks job status:\n- Input: jobId as query parameter\n- Output: `{ status: string, results?: any[], error?: string }`"
+    },
+    "type": "markdown"
+  },
+  "version": "1.0.0",
+  "tags": [
+    "Legal",
+    "Regulatory"
+  ],
+  "category": "data-analysis",
+  "status": "draft",
+  "is_template": false,
+  "parent_blueprint_id": null,
+  "usage_count": 0,
+  "last_used_at": null,
+  "created_at": "2025-09-29T10:41:30.787000",
+  "updated_at": "2025-09-29T10:41:30.787000",
+  "published_at": null,
+  "is_owner": false,
+  "can_edit": false,
+  "can_share": false,
+  "can_delete": false,
+  "owner_name": null,
+  "owner_email": null,
+  "organization_name": null
+}

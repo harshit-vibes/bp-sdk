@@ -1,0 +1,105 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Blueprint Builder
+  description: |
+    An intelligent assistant that guides users through creating high-quality
+    Lyzr blueprints. Uses specialized agents for architecture design, agent
+    specification crafting, and validation to ensure production-ready blueprints.
+  category: tech
+  tags:
+    - blueprint
+    - builder
+    - internal
+    - automation
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Creating effective multi-agent blueprints on Lyzr requires expertise in
+    architecture design, prompt engineering, and technical configuration.
+    Users often struggle with questions like: Should I use one agent or many?
+    What model should each agent use? How do I write effective instructions?
+
+    ### The Challenge
+    Good blueprint design requires understanding orchestration patterns,
+    agent specialization strategies, persona crafting, instruction engineering,
+    and technical optimization. This knowledge is scattered and hard to apply
+    consistently.
+
+    ### What's At Stake
+    Poorly designed blueprints lead to unreliable agents, high costs, and
+    frustrated users. Inconsistent quality makes it hard to trust agent outputs.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Blueprint creation follows a predictable workflow: understand requirements,
+    design architecture, craft specifications, create, and validate. Each step
+    benefits from specialization and best practice knowledge.
+
+    ### The Method
+    A Builder Orchestrator guides users through a 5-step process with HITL
+    checkpoints. The Architect Worker designs optimal structures. The Crafter
+    Worker creates detailed specifications. The QA Worker validates the result.
+
+    ### Why This Works
+    Specialized workers apply consistent best practices. HITL checkpoints ensure
+    user alignment. The structured flow prevents common mistakes. The result is
+    high-quality blueprints every time.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Guided 5-step blueprint creation flow
+    - Architecture design (single vs multi-agent, orchestration patterns)
+    - Agent persona crafting (name, description, role, goal)
+    - Instruction engineering (structured prompts with all sections)
+    - Technical configuration (model selection, temperature tuning)
+    - Pre-deployment validation
+
+    ### Extended Capabilities
+    - HITL checkpoints for architecture and specification review
+    - Automated best practice enforcement
+    - Cost optimization recommendations
+    - Detailed validation reports
+
+    ### Boundaries
+    - Creates blueprints only (not workflows or DAGs)
+    - English language only
+    - Standard Lyzr model selection (no custom models)
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - A use case you want to automate
+    - Basic understanding of your requirements
+
+    ### Your First Run
+    Start by describing your use case: "I want to build a customer support
+    ticket triage system that classifies tickets, assesses priority, and
+    routes to the right team."
+
+    ### Pro Tips
+    - Be specific about inputs and outputs
+    - Mention any constraints (budget, model preferences)
+    - Review architecture before proceeding to specifications
+    - Test the created blueprint with sample inputs
+
+root_agents:
+  - ../agents/builder-manager.yaml
+ids:
+  blueprint: 52fd3e07-466e-4799-938a-0b44aae55eea
+  agents:
+    ../agents/builder-manager.yaml: 695aad9ba45696ac999e18cf
+    ../agents/architect-worker.yaml: 695aad996363be71980ed5f9
+    ../agents/crafter-worker.yaml: 695aad9aa45696ac999e18ce
+    ../agents/qa-worker.yaml: 695aad9a6363be71980ed5fa

@@ -1,0 +1,89 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: SDR Cold Outreach Email Writer
+  description: Personalized sales outreach email generator. Transforms prospect
+    information into compelling, human-sounding cold emails with relevant hooks,
+    value propositions, and clear calls-to-action.
+  category: sales-marketing
+  tags:
+    - sales-marketing
+    - starter
+    - email
+    - outreach
+    - sdr
+  visibility: organization
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    SDRs send hundreds of cold emails weekly. Each email should be personalized to the prospect - their company, role, recent news, and pain points. But personalization takes time.
+
+    ### The Challenge
+    Generic templates get ignored. Truly personalized emails convert, but researching each prospect and crafting custom copy doesn't scale. SDRs end up choosing between volume and quality.
+
+    ### What's At Stake
+    Low reply rates mean missed pipeline. Sales teams burn through lead lists without generating meetings. The best prospects never engage because they receive the same templated outreach as everyone else.
+
+    > **Demo Note**: This blueprint generates B2B sales emails. Customize the value propositions and social proof for your specific product/service.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Good cold emails have a formula: relevant hook + value bridge + social proof + clear CTA. The personalization comes from matching the right hook to what you know about the prospect.
+
+    ### The Method
+    An SDR Outreach Coordinator gathers prospect information and identifies personalization angles. An Email Personalizer then crafts a short, specific email that sounds human and drives action.
+
+    ### Why This Works
+    The system enforces best practices - short emails, one CTA, specific hooks. It scales personalization by quickly matching prospect context to relevant value propositions.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Generates personalized cold outreach emails
+    - Identifies personalization hooks from prospect info
+    - Creates compelling subject lines (under 50 chars)
+    - Keeps emails short and scannable (under 100 words)
+    - Includes relevant social proof
+
+    ### Email Types
+    - Initial cold outreach
+    - Follow-up sequences
+    - Event/trigger-based emails
+    - Referral introductions
+
+    ### Boundaries
+    - Requires prospect information as input
+    - Cannot research prospects (provide context)
+    - Generic input = generic output
+    - English language only
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    None - works out of the box.
+
+    ### Your First Run
+    Try: "Write an email to James Wilson, CTO at DataFlow (Series A startup, 30 employees, data infrastructure). They just announced a partnership with Snowflake. I want to pitch our monitoring solution."
+
+    ### Pro Tips
+    - **More context = better emails**: Include news, triggers, mutual connections
+    - **Specify your product**: Tell it what you're selling for relevant value props
+    - **Request sequences**: Ask for email 1, 2, 3 for full cadence
+    - **Adjust tone**: Mention industry for appropriate formality
+
+root_agents:
+  - ../agents/sdr-email-manager.yaml
+ids:
+  blueprint: b2549a85-5cac-4266-b01b-0f7b3a1b43f9
+  agents:
+    ../agents/sdr-email-manager.yaml: 695b7ffe6363be71980ede83
+    ../agents/email-personalizer.yaml: 695b7ffea45696ac999e218e

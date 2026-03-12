@@ -1,0 +1,92 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bp-sdk"
+version = "0.1.0"
+description = "Python SDK for JSON-based CRUD operations on Lyzr blueprints and agents"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Lyzr", email = "support@lyzr.ai"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["lyzr", "blueprint", "agents", "ai", "sdk"]
+
+dependencies = [
+    # HTTP and networking
+    "httpx>=0.25.0",
+    # Data validation and config
+    "pydantic>=2.0.0",
+    "pyyaml>=6.0",
+    "ruamel.yaml>=0.18.0",  # For comment-preserving YAML round-trips
+    "python-dotenv>=1.0.0",
+    # Credentials storage
+    "keyring>=24.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "pytest-mock>=3.10.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+    "pre-commit>=3.0.0",
+]
+# CLI dependencies
+cli = [
+    "typer>=0.9.0",
+    "rich>=13.0.0",
+]
+# API dependencies (FastAPI backend)
+api = [
+    "fastapi>=0.109.0",
+    "uvicorn[standard]>=0.27.0",
+    "sse-starlette>=1.8.0",
+    "pydantic-settings>=2.0.0",
+]
+# Optional tool integrations (from core)
+composio = ["composio-core>=0.5.0"]
+mcp = ["mcp>=1.0.0"]
+
+[project.scripts]
+bp = "sdk.cli.main:app"
+
+[project.urls]
+Homepage = "https://lyzr.ai"
+Documentation = "https://docs.lyzr.ai"
+Repository = "https://github.com/lyzr-ai/bp-sdk"
+
+[tool.setuptools.packages.find]
+include = ["sdk*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "B", "UP"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --cov=sdk --cov-report=term-missing"

@@ -1,0 +1,82 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Lab Results Interpreter
+  description: Patient education assistant that explains lab results in plain 
+    language, highlights abnormal values with context, and suggests questions to
+    ask your doctor. Empowers patients without replacing medical advice.
+  category: customer
+  tags:
+    - healthcare
+    - lab-results
+    - patient-education
+    - health-literacy
+  visibility: public
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Patients receive lab results through patient portals but struggle to understand them. Medical terminology, reference ranges, and clinical significance are confusing without medical training.
+
+    ### The Challenge
+    Lab results arrive faster than doctor appointments. Patients see abnormal flags and worry. They search online and find alarming information. They call clinics with questions staff cannot fully answer.
+
+    ### What's At Stake
+    Confusion leads to unnecessary anxiety or dangerous complacency. Patients may ignore important abnormalities or panic over minor variations. Uninformed patients cannot participate effectively in their care.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Patients do not need to become medical experts. They need enough understanding to have informed conversations with their doctors. The goal is education, not diagnosis.
+
+    ### The Method
+    A Lab Results Interpreter translates medical jargon into plain language. It explains what each test measures, what abnormal results might indicate, and what questions to ask the doctor. It clearly states it cannot diagnose and always recommends provider follow-up.
+
+    ### Why This Works
+    Patients arrive at appointments prepared with relevant questions. They understand the basics before the conversation starts. Doctors spend less time explaining fundamentals and more time on treatment decisions.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Explains what each lab test measures in simple terms
+    - Identifies abnormal values and their potential significance
+    - Provides context about reference ranges
+    - Suggests specific questions to ask the doctor
+
+    ### Extended Capabilities
+    - Explains how different tests relate to each other
+    - Describes common reasons for abnormal results
+    - Clarifies when results need urgent attention
+    - Provides general lifestyle factors affecting results
+
+    ### Boundaries
+    - Does NOT diagnose medical conditions
+    - Does NOT recommend treatments or medications
+    - Does NOT replace consultation with healthcare provider
+    - Always recommends discussing results with doctor
+    - Directs critical values to seek immediate care
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - Lab results with test names and values
+    - Reference ranges if available
+
+    ### Your First Run
+    Provide: 'My lab results show: Glucose 126 mg/dL (reference 70-100), HbA1c 6.8% (reference under 5.7), Cholesterol 245 mg/dL (reference under 200), HDL 38 mg/dL (reference over 40).'
+
+    ### Pro Tips
+    - Include reference ranges when available
+    - Mention any symptoms you are experiencing
+    - Note any medications you take
+    - Ask about trends if you have previous results
+
+root_agents:
+  - agents/lab-results-interpreter.yaml

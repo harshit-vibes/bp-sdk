@@ -1,0 +1,93 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: URL Powered FAQ Assistant
+  description: FAQ chatbot with knowledge embedded from a URL. Analyzes question
+    intent and complexity to provide appropriately detailed responses. Works out
+    of the box with sample content - just replace the URL content for your use case.
+  category: customer-service
+  tags:
+    - customer-service
+    - starter
+    - faq
+    - rag
+    - knowledge-base
+  visibility: organization
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Users have questions about your product or service. They need quick, accurate answers without reading through extensive documentation or waiting for support.
+
+    ### The Challenge
+    Documentation is comprehensive but can be overwhelming. Users want specific answers to their questions, not to hunt through pages of content. They need a conversational interface that understands their intent.
+
+    ### What's At Stake
+    Poor information access leads to confusion, delayed adoption, and frustrated users. Support teams get overwhelmed with repetitive questions that could be answered automatically.
+
+    > **Demo Note**: This blueprint uses Lyzr Platform's FAQ (https://docs.lyzr.ai/introduction/support/faqs) as sample content. Replace with your own FAQ content for production use.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    FAQ answering benefits from two-stage processing: first understand what the user is really asking, then retrieve and present the most relevant information. Question analysis improves answer quality.
+
+    ### The Method
+    A FAQ Expert coordinates with a Question Analyzer. The analyzer classifies the question by topic, intent, and complexity. The expert then searches the knowledge base and generates an appropriately-sized response.
+
+    ### Why This Works
+    Question analysis ensures the response matches user expectations. Simple questions get concise answers. Complex comparisons get detailed explanations. The knowledge base ensures accuracy while the LLM provides natural conversation.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Answers questions about Lyzr platform, features, and capabilities
+    - Uses RAG to search official documentation for accurate information
+    - Adapts response length based on question complexity
+    - Remembers conversation context for follow-up questions
+
+    ### Knowledge Topics
+    - Platform overview (what is Lyzr, who should use it)
+    - Capabilities (what can be built, key features)
+    - Technical details (Studio, APIs, integrations)
+    - Enterprise features (security, compliance, scalability)
+    - Comparisons (vs LangChain, DSPy, LlamaIndex)
+
+    ### Boundaries
+    - Answers based on knowledge base content only
+    - Cannot access real-time platform status or pricing
+    - English language support
+    - General platform questions (not account-specific)
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    None - works out of the box with built-in Lyzr FAQ knowledge.
+
+    ### Your First Run
+    Try these questions:
+    - "What is Lyzr?"
+    - "Who should use Lyzr?"
+    - "How does Lyzr compare to LangChain?"
+    - "What types of applications can I build?"
+
+    ### Pro Tips
+    - **Add a Knowledge Base**: For production use, attach a RAG knowledge base with your full documentation for more comprehensive answers
+    - **Customize Content**: Replace the built-in FAQ with your own product's FAQ content
+    - **Enable Memory**: Already enabled - supports multi-turn conversations
+    - **Extend Coverage**: Add more Q&A pairs to the agent instructions for common questions
+
+root_agents:
+  - ../agents/lyzr-faq-manager.yaml
+ids:
+  blueprint: 8c08c208-3f6a-48a6-a3ca-d68c02b28b5f
+  agents:
+    ../agents/lyzr-faq-manager.yaml: 695b76056363be71980edc81
+    ../agents/faq-question-analyzer.yaml: 695b7604a45696ac999e1f70

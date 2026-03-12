@@ -1,0 +1,145 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Insurance Claim Intake Processor
+  description: Automates insurance claim intake with document extraction, policy
+    verification, fraud detection, and intelligent routing for efficient claims 
+    processing.
+  category: finance
+  tags:
+    - finance
+    - insurance
+    - claims
+    - automation
+    - fraud-detection
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Insurance companies receive thousands of claims daily. Each claim requires document review, policy verification, fraud screening, and routing to appropriate handlers. Manual processing is slow, inconsistent, and expensive.
+
+    ### The Challenge
+    Claims intake requires multiple specialized skills: extracting data from diverse documents, verifying policy terms, detecting fraud patterns, and making routing decisions. Each step depends on different expertise and data sources.
+
+    ### What's At Stake
+    Slow claims processing frustrates customers and increases churn. Missed fraud costs millions annually. Inconsistent routing leads to processing delays. Manual errors result in improper payments or denials.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Claims intake is a pipeline of specialized tasks that can run partially in parallel. Document extraction must happen first, but policy verification and fraud detection can run simultaneously, feeding into complexity assessment.
+
+    ### The Method
+    A Claim Intake Coordinator orchestrates four specialists:
+
+    1. **Claim Document Extractor**: Parses submitted documents (forms, photos, PDFs) to extract structured claim data including claimant info, incident details, and claimed amounts
+
+    2. **Policy Verifier**: Validates policy status, confirms coverage applies, checks eligibility, and identifies applicable limits and deductibles
+
+    3. **Claim Fraud Detector**: Analyzes timing patterns, financial indicators, documentation quality, and narrative consistency to assess fraud risk
+
+    4. **Claim Complexity Assessor**: Evaluates all factors to determine complexity score and recommend appropriate routing destination
+
+    ### Why This Works
+    Structured extraction ensures consistent data capture. Parallel analysis reduces processing time. Multi-factor fraud detection catches issues early. Complexity-based routing ensures appropriate handling while enabling automation for simple claims.
+
+    ---
+
+    ## Capabilities
+
+    ### Document Extraction
+    - Claimant information capture
+    - Incident date, location, and description
+    - Damage and loss details
+    - Supporting evidence inventory
+    - Multi-format document handling
+
+    ### Policy Verification
+    - Policy status confirmation
+    - Coverage type matching
+    - Limit and deductible calculation
+    - Exclusion identification
+    - Eligibility determination
+
+    ### Fraud Detection
+    - Timing pattern analysis
+    - Financial indicator review
+    - Documentation quality assessment
+    - Narrative consistency check
+    - Risk scoring (0-100 scale)
+
+    ### Complexity Assessment
+    - Multi-factor evaluation
+    - Claim value consideration
+    - Injury severity assessment
+    - Legal factor identification
+    - Intelligent routing recommendation
+
+    ### Routing Destinations
+    - Auto-approve for simple, low-risk claims
+    - Standard queue for routine processing
+    - Senior review for complex cases
+    - Special Investigations Unit for fraud concerns
+    - Denial queue for excluded claims
+
+    ### Boundaries
+    - Requires structured claim submission
+    - Best for standard claim types (auto, property, health)
+    - Final decisions should have human oversight
+    - Escalates edge cases appropriately
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - Claim submission documents (forms, photos, estimates)
+    - Policy database access for verification
+    - Claims history for fraud pattern detection
+
+    ### Your First Run
+    Try this prompt:
+
+    "Process this auto insurance claim: Policy AUTO-2024-123456, claimant John Smith. On January 2nd, 2025, claimant's vehicle was rear-ended at the intersection of Main and Oak streets. Damage to rear bumper estimated at $3,500. Police report number 2025-001234 filed. Photos of damage attached."
+
+    ### Pro Tips
+    - **Provide Complete Documents**: More information enables better assessment
+    - **Include Policy Numbers**: Enables faster verification
+    - **Attach Evidence**: Photos and reports improve fraud scoring
+    - **Note Special Circumstances**: Mention anything unusual upfront
+
+    ### Example Use Cases
+    - Initial claim submission processing
+    - Document intake and data capture
+    - First-notice-of-loss automation
+    - Claims triage and routing
+    - Fraud screening at intake
+
+    ### Sample Interactions
+
+    Simple Auto Claim:
+    Input: "Process claim for fender bender, $2,000 damage, policy active"
+    Output: Routes to auto-approve queue with same-day processing
+
+    Complex Medical Claim:
+    Input: "Process injury claim, $45,000 medical expenses, ongoing treatment"
+    Output: Routes to senior review with 7-10 day timeline
+
+    Suspicious Claim:
+    Input: "Process theft claim filed 5 days after policy purchase"
+    Output: Routes to SIU for investigation with fraud risk analysis
+
+root_agents:
+  - ../agents/claim-intake-coordinator.yaml
+ids:
+  blueprint: 50ca9ef6-e2f6-4871-8fcd-62670c693f01
+  agents:
+    ../agents/claim-intake-coordinator.yaml: 695befa9457887dd859fb55f
+    ../agents/claim-document-extractor.yaml: 695befa6457887dd859fb55d
+    ../agents/policy-verifier.yaml: 695befa7c2dad05ba69ad97a
+    ../agents/claim-fraud-detector.yaml: 695befa8457887dd859fb55e
+    ../agents/claim-complexity-assessor.yaml: 695befa8c2dad05ba69ad97b

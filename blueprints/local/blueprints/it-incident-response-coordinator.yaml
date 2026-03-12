@@ -1,0 +1,128 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: IT Incident Response Coordinator
+  description: Coordinates IT incident response by classifying severity, 
+    analyzing root causes, and creating actionable remediation plans to minimize
+    downtime and business impact.
+  category: tech
+  tags:
+    - tech
+    - incident-response
+    - devops
+    - sre
+    - operations
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    IT teams face incidents ranging from minor bugs to critical outages. Each incident requires quick assessment of severity, identification of root cause, and creation of a remediation plan. Under pressure, teams may miss steps or make inconsistent decisions.
+
+    ### The Challenge
+    Incident response requires multiple skills: triage to determine urgency, technical diagnosis to find root cause, and operational planning to restore service. Different responders have different experience levels, leading to inconsistent response quality.
+
+    ### What's At Stake
+    Slow incident response means extended downtime, lost revenue, and damaged customer trust. Incorrect severity classification wastes resources or leaves critical issues unaddressed. Poor communication creates confusion and delays resolution.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Incident response is a structured process: first determine severity to allocate resources, then diagnose to understand the problem, then plan remediation to fix it. Each phase requires specialized analysis that benefits from focused attention.
+
+    ### The Method
+    An Incident Response Coordinator manages three specialists:
+
+    1. **Severity Classifier**: Triages incidents by analyzing symptoms, user impact, and business impact to assign appropriate severity levels (P0-P4)
+    2. **Root Cause Analyzer**: Diagnoses underlying causes by correlating symptoms with recent changes, dependencies, and known patterns
+    3. **Remediation Planner**: Creates step-by-step resolution plans with immediate actions, workarounds, rollback strategies, and communication templates
+
+    ### Why This Works
+    Structured triage ensures the right resources engage at the right urgency. Systematic diagnosis prevents jumping to conclusions. Complete remediation plans include rollback options and verification steps. The coordinator synthesizes everything into a coherent response plan.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Incident severity classification (P0-P4)
+    - Business and user impact assessment
+    - Escalation requirement determination
+    - Root cause hypothesis generation
+    - Change correlation analysis
+    - Dependency mapping
+    - Remediation step-by-step planning
+    - Workaround identification
+    - Rollback plan creation
+    - Stakeholder communication templates
+
+    ### Severity Levels
+    - P0 (Critical): Complete outage, immediate escalation
+    - P1 (High): Major degradation, 15-minute response
+    - P2 (Medium): Partial impact, next business hour
+    - P3 (Low): Minor issue, standard queue
+    - P4 (Info): Not an incident, redirect
+
+    ### Root Cause Categories
+    - Deployment regression
+    - Database issues (query, connection, locks)
+    - Resource exhaustion (CPU, memory, disk)
+    - Network issues (latency, DNS, connectivity)
+    - Configuration drift
+    - External dependency failure
+    - Security incident
+    - Data issues
+
+    ### Remediation Components
+    - Immediate stabilization actions
+    - User and operational workarounds
+    - Full resolution steps with verification
+    - Rollback triggers and procedures
+    - Communication plan (internal and external)
+    - Post-incident follow-up actions
+
+    ### Boundaries
+    - Analyzes provided incident data (no monitoring integration)
+    - Provides recommendations (does not execute commands)
+    - English language primary focus
+    - General IT incidents (customizable for specific stacks)
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    None - works out of the box.
+
+    ### Your First Run
+    Try this prompt:
+
+    "Incident Report: Production API experiencing 500 errors. Error rate spiked to 45% starting at 14:23 UTC. Users reporting checkout failures. Recent deployment: v2.3.1 at 14:15 UTC. Database CPU at 92%, normal is 30%."
+
+    ### Pro Tips
+    - **Include Timestamps**: Helps correlate with recent changes
+    - **List Recent Changes**: Deployments, config changes, infrastructure updates
+    - **Describe Symptoms**: Error messages, metrics, user reports
+    - **Note Current Status**: Is it worsening, stable, or improving?
+    - **Mention Workarounds Tried**: What has already been attempted
+
+    ### Example Use Cases
+    - Production outage response
+    - Service degradation triage
+    - Security incident coordination
+    - Database performance issues
+    - Deployment rollback decisions
+    - Third-party dependency failures
+
+root_agents:
+  - ../agents/incident-response-coordinator.yaml
+ids:
+  blueprint: 140c52f2-7904-4ccd-a140-47f4dfeea6e4
+  agents:
+    ../agents/incident-response-coordinator.yaml: 695be2446363be71980ee9ce
+    ../agents/severity-classifier.yaml: 695be241a45696ac999e2d59
+    ../agents/root-cause-analyzer.yaml: 695be2426363be71980ee9cd
+    ../agents/remediation-planner.yaml: 695be243a45696ac999e2d5a

@@ -1,0 +1,27 @@
+--- a/app/blueprints/service.py
++++ b/app/blueprints/service.py
+@@ -151,10 +151,20 @@ class BlueprintService:
+         ).skip(skip).limit(page_size)
+
+         blueprints = []
++        skipped = []
+         async for blueprint in cursor:
+-            enhanced = await self._enhance_blueprint_response(
+-                blueprint, user_id, organization_id
+-            )
+-            blueprints.append(enhanced)
++            try:
++                enhanced = await self._enhance_blueprint_response(
++                    blueprint, user_id, organization_id
++                )
++                blueprints.append(enhanced)
++            except Exception as e:
++                # Log problematic blueprint but don't crash the entire request
++                bp_id = blueprint.get("_id", "unknown")
++                bp_name = blueprint.get("name", "unknown")
++                print(f"WARNING: Failed to serialize blueprint {bp_id} ({bp_name}): {str(e)}")
++                skipped.append({"id": bp_id, "name": bp_name, "error": str(e)})
++                continue
+
+         return {
+             "blueprints": blueprints,

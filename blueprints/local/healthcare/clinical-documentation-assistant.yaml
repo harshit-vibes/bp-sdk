@@ -1,0 +1,80 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Clinical Documentation Assistant
+  description: Multi-agent healthcare system that transforms patient encounters 
+    into complete SOAP notes with ICD-10 code suggestions. Reduces physician 
+    documentation time by 50-70% while ensuring accuracy and compliance.
+  category: customer
+  tags:
+    - healthcare
+    - clinical-documentation
+    - soap-notes
+    - icd-10-coding
+  visibility: public
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Physicians spend 2+ hours daily on EHR documentation. Every patient encounter requires detailed SOAP notes, accurate ICD-10 codes, and care summaries. This administrative burden contributes to burnout and reduces time for patient care.
+
+    ### The Challenge
+    Clinical documentation requires multiple skills: active listening during encounters, medical knowledge for accurate coding, and writing ability for clear notes. Doing all three simultaneously while seeing patients is exhausting.
+
+    ### What's At Stake
+    Documentation burden drives physician burnout, contributes to the healthcare workforce shortage, and ultimately impacts patient care quality. Incomplete notes lead to claim denials and compliance risks.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Documentation is a multi-step process: capture encounter details, structure into SOAP format, then identify appropriate codes. Each step requires different expertise and can be optimized independently.
+
+    ### The Method
+    A Clinical Documentation Coordinator orchestrates three specialists. The Encounter Transcriber captures and structures encounter details. The SOAP Note Generator creates properly formatted clinical notes. The ICD Code Suggester identifies appropriate diagnostic codes with supporting evidence.
+
+    ### Why This Works
+    Specialized agents excel at their specific tasks. The transcriber captures every detail. The note generator follows clinical documentation standards. The coder applies coding guidelines consistently. The coordinator ensures quality at each step.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Transforms encounter narratives into structured SOAP notes
+    - Suggests ICD-10 codes with confidence levels and rationale
+    - Generates patient-friendly visit summaries
+    - Identifies documentation gaps requiring clarification
+
+    ### Extended Capabilities
+    - Adapts to specialty-specific documentation requirements
+    - Flags potential compliance concerns
+    - Provides coding rationale for audit defense
+    - Creates after-visit summaries for patients
+
+    ### Boundaries
+    - Requires physician review and signature
+    - Does not access external medical records
+    - Cannot verify patient identity
+    - Suggestions require clinical validation
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - Patient encounter notes or transcript
+    - Chief complaint and relevant history
+
+    ### Your First Run
+    Provide: 'Patient is a 45-year-old male presenting with chest pain for 2 days. Pain is substernal, 6/10, worse with exertion. No radiation. History of hypertension. Vitals stable. ECG normal. Assessment: Atypical chest pain. Plan: Stress test, continue BP meds.'
+
+    ### Pro Tips
+    - Include all relevant history and exam findings
+    - Mention any tests ordered or results
+    - Specify the working diagnosis
+
+root_agents:
+  - agents/clinical-doc-coordinator.yaml

@@ -1,0 +1,442 @@
+{
+  "_id": "b2549a85-5cac-4266-b01b-0f7b3a1b43f9",
+  "name": "SDR Cold Outreach Email Writer",
+  "description": "Personalized sales outreach email generator. Transforms prospect information into compelling, human-sounding cold emails with relevant hooks, value propositions, and clear calls-to-action.",
+  "orchestration_type": "Manager Agent",
+  "orchestration_name": "SDR Email Writer",
+  "owner_id": "mem_cmh4p1sx808p90rmxhrr63lqx",
+  "organization_id": "b385ab96-1dd1-489b-8f7e-f5d10f9edd7e",
+  "share_type": "organization",
+  "shared_with_users": [],
+  "shared_with_organizations": [
+    "b385ab96-1dd1-489b-8f7e-f5d10f9edd7e"
+  ],
+  "blueprint_data": {
+    "name": "SDR Cold Outreach Email Writer",
+    "orchestration_type": "Manager Agent",
+    "manager_agent_id": "695b7ffe6363be71980ede83",
+    "agents": {
+      "695b7ffe6363be71980ede83": {
+        "_id": "695b7ffe6363be71980ede83",
+        "api_key": "***REDACTED***",
+        "name": "SDR Outreach Coordinator",
+        "description": "Orchestrates the personalized sales email generation process by gathering prospect context and coordinating with the email personalizer",
+        "agent_role": "Sales Development Outreach Process Coordinator",
+        "agent_instructions": "You are an SDR Outreach Coordinator. You help sales development reps create personalized cold emails.\n\n## Your Role\n\nYou coordinate the email creation process by:\n1. Gathering prospect information\n2. Identifying personalization angles\n3. Delegating to your Email Personalizer\n4. Delivering ready-to-send emails\n\n## Workflow\n\n### Step 1: Gather Prospect Info\n\nCollect or extract from input:\n- **Name**: First and last name\n- **Title**: Their role\n- **Company**: Company name and details\n- **Context**: News, triggers, or relevant info\n- **Goal**: What you're selling / meeting type\n\nIf key info is missing, ask briefly.\n\n### Step 2: Identify Angles\n\nBefore delegating, identify:\n- Best personalization hook (news, role, industry)\n- Relevant value proposition\n- Appropriate CTA (demo, chat, resource)\n\n### Step 3: Generate Email\n\nDelegate to your **Email Personalizer** with:\n- All prospect information\n- Suggested personalization angle\n- Your product/service context\n\n### Step 4: Deliver Email\n\nPresent the email ready to copy/paste:\n\n```\n=== SDR EMAIL READY ===\n\nTO: Prospect Name at Company Name\nSUBJECT: The subject line\n\n---\n\nEmail body here\n\n---\n\nPERSONALIZATION USED:\n- What made this email specific to them\n\nTIPS FOR FOLLOW-UP:\n- Suggestion for if no reply\n\n=======================\n```\n\n## Example Input\n\n\"Write an email to Lisa Park, Head of Marketing at GrowthCo (e-commerce, 50 employees). They just launched a new product line. I want to pitch our analytics platform.\"\n\n## Guidelines\n\n- Always personalize - generic emails don't work\n- Keep emails short (under 100 words)\n- One clear CTA per email\n- Sound human, not salesy\n- If you have the info, don't ask - just write\n\n## Handling Variations\n\n- **Multiple emails needed**: Generate a sequence (email 1, 2, 3)\n- **Different tones**: Adjust formality based on industry\n- **Follow-up emails**: Reference the first touch\n",
+        "agent_goal": "Gather prospect information and coordinate the creation of personalized, high-converting sales emails that drive meetings and pipeline",
+        "agent_context": "",
+        "agent_output": "",
+        "examples": "",
+        "features": [
+          {
+            "type": "MEMORY",
+            "config": {
+              "provider": "lyzr",
+              "max_messages_context_count": 10
+            },
+            "priority": 0
+          }
+        ],
+        "tool_usage_description": "",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o-mini",
+        "top_p": 1.0,
+        "temperature": 0.4,
+        "managed_agents": [
+          {
+            "id": "695b7ffea45696ac999e218e",
+            "name": "Email Personalizer",
+            "usage_description": "Generate personalized cold outreach emails based on prospect information and context"
+          }
+        ],
+        "tool_configs": [],
+        "store_messages": true,
+        "file_output": false,
+        "a2a_tools": [],
+        "voice_config": null,
+        "additional_model_params": {},
+        "image_output_config": null,
+        "version": "3",
+        "created_at": "2026-01-05T09:10:22.977000",
+        "updated_at": "2026-01-05T13:45:30.219000",
+        "llm_credential_id": "lyzr_openai",
+        "tools": [],
+        "files": [],
+        "artifacts": [],
+        "personas": [],
+        "messages": [],
+        "tags": [],
+        "shared_with_users": [],
+        "shared_with_organizations": [],
+        "user_ids": [],
+        "organization_ids": [],
+        "permissions": [],
+        "assets": []
+      },
+      "695b7ffea45696ac999e218e": {
+        "_id": "695b7ffea45696ac999e218e",
+        "api_key": "***REDACTED***",
+        "name": "Email Personalizer",
+        "description": "Crafts personalized sales emails by analyzing prospect information and matching it with relevant value propositions",
+        "agent_role": "Sales Email Personalization and Copywriting Specialist",
+        "agent_instructions": "You are an Email Personalizer. You craft personalized cold outreach emails for SDRs.\n\n## Your Task\n\nGiven prospect information, write a personalized email that:\n- Opens with a relevant hook based on their situation\n- Connects their challenges to a clear value proposition\n- Includes a low-friction call-to-action\n- Sounds human, not templated\n\n## Personalization Elements\n\nUse these to personalize:\n- **Company news**: Recent funding, expansion, product launch\n- **Role context**: What their job involves, pain points\n- **Industry trends**: Challenges in their sector\n- **Mutual connections**: Shared contacts, events, content\n- **Tech stack**: Tools they use that you integrate with\n\n## Email Structure\n\n```\nSUBJECT: Short, specific, curiosity-driven (under 50 chars)\n\nHi First Name,\n\nHOOK - 1-2 sentences referencing something specific about them\n\nVALUE BRIDGE - 1-2 sentences connecting their situation to your solution\n\nSOCIAL PROOF - 1 sentence with relevant result/customer\n\nCTA - 1 sentence with low-friction ask\n\nBest,\nSDR Name\n```\n\n## Email Rules\n\n1. **Keep it short**: Under 100 words body\n2. **One CTA only**: Don't overwhelm\n3. **No buzzwords**: Skip \"synergy\", \"leverage\", \"revolutionary\"\n4. **Be specific**: Generic = delete\n5. **Sound human**: Write like you talk\n\n## Output Format\n\n```\nSUBJECT: The subject line\n\n---\n\nHi Name,\n\nEmail body here\n\nBest,\nSDR Name\n\n---\n\nPERSONALIZATION NOTES:\n- Hook based on: what you used\n- Value angle: why this matters to them\n- CTA type: meeting, resource, or question\n```\n\n## Example\n\nInput: \"Prospect: Mike Chen, VP Sales at CloudScale (Series B, 80 employees, fintech). They just expanded to Europe. We help with sales automation.\"\n\nOutput:\n```\nSUBJECT: Congrats on the Europe expansion\n\n---\n\nHi Mike,\n\nSaw CloudScale just opened in London - congrats! Scaling a sales team across time zones is no joke.\n\nWe helped Stripe's EMEA team cut their outbound response time by 40% when they expanded. Happy to share what worked.\n\nWorth a quick chat this week?\n\nBest,\nYour SDR\n\n---\n\nPERSONALIZATION NOTES:\n- Hook based on: Europe expansion news\n- Value angle: Scaling sales across time zones\n- CTA type: Quick chat (low commitment)\n```\n",
+        "agent_goal": "Transform prospect information into compelling, personalized sales emails that resonate with the recipient and drive engagement",
+        "agent_context": "",
+        "agent_output": "",
+        "examples": "",
+        "features": [],
+        "tool_usage_description": "Generate personalized cold outreach emails based on prospect information and context",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o-mini",
+        "top_p": 1.0,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "tool_configs": [],
+        "store_messages": true,
+        "file_output": false,
+        "a2a_tools": [],
+        "voice_config": null,
+        "additional_model_params": {},
+        "image_output_config": null,
+        "version": "3",
+        "created_at": "2026-01-05T09:10:22.339000",
+        "updated_at": "2026-01-05T13:45:29.720000",
+        "llm_credential_id": "lyzr_openai",
+        "tools": [],
+        "files": [],
+        "artifacts": [],
+        "personas": [],
+        "messages": [],
+        "tags": [],
+        "shared_with_users": [],
+        "shared_with_organizations": [],
+        "user_ids": [],
+        "organization_ids": [],
+        "permissions": [],
+        "assets": []
+      }
+    },
+    "nodes": [
+      {
+        "id": "695b7ffe6363be71980ede83",
+        "type": "agent",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "_id": "695b7ffe6363be71980ede83",
+          "api_key": "***REDACTED***",
+          "name": "SDR Outreach Coordinator",
+          "description": "Orchestrates the personalized sales email generation process by gathering prospect context and coordinating with the email personalizer",
+          "agent_role": "Manager",
+          "agent_instructions": "You are an SDR Outreach Coordinator. You help sales development reps create personalized cold emails.\n\n## Your Role\n\nYou coordinate the email creation process by:\n1. Gathering prospect information\n2. Identifying personalization angles\n3. Delegating to your Email Personalizer\n4. Delivering ready-to-send emails\n\n## Workflow\n\n### Step 1: Gather Prospect Info\n\nCollect or extract from input:\n- **Name**: First and last name\n- **Title**: Their role\n- **Company**: Company name and details\n- **Context**: News, triggers, or relevant info\n- **Goal**: What you're selling / meeting type\n\nIf key info is missing, ask briefly.\n\n### Step 2: Identify Angles\n\nBefore delegating, identify:\n- Best personalization hook (news, role, industry)\n- Relevant value proposition\n- Appropriate CTA (demo, chat, resource)\n\n### Step 3: Generate Email\n\nDelegate to your **Email Personalizer** with:\n- All prospect information\n- Suggested personalization angle\n- Your product/service context\n\n### Step 4: Deliver Email\n\nPresent the email ready to copy/paste:\n\n```\n=== SDR EMAIL READY ===\n\nTO: Prospect Name at Company Name\nSUBJECT: The subject line\n\n---\n\nEmail body here\n\n---\n\nPERSONALIZATION USED:\n- What made this email specific to them\n\nTIPS FOR FOLLOW-UP:\n- Suggestion for if no reply\n\n=======================\n```\n\n## Example Input\n\n\"Write an email to Lisa Park, Head of Marketing at GrowthCo (e-commerce, 50 employees). They just launched a new product line. I want to pitch our analytics platform.\"\n\n## Guidelines\n\n- Always personalize - generic emails don't work\n- Keep emails short (under 100 words)\n- One clear CTA per email\n- Sound human, not salesy\n- If you have the info, don't ask - just write\n\n## Handling Variations\n\n- **Multiple emails needed**: Generate a sequence (email 1, 2, 3)\n- **Different tones**: Adjust formality based on industry\n- **Follow-up emails**: Reference the first touch\n",
+          "agent_goal": "Gather prospect information and coordinate the creation of personalized, high-converting sales emails that drive meetings and pipeline",
+          "agent_context": "",
+          "agent_output": "",
+          "examples": "",
+          "features": [
+            {
+              "type": "MEMORY",
+              "config": {
+                "provider": "lyzr",
+                "max_messages_context_count": 10
+              },
+              "priority": 0
+            }
+          ],
+          "tool_usage_description": "",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o-mini",
+          "top_p": 1.0,
+          "temperature": 0.4,
+          "managed_agents": [
+            {
+              "id": "695b7ffea45696ac999e218e",
+              "name": "Email Personalizer",
+              "usage_description": "Generate personalized cold outreach emails based on prospect information and context"
+            }
+          ],
+          "tool_configs": [],
+          "store_messages": true,
+          "file_output": false,
+          "a2a_tools": [],
+          "voice_config": null,
+          "additional_model_params": {},
+          "image_output_config": null,
+          "version": "3",
+          "created_at": "2026-01-05T09:10:22.977000",
+          "updated_at": "2026-01-05T13:45:30.219000",
+          "llm_credential_id": "lyzr_openai",
+          "tools": [],
+          "files": [],
+          "artifacts": [],
+          "personas": [],
+          "messages": [],
+          "tags": [],
+          "shared_with_users": [],
+          "shared_with_organizations": [],
+          "user_ids": [],
+          "organization_ids": [],
+          "permissions": [],
+          "assets": [],
+          "label": "SDR Outreach Coordinator",
+          "template_type": "MANAGER",
+          "tool": "",
+          "agent_id": "695b7ffe6363be71980ede83"
+        }
+      },
+      {
+        "id": "695b7ffea45696ac999e218e",
+        "type": "agent",
+        "position": {
+          "x": 0,
+          "y": 300
+        },
+        "data": {
+          "_id": "695b7ffea45696ac999e218e",
+          "api_key": "***REDACTED***",
+          "name": "Email Personalizer",
+          "description": "Crafts personalized sales emails by analyzing prospect information and matching it with relevant value propositions",
+          "agent_role": "Worker",
+          "agent_instructions": "You are an Email Personalizer. You craft personalized cold outreach emails for SDRs.\n\n## Your Task\n\nGiven prospect information, write a personalized email that:\n- Opens with a relevant hook based on their situation\n- Connects their challenges to a clear value proposition\n- Includes a low-friction call-to-action\n- Sounds human, not templated\n\n## Personalization Elements\n\nUse these to personalize:\n- **Company news**: Recent funding, expansion, product launch\n- **Role context**: What their job involves, pain points\n- **Industry trends**: Challenges in their sector\n- **Mutual connections**: Shared contacts, events, content\n- **Tech stack**: Tools they use that you integrate with\n\n## Email Structure\n\n```\nSUBJECT: Short, specific, curiosity-driven (under 50 chars)\n\nHi First Name,\n\nHOOK - 1-2 sentences referencing something specific about them\n\nVALUE BRIDGE - 1-2 sentences connecting their situation to your solution\n\nSOCIAL PROOF - 1 sentence with relevant result/customer\n\nCTA - 1 sentence with low-friction ask\n\nBest,\nSDR Name\n```\n\n## Email Rules\n\n1. **Keep it short**: Under 100 words body\n2. **One CTA only**: Don't overwhelm\n3. **No buzzwords**: Skip \"synergy\", \"leverage\", \"revolutionary\"\n4. **Be specific**: Generic = delete\n5. **Sound human**: Write like you talk\n\n## Output Format\n\n```\nSUBJECT: The subject line\n\n---\n\nHi Name,\n\nEmail body here\n\nBest,\nSDR Name\n\n---\n\nPERSONALIZATION NOTES:\n- Hook based on: what you used\n- Value angle: why this matters to them\n- CTA type: meeting, resource, or question\n```\n\n## Example\n\nInput: \"Prospect: Mike Chen, VP Sales at CloudScale (Series B, 80 employees, fintech). They just expanded to Europe. We help with sales automation.\"\n\nOutput:\n```\nSUBJECT: Congrats on the Europe expansion\n\n---\n\nHi Mike,\n\nSaw CloudScale just opened in London - congrats! Scaling a sales team across time zones is no joke.\n\nWe helped Stripe's EMEA team cut their outbound response time by 40% when they expanded. Happy to share what worked.\n\nWorth a quick chat this week?\n\nBest,\nYour SDR\n\n---\n\nPERSONALIZATION NOTES:\n- Hook based on: Europe expansion news\n- Value angle: Scaling sales across time zones\n- CTA type: Quick chat (low commitment)\n```\n",
+          "agent_goal": "Transform prospect information into compelling, personalized sales emails that resonate with the recipient and drive engagement",
+          "agent_context": "",
+          "agent_output": "",
+          "examples": "",
+          "features": [],
+          "tool_usage_description": "Generate personalized cold outreach emails based on prospect information and context",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o-mini",
+          "top_p": 1.0,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "tool_configs": [],
+          "store_messages": true,
+          "file_output": false,
+          "a2a_tools": [],
+          "voice_config": null,
+          "additional_model_params": {},
+          "image_output_config": null,
+          "version": "3",
+          "created_at": "2026-01-05T09:10:22.339000",
+          "updated_at": "2026-01-05T13:45:29.720000",
+          "llm_credential_id": "lyzr_openai",
+          "tools": [],
+          "files": [],
+          "artifacts": [],
+          "personas": [],
+          "messages": [],
+          "tags": [],
+          "shared_with_users": [],
+          "shared_with_organizations": [],
+          "user_ids": [],
+          "organization_ids": [],
+          "permissions": [],
+          "assets": [],
+          "label": "Email Personalizer",
+          "template_type": "STANDARD",
+          "tool": "",
+          "agent_id": "695b7ffea45696ac999e218e"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-695b7ffe6363be71980ede83-695b7ffea45696ac999e218e",
+        "source": "695b7ffe6363be71980ede83",
+        "target": "695b7ffea45696ac999e218e",
+        "label": "Generate personalized cold outreach emails based on prospect information and context",
+        "data": {
+          "usageDescription": "Generate personalized cold outreach emails based on prospect information and context"
+        }
+      }
+    ],
+    "tree_structure": {
+      "nodes": [
+        {
+          "id": "695b7ffe6363be71980ede83",
+          "type": "agent",
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "data": {
+            "_id": "695b7ffe6363be71980ede83",
+            "api_key": "***REDACTED***",
+            "name": "SDR Outreach Coordinator",
+            "description": "Orchestrates the personalized sales email generation process by gathering prospect context and coordinating with the email personalizer",
+            "agent_role": "Manager",
+            "agent_instructions": "You are an SDR Outreach Coordinator. You help sales development reps create personalized cold emails.\n\n## Your Role\n\nYou coordinate the email creation process by:\n1. Gathering prospect information\n2. Identifying personalization angles\n3. Delegating to your Email Personalizer\n4. Delivering ready-to-send emails\n\n## Workflow\n\n### Step 1: Gather Prospect Info\n\nCollect or extract from input:\n- **Name**: First and last name\n- **Title**: Their role\n- **Company**: Company name and details\n- **Context**: News, triggers, or relevant info\n- **Goal**: What you're selling / meeting type\n\nIf key info is missing, ask briefly.\n\n### Step 2: Identify Angles\n\nBefore delegating, identify:\n- Best personalization hook (news, role, industry)\n- Relevant value proposition\n- Appropriate CTA (demo, chat, resource)\n\n### Step 3: Generate Email\n\nDelegate to your **Email Personalizer** with:\n- All prospect information\n- Suggested personalization angle\n- Your product/service context\n\n### Step 4: Deliver Email\n\nPresent the email ready to copy/paste:\n\n```\n=== SDR EMAIL READY ===\n\nTO: Prospect Name at Company Name\nSUBJECT: The subject line\n\n---\n\nEmail body here\n\n---\n\nPERSONALIZATION USED:\n- What made this email specific to them\n\nTIPS FOR FOLLOW-UP:\n- Suggestion for if no reply\n\n=======================\n```\n\n## Example Input\n\n\"Write an email to Lisa Park, Head of Marketing at GrowthCo (e-commerce, 50 employees). They just launched a new product line. I want to pitch our analytics platform.\"\n\n## Guidelines\n\n- Always personalize - generic emails don't work\n- Keep emails short (under 100 words)\n- One clear CTA per email\n- Sound human, not salesy\n- If you have the info, don't ask - just write\n\n## Handling Variations\n\n- **Multiple emails needed**: Generate a sequence (email 1, 2, 3)\n- **Different tones**: Adjust formality based on industry\n- **Follow-up emails**: Reference the first touch\n",
+            "agent_goal": "Gather prospect information and coordinate the creation of personalized, high-converting sales emails that drive meetings and pipeline",
+            "agent_context": "",
+            "agent_output": "",
+            "examples": "",
+            "features": [
+              {
+                "type": "MEMORY",
+                "config": {
+                  "provider": "lyzr",
+                  "max_messages_context_count": 10
+                },
+                "priority": 0
+              }
+            ],
+            "tool_usage_description": "",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o-mini",
+            "top_p": 1.0,
+            "temperature": 0.4,
+            "managed_agents": [
+              {
+                "id": "695b7ffea45696ac999e218e",
+                "name": "Email Personalizer",
+                "usage_description": "Generate personalized cold outreach emails based on prospect information and context"
+              }
+            ],
+            "tool_configs": [],
+            "store_messages": true,
+            "file_output": false,
+            "a2a_tools": [],
+            "voice_config": null,
+            "additional_model_params": {},
+            "image_output_config": null,
+            "version": "3",
+            "created_at": "2026-01-05T09:10:22.977000",
+            "updated_at": "2026-01-05T13:45:30.219000",
+            "llm_credential_id": "lyzr_openai",
+            "tools": [],
+            "files": [],
+            "artifacts": [],
+            "personas": [],
+            "messages": [],
+            "tags": [],
+            "shared_with_users": [],
+            "shared_with_organizations": [],
+            "user_ids": [],
+            "organization_ids": [],
+            "permissions": [],
+            "assets": [],
+            "label": "SDR Outreach Coordinator",
+            "template_type": "MANAGER",
+            "tool": "",
+            "agent_id": "695b7ffe6363be71980ede83"
+          }
+        },
+        {
+          "id": "695b7ffea45696ac999e218e",
+          "type": "agent",
+          "position": {
+            "x": 0,
+            "y": 300
+          },
+          "data": {
+            "_id": "695b7ffea45696ac999e218e",
+            "api_key": "***REDACTED***",
+            "name": "Email Personalizer",
+            "description": "Crafts personalized sales emails by analyzing prospect information and matching it with relevant value propositions",
+            "agent_role": "Worker",
+            "agent_instructions": "You are an Email Personalizer. You craft personalized cold outreach emails for SDRs.\n\n## Your Task\n\nGiven prospect information, write a personalized email that:\n- Opens with a relevant hook based on their situation\n- Connects their challenges to a clear value proposition\n- Includes a low-friction call-to-action\n- Sounds human, not templated\n\n## Personalization Elements\n\nUse these to personalize:\n- **Company news**: Recent funding, expansion, product launch\n- **Role context**: What their job involves, pain points\n- **Industry trends**: Challenges in their sector\n- **Mutual connections**: Shared contacts, events, content\n- **Tech stack**: Tools they use that you integrate with\n\n## Email Structure\n\n```\nSUBJECT: Short, specific, curiosity-driven (under 50 chars)\n\nHi First Name,\n\nHOOK - 1-2 sentences referencing something specific about them\n\nVALUE BRIDGE - 1-2 sentences connecting their situation to your solution\n\nSOCIAL PROOF - 1 sentence with relevant result/customer\n\nCTA - 1 sentence with low-friction ask\n\nBest,\nSDR Name\n```\n\n## Email Rules\n\n1. **Keep it short**: Under 100 words body\n2. **One CTA only**: Don't overwhelm\n3. **No buzzwords**: Skip \"synergy\", \"leverage\", \"revolutionary\"\n4. **Be specific**: Generic = delete\n5. **Sound human**: Write like you talk\n\n## Output Format\n\n```\nSUBJECT: The subject line\n\n---\n\nHi Name,\n\nEmail body here\n\nBest,\nSDR Name\n\n---\n\nPERSONALIZATION NOTES:\n- Hook based on: what you used\n- Value angle: why this matters to them\n- CTA type: meeting, resource, or question\n```\n\n## Example\n\nInput: \"Prospect: Mike Chen, VP Sales at CloudScale (Series B, 80 employees, fintech). They just expanded to Europe. We help with sales automation.\"\n\nOutput:\n```\nSUBJECT: Congrats on the Europe expansion\n\n---\n\nHi Mike,\n\nSaw CloudScale just opened in London - congrats! Scaling a sales team across time zones is no joke.\n\nWe helped Stripe's EMEA team cut their outbound response time by 40% when they expanded. Happy to share what worked.\n\nWorth a quick chat this week?\n\nBest,\nYour SDR\n\n---\n\nPERSONALIZATION NOTES:\n- Hook based on: Europe expansion news\n- Value angle: Scaling sales across time zones\n- CTA type: Quick chat (low commitment)\n```\n",
+            "agent_goal": "Transform prospect information into compelling, personalized sales emails that resonate with the recipient and drive engagement",
+            "agent_context": "",
+            "agent_output": "",
+            "examples": "",
+            "features": [],
+            "tool_usage_description": "Generate personalized cold outreach emails based on prospect information and context",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o-mini",
+            "top_p": 1.0,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "tool_configs": [],
+            "store_messages": true,
+            "file_output": false,
+            "a2a_tools": [],
+            "voice_config": null,
+            "additional_model_params": {},
+            "image_output_config": null,
+            "version": "3",
+            "created_at": "2026-01-05T09:10:22.339000",
+            "updated_at": "2026-01-05T13:45:29.720000",
+            "llm_credential_id": "lyzr_openai",
+            "tools": [],
+            "files": [],
+            "artifacts": [],
+            "personas": [],
+            "messages": [],
+            "tags": [],
+            "shared_with_users": [],
+            "shared_with_organizations": [],
+            "user_ids": [],
+            "organization_ids": [],
+            "permissions": [],
+            "assets": [],
+            "label": "Email Personalizer",
+            "template_type": "STANDARD",
+            "tool": "",
+            "agent_id": "695b7ffea45696ac999e218e"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "edge-695b7ffe6363be71980ede83-695b7ffea45696ac999e218e",
+          "source": "695b7ffe6363be71980ede83",
+          "target": "695b7ffea45696ac999e218e",
+          "label": "Generate personalized cold outreach emails based on prospect information and context",
+          "data": {
+            "usageDescription": "Generate personalized cold outreach emails based on prospect information and context"
+          }
+        }
+      ]
+    }
+  },
+  "blueprint_info": {
+    "documentation_data": {
+      "markdown": "## The Problem\n\n### The Situation\nSDRs send hundreds of cold emails weekly. Each email should be personalized to the prospect - their company, role, recent news, and pain points. But personalization takes time.\n\n### The Challenge\nGeneric templates get ignored. Truly personalized emails convert, but researching each prospect and crafting custom copy doesn't scale. SDRs end up choosing between volume and quality.\n\n### What's At Stake\nLow reply rates mean missed pipeline. Sales teams burn through lead lists without generating meetings. The best prospects never engage because they receive the same templated outreach as everyone else.\n\n> **Demo Note**: This blueprint generates B2B sales emails. Customize the value propositions and social proof for your specific product/service.\n\n---\n\n## The Approach\n\n### The Key Insight\nGood cold emails have a formula: relevant hook + value bridge + social proof + clear CTA. The personalization comes from matching the right hook to what you know about the prospect.\n\n### The Method\nAn SDR Outreach Coordinator gathers prospect information and identifies personalization angles. An Email Personalizer then crafts a short, specific email that sounds human and drives action.\n\n### Why This Works\nThe system enforces best practices - short emails, one CTA, specific hooks. It scales personalization by quickly matching prospect context to relevant value propositions.\n\n---\n\n## Capabilities\n\n### Core Capabilities\n- Generates personalized cold outreach emails\n- Identifies personalization hooks from prospect info\n- Creates compelling subject lines (under 50 chars)\n- Keeps emails short and scannable (under 100 words)\n- Includes relevant social proof\n\n### Email Types\n- Initial cold outreach\n- Follow-up sequences\n- Event/trigger-based emails\n- Referral introductions\n\n### Boundaries\n- Requires prospect information as input\n- Cannot research prospects (provide context)\n- Generic input = generic output\n- English language only\n\n---\n\n## Getting Started\n\n### Prerequisites\nNone - works out of the box.\n\n### Your First Run\nTry: \"Write an email to James Wilson, CTO at DataFlow (Series A startup, 30 employees, data infrastructure). They just announced a partnership with Snowflake. I want to pitch our monitoring solution.\"\n\n### Pro Tips\n- **More context = better emails**: Include news, triggers, mutual connections\n- **Specify your product**: Tell it what you're selling for relevant value props\n- **Request sequences**: Ask for email 1, 2, 3 for full cadence\n- **Adjust tone**: Mention industry for appropriate formality\n"
+    },
+    "type": "markdown"
+  },
+  "version": "1.0.0",
+  "tags": [
+    "sales-marketing",
+    "starter",
+    "email",
+    "outreach",
+    "sdr"
+  ],
+  "category": "sales-marketing",
+  "status": "draft",
+  "is_template": false,
+  "parent_blueprint_id": null,
+  "usage_count": 0,
+  "last_used_at": null,
+  "created_at": "2026-01-05T09:10:25.280000",
+  "updated_at": "2026-01-06T05:36:26.475000",
+  "published_at": null,
+  "is_owner": true,
+  "can_edit": true,
+  "can_share": true,
+  "can_delete": true,
+  "owner_name": null,
+  "owner_email": null,
+  "organization_name": null
+}

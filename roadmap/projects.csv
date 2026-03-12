@@ -1,0 +1,5 @@
+id,name,initiative,team,description,state,linear_id
+BP-LIB,BP Library,Blueprints,Lyzr Studio,Blueprint instances - each task is a planned blueprint to be developed,planned,8b7c8685-baf9-496d-bff4-bcad19b4eecd
+BP-OPS,BP Ops,Blueprints,Lyzr Studio,Marketing and distribution activities for blueprints,planned,6a21b857-9fd9-4c8b-864d-1f9fa1a7148d
+BP-PLAT,BP Platform,Blueprints,Lyzr Studio,Developer tasks for blueprint platform UI/UX and features,planned,d5320f2b-0b54-492a-93f4-4eec6bab6fc1
+LYZR-SDK,Lyzr SDK,Blueprints,Lyzr Studio,SDK functionality for Lyzr platform integration,planned,76884969-73a4-4455-9b46-f25caec7deac

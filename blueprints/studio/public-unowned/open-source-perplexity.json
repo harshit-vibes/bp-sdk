@@ -1,0 +1,543 @@
+{
+  "_id": "69a5f0e6-c5dc-49cc-a755-19fc8eec1e38",
+  "name": "Open Source Perplexity",
+  "description": "A self-hosted, open-source AI-powered search engine that combines the power of web search with advanced language models through specialized Lyzr Agents. Get accurate, real-time answers with source citations - all running on your own infrastructure.",
+  "orchestration_type": "Single Agent",
+  "orchestration_name": "Open Source Perplexity",
+  "owner_id": "mem_cm9i22wia00kh0wsr6d2c70lj",
+  "organization_id": "b385ab96-1dd1-489b-8f7e-f5d10f9edd7e",
+  "share_type": "public",
+  "shared_with_users": [],
+  "shared_with_organizations": [],
+  "blueprint_data": {
+    "manager_agent_id": "68a7dc0e6ecb636e735f45ef",
+    "tree_structure": {
+      "nodes": [
+        {
+          "id": "68a7dc0e6ecb636e735f45ef",
+          "position": {
+            "x": 599.5617096273522,
+            "y": 356.5878424694711
+          },
+          "data": {
+            "_id": "68a7dc0e6ecb636e735f45ef",
+            "api_key": "***REDACTED***",
+            "template_type": "single_task",
+            "name": "Related Question Generation",
+            "description": "Given a question and search result context, generate 3 follow-up questions the user might",
+            "agent_role": "Given a question and search result context, generate 3 follow-up questions the user might",
+            "agent_instructions": "Given a question and search result context, generate 3 follow-up questions the user might\n  ask. Use the original question and context.\n\n  Instructions:\n  - Generate exactly 3 questions.\n  - These questions should be concise, and simple.\n  - Ensure the follow-up questions are relevant to the original question and context.\n  Make sure to match the language of the user's question.\n\n  Original Question: {query}\n\n  Output:\n  related_questions: A list of EXACTLY three concise, simple follow-up questions",
+            "agent_goal": "Given a question and search result context, generate 3 follow-up questions the user might",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": "",
+            "features": [],
+            "tool": "",
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o-mini",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "version": "3",
+            "created_at": "2025-08-22T02:55:10.902000",
+            "updated_at": "2025-08-26T17:00:59.470000",
+            "llm_credential_id": "lyzr_openai"
+          }
+        },
+        {
+          "id": "68a7de3f58203a80ebaca1d9",
+          "position": {
+            "x": 182.75098329847015,
+            "y": 500
+          },
+          "data": {
+            "_id": "68a7de3f58203a80ebaca1d9",
+            "api_key": "***REDACTED***",
+            "template_type": "single_task",
+            "name": "Search Query Generation",
+            "description": "Generate a concise list of search queries to gather information for executing the given   step.",
+            "agent_role": "Generate a concise list of search queries to gather information for executing the given   step.",
+            "agent_instructions": "Generate a concise list of search queries to gather information for executing the given\n  step.\n\n  You will be provided with:\n  1. A specific step to execute\n  2. The user's original query\n  3. Context from previous steps (if available)\n\n  Use this information to create targeted search queries that will help complete the current\n  step effectively. Aim for the minimum number of queries necessary while ensuring they cover\n  all aspects of the step.\n\n  IMPORTANT: Always incorporate relevant information from previous steps into your queries.\n  This ensures continuity and builds upon already gathered information.\n\n  Input:\n  ---\n  User's original query: {user_query}\n  ---\n  Context from previous steps:\n  {prev_steps_context}\n\n  Your task:\n  1. Analyze the current step and its requirements\n  2. Consider the user's original query and any relevant previous context\n  3. Consider the user's original query\n  4. Generate a list of specific, focused search queries that:\n     - Incorporate relevant information from previous steps\n     - Address the requirements of the current step\n     - Build upon the information already gathered\n  ---\n  Current step to execute: {current_step}\n  ---\n\n  Your search queries based:",
+            "agent_goal": "Generate a concise list of search queries to gather information for executing the given\n  step.",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": "",
+            "features": [],
+            "tool": "",
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o-mini",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "version": "3",
+            "created_at": "2025-08-22T03:04:31.596000",
+            "updated_at": "2025-08-26T17:00:49.868000",
+            "llm_credential_id": "lyzr_openai"
+          }
+        },
+        {
+          "id": "68a7dbdb2b9decad8d99c8c2",
+          "position": {
+            "x": 180.658972281191,
+            "y": 229.81662920510496
+          },
+          "data": {
+            "_id": "68a7dbdb2b9decad8d99c8c2",
+            "api_key": "***REDACTED***",
+            "template_type": "single_task",
+            "name": "Query Rephraser ",
+            "description": "Rephrases the follow up into a short, standalone query",
+            "agent_role": "Given the following conversation and a follow up input, rephrase the follow up into a SHORT,    standalone query (which captures any relevant context from previous messages).",
+            "agent_instructions": " Given the following conversation and a follow up input, rephrase the follow up into a SHORT,\n   standalone query (which captures any relevant context from previous messages).\n  IMPORTANT: EDIT THE QUERY TO BE CONCISE. Respond with a short, compressed phrase. If there\n  is a clear change in topic, disregard the previous messages.\n  Strip out any information that is not relevant for the retrieval task.\n\n  Chat History:\n  {chat_history}\n\n  Make sure to match the language of the user's question.\n\n  Follow Up Input: {question}\n  Standalone question (Respond with only the short combined query):",
+            "agent_goal": "rephrase the follow up into a SHORT,\n   standalone query (which captures any relevant context from previous messages).",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": "",
+            "features": [],
+            "tool": "",
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o-mini",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "version": "3",
+            "created_at": "2025-08-22T02:54:19.520000",
+            "updated_at": "2025-08-26T16:57:24.981000",
+            "llm_credential_id": "lyzr_openai"
+          }
+        },
+        {
+          "id": "68a7dde6b822507a7b1895bc",
+          "position": {
+            "x": 182.40937278039758,
+            "y": 358.28132245148583
+          },
+          "data": {
+            "_id": "68a7dde6b822507a7b1895bc",
+            "api_key": "***REDACTED***",
+            "template_type": "single_task",
+            "name": "Query Planner",
+            "description": "Expert at creating search task lists to answer queries.",
+            "agent_role": "You are an expert at creating search task lists to answer queries.",
+            "agent_instructions": "You are an expert at creating search task lists to answer queries. Your job is to break down\n   a given query into simple, logical steps that can be executed using a search engine.\n\n  Rules:\n  1. Use up to 4 steps maximum, but use fewer if possible.\n  2. Keep steps simple, concise, and easy to understand.\n  3. Ensure proper use of dependencies between steps.\n  4. Always include a final step to summarize/combine/compare information from previous steps.\n\n  Instructions for creating the Query Plan:\n  1. Break down the query into logical search steps.\n  2. For each step, specify an \"id\" (starting from 0) and a \"step\" description.\n  3. List dependencies for each step as an array of previous step ids.\n  4. The first step should always have an empty dependencies array.\n  5. Subsequent steps should list all step ids they depend on.\n\n  Example Query:\n  Given the query \"Compare Perplexity and You.com in terms of revenue, number of employees,\n  and valuation\"\n\n  Example Query Plan:\n  [\n      {\n          \"id\": 0,\n          \"step\": \"Research Perplexity's revenue, employee count, and valuation\",\n          \"dependencies\": []\n      },\n      {\n          \"id\": 1,\n          \"step\": \"Research You.com's revenue, employee count, and valuation\",\n          \"dependencies\": []\n      },\n      {\n          \"id\": 2,\n          \"step\": \"Compare the revenue, number of employees, and valuation between Perplexity\n  and You.com\",\n          \"dependencies\": [0, 1]\n      }\n  ]\n\n  Query: {query}\n  Query Plan (with a final summarize/combine/compare step):",
+            "agent_goal": "Your job is to break down\n   a given query into simple, logical steps that can be executed using a search engine.",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": "",
+            "features": [],
+            "tool": "",
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o-mini",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "version": "3",
+            "created_at": "2025-08-22T03:03:02.299000",
+            "updated_at": "2025-08-26T16:56:39.946000",
+            "llm_credential_id": "lyzr_openai"
+          }
+        },
+        {
+          "id": "68a7db4d6ecb636e735f45eb",
+          "position": {
+            "x": 609.8467112463318,
+            "y": 228.5229064274232
+          },
+          "data": {
+            "_id": "68a7db4d6ecb636e735f45eb",
+            "api_key": "***REDACTED***",
+            "template_type": "single_task",
+            "name": "Search Results Answer Agent",
+            "description": "Formulates factual, professional answers based on live search results, always citing sources, designed for a broad range of general, research, and business users.",
+            "agent_role": "You are an Expert Information Synthesis Agent with expertise in search result analysis and factual response generation.",
+            "agent_instructions": "# Search Results Analysis Agent Instructions\n\n## Core Behaviors\n- Always analyze the provided search results thoroughly before answering any query.\n- Construct answers based first and foremost on information directly supported by the search results.\n- If no deterministic fact is found in the search results, use general reasoning to offer the best possible answer, and clearly indicate where reasoning is used.\n\n## Answer Formatting\n- Every sentence, claim, or paragraph must be clearly backed by a source. Format citations as `[[n]](link_here)` in markdown, placing them directly after each claim or fact.\n- Structure all responses as well-organized, easy-to-read markdown. Use headings, bullet points, numbered lists and bold for emphasis where appropriate.\n- Maintain a professional, neutral, and factual tone similar to Perplexity or Google AI mode. Avoid informal language.\n\n## Handling Sensitive Content\n- Do not participate in, or provide assistance for, illegal activities or operations. If such a query is detected, politely decline and add a clear disclaimer in the response.\n- For all other queries, answer factually and professionally unless the information is sensitive, personal, or requires medical/legal expertise\u2014then add a disclaimer as appropriate.\n- Normally, do not add a disclaimer unless strictly necessary.\n\n## Completeness and Ethics\n- Strive for completeness and clarity in all answers, ensuring users have all necessary information while avoiding speculation where sources are unavailable.\n- Never fabricate sources or cite non-existent links. Only use verifiable data from the provided search results.\n\n## General Intelligence\n- When search results provide insufficient information, state this and use general expertise to generate the most accurate response, still citing sources where possible and indicating when reasoning is applied.\n\n## User Experience\n- Assume a mixed user audience (general, research, business, enterprise). Responses should be accessible but precise, suitable for decision-making and business use.\n- Do not decline to answer except for illegal or highly sensitive queries. If a query is outside scope or potentially risky, be respectful and transparent in your response.",
+            "agent_goal": "Provide clear, neutral, accurate answers to user queries by analyzing search results and citing sources. Use general intelligence only when search data is inconclusive.",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [],
+            "tool": "",
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "version": "3",
+            "created_at": "2025-08-22T02:51:57.678000",
+            "updated_at": "2025-08-22T02:51:57.678000",
+            "llm_credential_id": "lyzr_openai"
+          }
+        }
+      ],
+      "edges": []
+    },
+    "nodes": [
+      {
+        "id": "68a7dc0e6ecb636e735f45ef",
+        "position": {
+          "x": 599.5617096273522,
+          "y": 356.5878424694711
+        },
+        "data": {
+          "_id": "68a7dc0e6ecb636e735f45ef",
+          "api_key": "***REDACTED***",
+          "template_type": "single_task",
+          "name": "Related Question Generation",
+          "description": "Given a question and search result context, generate 3 follow-up questions the user might",
+          "agent_role": "Given a question and search result context, generate 3 follow-up questions the user might",
+          "agent_instructions": "Given a question and search result context, generate 3 follow-up questions the user might\n  ask. Use the original question and context.\n\n  Instructions:\n  - Generate exactly 3 questions.\n  - These questions should be concise, and simple.\n  - Ensure the follow-up questions are relevant to the original question and context.\n  Make sure to match the language of the user's question.\n\n  Original Question: {query}\n\n  Output:\n  related_questions: A list of EXACTLY three concise, simple follow-up questions",
+          "agent_goal": "Given a question and search result context, generate 3 follow-up questions the user might",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": "",
+          "features": [],
+          "tool": "",
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o-mini",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "version": "3",
+          "created_at": "2025-08-22T02:55:10.902000",
+          "updated_at": "2025-08-26T17:00:59.470000",
+          "llm_credential_id": "lyzr_openai"
+        }
+      },
+      {
+        "id": "68a7de3f58203a80ebaca1d9",
+        "position": {
+          "x": 182.75098329847015,
+          "y": 500
+        },
+        "data": {
+          "_id": "68a7de3f58203a80ebaca1d9",
+          "api_key": "***REDACTED***",
+          "template_type": "single_task",
+          "name": "Search Query Generation",
+          "description": "Generate a concise list of search queries to gather information for executing the given   step.",
+          "agent_role": "Generate a concise list of search queries to gather information for executing the given   step.",
+          "agent_instructions": "Generate a concise list of search queries to gather information for executing the given\n  step.\n\n  You will be provided with:\n  1. A specific step to execute\n  2. The user's original query\n  3. Context from previous steps (if available)\n\n  Use this information to create targeted search queries that will help complete the current\n  step effectively. Aim for the minimum number of queries necessary while ensuring they cover\n  all aspects of the step.\n\n  IMPORTANT: Always incorporate relevant information from previous steps into your queries.\n  This ensures continuity and builds upon already gathered information.\n\n  Input:\n  ---\n  User's original query: {user_query}\n  ---\n  Context from previous steps:\n  {prev_steps_context}\n\n  Your task:\n  1. Analyze the current step and its requirements\n  2. Consider the user's original query and any relevant previous context\n  3. Consider the user's original query\n  4. Generate a list of specific, focused search queries that:\n     - Incorporate relevant information from previous steps\n     - Address the requirements of the current step\n     - Build upon the information already gathered\n  ---\n  Current step to execute: {current_step}\n  ---\n\n  Your search queries based:",
+          "agent_goal": "Generate a concise list of search queries to gather information for executing the given\n  step.",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": "",
+          "features": [],
+          "tool": "",
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o-mini",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "version": "3",
+          "created_at": "2025-08-22T03:04:31.596000",
+          "updated_at": "2025-08-26T17:00:49.868000",
+          "llm_credential_id": "lyzr_openai"
+        }
+      },
+      {
+        "id": "68a7dbdb2b9decad8d99c8c2",
+        "position": {
+          "x": 180.658972281191,
+          "y": 229.81662920510496
+        },
+        "data": {
+          "_id": "68a7dbdb2b9decad8d99c8c2",
+          "api_key": "***REDACTED***",
+          "template_type": "single_task",
+          "name": "Query Rephraser ",
+          "description": "Rephrases the follow up into a short, standalone query",
+          "agent_role": "Given the following conversation and a follow up input, rephrase the follow up into a SHORT,    standalone query (which captures any relevant context from previous messages).",
+          "agent_instructions": " Given the following conversation and a follow up input, rephrase the follow up into a SHORT,\n   standalone query (which captures any relevant context from previous messages).\n  IMPORTANT: EDIT THE QUERY TO BE CONCISE. Respond with a short, compressed phrase. If there\n  is a clear change in topic, disregard the previous messages.\n  Strip out any information that is not relevant for the retrieval task.\n\n  Chat History:\n  {chat_history}\n\n  Make sure to match the language of the user's question.\n\n  Follow Up Input: {question}\n  Standalone question (Respond with only the short combined query):",
+          "agent_goal": "rephrase the follow up into a SHORT,\n   standalone query (which captures any relevant context from previous messages).",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": "",
+          "features": [],
+          "tool": "",
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o-mini",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "version": "3",
+          "created_at": "2025-08-22T02:54:19.520000",
+          "updated_at": "2025-08-26T16:57:24.981000",
+          "llm_credential_id": "lyzr_openai"
+        }
+      },
+      {
+        "id": "68a7dde6b822507a7b1895bc",
+        "position": {
+          "x": 182.40937278039758,
+          "y": 358.28132245148583
+        },
+        "data": {
+          "_id": "68a7dde6b822507a7b1895bc",
+          "api_key": "***REDACTED***",
+          "template_type": "single_task",
+          "name": "Query Planner",
+          "description": "Expert at creating search task lists to answer queries.",
+          "agent_role": "You are an expert at creating search task lists to answer queries.",
+          "agent_instructions": "You are an expert at creating search task lists to answer queries. Your job is to break down\n   a given query into simple, logical steps that can be executed using a search engine.\n\n  Rules:\n  1. Use up to 4 steps maximum, but use fewer if possible.\n  2. Keep steps simple, concise, and easy to understand.\n  3. Ensure proper use of dependencies between steps.\n  4. Always include a final step to summarize/combine/compare information from previous steps.\n\n  Instructions for creating the Query Plan:\n  1. Break down the query into logical search steps.\n  2. For each step, specify an \"id\" (starting from 0) and a \"step\" description.\n  3. List dependencies for each step as an array of previous step ids.\n  4. The first step should always have an empty dependencies array.\n  5. Subsequent steps should list all step ids they depend on.\n\n  Example Query:\n  Given the query \"Compare Perplexity and You.com in terms of revenue, number of employees,\n  and valuation\"\n\n  Example Query Plan:\n  [\n      {\n          \"id\": 0,\n          \"step\": \"Research Perplexity's revenue, employee count, and valuation\",\n          \"dependencies\": []\n      },\n      {\n          \"id\": 1,\n          \"step\": \"Research You.com's revenue, employee count, and valuation\",\n          \"dependencies\": []\n      },\n      {\n          \"id\": 2,\n          \"step\": \"Compare the revenue, number of employees, and valuation between Perplexity\n  and You.com\",\n          \"dependencies\": [0, 1]\n      }\n  ]\n\n  Query: {query}\n  Query Plan (with a final summarize/combine/compare step):",
+          "agent_goal": "Your job is to break down\n   a given query into simple, logical steps that can be executed using a search engine.",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": "",
+          "features": [],
+          "tool": "",
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o-mini",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "version": "3",
+          "created_at": "2025-08-22T03:03:02.299000",
+          "updated_at": "2025-08-26T16:56:39.946000",
+          "llm_credential_id": "lyzr_openai"
+        }
+      },
+      {
+        "id": "68a7db4d6ecb636e735f45eb",
+        "position": {
+          "x": 609.8467112463318,
+          "y": 228.5229064274232
+        },
+        "data": {
+          "_id": "68a7db4d6ecb636e735f45eb",
+          "api_key": "***REDACTED***",
+          "template_type": "single_task",
+          "name": "Search Results Answer Agent",
+          "description": "Formulates factual, professional answers based on live search results, always citing sources, designed for a broad range of general, research, and business users.",
+          "agent_role": "You are an Expert Information Synthesis Agent with expertise in search result analysis and factual response generation.",
+          "agent_instructions": "# Search Results Analysis Agent Instructions\n\n## Core Behaviors\n- Always analyze the provided search results thoroughly before answering any query.\n- Construct answers based first and foremost on information directly supported by the search results.\n- If no deterministic fact is found in the search results, use general reasoning to offer the best possible answer, and clearly indicate where reasoning is used.\n\n## Answer Formatting\n- Every sentence, claim, or paragraph must be clearly backed by a source. Format citations as `[[n]](link_here)` in markdown, placing them directly after each claim or fact.\n- Structure all responses as well-organized, easy-to-read markdown. Use headings, bullet points, numbered lists and bold for emphasis where appropriate.\n- Maintain a professional, neutral, and factual tone similar to Perplexity or Google AI mode. Avoid informal language.\n\n## Handling Sensitive Content\n- Do not participate in, or provide assistance for, illegal activities or operations. If such a query is detected, politely decline and add a clear disclaimer in the response.\n- For all other queries, answer factually and professionally unless the information is sensitive, personal, or requires medical/legal expertise\u2014then add a disclaimer as appropriate.\n- Normally, do not add a disclaimer unless strictly necessary.\n\n## Completeness and Ethics\n- Strive for completeness and clarity in all answers, ensuring users have all necessary information while avoiding speculation where sources are unavailable.\n- Never fabricate sources or cite non-existent links. Only use verifiable data from the provided search results.\n\n## General Intelligence\n- When search results provide insufficient information, state this and use general expertise to generate the most accurate response, still citing sources where possible and indicating when reasoning is applied.\n\n## User Experience\n- Assume a mixed user audience (general, research, business, enterprise). Responses should be accessible but precise, suitable for decision-making and business use.\n- Do not decline to answer except for illegal or highly sensitive queries. If a query is outside scope or potentially risky, be respectful and transparent in your response.",
+          "agent_goal": "Provide clear, neutral, accurate answers to user queries by analyzing search results and citing sources. Use general intelligence only when search data is inconclusive.",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [],
+          "tool": "",
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "version": "3",
+          "created_at": "2025-08-22T02:51:57.678000",
+          "updated_at": "2025-08-22T02:51:57.678000",
+          "llm_credential_id": "lyzr_openai"
+        }
+      }
+    ],
+    "edges": [],
+    "agents": {
+      "68a7dc0e6ecb636e735f45ef": {
+        "_id": "68a7dc0e6ecb636e735f45ef",
+        "api_key": "***REDACTED***",
+        "template_type": "single_task",
+        "name": "Related Question Generation",
+        "description": "Given a question and search result context, generate 3 follow-up questions the user might",
+        "agent_role": "Given a question and search result context, generate 3 follow-up questions the user might",
+        "agent_instructions": "Given a question and search result context, generate 3 follow-up questions the user might\n  ask. Use the original question and context.\n\n  Instructions:\n  - Generate exactly 3 questions.\n  - These questions should be concise, and simple.\n  - Ensure the follow-up questions are relevant to the original question and context.\n  Make sure to match the language of the user's question.\n\n  Original Question: {query}\n\n  Output:\n  related_questions: A list of EXACTLY three concise, simple follow-up questions",
+        "agent_goal": "Given a question and search result context, generate 3 follow-up questions the user might",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": "",
+        "features": [],
+        "tool": "",
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o-mini",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "version": "3",
+        "created_at": "2025-08-22T02:55:10.902000",
+        "updated_at": "2025-08-26T17:00:59.470000",
+        "llm_credential_id": "lyzr_openai"
+      },
+      "68a7de3f58203a80ebaca1d9": {
+        "_id": "68a7de3f58203a80ebaca1d9",
+        "api_key": "***REDACTED***",
+        "template_type": "single_task",
+        "name": "Search Query Generation",
+        "description": "Generate a concise list of search queries to gather information for executing the given   step.",
+        "agent_role": "Generate a concise list of search queries to gather information for executing the given   step.",
+        "agent_instructions": "Generate a concise list of search queries to gather information for executing the given\n  step.\n\n  You will be provided with:\n  1. A specific step to execute\n  2. The user's original query\n  3. Context from previous steps (if available)\n\n  Use this information to create targeted search queries that will help complete the current\n  step effectively. Aim for the minimum number of queries necessary while ensuring they cover\n  all aspects of the step.\n\n  IMPORTANT: Always incorporate relevant information from previous steps into your queries.\n  This ensures continuity and builds upon already gathered information.\n\n  Input:\n  ---\n  User's original query: {user_query}\n  ---\n  Context from previous steps:\n  {prev_steps_context}\n\n  Your task:\n  1. Analyze the current step and its requirements\n  2. Consider the user's original query and any relevant previous context\n  3. Consider the user's original query\n  4. Generate a list of specific, focused search queries that:\n     - Incorporate relevant information from previous steps\n     - Address the requirements of the current step\n     - Build upon the information already gathered\n  ---\n  Current step to execute: {current_step}\n  ---\n\n  Your search queries based:",
+        "agent_goal": "Generate a concise list of search queries to gather information for executing the given\n  step.",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": "",
+        "features": [],
+        "tool": "",
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o-mini",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "version": "3",
+        "created_at": "2025-08-22T03:04:31.596000",
+        "updated_at": "2025-08-26T17:00:49.868000",
+        "llm_credential_id": "lyzr_openai"
+      },
+      "68a7dbdb2b9decad8d99c8c2": {
+        "_id": "68a7dbdb2b9decad8d99c8c2",
+        "api_key": "***REDACTED***",
+        "template_type": "single_task",
+        "name": "Query Rephraser ",
+        "description": "Rephrases the follow up into a short, standalone query",
+        "agent_role": "Given the following conversation and a follow up input, rephrase the follow up into a SHORT,    standalone query (which captures any relevant context from previous messages).",
+        "agent_instructions": " Given the following conversation and a follow up input, rephrase the follow up into a SHORT,\n   standalone query (which captures any relevant context from previous messages).\n  IMPORTANT: EDIT THE QUERY TO BE CONCISE. Respond with a short, compressed phrase. If there\n  is a clear change in topic, disregard the previous messages.\n  Strip out any information that is not relevant for the retrieval task.\n\n  Chat History:\n  {chat_history}\n\n  Make sure to match the language of the user's question.\n\n  Follow Up Input: {question}\n  Standalone question (Respond with only the short combined query):",
+        "agent_goal": "rephrase the follow up into a SHORT,\n   standalone query (which captures any relevant context from previous messages).",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": "",
+        "features": [],
+        "tool": "",
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o-mini",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "version": "3",
+        "created_at": "2025-08-22T02:54:19.520000",
+        "updated_at": "2025-08-26T16:57:24.981000",
+        "llm_credential_id": "lyzr_openai"
+      },
+      "68a7dde6b822507a7b1895bc": {
+        "_id": "68a7dde6b822507a7b1895bc",
+        "api_key": "***REDACTED***",
+        "template_type": "single_task",
+        "name": "Query Planner",
+        "description": "Expert at creating search task lists to answer queries.",
+        "agent_role": "You are an expert at creating search task lists to answer queries.",
+        "agent_instructions": "You are an expert at creating search task lists to answer queries. Your job is to break down\n   a given query into simple, logical steps that can be executed using a search engine.\n\n  Rules:\n  1. Use up to 4 steps maximum, but use fewer if possible.\n  2. Keep steps simple, concise, and easy to understand.\n  3. Ensure proper use of dependencies between steps.\n  4. Always include a final step to summarize/combine/compare information from previous steps.\n\n  Instructions for creating the Query Plan:\n  1. Break down the query into logical search steps.\n  2. For each step, specify an \"id\" (starting from 0) and a \"step\" description.\n  3. List dependencies for each step as an array of previous step ids.\n  4. The first step should always have an empty dependencies array.\n  5. Subsequent steps should list all step ids they depend on.\n\n  Example Query:\n  Given the query \"Compare Perplexity and You.com in terms of revenue, number of employees,\n  and valuation\"\n\n  Example Query Plan:\n  [\n      {\n          \"id\": 0,\n          \"step\": \"Research Perplexity's revenue, employee count, and valuation\",\n          \"dependencies\": []\n      },\n      {\n          \"id\": 1,\n          \"step\": \"Research You.com's revenue, employee count, and valuation\",\n          \"dependencies\": []\n      },\n      {\n          \"id\": 2,\n          \"step\": \"Compare the revenue, number of employees, and valuation between Perplexity\n  and You.com\",\n          \"dependencies\": [0, 1]\n      }\n  ]\n\n  Query: {query}\n  Query Plan (with a final summarize/combine/compare step):",
+        "agent_goal": "Your job is to break down\n   a given query into simple, logical steps that can be executed using a search engine.",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": "",
+        "features": [],
+        "tool": "",
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o-mini",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "version": "3",
+        "created_at": "2025-08-22T03:03:02.299000",
+        "updated_at": "2025-08-26T16:56:39.946000",
+        "llm_credential_id": "lyzr_openai"
+      },
+      "68a7db4d6ecb636e735f45eb": {
+        "_id": "68a7db4d6ecb636e735f45eb",
+        "api_key": "***REDACTED***",
+        "template_type": "single_task",
+        "name": "Search Results Answer Agent",
+        "description": "Formulates factual, professional answers based on live search results, always citing sources, designed for a broad range of general, research, and business users.",
+        "agent_role": "You are an Expert Information Synthesis Agent with expertise in search result analysis and factual response generation.",
+        "agent_instructions": "# Search Results Analysis Agent Instructions\n\n## Core Behaviors\n- Always analyze the provided search results thoroughly before answering any query.\n- Construct answers based first and foremost on information directly supported by the search results.\n- If no deterministic fact is found in the search results, use general reasoning to offer the best possible answer, and clearly indicate where reasoning is used.\n\n## Answer Formatting\n- Every sentence, claim, or paragraph must be clearly backed by a source. Format citations as `[[n]](link_here)` in markdown, placing them directly after each claim or fact.\n- Structure all responses as well-organized, easy-to-read markdown. Use headings, bullet points, numbered lists and bold for emphasis where appropriate.\n- Maintain a professional, neutral, and factual tone similar to Perplexity or Google AI mode. Avoid informal language.\n\n## Handling Sensitive Content\n- Do not participate in, or provide assistance for, illegal activities or operations. If such a query is detected, politely decline and add a clear disclaimer in the response.\n- For all other queries, answer factually and professionally unless the information is sensitive, personal, or requires medical/legal expertise\u2014then add a disclaimer as appropriate.\n- Normally, do not add a disclaimer unless strictly necessary.\n\n## Completeness and Ethics\n- Strive for completeness and clarity in all answers, ensuring users have all necessary information while avoiding speculation where sources are unavailable.\n- Never fabricate sources or cite non-existent links. Only use verifiable data from the provided search results.\n\n## General Intelligence\n- When search results provide insufficient information, state this and use general expertise to generate the most accurate response, still citing sources where possible and indicating when reasoning is applied.\n\n## User Experience\n- Assume a mixed user audience (general, research, business, enterprise). Responses should be accessible but precise, suitable for decision-making and business use.\n- Do not decline to answer except for illegal or highly sensitive queries. If a query is outside scope or potentially risky, be respectful and transparent in your response.",
+        "agent_goal": "Provide clear, neutral, accurate answers to user queries by analyzing search results and citing sources. Use general intelligence only when search data is inconclusive.",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [],
+        "tool": "",
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "version": "3",
+        "created_at": "2025-08-22T02:51:57.678000",
+        "updated_at": "2025-08-22T02:51:57.678000",
+        "llm_credential_id": "lyzr_openai"
+      }
+    }
+  },
+  "blueprint_info": {
+    "documentation_data": {
+      "markdown": "**Blueprint Documentation**\n\n# Perplexity OSS - Powered by Lyzr AI\n\n**Github Repository**: https://github.com/LyzrCore/perplexity_oss\n\n**Overview**\nA self-hosted, open-source AI-powered search engine that combines the power of web search with advanced language models through specialized Lyzr Agents. Get accurate, real-time answers with source citations - all running on your own infrastructure.\n\n## \u2728 Features\n* \ud83d\udd0d **Intelligent Search**: Web search powered by SearXNG with AI-enhanced results\n* \ud83e\udd16 **Lyzr Agent Integration**: Specialized AI agents for query processing, search, and response generation\n* \ud83d\udcac **Conversational Interface**: Natural language chat with context awareness\n* \ud83d\udd17 **Source Citations**: Every answer includes links to original sources\n* \u26a1 **Real-time Streaming**: Live response streaming for immediate feedback\n* \ud83c\udfaf **Pro Search Mode**: Advanced multi-step reasoning for complex queries\n* \ud83d\udc33 **One-Command Deployment**: Complete Docker setup with docker-compose\n* \ud83c\udfa8 **Modern UI**: Clean, responsive interface built with Next.js and Tailwind CSS\n\n## \ud83d\udee0\ufe0f Tech Stack\n* **Backend**: FastAPI with Python 3.11\n* **Frontend**: Next.js 14 with TypeScript\n* **Search Engine**: SearXNG\n* **AI Platform**: Lyzr Agent Studio\n* **Containerization**: Docker & Docker Compose\n* **Package Management**: uv (Python), npm (Node.js)\n\n## How to Use\n1. Type your question in the search box\n2. Press Enter or click the search button\n3. View results with AI-generated answers and source citations\n4. For complex queries, toggle \"Pro Search\" in the interface\n5. Ask multi-step questions and watch the system break down your query\n6. Get comprehensive answers with detailed reasoning and source links\n7. Use suggested follow-up questions for deeper exploration\n\n## Configuration\n\n### Lyzr Agents Architecture\n* **Agent 1: Default Agent**: General purpose chat agent for conversation and simple Q&A\n* **Agent 2: Query Rephrase Agent**: Reformulates user queries with conversation context\n* **Agent 3: Answer Generation Agent**: Generates comprehensive answers from search results\n* **Agent 4: Related Questions Agent**: Creates relevant follow-up questions\n* **Agent 5: Query Planning Agent**: Plans multi-step search strategies (Pro mode)\n* **Agent 6: Search Query Agent**: Converts natural language to search queries (Pro mode)\n\n### Services Architecture\n* **Frontend (Next.js)**: Modern React-based web interface with TypeScript\n* **Backend (FastAPI)**: High-performance API server with Lyzr AI integration\n* **SearXNG**: Privacy-focused, self-hosted search engine for web results\n\n## Requirements\n\n### Prerequisites\n* \u26a0\ufe0f **REQUIRED**: Lyzr Agent Studio account and API key\n* \u26a0\ufe0f **REQUIRED**: Create and configure 6 specialized agents in Lyzr Agent Studio\n* Docker and Docker Compose installed\n* At least 4GB RAM available for containers\n\n## \ud83d\ude80 Setup Instructions\n\n### Step 1: Clone the Repository\n```bash\ngit clone git@github.com:LyzrCore/perplexity_oss.git\ncd perplexity_oss\n```\n\n### Step 2: Set Up Lyzr Agents (REQUIRED)\n1. Visit [Lyzr Agent Studio](https://studio.lyzr.ai)\n2. Create an account or sign in\n3. Create specialized agents for each task:\n\u00a0 \u00a0- **Default Agent**\n\u00a0 \u00a0 \u00a0- Purpose: General conversation and simple Q&A\n\u00a0 \u00a0 \u00a0- Model: GPT-4 or equivalent\n\u00a0 \u00a0 \u00a0- Instructions: \"You are a helpful AI assistant that provides accurate and concise answers.\"\n\u00a0 \u00a0- **Query Rephrase Agent**\n\u00a0 \u00a0 \u00a0- Purpose: Reformulate queries with conversation context\n\u00a0 \u00a0 \u00a0- Instructions: \"Reformulate the user's query considering the conversation history to make it more searchable and specific.\"\n\u00a0 \u00a0- **Answer Generation Agent**\n\u00a0 \u00a0 \u00a0- Purpose: Generate comprehensive answers from search results\n\u00a0 \u00a0 \u00a0- Instructions: \"Generate detailed, accurate answers based on the provided search results. Include citations and maintain factual accuracy.\"\n\u00a0 \u00a0- **Related Questions Agent**\n\u00a0 \u00a0 \u00a0- Purpose: Generate follow-up questions\n\u00a0 \u00a0 \u00a0- Instructions: \"Generate 3 relevant follow-up questions based on the user's query and the provided answer.\"\n\u00a0 \u00a0- **Query Planning Agent** (Pro Mode)\n\u00a0 \u00a0 \u00a0- Purpose: Break down complex queries into steps\n\u00a0 \u00a0 \u00a0- Instructions: \"Analyze complex queries and break them down into logical search steps.\"\n\u00a0 \u00a0- **Search Query Agent** (Pro Mode)\n\u00a0 \u00a0 \u00a0- Purpose: Convert natural language to search queries\n\u00a0 \u00a0 \u00a0- Instructions: \"Convert natural language questions into effective search engine queries.\"\n4. Copy your API key and agent IDs\n\n### Step 3: Configure Environment Variables\nCreate a `.env` file in the root directory:\n\n```bash\n# Required: Lyzr Agent Studio Configuration\nLYZR_API_KEY=your_lyzr_api_key_here\nLYZR_DEFAULT_AGENT_ID=your_default_agent_id\nLYZR_QUERY_REPHRASE_AGENT_ID=your_query_rephrase_agent_id\nLYZR_ANSWER_GENERATION_AGENT_ID=your_answer_generation_agent_id\nLYZR_RELATED_QUESTIONS_AGENT_ID=your_related_questions_agent_id\nLYZR_QUERY_PLANNING_AGENT_ID=your_query_planning_agent_id\nLYZR_SEARCH_QUERY_AGENT_ID=your_search_query_agent_id\n\n# Optional: Feature Configuration\nNEXT_PUBLIC_PRO_MODE_ENABLED=true\nNEXT_PUBLIC_API_URL=http://localhost:8000\n\n# Optional: SearXNG Configuration\nSEARXNG_BASE_URL=http://searxng:8080\n```\n\n### Environment Variables Reference\n\n| Variable | Required | Description | Default |\n|----------|----------|-------------|---------|\n| `LYZR_API_KEY` | \u2705 | Your Lyzr Agent Studio API key | - |\n| `LYZR_DEFAULT_AGENT_ID` | \u2705 | ID for general chat agent | - |\n| `LYZR_QUERY_REPHRASE_AGENT_ID` | \u2705 | ID for query rephrasing agent | - |\n| `LYZR_ANSWER_GENERATION_AGENT_ID` | \u2705 | ID for answer generation agent | - |\n| `LYZR_RELATED_QUESTIONS_AGENT_ID` | \u2705 | ID for related questions agent | - |\n| `LYZR_QUERY_PLANNING_AGENT_ID` | \u26a0\ufe0f | ID for query planning agent (Pro mode) | - |\n| `LYZR_SEARCH_QUERY_AGENT_ID` | \u26a0\ufe0f | ID for search query agent (Pro mode) | - |\n| `NEXT_PUBLIC_PRO_MODE_ENABLED` | \u274c | Enable advanced pro search features | true |\n| `NEXT_PUBLIC_API_URL` | \u274c | Backend API URL for frontend | http://localhost:8000 |\n| `SEARXNG_BASE_URL` | \u274c | SearXNG instance URL | http://searxng:8080 |\n\n\u26a0\ufe0f = Required only if Pro Mode is enabled\n\n### Step 4: Launch the Application\n```bash\n# Build and start all services\ndocker-compose up --build\n\n# Or run in detached mode\ndocker-compose up --build -d\n```\n\nThis will start:\n- **Frontend**: http://localhost:3000\n- **Backend API**: http://localhost:8000\n- **SearXNG**: http://localhost:8080\n\n### Step 5: Access the Application\nOpen your browser and navigate to http://localhost:3000\n\n## \ud83d\udcd6 Development Setup\n\n### Backend Development\n```bash\ncd perplexity_oss/backend\nuv venv\nsource .venv/bin/activate\u00a0 # On Windows: .venv\\Scripts\\activate\nuv pip install -r requirements.txt\ncd src\nuvicorn main:app --reload --host 0.0.0.0 --port 8000\n```\n\n### Frontend Development\n```bash\ncd perplexity_oss/frontend\nnpm install\nnpm run dev\n```\n\n### SearXNG (Docker)\n```bash\ndocker run -d --name searxng -p 8080:8080 searxng/searxng:latest\n```\n\n## \ud83d\udd27 Customization\n\n### Search Behavior\nEdit `perplexity_oss/backend/src/search/search_service.py` to:\n- Modify search result limits\n- Add custom result filtering\n- Integrate additional search engines\n\n### UI Customization\n- **Colors**: Edit `perplexity_oss/frontend/tailwind.config.js`\n- **Components**: Modify files in `perplexity_oss/frontend/src/components/`\n- **Branding**: Update `perplexity_oss/frontend/src/components/nav.tsx`\n\n### Adding Search Providers\n1. Create a new provider in `perplexity_oss/backend/src/search/providers/`\n2. Update `search_service.py` to include the new provider\n3. Add configuration options to environment variables\n\n## \ud83d\udc33 Docker Configuration\n\n### Custom Docker Setup\n```yaml\nversion: '3.8'\n\nservices:\n\u00a0 backend:\n\u00a0 \u00a0 build: ./backend\n\u00a0 \u00a0 ports:\n\u00a0 \u00a0 \u00a0 - \"8000:8000\"\n\u00a0 \u00a0 environment:\n\u00a0 \u00a0 \u00a0 - LYZR_API_KEY=${LYZR_API_KEY}\n\u00a0 \u00a0 volumes:\n\u00a0 \u00a0 \u00a0 - ./backend/src:/app/src\u00a0 # For development\n\u00a0 \u00a0\u00a0\n\u00a0 frontend:\n\u00a0 \u00a0 build: ./frontend\n\u00a0 \u00a0 ports:\n\u00a0 \u00a0 \u00a0 - \"3000:3000\"\n\u00a0 \u00a0 environment:\n\u00a0 \u00a0 \u00a0 - NEXT_PUBLIC_API_URL=http://localhost:8000\n\u00a0 \u00a0\u00a0\n\u00a0 searxng:\n\u00a0 \u00a0 image: searxng/searxng:latest\n\u00a0 \u00a0 ports:\n\u00a0 \u00a0 \u00a0 - \"8080:8080\"\n\u00a0 \u00a0 volumes:\n\u00a0 \u00a0 \u00a0 - ./searxng:/etc/searxng\u00a0 # Custom SearXNG config\n```\n\n### Production Deployment\n\n1. **Use environment-specific configs**:\n```bash\ncp .env.example .env.production\n# Edit .env.production with production values\ndocker-compose --env-file .env.production up -d\n```\n\n2. **Enable HTTPS** (recommended):\n```yaml\n# Add to docker-compose.yml\nnginx:\n\u00a0 image: nginx:alpine\n\u00a0 ports:\n\u00a0 \u00a0 - \"80:80\"\n\u00a0 \u00a0 - \"443:443\"\n\u00a0 volumes:\n\u00a0 \u00a0 - ./nginx.conf:/etc/nginx/nginx.conf\n\u00a0 \u00a0 - ./ssl:/etc/ssl\n```\n\n3. **Resource limits**:\n```yaml\n# Add to each service in docker-compose.yml\ndeploy:\n\u00a0 resources:\n\u00a0 \u00a0 limits:\n\u00a0 \u00a0 \u00a0 memory: 1G\n\u00a0 \u00a0 \u00a0 cpus: '0.5'\n```\n\n## \ud83d\udee0\ufe0f Troubleshooting\n\n### Common Issues\n\n**Backend fails to start**\n```bash\n# Check logs\ndocker-compose logs backend\n\n# Common fix: Verify environment variables\ndocker-compose config\n```\n\n**Frontend build errors**\n```bash\n# Clear cache and rebuild\ndocker-compose down\ndocker system prune -a\ndocker-compose up --build\n```\n\n**Search not working**\n```bash\n# Check SearXNG status\ncurl http://localhost:8080/search?q=test\n\n# Restart SearXNG\ndocker-compose restart searxng\n```\n\n**Lyzr API errors**\n- Verify your API key is correct\n- Check agent IDs match your Lyzr Studio setup\n- Ensure your Lyzr account has sufficient credits\n\n### Performance Optimization\n\n1. **Increase container resources**:\n```yaml\ndeploy:\n\u00a0 resources:\n\u00a0 \u00a0 limits:\n\u00a0 \u00a0 \u00a0 memory: 2G\n\u00a0 \u00a0 \u00a0 cpus: '1'\n```\n\n2. **Cache optimization**:\n- Enable Redis for caching (add to docker-compose.yml)\n- Configure SearXNG result caching\n\n3. **Network optimization**:\n- Use a reverse proxy (nginx/traefik)\n- Enable HTTP/2 and compression\n\n## \ud83c\udfd7\ufe0f Project Structure\n\n```\nperplexity_oss/\n\u251c\u2500\u2500 backend/\n\u2502\u00a0 \u00a0\u251c\u2500\u2500 src/\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u251c\u2500\u2500 main.py\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0# FastAPI application\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u251c\u2500\u2500 chat.py\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0# Chat logic and streaming\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u251c\u2500\u2500 agent_search.py\u00a0 \u00a0# Pro search with query planning\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u251c\u2500\u2500 llm/\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u2514\u2500\u2500 lyzr_agent.py # Lyzr AI integration\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u251c\u2500\u2500 search/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0# Search providers\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u251c\u2500\u2500 search_service.py\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u2514\u2500\u2500 providers/\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0 \u00a0 \u00a0\u2514\u2500\u2500 searxng.py\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u251c\u2500\u2500 schemas.py\u00a0 \u00a0 \u00a0 \u00a0 # Pydantic models\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u2514\u2500\u2500 prompts.py\u00a0 \u00a0 \u00a0 \u00a0 # Agent prompts\n\u2502\u00a0 \u00a0\u251c\u2500\u2500 Dockerfile\n\u2502\u00a0 \u00a0\u2514\u2500\u2500 requirements.txt\n\u251c\u2500\u2500 frontend/\n\u2502\u00a0 \u00a0\u251c\u2500\u2500 src/\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u251c\u2500\u2500 app/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # Next.js app router\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u251c\u2500\u2500 components/\u00a0 \u00a0 \u00a0 \u00a0# React components\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u251c\u2500\u2500 hooks/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # Custom React hooks\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u251c\u2500\u2500 stores/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0# Zustand state management\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u2514\u2500\u2500 generated/\u00a0 \u00a0 \u00a0 \u00a0 # API client (auto-generated)\n\u2502\u00a0 \u00a0\u251c\u2500\u2500 Dockerfile\n\u2502\u00a0 \u00a0\u2514\u2500\u2500 package.json\n\u251c\u2500\u2500 searxng/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # Search engine configuration\n\u2502\u00a0 \u00a0\u251c\u2500\u2500 settings.yml\n\u2502\u00a0 \u00a0\u2514\u2500\u2500 uwsgi.ini\n\u251c\u2500\u2500 docker-compose.yml\n\u2514\u2500\u2500 README.md\n```\n\n## Examples\n\n### Example Queries\n- \"What are the latest developments in renewable energy?\"\n- \"Compare the economic policies of major European countries\"\n- \"Explain quantum computing and its potential applications\"\n\n### Basic Search\n1. Type your question in the search box\n2. Press Enter or click the search button\n3. View results with AI-generated answers and source citations\n\n### Pro Search Mode\n1. Toggle \"Pro Search\" in the interface\n2. Ask complex, multi-step questions\n3. Watch as the system breaks down your query into steps\n4. Get comprehensive answers with detailed reasoning\n\n## \ud83e\udd1d Contributing\n\nWe welcome contributions! Here's how to get started:\n\n1. Fork the repository\n2. Create a feature branch: `git checkout -b feature/amazing-feature`\n3. Make your changes and test thoroughly\n4. Commit with descriptive messages: `git commit -m 'Add amazing feature'`\n5. Push to your branch: `git push origin feature/amazing-feature`\n6. Open a Pull Request\n\n### Development Guidelines\n- Follow Python PEP 8 for backend code\n- Use TypeScript and follow React best practices for frontend\n- Add tests for new features\n- Update documentation for any API changes\n- Ensure Docker builds work correctly\n\n## \ud83d\udcc4 License\nThis project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.\n\n## \ud83d\ude4f Acknowledgments\n- [Lyzr AI](https://lyzr.ai) for providing the agent platform\n- [SearXNG](https://github.com/searxng/searxng) for the search engine\n- [FastAPI](https://fastapi.tiangolo.com/) for the backend framework\n- [Next.js](https://nextjs.org/) for the frontend framework\n- The open-source community for inspiration and tools\n\n## \ud83d\udcde Support\n- \ud83d\udce7 **Issues**: Create an issue on GitHub\n- \ud83d\udcac **Discussions**: Use GitHub Discussions for questions\n- \ud83c\udf10 **Lyzr Support**: Visit [Lyzr Agent Studio](https://studio.lyzr.ai) for agent-related questions\n\n---\n\n**Made with \u2764\ufe0f using Lyzr AI Agents**"
+    },
+    "type": "markdown"
+  },
+  "version": "1.0.0",
+  "tags": [
+    "Perplexity",
+    "Open Source",
+    "Search"
+  ],
+  "category": "general",
+  "status": "draft",
+  "is_template": false,
+  "parent_blueprint_id": null,
+  "usage_count": 0,
+  "last_used_at": null,
+  "created_at": "2025-08-26T19:02:14.782000",
+  "updated_at": "2025-08-26T19:08:49.209000",
+  "published_at": null,
+  "is_owner": false,
+  "can_edit": false,
+  "can_share": false,
+  "can_delete": false,
+  "owner_name": null,
+  "owner_email": null,
+  "organization_name": null
+}

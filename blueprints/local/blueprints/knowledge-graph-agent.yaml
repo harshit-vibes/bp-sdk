@@ -1,0 +1,167 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Knowledge Graph Agent - Moonshot
+  description: A state-of-the-art neuro-symbolic AI system that builds knowledge
+    graphs from text, performs multi-hop reasoning, and generates explainable 
+    insights.
+  category: featured
+  tags:
+    - featured
+    - moonshot
+    - knowledge-graph
+    - reasoning
+    - neuro-symbolic
+    - data
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Organizations possess vast amounts of unstructured text: documents, articles, research papers, communications. This knowledge remains siloed and difficult to query. Traditional search finds keywords but cannot reason over relationships.
+
+    ### The Challenge
+    Understanding complex questions requires connecting dots across multiple documents and relationships. "Who collaborated with scientists who studied under Feynman?" demands reasoning across people, institutions, and mentorship chains. Current systems cannot perform this multi-hop inference.
+
+    ### What's At Stake
+    Hidden insights remain undiscovered. Research connections go unmade. Institutional knowledge disappears when experts leave. The difference between good and great decision-making often lies in connecting non-obvious relationships that humans miss.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Knowledge graphs combine the semantic understanding of LLMs with the structured reasoning of symbolic AI. This neuro-symbolic fusion enables explainable multi-hop inference that neither approach achieves alone.
+
+    ### The Method
+    A Knowledge Graph Coordinator orchestrates five specialists:
+
+    1. **Entity Relationship Extractor**: Transforms unstructured text into structured entities (people, organizations, concepts) and relationships (collaborated, founded, invented)
+
+    2. **Knowledge Graph Builder**: Constructs and maintains graph structures with conflict resolution, temporal versioning, and schema validation
+
+    3. **Graph Query Planner**: Translates natural language questions into executable graph traversal plans
+
+    4. **Multi-Hop Reasoner**: Executes graph traversals with provenance tracking, performing 2-5 hop inference chains with confidence scoring
+
+    5. **Insight Synthesizer**: Transforms reasoning results into clear narratives with context, patterns, and actionable insights
+
+    ### Why This Works
+    Entity extraction captures structured knowledge from any text. Graph construction enables relationship-based querying. Query planning translates natural language to graph operations. Multi-hop reasoning follows inference chains with explainability. Synthesis makes complex results accessible.
+
+    ---
+
+    ## Capabilities
+
+    ### Knowledge Extraction
+    - Named entity recognition across multiple types
+    - Relationship extraction with temporal context
+    - Coreference resolution linking pronouns to entities
+    - Entity disambiguation for similar names
+    - Confidence scoring for uncertain extractions
+
+    ### Graph Construction
+    - Incremental knowledge graph building
+    - Conflict resolution for contradictory facts
+    - Entity merging and deduplication
+    - Temporal versioning for evolving knowledge
+    - Schema validation and enforcement
+
+    ### Query Planning
+    - Natural language to graph traversal translation
+    - Multi-hop query planning (2-5 hops)
+    - Temporal and aggregate query support
+    - Comparison and pattern queries
+    - Optimal path selection
+
+    ### Multi-Hop Reasoning
+    - Chain-of-thought reasoning over graphs
+    - Provenance tracking for explainability
+    - Confidence scoring for inference chains
+    - Temporal and contextual reasoning
+    - Dead-end handling and path exploration
+
+    ### Insight Synthesis
+    - Narrative construction from structured results
+    - Pattern identification across results
+    - Contextualization with background knowledge
+    - Confidence-aware communication
+    - Follow-up question suggestions
+
+    ### Moonshot Features
+    - Neuro-symbolic AI fusion
+    - Emergent insight discovery through graph structure
+    - Self-improving knowledge base
+    - Explainable AI with complete reasoning provenance
+    - Handles temporal evolution of facts
+
+    ### Boundaries
+    - Requires text input for knowledge extraction
+    - Reasoning quality depends on graph completeness
+    - Best for factual, relationship-based questions
+    - Cannot perform real-time web searches (static knowledge)
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - Text documents or articles to ingest
+    - Questions requiring relationship-based reasoning
+
+    ### Your First Run
+    Try these prompts in sequence:
+
+    Step 1 - Ingest Knowledge:
+    "Ingest this text: Marie Curie discovered radium in 1898 while working at the University of Paris. She collaborated with her husband Pierre Curie, and they shared the 1903 Nobel Prize in Physics with Henri Becquerel. Marie later won a second Nobel Prize in Chemistry in 1911."
+
+    Step 2 - Query the Graph:
+    "Who did Marie Curie collaborate with?"
+
+    Step 3 - Complex Reasoning:
+    "What awards did Marie Curie's collaborators receive?"
+
+    ### Pro Tips
+    - **Build Incrementally**: Add knowledge in focused batches
+    - **Test Queries**: Start with simple lookups before multi-hop
+    - **Check Provenance**: Review reasoning paths for verification
+    - **Explore Patterns**: Ask about connections and commonalities
+
+    ### Example Use Cases
+    - Research knowledge management
+    - Institutional memory preservation
+    - Due diligence investigations
+    - Scientific literature analysis
+    - Historical relationship mapping
+    - Expertise and collaboration networks
+
+    ### Sample Interactions
+
+    Knowledge Ingestion:
+    User: "Add this research paper abstract about CRISPR..."
+    Bot: "Added 12 entities and 18 relationships including Jennifer Doudna, CRISPR-Cas9, and gene editing connections."
+
+    Simple Query:
+    User: "What did Jennifer Doudna discover?"
+    Bot: "Jennifer Doudna, along with Emmanuelle Charpentier, developed CRISPR-Cas9 gene editing technology..."
+
+    Multi-Hop Reasoning:
+    User: "Find technologies developed by collaborators of Nobel laureates in Chemistry"
+    Bot: "Following collaboration chains from Chemistry Nobel laureates, I found connections to PCR, CRISPR, and lithium-ion batteries... (with full reasoning path)"
+
+    Pattern Discovery:
+    User: "What do breakthrough inventions from the 2010s have in common?"
+    Bot: "Analyzing the knowledge graph, I find three patterns: international collaboration, university-industry partnerships, and 10-15 year development cycles..."
+
+root_agents:
+  - ../agents/knowledge-graph-coordinator.yaml
+ids:
+  blueprint: 9c48e634-30d4-4b06-89fb-0e5d3d215014
+  agents:
+    ../agents/knowledge-graph-coordinator.yaml: 695bed5ea45696ac999e2e69
+    ../agents/entity-relationship-extractor.yaml: 695bed5a6363be71980eeaaa
+    ../agents/knowledge-graph-builder.yaml: 695bed5ba45696ac999e2e67
+    ../agents/graph-query-planner.yaml: 695bed5c6363be71980eeaab
+    ../agents/multi-hop-reasoner.yaml: 695bed5ca45696ac999e2e68
+    ../agents/insight-synthesizer.yaml: 695bed5d6363be71980eeaac

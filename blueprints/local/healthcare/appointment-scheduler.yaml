@@ -1,0 +1,89 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Appointment Scheduler
+  description: |
+    Smart healthcare appointment scheduling system that handles booking,
+    rescheduling, and cancellations while considering patient preferences,
+    appointment types, and provider availability. Includes automated reminders.
+  category: customer
+  tags:
+    - healthcare
+    - scheduling
+    - appointments
+    - patient-management
+    - automation
+  visibility: public
+  is_template: false
+  shared_with_users: []
+  shared_with_organizations: []
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    No-shows cost US healthcare $150 billion annually. Patients forget appointments, struggle to reschedule, or cannot find convenient times. Staff spend hours on phone calls managing calendars.
+
+    ### The Challenge
+    Effective scheduling requires balancing patient preferences, provider availability, appointment types, and practice efficiency. Manual coordination is slow and error-prone.
+
+    ### What's At Stake
+    Empty appointment slots waste provider time and reduce access for other patients. No-shows disrupt workflows. Scheduling friction leads patients to delay or skip care entirely.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Scheduling is a conversation that can be automated. Patients want convenient times with their preferred providers. Practices want full schedules with minimal gaps. An intelligent scheduler can satisfy both.
+
+    ### The Method
+    An Appointment Scheduler handles the complete booking lifecycle through natural conversation. It checks availability, respects preferences, handles conflicts, sends confirmations, and manages reminders. It makes rescheduling as easy as the original booking.
+
+    ### Why This Works
+    Automated scheduling is available 24/7. Patients book at their convenience without phone tag. Reminders reduce no-shows. Intelligent slot suggestions fill gaps. Everyone gets what they need faster.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Books appointments based on patient preferences and availability
+    - Reschedules with minimal friction
+    - Sends automated confirmations and reminders
+    - Handles cancellations with proper notifications
+    - Suggests alternative times when preferred slots unavailable
+
+    ### Extended Capabilities
+    - Manages recurring appointment series
+    - Handles urgent scheduling requests
+    - Coordinates multi-provider appointments
+    - Tracks patient scheduling preferences
+    - Integrates waitlist management
+
+    ### Boundaries
+    - Cannot access actual EHR scheduling systems
+    - Requires integration for real availability
+    - Does not verify insurance coverage
+    - Cannot guarantee specific time slots
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - Patient name and contact information
+    - Preferred appointment type and provider
+    - Time preferences or constraints
+
+    ### Your First Run
+    Try: 'I need to schedule a follow-up appointment with Dr. Johnson. I prefer mornings and cannot do Fridays.'
+
+    ### Pro Tips
+    - Specify appointment type for accurate duration
+    - Mention any accessibility needs upfront
+    - Provide flexible time ranges for faster booking
+
+root_agents:
+  - agents/appointment-scheduler.yaml
+

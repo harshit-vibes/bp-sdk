@@ -1,0 +1,82 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Prior Authorization Agent
+  description: Multi-agent system that automates prior authorization by 
+    analyzing payer policies, compiling clinical evidence, and generating 
+    submission-ready authorization requests. Reduces auth time from 45+ minutes 
+    to under 5 minutes.
+  category: customer
+  tags:
+    - healthcare
+    - prior-authorization
+    - insurance
+    - claims
+  visibility: public
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Prior authorization takes 45+ minutes per request. Staff must navigate complex payer policies, gather clinical evidence, and complete lengthy forms. Meanwhile, patients wait for approvals and treatments are delayed.
+
+    ### The Challenge
+    Each payer has different requirements, forms, and criteria. Clinicians must prove medical necessity using specific clinical language and documentation. Missing information triggers denials and restart the entire process.
+
+    ### What's At Stake
+    Prior auth delays harm patients by postponing needed care. Administrative costs consume resources that could go to care delivery. Staff burnout from repetitive paperwork impacts retention.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Prior auth follows a predictable pattern: understand requirements, gather evidence, submit request. Each step requires different expertise. Policy analysis needs regulatory knowledge. Evidence compilation needs clinical understanding. Submission needs precision formatting.
+
+    ### The Method
+    Three specialists work in sequence. The Payer Policy Analyzer extracts specific approval criteria from policy documents. The Clinical Evidence Compiler matches patient data to those criteria. The Auth Submission Generator creates compliant requests with all required elements.
+
+    ### Why This Works
+    Specialization ensures thoroughness. The policy analyzer catches every requirement. The evidence compiler identifies supporting documentation. The submission generator formats correctly the first time. No requirements missed, no rework needed.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Extracts authorization requirements from payer policies
+    - Identifies required clinical documentation
+    - Compiles evidence matching specific criteria
+    - Generates submission-ready authorization requests
+
+    ### Extended Capabilities
+    - Flags missing documentation before submission
+    - Suggests alternative approaches when criteria not met
+    - Provides appeal language for denials
+    - Tracks common denial reasons by payer
+
+    ### Boundaries
+    - Requires actual clinical documentation as input
+    - Cannot access payer systems directly
+    - Submissions require staff review before sending
+    - Cannot guarantee approval outcomes
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - Payer policy document or authorization guidelines
+    - Patient clinical documentation
+    - Requested service or procedure details
+
+    ### Your First Run
+    Provide: 'Request MRI lumbar spine for patient with 6 weeks of lower back pain radiating to left leg, failed conservative treatment including PT and NSAIDs. Payer requires 4 weeks conservative care and documented radiculopathy.'
+
+    ### Pro Tips
+    - Include specific policy language when available
+    - Document all conservative treatments tried
+    - Provide clinical findings supporting medical necessity
+
+root_agents:
+  - agents/prior-auth-coordinator.yaml

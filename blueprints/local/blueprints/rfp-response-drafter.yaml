@@ -1,0 +1,143 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: RFP Response Document Drafter
+  description: Multi-agent system that automates RFP response by analyzing 
+    requirements, matching capabilities, drafting persuasive content, and 
+    ensuring compliance for competitive proposals.
+  category: legal
+  tags:
+    - legal
+    - sales
+    - rfp
+    - proposal
+    - document-automation
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Organizations receive RFPs requiring detailed responses within tight deadlines. Each RFP has unique requirements, evaluation criteria, and format constraints. Response teams must parse complex documents, match capabilities to requirements, write persuasive content, and ensure nothing is missed.
+
+    ### The Challenge
+    RFP response is labor-intensive and error-prone. Teams spend hours extracting requirements from lengthy documents. Capability matching relies on institutional memory. Writers start from scratch each time. Compliance reviews catch issues late in the process when fixes are costly.
+
+    ### What's At Stake
+    Missed requirements mean automatic disqualification. Weak responses lose to better-positioned competitors. Late submissions are rejected. Poor win rates waste business development resources and miss revenue opportunities.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    RFP response is a workflow with distinct phases: understand requirements, match capabilities, draft content, verify compliance. By separating these phases into specialized agents, we can ensure thoroughness at each step while maintaining speed.
+
+    ### The Method
+    An RFP Response Coordinator manages four specialists in sequence:
+
+    1. **Requirements Analyzer**: Parses RFP documents to extract mandatory/optional requirements, evaluation criteria, and submission constraints
+    2. **Capability Matcher**: Maps requirements to company capabilities, identifies gaps, and develops win themes
+    3. **Section Drafter**: Writes persuasive, compliant response content for each required section
+    4. **Compliance Reviewer**: Validates completeness, format compliance, and competitive positioning
+
+    ### Why This Works
+    Sequential processing ensures each phase builds on solid foundations. The Requirements Analyzer prevents missed requirements. The Capability Matcher ensures honest positioning. The Section Drafter focuses on persuasion knowing the strategy is set. The Compliance Reviewer catches issues before submission.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Automated RFP requirement extraction and categorization
+    - Company capability to requirement mapping
+    - Gap identification with mitigation strategies
+    - Win theme development
+    - Section-by-section response drafting
+    - Compliance validation and scoring
+    - Submission checklist generation
+
+    ### Requirements Analysis
+    - Mandatory vs. preferred vs. optional classification
+    - Evaluation criteria and weight extraction
+    - Submission format and deadline identification
+    - Compliance requirement flagging
+
+    ### Capability Matching
+    - Direct capability matches with evidence
+    - Partial match identification
+    - Gap analysis with risk assessment
+    - Differentiator identification
+    - Win theme synthesis
+
+    ### Response Drafting
+    - Executive summary generation
+    - Technical section writing
+    - Experience/past performance narratives
+    - Management approach descriptions
+    - Page limit compliance
+
+    ### Compliance Review
+    - Requirement coverage verification
+    - Format compliance checking
+    - Quality improvement suggestions
+    - Competitive assessment
+
+    ### Boundaries
+    - Works with provided RFP content (no document fetching)
+    - Requires company capability information for matching
+    - English language primary focus
+    - Does not handle pricing/cost volumes
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    None - works out of the box.
+
+    ### Your First Run
+    Try this prompt:
+
+    "Help me respond to this RFP:
+
+    RFP Title: IT Support Services
+    Due Date: February 15, 2025
+    Issuer: City of Springfield
+
+    Requirements:
+    1. Provide 24/7 help desk support
+    2. Minimum 5 years experience in government IT
+    3. Must hold current SOC 2 certification
+    4. Respond to critical issues within 15 minutes
+    5. Provide monthly performance reports
+
+    Evaluation: Technical (40%), Experience (30%), Price (30%)
+
+    Our Company: TechServe Inc, 10 years in government IT, SOC 2 certified, current contracts with 3 state agencies."
+
+    ### Pro Tips
+    - **Provide Full RFP Text**: More context yields better requirement extraction
+    - **Include Company Info**: Capability matching needs your strengths and experience
+    - **Specify Page Limits**: Helps drafts stay within constraints
+    - **Note Past Wins**: Reference successful similar proposals
+    - **Iterate by Section**: Process large RFPs section by section
+
+    ### Example Use Cases
+    - Government RFP responses
+    - Corporate procurement proposals
+    - Grant applications
+    - Vendor selection questionnaires
+    - Partnership proposals
+    - Bid documentation
+
+root_agents:
+  - ../agents/rfp-response-coordinator.yaml
+ids:
+  blueprint: 9501387b-bf93-4f09-9625-96c6ca791174
+  agents:
+    ../agents/rfp-response-coordinator.yaml: 695be0446363be71980ee98a
+    ../agents/rfp-requirements-analyzer.yaml: 695be0416363be71980ee988
+    ../agents/rfp-capability-matcher.yaml: 695be042a45696ac999e2d0a
+    ../agents/rfp-section-drafter.yaml: 695be0426363be71980ee989
+    ../agents/rfp-compliance-reviewer.yaml: 695be043a45696ac999e2d0b

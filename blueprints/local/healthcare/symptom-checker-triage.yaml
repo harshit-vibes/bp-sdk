@@ -1,0 +1,84 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Symptom Checker and Triage Assistant
+  description: Multi-agent system that collects patient symptoms, assesses 
+    severity, and recommends appropriate care pathways. Helps patients decide 
+    between ER, urgent care, primary care, or self-care while flagging emergency
+    situations.
+  category: customer
+  tags:
+    - healthcare
+    - symptom-checker
+    - triage
+    - multi-agent
+  visibility: public
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Patients experiencing symptoms often don't know whether to go to the ER, visit urgent care, schedule with their doctor, or manage at home. They either delay necessary care or overwhelm emergency departments with non-urgent concerns.
+
+    ### The Challenge
+    Symptom assessment requires medical knowledge to identify red flags, understand severity indicators, and match symptoms to appropriate care levels. Patients lack this expertise and online symptom checkers often default to worst-case scenarios.
+
+    ### What's At Stake
+    Delayed care for serious conditions leads to worse outcomes. Unnecessary ER visits cost thousands and strain healthcare systems. Patients suffer anxiety not knowing if their symptoms warrant concern.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Triage is a three-step process: gather symptoms, assess severity, route to care. Each step requires different expertise. Symptom collection needs thorough questioning. Severity assessment needs clinical knowledge of red flags. Care routing needs understanding of healthcare settings.
+
+    ### The Method
+    Three specialized agents work in sequence. The Symptom Collector gathers comprehensive symptom details through structured questioning. The Severity Assessor evaluates urgency using clinical red flag criteria. The Care Pathway Advisor matches severity to the appropriate healthcare venue.
+
+    ### Why This Works
+    The multi-agent approach ensures no step is rushed. The Symptom Collector gets complete information before assessment begins. The Severity Assessor applies consistent clinical criteria. The Care Pathway Advisor provides actionable guidance with clear timeframes.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Collects detailed symptom information including onset, severity, and characteristics
+    - Identifies emergency red flags requiring immediate care
+    - Classifies severity into four levels: Emergency, Urgent, Semi-Urgent, Non-Urgent
+    - Recommends appropriate care venue with timeframes
+    - Provides escalation triggers for monitoring
+
+    ### Extended Capabilities
+    - Asks relevant follow-up questions based on symptom type
+    - Considers associated symptoms and medical history
+    - Explains reasoning behind recommendations
+    - Suggests what to expect at recommended care venue
+
+    ### Boundaries
+    - Does not diagnose medical conditions
+    - Does not prescribe treatments or medications
+    - Cannot access patient medical records
+    - Always recommends erring on side of caution
+    - Includes standard medical disclaimer
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - Description of current symptoms
+    - Willingness to answer follow-up questions
+
+    ### Your First Run
+    Start with: 'I have had a severe headache for the past 3 days and it is not going away with ibuprofen.'
+
+    ### Pro Tips
+    - Be specific about symptom duration and severity
+    - Mention any associated symptoms even if they seem unrelated
+    - Always follow up with a healthcare provider for definitive care
+    - If ever in doubt, seek emergency care
+
+root_agents:
+  - agents/symptom-triage-coordinator.yaml

@@ -1,0 +1,480 @@
+{
+  "_id": "5ec900c6-ccc9-412f-95d0-e7a681a1dc22",
+  "name": "McKinsey Lilli Clone",
+  "description": "This agent helps in accessing information from both internal and external data sources on any given topic. This ensures that your internal data remains internal to your system and prevents the user from sharing data with platforms like ChatGPT. ",
+  "orchestration_type": "Manager Agent",
+  "orchestration_name": "McKinsey Lilli Clone",
+  "owner_id": "mem_cm4icpp8b0y500sri6bpy5cp7",
+  "organization_id": "27a80706-339f-46df-b82d-92ccaf8d0c23",
+  "share_type": "public",
+  "shared_with_users": [],
+  "shared_with_organizations": [],
+  "blueprint_data": {
+    "manager_agent_id": "689784ded3981c7430b07e1c",
+    "tree_structure": {
+      "nodes": [
+        {
+          "id": "689784d1d3981c7430b07e1b",
+          "position": {
+            "x": 20.81754090218459,
+            "y": 624.4832443943754
+          },
+          "data": {
+            "_id": "689784d1d3981c7430b07e1b",
+            "api_key": "***REDACTED***",
+            "template_type": "single_task",
+            "name": "McKinsey Internal Knowledge Agent",
+            "description": "This agent combines internal data and external data to come up with its research insights. ",
+            "agent_role": "You are an expert knowledge search agent trained to retrieve data from the provided knowledge base. ",
+            "agent_instructions": "Understand the customer query, look into the provided knowledge base, and retrieve the relevant data from the knowledge base. Share a detailed overview for the provided query. Do not answer any query that is not in context. ",
+            "agent_goal": "Your goal is to understand the customer query, access the knowledge base, and retrieve the most accurate answer to the query. ",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": "",
+            "features": [
+              {
+                "type": "KNOWLEDGE_BASE",
+                "config": {
+                  "lyzr_rag": {
+                    "base_url": "https://rag-prod.studio.lyzr.ai",
+                    "rag_id": "689783c116819539cca530b3",
+                    "rag_name": "mckinsey_industriesnbdg",
+                    "params": {
+                      "top_k": 5,
+                      "retrieval_type": "basic",
+                      "score_threshold": 0
+                    }
+                  },
+                  "agentic_rag": []
+                },
+                "priority": 0
+              }
+            ],
+            "tool": "",
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-5",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "version": "3",
+            "created_at": "2025-08-09T17:26:41.877000",
+            "updated_at": "2025-08-20T15:09:07.495000",
+            "llm_credential_id": "lyzr_openai"
+          }
+        },
+        {
+          "id": "689784f5d3981c7430b07e1d",
+          "position": {
+            "x": 420.8175409021846,
+            "y": 624.4832443943754
+          },
+          "data": {
+            "_id": "689784f5d3981c7430b07e1d",
+            "api_key": "***REDACTED***",
+            "template_type": "single_task",
+            "name": "McKinsey Internet Search",
+            "description": "This agent searches the internet for answers. ",
+            "agent_role": "You are an expert internet search agent. ",
+            "agent_instructions": "Understand the customer query. Create three different points of view for the provided query, and for each point of view, generate three questions. Overall, you will be creating nine questions. For these nine questions, find the answers from the internet through the provided public city model. Compile the answers for all the nine queries and share them as is, without any truncation. ",
+            "agent_goal": "Search the internet for the perverted query and share the answers with citations. ",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [],
+            "tool": "",
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "Perplexity",
+            "model": "perplexity/sonar-pro",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "version": "3",
+            "created_at": "2025-08-09T17:27:17.527000",
+            "updated_at": "2025-08-09T17:27:38.179000",
+            "llm_credential_id": "lyzr_perplexity"
+          }
+        },
+        {
+          "id": "689784ded3981c7430b07e1c",
+          "position": {
+            "x": 220.8175409021846,
+            "y": 374.48324439437545
+          },
+          "data": {
+            "_id": "689784ded3981c7430b07e1c",
+            "api_key": "***REDACTED***",
+            "template_type": "single_task",
+            "name": "McKinsey Lilli Clone",
+            "description": "This agent helps the user research both internal and external knowledge sources. ",
+            "agent_role": "You are an expert research agent capable of answering the user query by accessing data from both internal and external knowledge sources. ",
+            "agent_instructions": "Understand the user query. Ask additional clarifying questions at least two if you want to collect more context. Also, understand if the user wants to search the internal knowledge base, the external knowledge base, or both.\n\nOnce you've understood the user query, compile them as a detailed query that you want to pass to the next agent. \n\nIf the user wants to search only the internal knowledge base, pass the compiled user query to the McKinsey Internal Knowledge Agent, collect the output and share it back to the customer. \n\nIf the user wants to search only the external knowledge base, pass the compiled user query to the McKinsey Internet Search Agent, collect the output and share it back to the customer. \n\nIf the user wants to search from both internal and external knowledge bases, then:\n1. Pass the compiled user query to the McKinsey internal knowledge agent, collect the output\n2. Pass the compiled user query to the McKinsey internet search agent, collect the output\n3. Share both outputs to the user inn below format.\n\nResults from Internal Knowledge Base\n<search results>\n\nResults from External Knowledge Base\n<search results>\n\nDo not answer any questions that are out of the provided context. \n",
+            "agent_goal": "Understand the customer query and ensure that you answer accurately. ",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [
+              {
+                "type": "MEMORY",
+                "config": {
+                  "max_messages_context_count": 10
+                },
+                "priority": 1
+              }
+            ],
+            "tool": "",
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4.1",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [
+              {
+                "id": "689784d1d3981c7430b07e1b",
+                "name": "McKinsey Internal Knowledge Agent",
+                "usage_description": "Use this agent to search data from the internal knowledge base. "
+              },
+              {
+                "id": "689784f5d3981c7430b07e1d",
+                "name": "McKinsey Internet Search",
+                "usage_description": "Uses data to search from the external knowledge base. "
+              }
+            ],
+            "version": "3",
+            "created_at": "2025-08-09T17:26:54.688000",
+            "updated_at": "2025-08-09T17:29:37.586000",
+            "llm_credential_id": "lyzr_openai"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "689784ded3981c7430b07e1c-689784d1d3981c7430b07e1b",
+          "source": "689784ded3981c7430b07e1c",
+          "target": "689784d1d3981c7430b07e1b",
+          "label": "Use this agent to search data from the internal knowledge base. "
+        },
+        {
+          "id": "689784ded3981c7430b07e1c-689784f5d3981c7430b07e1d",
+          "source": "689784ded3981c7430b07e1c",
+          "target": "689784f5d3981c7430b07e1d",
+          "label": "Uses data to search from the external knowledge base. "
+        }
+      ]
+    },
+    "nodes": [
+      {
+        "id": "689784d1d3981c7430b07e1b",
+        "position": {
+          "x": 20.81754090218459,
+          "y": 624.4832443943754
+        },
+        "data": {
+          "_id": "689784d1d3981c7430b07e1b",
+          "api_key": "***REDACTED***",
+          "template_type": "single_task",
+          "name": "McKinsey Internal Knowledge Agent",
+          "description": "This agent combines internal data and external data to come up with its research insights. ",
+          "agent_role": "You are an expert knowledge search agent trained to retrieve data from the provided knowledge base. ",
+          "agent_instructions": "Understand the customer query, look into the provided knowledge base, and retrieve the relevant data from the knowledge base. Share a detailed overview for the provided query. Do not answer any query that is not in context. ",
+          "agent_goal": "Your goal is to understand the customer query, access the knowledge base, and retrieve the most accurate answer to the query. ",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": "",
+          "features": [
+            {
+              "type": "KNOWLEDGE_BASE",
+              "config": {
+                "lyzr_rag": {
+                  "base_url": "https://rag-prod.studio.lyzr.ai",
+                  "rag_id": "689783c116819539cca530b3",
+                  "rag_name": "mckinsey_industriesnbdg",
+                  "params": {
+                    "top_k": 5,
+                    "retrieval_type": "basic",
+                    "score_threshold": 0
+                  }
+                },
+                "agentic_rag": []
+              },
+              "priority": 0
+            }
+          ],
+          "tool": "",
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-5",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "version": "3",
+          "created_at": "2025-08-09T17:26:41.877000",
+          "updated_at": "2025-08-20T15:09:07.495000",
+          "llm_credential_id": "lyzr_openai"
+        }
+      },
+      {
+        "id": "689784f5d3981c7430b07e1d",
+        "position": {
+          "x": 420.8175409021846,
+          "y": 624.4832443943754
+        },
+        "data": {
+          "_id": "689784f5d3981c7430b07e1d",
+          "api_key": "***REDACTED***",
+          "template_type": "single_task",
+          "name": "McKinsey Internet Search",
+          "description": "This agent searches the internet for answers. ",
+          "agent_role": "You are an expert internet search agent. ",
+          "agent_instructions": "Understand the customer query. Create three different points of view for the provided query, and for each point of view, generate three questions. Overall, you will be creating nine questions. For these nine questions, find the answers from the internet through the provided public city model. Compile the answers for all the nine queries and share them as is, without any truncation. ",
+          "agent_goal": "Search the internet for the perverted query and share the answers with citations. ",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [],
+          "tool": "",
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "Perplexity",
+          "model": "perplexity/sonar-pro",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "version": "3",
+          "created_at": "2025-08-09T17:27:17.527000",
+          "updated_at": "2025-08-09T17:27:38.179000",
+          "llm_credential_id": "lyzr_perplexity"
+        }
+      },
+      {
+        "id": "689784ded3981c7430b07e1c",
+        "position": {
+          "x": 220.8175409021846,
+          "y": 374.48324439437545
+        },
+        "data": {
+          "_id": "689784ded3981c7430b07e1c",
+          "api_key": "***REDACTED***",
+          "template_type": "single_task",
+          "name": "McKinsey Lilli Clone",
+          "description": "This agent helps the user research both internal and external knowledge sources. ",
+          "agent_role": "You are an expert research agent capable of answering the user query by accessing data from both internal and external knowledge sources. ",
+          "agent_instructions": "Understand the user query. Ask additional clarifying questions at least two if you want to collect more context. Also, understand if the user wants to search the internal knowledge base, the external knowledge base, or both.\n\nOnce you've understood the user query, compile them as a detailed query that you want to pass to the next agent. \n\nIf the user wants to search only the internal knowledge base, pass the compiled user query to the McKinsey Internal Knowledge Agent, collect the output and share it back to the customer. \n\nIf the user wants to search only the external knowledge base, pass the compiled user query to the McKinsey Internet Search Agent, collect the output and share it back to the customer. \n\nIf the user wants to search from both internal and external knowledge bases, then:\n1. Pass the compiled user query to the McKinsey internal knowledge agent, collect the output\n2. Pass the compiled user query to the McKinsey internet search agent, collect the output\n3. Share both outputs to the user inn below format.\n\nResults from Internal Knowledge Base\n<search results>\n\nResults from External Knowledge Base\n<search results>\n\nDo not answer any questions that are out of the provided context. \n",
+          "agent_goal": "Understand the customer query and ensure that you answer accurately. ",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [
+            {
+              "type": "MEMORY",
+              "config": {
+                "max_messages_context_count": 10
+              },
+              "priority": 1
+            }
+          ],
+          "tool": "",
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4.1",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [
+            {
+              "id": "689784d1d3981c7430b07e1b",
+              "name": "McKinsey Internal Knowledge Agent",
+              "usage_description": "Use this agent to search data from the internal knowledge base. "
+            },
+            {
+              "id": "689784f5d3981c7430b07e1d",
+              "name": "McKinsey Internet Search",
+              "usage_description": "Uses data to search from the external knowledge base. "
+            }
+          ],
+          "version": "3",
+          "created_at": "2025-08-09T17:26:54.688000",
+          "updated_at": "2025-08-09T17:29:37.586000",
+          "llm_credential_id": "lyzr_openai"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "689784ded3981c7430b07e1c-689784d1d3981c7430b07e1b",
+        "source": "689784ded3981c7430b07e1c",
+        "target": "689784d1d3981c7430b07e1b",
+        "label": "Use this agent to search data from the internal knowledge base. "
+      },
+      {
+        "id": "689784ded3981c7430b07e1c-689784f5d3981c7430b07e1d",
+        "source": "689784ded3981c7430b07e1c",
+        "target": "689784f5d3981c7430b07e1d",
+        "label": "Uses data to search from the external knowledge base. "
+      }
+    ],
+    "agents": {
+      "689784d1d3981c7430b07e1b": {
+        "_id": "689784d1d3981c7430b07e1b",
+        "api_key": "***REDACTED***",
+        "template_type": "single_task",
+        "name": "McKinsey Internal Knowledge Agent",
+        "description": "This agent combines internal data and external data to come up with its research insights. ",
+        "agent_role": "You are an expert knowledge search agent trained to retrieve data from the provided knowledge base. ",
+        "agent_instructions": "Understand the customer query, look into the provided knowledge base, and retrieve the relevant data from the knowledge base. Share a detailed overview for the provided query. Do not answer any query that is not in context. ",
+        "agent_goal": "Your goal is to understand the customer query, access the knowledge base, and retrieve the most accurate answer to the query. ",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": "",
+        "features": [
+          {
+            "type": "KNOWLEDGE_BASE",
+            "config": {
+              "lyzr_rag": {
+                "base_url": "https://rag-prod.studio.lyzr.ai",
+                "rag_id": "689783c116819539cca530b3",
+                "rag_name": "mckinsey_industriesnbdg",
+                "params": {
+                  "top_k": 5,
+                  "retrieval_type": "basic",
+                  "score_threshold": 0
+                }
+              },
+              "agentic_rag": []
+            },
+            "priority": 0
+          }
+        ],
+        "tool": "",
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-5",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "version": "3",
+        "created_at": "2025-08-09T17:26:41.877000",
+        "updated_at": "2025-08-20T15:09:07.495000",
+        "llm_credential_id": "lyzr_openai"
+      },
+      "689784f5d3981c7430b07e1d": {
+        "_id": "689784f5d3981c7430b07e1d",
+        "api_key": "***REDACTED***",
+        "template_type": "single_task",
+        "name": "McKinsey Internet Search",
+        "description": "This agent searches the internet for answers. ",
+        "agent_role": "You are an expert internet search agent. ",
+        "agent_instructions": "Understand the customer query. Create three different points of view for the provided query, and for each point of view, generate three questions. Overall, you will be creating nine questions. For these nine questions, find the answers from the internet through the provided public city model. Compile the answers for all the nine queries and share them as is, without any truncation. ",
+        "agent_goal": "Search the internet for the perverted query and share the answers with citations. ",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [],
+        "tool": "",
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "Perplexity",
+        "model": "perplexity/sonar-pro",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "version": "3",
+        "created_at": "2025-08-09T17:27:17.527000",
+        "updated_at": "2025-08-09T17:27:38.179000",
+        "llm_credential_id": "lyzr_perplexity"
+      },
+      "689784ded3981c7430b07e1c": {
+        "_id": "689784ded3981c7430b07e1c",
+        "api_key": "***REDACTED***",
+        "template_type": "single_task",
+        "name": "McKinsey Lilli Clone",
+        "description": "This agent helps the user research both internal and external knowledge sources. ",
+        "agent_role": "You are an expert research agent capable of answering the user query by accessing data from both internal and external knowledge sources. ",
+        "agent_instructions": "Understand the user query. Ask additional clarifying questions at least two if you want to collect more context. Also, understand if the user wants to search the internal knowledge base, the external knowledge base, or both.\n\nOnce you've understood the user query, compile them as a detailed query that you want to pass to the next agent. \n\nIf the user wants to search only the internal knowledge base, pass the compiled user query to the McKinsey Internal Knowledge Agent, collect the output and share it back to the customer. \n\nIf the user wants to search only the external knowledge base, pass the compiled user query to the McKinsey Internet Search Agent, collect the output and share it back to the customer. \n\nIf the user wants to search from both internal and external knowledge bases, then:\n1. Pass the compiled user query to the McKinsey internal knowledge agent, collect the output\n2. Pass the compiled user query to the McKinsey internet search agent, collect the output\n3. Share both outputs to the user inn below format.\n\nResults from Internal Knowledge Base\n<search results>\n\nResults from External Knowledge Base\n<search results>\n\nDo not answer any questions that are out of the provided context. \n",
+        "agent_goal": "Understand the customer query and ensure that you answer accurately. ",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [
+          {
+            "type": "MEMORY",
+            "config": {
+              "max_messages_context_count": 10
+            },
+            "priority": 1
+          }
+        ],
+        "tool": "",
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4.1",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [
+          {
+            "id": "689784d1d3981c7430b07e1b",
+            "name": "McKinsey Internal Knowledge Agent",
+            "usage_description": "Use this agent to search data from the internal knowledge base. "
+          },
+          {
+            "id": "689784f5d3981c7430b07e1d",
+            "name": "McKinsey Internet Search",
+            "usage_description": "Uses data to search from the external knowledge base. "
+          }
+        ],
+        "version": "3",
+        "created_at": "2025-08-09T17:26:54.688000",
+        "updated_at": "2025-08-09T17:29:37.586000",
+        "llm_credential_id": "lyzr_openai"
+      }
+    }
+  },
+  "blueprint_info": {
+    "documentation_data": {
+      "markdown": "# Blueprint Documentation\n\n## Overview\n\n## This blueprint helps you to clone an agent that's built like McKinsey Lilli.\u00a0This agent helps in accessing both internal and external data on any given topic. This ensures that your data remains within your system.\u00a0\n\n## How to Use\n\n1. Clone the agent in your Lyzr account.\u00a0\n\n2. Interact with the manager agent.\u00a0\n\n3. Connect the internal knowledge sub-agent with the knowledge base.\u00a0\n\n## Configuration\n\n- **Agent 1 (Manager Agent)**: The manager agent orchestrates the work between the two sub-agents.\u00a0\n\n- **Agent 2 (Sub Agent)**: The internal knowledge subagent accesses data from its internal knowledge base.\u00a0\n- **Agent 3 (Sub Agent)**:\u00a0The external knowledge agent fetches data from the internet using a Perplexity model."
+    },
+    "type": "markdown"
+  },
+  "version": "1.0.0",
+  "tags": [],
+  "category": "data-analysis",
+  "status": "draft",
+  "is_template": false,
+  "parent_blueprint_id": null,
+  "usage_count": 0,
+  "last_used_at": null,
+  "created_at": "2025-09-09T09:52:18.196000",
+  "updated_at": "2025-09-09T09:52:18.196000",
+  "published_at": null,
+  "is_owner": false,
+  "can_edit": false,
+  "can_share": false,
+  "can_delete": false,
+  "owner_name": null,
+  "owner_email": null,
+  "organization_name": null
+}

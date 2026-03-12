@@ -1,0 +1,84 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Care Transition Coordinator
+  description: Multi-agent system for hospital discharge planning that generates
+    discharge summaries, reconciles medications, and schedules follow-ups to 
+    prevent 30-day readmissions and ensure care continuity.
+  category: customer
+  tags:
+    - healthcare
+    - care-transition
+    - discharge
+    - readmission-prevention
+  visibility: public
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Twenty percent of hospital patients are readmitted within 30 days. Poor discharge planning leaves patients confused about medications, follow-up appointments, and warning signs. Critical information gets lost in transition.
+
+    ### The Challenge
+    Discharge involves multiple complex tasks: summarizing the hospital stay, reconciling medications, scheduling follow-ups, and educating patients. Busy clinicians rush through these steps.
+
+    ### What's At Stake
+    Preventable readmissions harm patients and cost hospitals under value-based reimbursement. Medication errors during transitions cause adverse events. Missed follow-ups lead to deterioration.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Discharge planning requires three distinct deliverables: clinical summary for providers, medication list for safety, and follow-up plan for continuity. Each requires different focus.
+
+    ### The Method
+    A Transition Coordinator orchestrates three specialists. The Discharge Summary Generator creates provider and patient summaries. The Medication Reconciler ensures medication safety. The Follow-up Scheduler arranges post-discharge care.
+
+    ### Why This Works
+    Specialized agents ensure nothing is missed. The summarizer captures the full hospital course. The reconciler catches medication conflicts. The scheduler arranges timely follow-up. Complete discharge packages every time.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Generates comprehensive discharge summaries
+    - Reconciles pre-admission and discharge medications
+    - Schedules appropriate follow-up appointments
+    - Creates patient-friendly discharge instructions
+
+    ### Extended Capabilities
+    - Identifies high-risk patients needing closer follow-up
+    - Flags medication interactions and duplications
+    - Coordinates with primary care and specialists
+    - Provides education materials for diagnoses
+
+    ### Boundaries
+    - Requires complete hospitalization documentation
+    - Does not schedule actual appointments (provides recommendations)
+    - Medication list requires pharmacist verification
+    - Cannot predict individual patient outcomes
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - Hospital admission and discharge documentation
+    - Pre-admission medication list
+    - Discharge medication orders
+    - Patient demographics and contacts
+
+    ### Your First Run
+    Provide: 'Patient: 72yo female admitted for CHF exacerbation. Hospital course: IV diuretics, transitioned to oral. New diagnosis of atrial fibrillation, started on anticoagulation. Pre-admission meds: lisinopril, metoprolol. Discharge meds: lisinopril, metoprolol, furosemide, apixaban.'
+
+    ### Pro Tips
+    - Include complete medication lists with doses
+    - Note any new diagnoses or procedures
+    - Specify urgency of follow-up needs
+    - Mention any patient barriers to care
+
+root_agents:
+  - agents/transition-coordinator.yaml
+

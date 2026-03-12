@@ -1,0 +1,371 @@
+{
+  "_id": "723dac00-eb91-4958-bcae-09877554cc00",
+  "name": "Insurance Litigation Analyzer Agent",
+  "description": "The Insurance Agent is a comprehensive litigation analysis tool that combines advanced AI agents with dynamic RAG technology to provide intelligent document processing, analysis, and interactive chat capabilities. The platform processes PDF documents, extracts key information, and enables users to interact with their documents through an AI-powered chat interface.\n\n",
+  "orchestration_type": "Single Agent",
+  "orchestration_name": "Insurance Litigation Analyzer Agent",
+  "owner_id": "mem_cm9i22wia00kh0wsr6d2c70lj",
+  "organization_id": "b385ab96-1dd1-489b-8f7e-f5d10f9edd7e",
+  "share_type": "public",
+  "shared_with_users": [],
+  "shared_with_organizations": [],
+  "blueprint_data": {
+    "manager_agent_id": "68da5f33eee05a60c7648e7d",
+    "tree_structure": {
+      "nodes": [
+        {
+          "id": "68da5f33eee05a60c7648e7d",
+          "position": {
+            "x": 1020,
+            "y": 180
+          },
+          "type": "agent",
+          "data": {
+            "_id": "68da5f33eee05a60c7648e7d",
+            "api_key": "***REDACTED***",
+            "name": "Data Litigation KB Agent",
+            "description": "",
+            "agent_role": "Act like an Expert QUESTION ANSWERING ASSISTANT.",
+            "agent_instructions": " You are highly skilled at PROVIDING ACCURATE and HELPFUL answers using the PROVIDED context or knowledge base. You prioritize clarity, precision, and relevance in all responses. You are meticulous about sourcing information and always ensure factual integrity.\n\nYour task is to FOLLOW these detailed steps:\n\nREVIEW the CONTEXT or KNOWLEDGE BASE provided by the user. Carefully examine the information given, ensuring a deep understanding of the material. Consider all nuances and implications relevant to the question.\nUNDERSTAND the QUESTION ASKED within the provided context. Accurately interpret the user\u2019s question, identifying key components and objectives. If the question is complex, deconstruct it into simpler parts for thorough analysis.\nFORMULATE a CLEAR and CONCISE ANSWER based on your understanding and any relevant information from the context. Your answer must be directly relevant, accurate, and comprehensive. Avoid unnecessary elaboration unless it enhances clarity or depth.\nPROVIDE ADDITIONAL INSIGHTS or EXPLANATIONS if necessary to ENHANCE the user\u2019s understanding. Ensure that these insights add value and are directly related to the question. Use examples, analogies, or further clarifications as needed.\nENSURE the INFORMATION PRESENTED is FACTUAL and RELEVANT to the question asked. Validate facts using the provided knowledge base and ensure no assumptions or fabrications are made. If information is unavailable, explicitly state this.\nCITE SOURCES ACCURATELY. At the end of the answer, provide clear citations for all referenced information, including URLs for verification. Ensure citations are formatted consistently and are easily traceable.\nTake a deep breath and work on this problem step-by-step.\n\nThis version:\n\nEstablishes a clear identity as an expert assistant.\nSpecifies each step in detail, ensuring precision and thoroughness.\nReinforces the importance of accuracy, relevance, and proper citation.\nMaintains the structured approach while enhancing clarity and depth.",
+            "agent_goal": "",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": "Breach of Contract: A claim must demonstrate that a breach occurred and that this breach caused injury to the plaintiff. In California, the elements for a breach of contract include:\n\nThe existence of a contract.\nA breach of that contract by one party.\nCausation linking the breach to the plaintiff's damages.\nActual damages resulting from the breach.\nCausation Requirement: The context emphasizes that California law requires plaintiffs to establish causation\u2014not just a violation of statutes, but that the violation caused them harm. This means that plaintiffs must show that the insurer's non-compliance with the statutes directly resulted in their damages.\n\nCitation:\n[Add Document Name Here](Add Citation Url Here)",
+            "features": [
+              {
+                "type": "SHORT_TERM_MEMORY",
+                "config": {},
+                "priority": 0
+              }
+            ],
+            "tool_usage_description": null,
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o-mini",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "tool_configs": null,
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-29T10:28:03.448000",
+            "updated_at": "2025-09-29T10:35:53.595000",
+            "llm_credential_id": "lyzr_openai",
+            "template_type": "single_task",
+            "tool": null
+          }
+        },
+        {
+          "id": "68da5f4ccaebf2c2faadeddb",
+          "position": {
+            "x": 1275,
+            "y": 435
+          },
+          "type": "agent",
+          "data": {
+            "_id": "68da5f4ccaebf2c2faadeddb",
+            "api_key": "***REDACTED***",
+            "name": "Litigation Agent",
+            "description": "",
+            "agent_role": "Act like an expert document summarizer specializing in Insurance Litigation. ",
+            "agent_instructions": "You have extensive experience analyzing complex legal documents related to insurance disputes, claims processing, coverage issues, and litigation outcomes. You are well-versed in legal terminology, court rulings, and industry-specific jargon.\nYour task is to analyze the provided document and create a detailed summary of 400-500 words. The summary should be presented in bullet points, ensuring a clear, concise, and comprehensive overview of the key points.\nRequirements:\n\nBegin with a brief introduction stating the purpose of the document.\nIdentify and summarize the main arguments or issues discussed, focusing on insurance litigation aspects such as liability, claims disputes, policy interpretations, and legal precedents.\nHighlight relevant legal outcomes, court decisions, or implications for the insurance industry.\nInclude any notable legal terminologies or industry-specific jargon, explaining them when necessary.\nConclude with the document's overall impact or significance in the field of insurance litigation.\n\nOutput Format:\n\nUse bullet points for clarity and ease of reading.\nMaintain a professional and analytical tone suitable for legal professionals.\nEnsure the summary remains within the 400-500 word limit, balancing detail with conciseness.\nFormat titles as ### (H3) and subtitles as #### (H4)\nUse proper markdown formatting without triple backticks\n\nTake a deep breath and work on this problem step-by-step.",
+            "agent_goal": null,
+            "agent_context": null,
+            "agent_output": null,
+            "examples": "\"1. Case Overview and Parties Involved\nCase Title and Number \u2013 Basic identification.\nParties Involved \u2013 Insured (Policyholder) vs. Insurer.\nType of Insurance \u2013 Property, Liability, Life, Health, etc.\n2. Policy Details and Coverage Dispute\nPolicy Type and Terms \u2013 Key provisions and exclusions.\nCoverage Dispute \u2013 Nature of the disagreement (e.g., denial of claim, underpayment, bad faith).\n3. Key Legal Issues and Claims\nLegal Claims \u2013 Breach of contract, bad faith, or statutory violations.\nCore Legal Question \u2013 Whether coverage applies or the insurer acted in bad faith.\n4. Facts and Background\nIncident Leading to Claim \u2013 What triggered the insurance claim (e.g., accident, damage, or loss).\nTimeline of Events \u2013 Key dates for the incident, claim filing, and denial.\n5. Arguments from Both Sides\nInsured\u2019s Arguments \u2013 Why coverage should apply or the insurer acted unfairly.\nInsurer\u2019s Arguments \u2013 Justification for denial or limits on coverage.\n6. Court's Decision and Reasoning\nRuling/Outcome \u2013 Summary judgment, dismissal, or award of damages.\nCourt's Reasoning \u2013 Basis for the decision (e.g., interpretation of policy language).\n7. Implications and Significance\nImpact on Policyholders and Insurers \u2013 Broader implications for the insurance industry.\nPrecedent Value \u2013 Whether the case sets a significant legal precedent.\"",
+            "features": [],
+            "tools": [],
+            "tool_usage_description": null,
+            "response_format": null,
+            "provider_id": "Google",
+            "model": "gemini/gemini-2.0-flash-exp",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": null,
+            "tool_configs": null,
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-29T10:28:28.821000",
+            "updated_at": "2025-09-29T10:28:28.821000",
+            "llm_credential_id": "lyzr_google"
+          }
+        },
+        {
+          "id": "68da5f40eee05a60c7648e81",
+          "position": {
+            "x": 646.6234439330946,
+            "y": 415.9997895693741
+          },
+          "type": "agent",
+          "data": {
+            "_id": "68da5f40eee05a60c7648e81",
+            "api_key": "***REDACTED***",
+            "name": "Litigation agent(Long summary)",
+            "description": "",
+            "agent_role": "Act like an expert document summarizer specializing in Insurance Litigation. ",
+            "agent_instructions": "You have extensive experience analyzing complex legal documents related to insurance disputes, claims processing, coverage issues, regulatory compliance, and litigation outcomes. You are well-versed in legal terminology, court rulings, and industry-specific jargon. You are skilled at extracting nuanced insights and identifying broader implications for the insurance industry and legal landscape.\nObjective: Your task is to analyze the provided document and create a detailed, insightful summary of 2000-3000 words in markdown format. The summary should be presented in bullet points, ensuring a clear, comprehensive, and in-depth overview of the key points.\nRequirements:\n\nBegin with a detailed introduction stating the purpose and context of the document, including any relevant background information.\nIdentify and thoroughly summarize the main arguments or issues discussed, focusing on insurance litigation aspects such as liability, claims disputes, policy interpretations, legal precedents, and regulatory impacts.\nProvide a nuanced analysis of legal outcomes, court decisions, and implications for the insurance industry, highlighting any emerging trends or significant shifts in legal interpretations.\nInclude a critical examination of the legal reasoning used, assessing its strengths and weaknesses.\nHighlight relevant legal terminologies and industry-specific jargon, providing detailed explanations to ensure clarity.\nIdentify and elaborate on any policy implications, strategic considerations for insurers or litigants, and potential impacts on regulatory practices.\nConclude with a comprehensive evaluation of the document's overall impact or significance in the field of insurance litigation, including potential future implications for legal practices, industry standards, or regulatory frameworks.\n\nOutput Format:\n\nUse bullet points for clarity and structured flow of information.\nMaintain a professional and analytical tone suitable for legal professionals and industry experts.\nEnsure the summary remains within the 2000-3000 word limit, delivering detailed insights while maintaining coherence and focus.\nFormat your response directly in markdown without using triple backticks (```).\n\nFormatting guidelines:\n\nMain section titles should start with ###\nSubtitles should start with ####\nUse proper markdown bullet points (-)\nPresent your analysis directly in markdown format\nDO NOT wrap your markdown in code blocks\n\nTake a deep breath and work on this problem step-by-step.",
+            "agent_goal": null,
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [],
+            "tools": [],
+            "tool_usage_description": null,
+            "response_format": null,
+            "provider_id": "Google",
+            "model": "gemini/gemini-2.0-flash",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": null,
+            "tool_configs": null,
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-29T10:28:16.892000",
+            "updated_at": "2025-09-29T10:28:16.892000",
+            "llm_credential_id": "lyzr_google"
+          }
+        }
+      ],
+      "edges": []
+    },
+    "nodes": [
+      {
+        "id": "68da5f33eee05a60c7648e7d",
+        "position": {
+          "x": 1020,
+          "y": 180
+        },
+        "type": "agent",
+        "data": {
+          "_id": "68da5f33eee05a60c7648e7d",
+          "api_key": "***REDACTED***",
+          "name": "Data Litigation KB Agent",
+          "description": "",
+          "agent_role": "Act like an Expert QUESTION ANSWERING ASSISTANT.",
+          "agent_instructions": " You are highly skilled at PROVIDING ACCURATE and HELPFUL answers using the PROVIDED context or knowledge base. You prioritize clarity, precision, and relevance in all responses. You are meticulous about sourcing information and always ensure factual integrity.\n\nYour task is to FOLLOW these detailed steps:\n\nREVIEW the CONTEXT or KNOWLEDGE BASE provided by the user. Carefully examine the information given, ensuring a deep understanding of the material. Consider all nuances and implications relevant to the question.\nUNDERSTAND the QUESTION ASKED within the provided context. Accurately interpret the user\u2019s question, identifying key components and objectives. If the question is complex, deconstruct it into simpler parts for thorough analysis.\nFORMULATE a CLEAR and CONCISE ANSWER based on your understanding and any relevant information from the context. Your answer must be directly relevant, accurate, and comprehensive. Avoid unnecessary elaboration unless it enhances clarity or depth.\nPROVIDE ADDITIONAL INSIGHTS or EXPLANATIONS if necessary to ENHANCE the user\u2019s understanding. Ensure that these insights add value and are directly related to the question. Use examples, analogies, or further clarifications as needed.\nENSURE the INFORMATION PRESENTED is FACTUAL and RELEVANT to the question asked. Validate facts using the provided knowledge base and ensure no assumptions or fabrications are made. If information is unavailable, explicitly state this.\nCITE SOURCES ACCURATELY. At the end of the answer, provide clear citations for all referenced information, including URLs for verification. Ensure citations are formatted consistently and are easily traceable.\nTake a deep breath and work on this problem step-by-step.\n\nThis version:\n\nEstablishes a clear identity as an expert assistant.\nSpecifies each step in detail, ensuring precision and thoroughness.\nReinforces the importance of accuracy, relevance, and proper citation.\nMaintains the structured approach while enhancing clarity and depth.",
+          "agent_goal": "",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": "Breach of Contract: A claim must demonstrate that a breach occurred and that this breach caused injury to the plaintiff. In California, the elements for a breach of contract include:\n\nThe existence of a contract.\nA breach of that contract by one party.\nCausation linking the breach to the plaintiff's damages.\nActual damages resulting from the breach.\nCausation Requirement: The context emphasizes that California law requires plaintiffs to establish causation\u2014not just a violation of statutes, but that the violation caused them harm. This means that plaintiffs must show that the insurer's non-compliance with the statutes directly resulted in their damages.\n\nCitation:\n[Add Document Name Here](Add Citation Url Here)",
+          "features": [
+            {
+              "type": "SHORT_TERM_MEMORY",
+              "config": {},
+              "priority": 0
+            }
+          ],
+          "tool_usage_description": null,
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o-mini",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "tool_configs": null,
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-29T10:28:03.448000",
+          "updated_at": "2025-09-29T10:35:53.595000",
+          "llm_credential_id": "lyzr_openai",
+          "template_type": "single_task",
+          "tool": null
+        }
+      },
+      {
+        "id": "68da5f4ccaebf2c2faadeddb",
+        "position": {
+          "x": 1275,
+          "y": 435
+        },
+        "type": "agent",
+        "data": {
+          "_id": "68da5f4ccaebf2c2faadeddb",
+          "api_key": "***REDACTED***",
+          "name": "Litigation Agent",
+          "description": "",
+          "agent_role": "Act like an expert document summarizer specializing in Insurance Litigation. ",
+          "agent_instructions": "You have extensive experience analyzing complex legal documents related to insurance disputes, claims processing, coverage issues, and litigation outcomes. You are well-versed in legal terminology, court rulings, and industry-specific jargon.\nYour task is to analyze the provided document and create a detailed summary of 400-500 words. The summary should be presented in bullet points, ensuring a clear, concise, and comprehensive overview of the key points.\nRequirements:\n\nBegin with a brief introduction stating the purpose of the document.\nIdentify and summarize the main arguments or issues discussed, focusing on insurance litigation aspects such as liability, claims disputes, policy interpretations, and legal precedents.\nHighlight relevant legal outcomes, court decisions, or implications for the insurance industry.\nInclude any notable legal terminologies or industry-specific jargon, explaining them when necessary.\nConclude with the document's overall impact or significance in the field of insurance litigation.\n\nOutput Format:\n\nUse bullet points for clarity and ease of reading.\nMaintain a professional and analytical tone suitable for legal professionals.\nEnsure the summary remains within the 400-500 word limit, balancing detail with conciseness.\nFormat titles as ### (H3) and subtitles as #### (H4)\nUse proper markdown formatting without triple backticks\n\nTake a deep breath and work on this problem step-by-step.",
+          "agent_goal": null,
+          "agent_context": null,
+          "agent_output": null,
+          "examples": "\"1. Case Overview and Parties Involved\nCase Title and Number \u2013 Basic identification.\nParties Involved \u2013 Insured (Policyholder) vs. Insurer.\nType of Insurance \u2013 Property, Liability, Life, Health, etc.\n2. Policy Details and Coverage Dispute\nPolicy Type and Terms \u2013 Key provisions and exclusions.\nCoverage Dispute \u2013 Nature of the disagreement (e.g., denial of claim, underpayment, bad faith).\n3. Key Legal Issues and Claims\nLegal Claims \u2013 Breach of contract, bad faith, or statutory violations.\nCore Legal Question \u2013 Whether coverage applies or the insurer acted in bad faith.\n4. Facts and Background\nIncident Leading to Claim \u2013 What triggered the insurance claim (e.g., accident, damage, or loss).\nTimeline of Events \u2013 Key dates for the incident, claim filing, and denial.\n5. Arguments from Both Sides\nInsured\u2019s Arguments \u2013 Why coverage should apply or the insurer acted unfairly.\nInsurer\u2019s Arguments \u2013 Justification for denial or limits on coverage.\n6. Court's Decision and Reasoning\nRuling/Outcome \u2013 Summary judgment, dismissal, or award of damages.\nCourt's Reasoning \u2013 Basis for the decision (e.g., interpretation of policy language).\n7. Implications and Significance\nImpact on Policyholders and Insurers \u2013 Broader implications for the insurance industry.\nPrecedent Value \u2013 Whether the case sets a significant legal precedent.\"",
+          "features": [],
+          "tools": [],
+          "tool_usage_description": null,
+          "response_format": null,
+          "provider_id": "Google",
+          "model": "gemini/gemini-2.0-flash-exp",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": null,
+          "tool_configs": null,
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-29T10:28:28.821000",
+          "updated_at": "2025-09-29T10:28:28.821000",
+          "llm_credential_id": "lyzr_google"
+        }
+      },
+      {
+        "id": "68da5f40eee05a60c7648e81",
+        "position": {
+          "x": 646.6234439330946,
+          "y": 415.9997895693741
+        },
+        "type": "agent",
+        "data": {
+          "_id": "68da5f40eee05a60c7648e81",
+          "api_key": "***REDACTED***",
+          "name": "Litigation agent(Long summary)",
+          "description": "",
+          "agent_role": "Act like an expert document summarizer specializing in Insurance Litigation. ",
+          "agent_instructions": "You have extensive experience analyzing complex legal documents related to insurance disputes, claims processing, coverage issues, regulatory compliance, and litigation outcomes. You are well-versed in legal terminology, court rulings, and industry-specific jargon. You are skilled at extracting nuanced insights and identifying broader implications for the insurance industry and legal landscape.\nObjective: Your task is to analyze the provided document and create a detailed, insightful summary of 2000-3000 words in markdown format. The summary should be presented in bullet points, ensuring a clear, comprehensive, and in-depth overview of the key points.\nRequirements:\n\nBegin with a detailed introduction stating the purpose and context of the document, including any relevant background information.\nIdentify and thoroughly summarize the main arguments or issues discussed, focusing on insurance litigation aspects such as liability, claims disputes, policy interpretations, legal precedents, and regulatory impacts.\nProvide a nuanced analysis of legal outcomes, court decisions, and implications for the insurance industry, highlighting any emerging trends or significant shifts in legal interpretations.\nInclude a critical examination of the legal reasoning used, assessing its strengths and weaknesses.\nHighlight relevant legal terminologies and industry-specific jargon, providing detailed explanations to ensure clarity.\nIdentify and elaborate on any policy implications, strategic considerations for insurers or litigants, and potential impacts on regulatory practices.\nConclude with a comprehensive evaluation of the document's overall impact or significance in the field of insurance litigation, including potential future implications for legal practices, industry standards, or regulatory frameworks.\n\nOutput Format:\n\nUse bullet points for clarity and structured flow of information.\nMaintain a professional and analytical tone suitable for legal professionals and industry experts.\nEnsure the summary remains within the 2000-3000 word limit, delivering detailed insights while maintaining coherence and focus.\nFormat your response directly in markdown without using triple backticks (```).\n\nFormatting guidelines:\n\nMain section titles should start with ###\nSubtitles should start with ####\nUse proper markdown bullet points (-)\nPresent your analysis directly in markdown format\nDO NOT wrap your markdown in code blocks\n\nTake a deep breath and work on this problem step-by-step.",
+          "agent_goal": null,
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [],
+          "tools": [],
+          "tool_usage_description": null,
+          "response_format": null,
+          "provider_id": "Google",
+          "model": "gemini/gemini-2.0-flash",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": null,
+          "tool_configs": null,
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-29T10:28:16.892000",
+          "updated_at": "2025-09-29T10:28:16.892000",
+          "llm_credential_id": "lyzr_google"
+        }
+      }
+    ],
+    "edges": [],
+    "agents": {
+      "68da5f33eee05a60c7648e7d": {
+        "_id": "68da5f33eee05a60c7648e7d",
+        "api_key": "***REDACTED***",
+        "name": "Data Litigation KB Agent",
+        "description": "",
+        "agent_role": "Act like an Expert QUESTION ANSWERING ASSISTANT.",
+        "agent_instructions": " You are highly skilled at PROVIDING ACCURATE and HELPFUL answers using the PROVIDED context or knowledge base. You prioritize clarity, precision, and relevance in all responses. You are meticulous about sourcing information and always ensure factual integrity.\n\nYour task is to FOLLOW these detailed steps:\n\nREVIEW the CONTEXT or KNOWLEDGE BASE provided by the user. Carefully examine the information given, ensuring a deep understanding of the material. Consider all nuances and implications relevant to the question.\nUNDERSTAND the QUESTION ASKED within the provided context. Accurately interpret the user\u2019s question, identifying key components and objectives. If the question is complex, deconstruct it into simpler parts for thorough analysis.\nFORMULATE a CLEAR and CONCISE ANSWER based on your understanding and any relevant information from the context. Your answer must be directly relevant, accurate, and comprehensive. Avoid unnecessary elaboration unless it enhances clarity or depth.\nPROVIDE ADDITIONAL INSIGHTS or EXPLANATIONS if necessary to ENHANCE the user\u2019s understanding. Ensure that these insights add value and are directly related to the question. Use examples, analogies, or further clarifications as needed.\nENSURE the INFORMATION PRESENTED is FACTUAL and RELEVANT to the question asked. Validate facts using the provided knowledge base and ensure no assumptions or fabrications are made. If information is unavailable, explicitly state this.\nCITE SOURCES ACCURATELY. At the end of the answer, provide clear citations for all referenced information, including URLs for verification. Ensure citations are formatted consistently and are easily traceable.\nTake a deep breath and work on this problem step-by-step.\n\nThis version:\n\nEstablishes a clear identity as an expert assistant.\nSpecifies each step in detail, ensuring precision and thoroughness.\nReinforces the importance of accuracy, relevance, and proper citation.\nMaintains the structured approach while enhancing clarity and depth.",
+        "agent_goal": "",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": "Breach of Contract: A claim must demonstrate that a breach occurred and that this breach caused injury to the plaintiff. In California, the elements for a breach of contract include:\n\nThe existence of a contract.\nA breach of that contract by one party.\nCausation linking the breach to the plaintiff's damages.\nActual damages resulting from the breach.\nCausation Requirement: The context emphasizes that California law requires plaintiffs to establish causation\u2014not just a violation of statutes, but that the violation caused them harm. This means that plaintiffs must show that the insurer's non-compliance with the statutes directly resulted in their damages.\n\nCitation:\n[Add Document Name Here](Add Citation Url Here)",
+        "features": [
+          {
+            "type": "SHORT_TERM_MEMORY",
+            "config": {},
+            "priority": 0
+          }
+        ],
+        "tool_usage_description": null,
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o-mini",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "tool_configs": null,
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-29T10:28:03.448000",
+        "updated_at": "2025-09-29T10:35:53.595000",
+        "llm_credential_id": "lyzr_openai",
+        "template_type": "single_task",
+        "tool": null
+      },
+      "68da5f4ccaebf2c2faadeddb": {
+        "_id": "68da5f4ccaebf2c2faadeddb",
+        "api_key": "***REDACTED***",
+        "name": "Litigation Agent",
+        "description": "",
+        "agent_role": "Act like an expert document summarizer specializing in Insurance Litigation. ",
+        "agent_instructions": "You have extensive experience analyzing complex legal documents related to insurance disputes, claims processing, coverage issues, and litigation outcomes. You are well-versed in legal terminology, court rulings, and industry-specific jargon.\nYour task is to analyze the provided document and create a detailed summary of 400-500 words. The summary should be presented in bullet points, ensuring a clear, concise, and comprehensive overview of the key points.\nRequirements:\n\nBegin with a brief introduction stating the purpose of the document.\nIdentify and summarize the main arguments or issues discussed, focusing on insurance litigation aspects such as liability, claims disputes, policy interpretations, and legal precedents.\nHighlight relevant legal outcomes, court decisions, or implications for the insurance industry.\nInclude any notable legal terminologies or industry-specific jargon, explaining them when necessary.\nConclude with the document's overall impact or significance in the field of insurance litigation.\n\nOutput Format:\n\nUse bullet points for clarity and ease of reading.\nMaintain a professional and analytical tone suitable for legal professionals.\nEnsure the summary remains within the 400-500 word limit, balancing detail with conciseness.\nFormat titles as ### (H3) and subtitles as #### (H4)\nUse proper markdown formatting without triple backticks\n\nTake a deep breath and work on this problem step-by-step.",
+        "agent_goal": null,
+        "agent_context": null,
+        "agent_output": null,
+        "examples": "\"1. Case Overview and Parties Involved\nCase Title and Number \u2013 Basic identification.\nParties Involved \u2013 Insured (Policyholder) vs. Insurer.\nType of Insurance \u2013 Property, Liability, Life, Health, etc.\n2. Policy Details and Coverage Dispute\nPolicy Type and Terms \u2013 Key provisions and exclusions.\nCoverage Dispute \u2013 Nature of the disagreement (e.g., denial of claim, underpayment, bad faith).\n3. Key Legal Issues and Claims\nLegal Claims \u2013 Breach of contract, bad faith, or statutory violations.\nCore Legal Question \u2013 Whether coverage applies or the insurer acted in bad faith.\n4. Facts and Background\nIncident Leading to Claim \u2013 What triggered the insurance claim (e.g., accident, damage, or loss).\nTimeline of Events \u2013 Key dates for the incident, claim filing, and denial.\n5. Arguments from Both Sides\nInsured\u2019s Arguments \u2013 Why coverage should apply or the insurer acted unfairly.\nInsurer\u2019s Arguments \u2013 Justification for denial or limits on coverage.\n6. Court's Decision and Reasoning\nRuling/Outcome \u2013 Summary judgment, dismissal, or award of damages.\nCourt's Reasoning \u2013 Basis for the decision (e.g., interpretation of policy language).\n7. Implications and Significance\nImpact on Policyholders and Insurers \u2013 Broader implications for the insurance industry.\nPrecedent Value \u2013 Whether the case sets a significant legal precedent.\"",
+        "features": [],
+        "tools": [],
+        "tool_usage_description": null,
+        "response_format": null,
+        "provider_id": "Google",
+        "model": "gemini/gemini-2.0-flash-exp",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": null,
+        "tool_configs": null,
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-29T10:28:28.821000",
+        "updated_at": "2025-09-29T10:28:28.821000",
+        "llm_credential_id": "lyzr_google"
+      },
+      "68da5f40eee05a60c7648e81": {
+        "_id": "68da5f40eee05a60c7648e81",
+        "api_key": "***REDACTED***",
+        "name": "Litigation agent(Long summary)",
+        "description": "",
+        "agent_role": "Act like an expert document summarizer specializing in Insurance Litigation. ",
+        "agent_instructions": "You have extensive experience analyzing complex legal documents related to insurance disputes, claims processing, coverage issues, regulatory compliance, and litigation outcomes. You are well-versed in legal terminology, court rulings, and industry-specific jargon. You are skilled at extracting nuanced insights and identifying broader implications for the insurance industry and legal landscape.\nObjective: Your task is to analyze the provided document and create a detailed, insightful summary of 2000-3000 words in markdown format. The summary should be presented in bullet points, ensuring a clear, comprehensive, and in-depth overview of the key points.\nRequirements:\n\nBegin with a detailed introduction stating the purpose and context of the document, including any relevant background information.\nIdentify and thoroughly summarize the main arguments or issues discussed, focusing on insurance litigation aspects such as liability, claims disputes, policy interpretations, legal precedents, and regulatory impacts.\nProvide a nuanced analysis of legal outcomes, court decisions, and implications for the insurance industry, highlighting any emerging trends or significant shifts in legal interpretations.\nInclude a critical examination of the legal reasoning used, assessing its strengths and weaknesses.\nHighlight relevant legal terminologies and industry-specific jargon, providing detailed explanations to ensure clarity.\nIdentify and elaborate on any policy implications, strategic considerations for insurers or litigants, and potential impacts on regulatory practices.\nConclude with a comprehensive evaluation of the document's overall impact or significance in the field of insurance litigation, including potential future implications for legal practices, industry standards, or regulatory frameworks.\n\nOutput Format:\n\nUse bullet points for clarity and structured flow of information.\nMaintain a professional and analytical tone suitable for legal professionals and industry experts.\nEnsure the summary remains within the 2000-3000 word limit, delivering detailed insights while maintaining coherence and focus.\nFormat your response directly in markdown without using triple backticks (```).\n\nFormatting guidelines:\n\nMain section titles should start with ###\nSubtitles should start with ####\nUse proper markdown bullet points (-)\nPresent your analysis directly in markdown format\nDO NOT wrap your markdown in code blocks\n\nTake a deep breath and work on this problem step-by-step.",
+        "agent_goal": null,
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [],
+        "tools": [],
+        "tool_usage_description": null,
+        "response_format": null,
+        "provider_id": "Google",
+        "model": "gemini/gemini-2.0-flash",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": null,
+        "tool_configs": null,
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-29T10:28:16.892000",
+        "updated_at": "2025-09-29T10:28:16.892000",
+        "llm_credential_id": "lyzr_google"
+      }
+    }
+  },
+  "blueprint_info": {
+    "documentation_data": {
+      "markdown": "# Insurance Analyzer Agent - Litigation Analyzer\n\nA sophisticated AI document analysis platform designed for legal professionals to analyze litigation documents with intelligent chat capabilities and dynamic RAG (Retrieval-Augmented Generation) technology.\n\n## \ud83d\ude80 Overview\n\nThe Insurance Agent is a comprehensive litigation analysis tool that combines advanced AI agents with dynamic RAG technology to provide intelligent document processing, analysis, and interactive chat capabilities. The platform processes PDF documents, extracts key information, and enables users to interact with their documents through an AI-powered chat interface.\n\n## \u2728 Key Features\n\n### \ud83d\udcc4 Document Processing\n- **Multi-PDF Upload**: Process multiple PDF documents simultaneously\n- **Intelligent Text Extraction**: Advanced PDF parsing with metadata extraction\n- **Document Management**: Store and manage litigation documents with MongoDB\n- **Real-time Processing**: Live progress tracking with step-by-step status updates\n\n### \ud83e\udd16 AI Agent Integration\n- **Lyzr AI Agents**: Integrated with multiple specialized AI agents:\n\u00a0 - **Chat Agent**: Interactive document Q&A (`NEXT_PUBLIC_AGENT_CHAT`)\n\u00a0 - **Short Summary Agent**: Concise document summaries (`NEXT_PUBLIC_SHORT_SUMMARY_AGENT`)\n\u00a0 - **Long Summary Agent**: Detailed document analysis (`NEXT_PUBLIC_LONG_SUMMARY_AGENT`)\n\n### \ud83e\udde0 Dynamic RAG System\n- **Intelligent Knowledge Base**: Dynamic RAG creation for each document set\n- **Contextual Retrieval**: MMR (Maximal Marginal Relevance) retrieval with configurable parameters\n- **Multi-stage Training**: RAG training with original documents and AI-generated summaries\n- **Session-based Context**: Maintains conversation context across chat sessions\n\n### \ud83d\udd10 User Management\n- **Cookie-based Authentication**: Secure user session management\n- **User Onboarding**: Guided setup process for new users\n- **API Key Management**: Individual API keys per user for Lyzr services\n- **Profile Management**: User profile and preferences tracking\n\n### \ud83d\udcca Process Tracking\n- **Real-time Status Updates**: Live progress tracking for document processing\n- **Dual Tracking Systems**: MongoDB and Supabase job storage options\n- **Error Handling**: Comprehensive error tracking and recovery\n- **Background Processing**: Asynchronous document processing with job queues\n\n## \ud83c\udfd7\ufe0f Architecture\n\n### Frontend\n- **Next.js 15**: React-based application with App Router\n- **TypeScript**: Full type safety and development experience\n- **Tailwind CSS**: Modern, responsive UI design\n- **Redux Toolkit**: State management for user authentication and onboarding\n- **PDF.js**: Client-side PDF rendering and interaction\n\n### Backend\n- **Next.js API Routes**: Serverless API endpoints\n- **MongoDB**: Primary database for user data and document storage\n- **Supabase**: Alternative storage option for job management\n- **Mongoose**: MongoDB object modeling and validation\n\n### AI Integration\n- **Lyzr Studio SDK**: Direct integration with Lyzr AI platform\n- **Dynamic RAG**: Real-time knowledge base creation and management\n- **Multi-Agent Architecture**: Specialized agents for different tasks\n\n## \ud83d\udd27 Technology Stack\n\n### Core Technologies\n- **Next.js 15.1.7**: React framework with App Router\n- **React 18.2.0**: Frontend library\n- **TypeScript 5**: Type-safe JavaScript\n- **Tailwind CSS 3.4.1**: Utility-first CSS framework\n\n### Database & Storage\n- **MongoDB**: Document database with Mongoose ODM\n- **Supabase**: Alternative database and authentication\n- **Mongoose 8.14.2**: MongoDB object modeling\n\n### AI & ML\n- **Lyzr Agent SDK**: AI agent integration\n- **OpenAI 4.77.0**: AI model integration\n- **PDF Processing**: pdf-parse, pdfjs-dist for document handling\n\n### UI Components\n- **Framer Motion 11.15.0**: Animation library\n- **Lucide React**: Icon library\n- **React PDF**: PDF rendering components\n- **Lottie Files**: Animation components\n\n## \ud83d\ude80 Getting Started\n\n### Prerequisites\n- Node.js 18+\u00a0\n- MongoDB database\n- Lyzr AI API access\n- Supabase account (optional)\n\n### Installation\n\n1. **Clone the repository**\n\u00a0 \u00a0```bash\n\u00a0 \u00a0git clone <repository-url>\n\u00a0 \u00a0cd accenture-insurance-agent\n\u00a0 \u00a0```\n\n2. **Install dependencies**\n\u00a0 \u00a0```bash\n\u00a0 \u00a0npm install\n\u00a0 \u00a0```\n\n3. **Environment Setup**\n\u00a0 \u00a0```bash\n\u00a0 \u00a0cp .env.example .env.local\n\u00a0 \u00a0```\n\u00a0 \u00a0Configure your environment variables (see Environment Variables section)\n\n4. **Start development server**\n\u00a0 \u00a0```bash\n\u00a0 \u00a0npm run dev\n\u00a0 \u00a0```\n\n5. **Access the application**\n\u00a0 \u00a0Open [http://localhost:3000](http://localhost:3000) in your browser\n\n### Build for Production\n```bash\nnpm run build\nnpm start\n```\n\n## \ud83d\udd11 Environment Variables\n\nCreate a `.env.local` file with the following variables:\n\n### Required Variables\n```env\n# MongoDB Configuration\nNEXT_PUBLIC_MONGODB_URI=mongodb://localhost:27017/litigation-agent\n\n# Lyzr AI Configuration\nNEXT_PUBLIC_LYZR_API_KEY=your_lyzr_api_key_here\n\n# AI Agent IDs\nNEXT_PUBLIC_AGENT_CHAT=your_chat_agent_id\nNEXT_PUBLIC_SHORT_SUMMARY_AGENT=your_short_summary_agent_id\nNEXT_PUBLIC_LONG_SUMMARY_AGENT=your_long_summary_agent_id\n\n# Supabase Configuration (Optional)\nNEXT_PUBLIC_SUPABASE_URL=your_supabase_url\nNEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key\n```\n\nSee `.env.example` for complete configuration details.\n\n## \ud83d\udcc1 Project Structure\n\n```\naccenture-insurance-agent/\n\u251c\u2500\u2500 app/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # Next.js App Router\n\u2502\u00a0 \u00a0\u251c\u2500\u2500 api/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # API routes\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u251c\u2500\u2500 auth/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0# Authentication endpoints\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u251c\u2500\u2500 chat/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0# Chat API with RAG integration\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u251c\u2500\u2500 litigation-document/\u00a0 # Document processing\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u251c\u2500\u2500 litigation-summary/\u00a0 \u00a0# Summary generation\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u2514\u2500\u2500 process-status/\u00a0 \u00a0 \u00a0 \u00a0# Status tracking\n\u2502\u00a0 \u00a0\u251c\u2500\u2500 pdf-insights-chat/\u00a0 \u00a0 \u00a0 \u00a0 # Main chat interface\n\u2502\u00a0 \u00a0\u251c\u2500\u2500 onboarding/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0# User onboarding flow\n\u2502\u00a0 \u00a0\u2514\u2500\u2500 process-status/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0# Status tracking UI\n\u251c\u2500\u2500 components/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0# React components\n\u2502\u00a0 \u00a0\u251c\u2500\u2500 ui/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0# UI components\n\u2502\u00a0 \u00a0\u251c\u2500\u2500 AuthProvider.tsx\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # Authentication context\n\u2502\u00a0 \u00a0\u2514\u2500\u2500 ProfileHeader.tsx\u00a0 \u00a0 \u00a0 \u00a0 \u00a0# User profile component\n\u251c\u2500\u2500 lib/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # Utility libraries\n\u2502\u00a0 \u00a0\u2514\u2500\u2500 mongodb.ts\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # Database connection\n\u251c\u2500\u2500 models/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0# Mongoose models\n\u2502\u00a0 \u00a0\u251c\u2500\u2500 User.ts\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0# User model\n\u2502\u00a0 \u00a0\u251c\u2500\u2500 LitigationDoc.ts\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # Document model\n\u2502\u00a0 \u00a0\u2514\u2500\u2500 BatchJob.ts\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0# Job tracking model\n\u251c\u2500\u2500 utils/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # Utility functions\n\u2502\u00a0 \u00a0\u251c\u2500\u2500 LyzrApiCall.ts\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # Lyzr AI integration\n\u2502\u00a0 \u00a0\u251c\u2500\u2500 ragApiCall.ts\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0# RAG operations\n\u2502\u00a0 \u00a0\u251c\u2500\u2500 processStatus.ts\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # Status tracking\n\u2502\u00a0 \u00a0\u2514\u2500\u2500 auth.ts\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0# Authentication utilities\n\u2514\u2500\u2500 store/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # Redux store\n\u00a0 \u00a0 \u2514\u2500\u2500 onboardingSlice.ts\u00a0 \u00a0 \u00a0 \u00a0# Onboarding state\n```\n\n## \ud83d\udd04 Dynamic RAG Workflow\n\n### 1. Document Upload\n- User uploads PDF documents\n- System extracts text and metadata\n- Creates unique RAG instance for document set\n\n### 2. RAG Training\n- **Stage 1**: Train with original document text\n- **Stage 2**: Generate AI summaries using specialized agents\n- **Stage 3**: Train RAG with AI-generated summaries\n- **Stage 4**: Enable contextual chat capabilities\n\n### 3. Chat Integration\n- RAG provides contextual document retrieval\n- MMR algorithm ensures diverse, relevant results\n- Configurable parameters (top_k=7, score_threshold=0)\n- Session-based conversation context\n\n## \ud83d\udd10 Authentication Flow\n\n### User Registration\n1. User visits application\n2. System generates unique user ID and API key\n3. User data stored in MongoDB\n4. Onboarding process initiated\n\n### Session Management\n- Cookie-based authentication\n- Secure token storage\n- Automatic session validation\n- User profile management\n\n## \ud83d\udcca Process Tracking\n\n### MongoDB-based Tracking\n- Real-time status updates\n- Step-by-step progress tracking\n- Error handling and recovery\n- Document and RAG ID management\n\n### Supabase Alternative\n- Job queue management\n- Background processing\n- Status polling system\n- Result storage\n\n## \ud83d\udee0\ufe0f API Endpoints\n\n### Authentication\n- `GET /api/auth` - User authentication\n- `PUT /api/auth` - Update user status\n\n### Document Processing\n- `POST /api/litigation-document` - Process PDF documents\n- `POST /api/litigation-summary` - Generate document summaries\n- `POST /api/process-pdf` - PDF processing with RAG\n\n### Chat & RAG\n- `POST /api/chat` - Interactive chat with RAG\n- `POST /api/litigation-documents/[id]/train` - Train RAG\n\n### Status Tracking\n- `GET /api/process-status/[id]` - Get processing status\n- `GET /api/jobs/[id]` - Get job status\n\n## \ud83d\ude80 Deployment\n\n### Vercel Deployment\n1. Connect your GitHub repository to Vercel\n2. Configure environment variables in Vercel dashboard\n3. Deploy automatically on push to main branch\n\n### Docker Deployment\n```bash\n# Build Docker image\ndocker build -t litigation-agent .\n\n# Run container\ndocker run -p 3000:3000 --env-file .env.local litigation-agent\n```\n\n## \ud83e\udd1d Contributing\n\n1. Fork the repository\n2. Create a feature branch (`git checkout -b feature/amazing-feature`)\n3. Commit your changes (`git commit -m 'Add amazing feature'`)\n4. Push to the branch (`git push origin feature/amazing-feature`)\n5. Open a Pull Request\n\n## \ud83d\udcdd License\n\nThis project is licensed under the MIT License - see the LICENSE file for details.\n\n## \ud83c\udd98 Support\n\nFor support and questions:\n- Create an issue in the GitHub repository\n- Contact the development team\n- Check the documentation for common issues\n\n## \ud83d\udd2e Future Enhancements\n\n- **Multi-language Support**: Support for documents in multiple languages\n- **Advanced Analytics**: Document analysis metrics and insights\n- **Collaboration Features**: Multi-user document sharing and collaboration\n- **API Rate Limiting**: Enhanced API security and rate limiting\n- **Mobile App**: React Native mobile application\n- **Advanced RAG**: Enhanced retrieval algorithms and vector search\n\n---\n\nBuilt with \u2764\ufe0f by the Lyzr team"
+    },
+    "type": "markdown"
+  },
+  "version": "1.0.0",
+  "tags": [
+    "Insurance",
+    "Legal",
+    "Analysis"
+  ],
+  "category": "data-analysis",
+  "status": "draft",
+  "is_template": false,
+  "parent_blueprint_id": null,
+  "usage_count": 0,
+  "last_used_at": null,
+  "created_at": "2025-09-29T10:44:09.681000",
+  "updated_at": "2025-09-29T10:44:09.681000",
+  "published_at": null,
+  "is_owner": false,
+  "can_edit": false,
+  "can_share": false,
+  "can_delete": false,
+  "owner_name": null,
+  "owner_email": null,
+  "organization_name": null
+}

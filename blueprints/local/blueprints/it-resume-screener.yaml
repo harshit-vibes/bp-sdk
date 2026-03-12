@@ -1,0 +1,123 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: IT Candidate Resume Screener
+  description: Automated resume screening for IT and technical positions. 
+    Extracts candidate information, categorizes technical skills, evaluates 
+    experience depth, and provides scored assessments with hiring 
+    recommendations.
+  category: people
+  tags:
+    - people
+    - starter
+    - resume-screening
+    - recruiting
+    - hr-tech
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Technical recruiters receive hundreds of resumes for IT positions. Each resume needs to be read, parsed for relevant skills, evaluated against job requirements, and categorized for follow-up. This manual screening process is the first bottleneck in technical hiring.
+
+    ### The Challenge
+    IT resumes are dense with technical jargon, acronyms, and varied formats. Recruiters without deep technical knowledge struggle to accurately assess candidate qualifications. Even experienced recruiters apply inconsistent criteria across candidates, leading to qualified candidates being overlooked.
+
+    ### What's At Stake
+    Poor resume screening wastes engineering time on unqualified candidates while missing strong matches. In competitive talent markets, slow screening means losing top candidates to faster-moving companies. Inconsistent evaluation exposes companies to bias concerns and compliance risks.
+
+    > **Demo Note**: This blueprint screens IT/software engineering resumes. Input resumes as plain text. For best results, also provide job requirements to enable targeted scoring.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Resume screening follows a predictable pattern: extract information, categorize skills, evaluate against requirements, score, recommend. A single well-tuned agent can perform all these steps consistently and quickly, applying the same rigorous criteria to every candidate.
+
+    ### The Method
+    The IT Resume Screener agent processes resume text through a structured evaluation pipeline. It extracts candidate details, categorizes technical skills into standard groupings (languages, frameworks, databases, cloud, tools), assesses experience relevance, and produces a weighted score with clear recommendation.
+
+    ### Why This Works
+    Consistent criteria means every candidate gets fair evaluation. Structured output makes comparison easy. Fast processing (under 30 seconds) enables high-volume screening. JSON output integrates with ATS systems and hiring workflows.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Parses unstructured resume text into structured candidate profiles
+    - Extracts and categorizes technical skills (languages, frameworks, databases, cloud, tools)
+    - Calculates years of relevant experience from work history
+    - Scores candidates on 0-100 scale with weighted criteria
+    - Provides hiring recommendations: Strong Pass, Pass, Conditional, No Match
+
+    ### Scoring Breakdown
+    - Technical Skills Match: 40% weight
+    - Experience Relevance: 30% weight
+    - Education and Certifications: 20% weight
+    - Additional Factors: 10% weight (projects, contributions, continuous learning)
+
+    ### Output Includes
+    - Structured candidate profile (contact, experience years)
+    - Categorized skills inventory
+    - Experience summary with key achievements
+    - Education and certifications
+    - Overall score with component breakdown
+    - Strengths and gaps analysis
+    - Clear recommendation with reasoning
+    - Suggested interview focus areas
+
+    ### Boundaries
+    - Requires plain text resume input (extract from PDF/DOCX first)
+    - Optimized for IT and software engineering roles
+    - English language resumes only
+    - Does not verify credentials or employment history
+    - Does not assess soft skills beyond resume evidence
+    - Does not make final hiring decisions
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    None - works out of the box for general IT screening. Optionally provide job requirements for targeted scoring.
+
+    ### Your First Run
+    Try this sample resume:
+
+    "Sarah Chen - Software Engineer
+
+    EXPERIENCE
+    Senior Software Engineer at CloudTech Inc (2021-Present)
+    - Built microservices using Python, FastAPI, and PostgreSQL
+    - Deployed applications on AWS using ECS, Lambda, and RDS
+    - Implemented CI/CD pipelines with GitHub Actions
+    - Mentored 3 junior engineers
+
+    Software Engineer at StartupXYZ (2019-2021)
+    - Developed REST APIs with Django and Flask
+    - Worked with Redis for caching and Celery for background jobs
+    - Contributed to React frontend components
+
+    EDUCATION
+    BS Computer Science, UC Berkeley (2019)
+    AWS Solutions Architect Associate (2022)
+
+    SKILLS
+    Python, JavaScript, TypeScript, SQL, Docker, Kubernetes, AWS, PostgreSQL, Redis, FastAPI, Django, React, Git"
+
+    ### Pro Tips
+    - **Include Job Requirements**: Adding required skills list significantly improves scoring accuracy
+    - **Use Plain Text**: Convert PDFs to text before submitting for best parsing results
+    - **Batch Processing**: Screen multiple resumes in sequence for consistent comparison
+    - **Customize Weights**: Modify scoring weights in agent instructions for your priorities
+
+root_agents:
+  - ../agents/resume-screening-coordinator.yaml
+ids:
+  blueprint: 3cc6899a-f3f1-4a6e-b6cc-56514e3cc978
+  agents:
+    ../agents/resume-screening-coordinator.yaml: 695bc2586363be71980ee70d
+    ../agents/it-resume-screener-agent.yaml: 695bc257a45696ac999e2a22

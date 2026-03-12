@@ -1,0 +1,169 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: FinTech Lab Alumni LinkedIn Writer
+  description: Automated production of evidence-backed LinkedIn articles for 
+    FinTech Innovation Lab New York alumni companies. Scrapes official alumni 
+    data, autonomously discovers recent news, verifies all claims against 
+    sources, and generates standardized articles with full evidence 
+    documentation.
+  category: marketing
+  tags:
+    - marketing
+    - content-generation
+    - linkedin
+    - fintech
+    - research
+    - multi-agent
+  visibility: organization
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    The FinTech Innovation Lab wants to showcase alumni company success stories on LinkedIn. Each article needs to highlight the company's Lab participation, recent achievements, and industry relevance. With 450+ alumni companies across three global programs, producing high-quality content at scale is challenging.
+
+    ### The Challenge
+    Creating credible LinkedIn articles requires:
+    - Accurate extraction of official Lab program data
+    - Autonomous discovery of recent, verifiable news (no manual inputs)
+    - Rigorous fact-checking to ensure every claim is evidence-backed
+    - Consistent article structure that reinforces the Lab's brand
+    - Clear separation between Lab-period activities and post-graduation news
+
+    Manual research and writing is time-intensive and prone to inconsistency. Copy-paste errors, unverified claims, or stale information can damage credibility.
+
+    ### What's At Stake
+    Inaccurate articles erode trust with alumni companies, financial institution partners, and the broader fintech community. Each article represents the Lab's reputation. Quality cannot be compromised for speed.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Article production can be decomposed into four distinct, verifiable steps: data extraction, news discovery, fact verification, and content generation. Each step has clear inputs, outputs, and quality criteria that can be automated and validated.
+
+    ### The Method
+    A coordinator agent orchestrates four specialized workers in sequence:
+
+    1. **Alumni Data Extractor** - Scrapes the official Lab alumni page for company profile, graduation year, and Lab description
+    2. **News Discovery Agent** - Autonomously searches tiered sources (company newsroom, regulators, major publications, wire services) for 3-6 recent news items
+    3. **Fact Verification Agent** - Validates every claim against its source, ensures temporal accuracy, flags unverifiable content
+    4. **LinkedIn Article Writer** - Produces the standardized article with inline citations and structure compliance
+
+    Quality gates between each step ensure problems are caught early. The workflow only proceeds when verification passes.
+
+    ### Why This Works
+    - **No manual news input required** - The News Discovery Agent autonomously finds and validates sources
+    - **Evidence traceability** - Every claim maps to a specific URL
+    - **Temporal integrity** - Clear separation between Lab activities and post-graduation news
+    - **Consistent format** - Every article follows the exact same structure
+    - **Transparent quality** - QA flags surface any concerns before publishing
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Extracts company data from FinTech Innovation Lab alumni page
+    - Discovers 3-6 recent news items per company autonomously
+    - Verifies all claims against cited sources
+    - Generates LinkedIn-ready articles (Markdown and plain text)
+    - Produces evidence packs mapping claims to sources
+    - Flags missing, ambiguous, or unverifiable information
+
+    ### Article Structure (Standardized)
+    Every article includes:
+    - Title: "From Lab Cohort to Market Momentum: Company Name (FinTech Innovation Lab NY Year)"
+    - Opening hook explaining what the company does
+    - Lab Snapshot with graduation year and official Lab description only
+    - What's New section with 3-6 cited news bullets
+    - Why It Matters section connecting to FI relevance
+    - Standardized closing paragraph about the Lab program
+
+    ### News Source Hierarchy
+    Sources are prioritized in this order:
+    1. Company newsroom and official press releases
+    2. Regulatory filings (SEC, FINRA, state regulators)
+    3. Major publications (WSJ, FT, Bloomberg, Reuters)
+    4. Wire services (Business Wire, PR Newswire)
+    5. Industry publications (American Banker, Finextra, TechCrunch)
+
+    ### Quality Guardrails
+    - No inferred or speculative accomplishments
+    - No fabricated partnerships or outcomes
+    - No mixing of Lab-period and post-Lab activities
+    - Every claim requires a verifiable source URL
+    - Companies with unresolvable data are flagged, not guessed
+
+    ### Deliverables Per Company
+    1. LinkedIn article in Markdown format
+    2. LinkedIn article in plain text (ready to paste)
+    3. Evidence pack with source-to-claim mapping
+    4. QA report with flags categorized by severity
+
+    ### Boundaries
+    - Only covers FinTech Innovation Lab New York alumni
+    - News search defaults to 120 days (expands to 12 months if needed)
+    - Cannot verify paywalled content without access
+    - Does not predict future company performance
+    - English language output only
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - Access to the FinTech Innovation Lab alumni page
+    - Web search capability enabled for News Discovery Agent
+    - Perplexity API access (for sonar-reasoning-pro model)
+
+    ### Your First Run
+    Try: "Create a LinkedIn article for Plaid"
+
+    The system will:
+    1. Extract Plaid's official Lab profile (2013 cohort)
+    2. Discover recent news about Plaid's partnerships, products, and funding
+    3. Verify all claims against sources
+    4. Generate the complete article package
+
+    ### Pro Tips
+    - **Batch Processing**: Process multiple companies by providing a list
+    - **Review QA Flags**: Always check the QA report before publishing
+    - **Update Cadence**: Re-run for companies quarterly to capture new developments
+    - **Source Preferences**: Higher-tier sources (1-3) produce more credible articles
+
+    ### Output Interpretation
+    - **READY**: Article passed all quality gates, ready to publish
+    - **NEEDS_HUMAN_REVIEW**: Minor flags exist, human should verify before publishing
+    - **NOT_RECOMMENDED**: Critical issues found, do not publish without resolution
+
+    ---
+
+    ## Technical Notes
+
+    ### Model Selection
+    - Coordinator: gpt-4o (orchestration intelligence)
+    - News Discovery: perplexity/sonar-reasoning-pro (real-time web search)
+    - Other Workers: gpt-4o-mini (cost-efficient structured tasks)
+
+    ### Workflow Timing
+    - Typical article: 2-3 minutes
+    - Companies with limited news: 3-4 minutes (extended search)
+    - Batch of 10 companies: 20-30 minutes
+
+    ### Cost Optimization
+    - News Discovery uses Perplexity (most expensive step)
+    - Fact Verification and Writing use gpt-4o-mini
+    - Caching alumni data reduces repeated extractions
+
+root_agents:
+  - ../agents/lab-alumni-article-coordinator.yaml
+ids:
+  blueprint: 6d6049f2-5006-4354-8ad4-6c9d65c6e3b4
+  agents:
+    ../agents/lab-alumni-article-coordinator.yaml: 695b87e9c2dad05ba69ace8b
+    ../agents/alumni-data-extractor.yaml: 695b87e6c2dad05ba69ace89
+    ../agents/news-discovery-agent.yaml: 695b87e7457887dd859fa9ed
+    ../agents/fact-verification-agent.yaml: 695b87e7c2dad05ba69ace8a
+    ../agents/linkedin-article-writer.yaml: 695b87e8457887dd859fa9ee

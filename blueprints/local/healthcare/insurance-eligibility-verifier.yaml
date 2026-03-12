@@ -1,0 +1,82 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Insurance Eligibility Verifier
+  description: Multi-agent system that verifies patient insurance coverage, 
+    analyzes benefits for specific services, and calculates patient financial 
+    responsibility. Reduces eligibility verification time from hours to minutes.
+  category: customer
+  tags:
+    - healthcare
+    - insurance
+    - eligibility
+    - benefits
+  visibility: public
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Front desk staff spend hours daily verifying insurance eligibility. They call payers, navigate phone trees, and manually extract coverage details. Appointments proceed without confirmed coverage.
+
+    ### The Challenge
+    Insurance verification requires understanding complex benefit structures, deductibles, copays, and coverage limitations. Each payer presents information differently. Staff must translate this into patient responsibility estimates.
+
+    ### What's At Stake
+    Unverified eligibility leads to claim denials and patient balance write-offs. Patients receive unexpected bills. Providers deliver care without payment assurance. Collections costs increase.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Eligibility verification follows a standard pattern: confirm active coverage, check service-specific benefits, calculate patient responsibility. Each step builds on the previous.
+
+    ### The Method
+    Three specialists work sequentially. The Coverage Checker verifies active coverage status and plan details. The Benefits Analyzer determines coverage for specific services. The Patient Responsibility Calculator computes out-of-pocket costs.
+
+    ### Why This Works
+    Structured verification catches issues early. Active coverage is confirmed before checking benefits. Service coverage is verified before calculating costs. Each step validates assumptions from the previous step.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Verifies active coverage status and effective dates
+    - Identifies plan type and network status
+    - Analyzes benefits for specific services
+    - Calculates copays, deductibles, and coinsurance
+
+    ### Extended Capabilities
+    - Identifies pre-authorization requirements
+    - Flags coverage limitations and exclusions
+    - Provides patient cost estimates
+    - Documents verification for billing records
+
+    ### Boundaries
+    - Requires insurance information as input
+    - Cannot access payer systems directly
+    - Estimates based on provided information
+    - Actual costs may vary based on claims processing
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - Patient insurance information (payer, plan, member ID)
+    - Service or procedure being scheduled
+    - Provider network status if known
+
+    ### Your First Run
+    Provide: 'Verify eligibility for John Smith, BlueCross PPO, Member ID 123456789, DOB 01/15/1980. Scheduled for office visit and labs. Provider is in-network.'
+
+    ### Pro Tips
+    - Include complete insurance card information
+    - Specify exact services planned
+    - Note if provider is in or out of network
+    - Mention any known deductible information
+
+root_agents:
+  - agents/eligibility-coordinator.yaml

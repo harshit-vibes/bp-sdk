@@ -1,0 +1,143 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Email Campaign Performance Analyzer
+  description: Analyzes email marketing campaign metrics including open rates, 
+    click rates, conversions, A/B test results, and send time patterns to 
+    deliver actionable optimization recommendations for improving campaign 
+    performance.
+  category: marketing
+  tags:
+    - marketing
+    - email-marketing
+    - analytics
+    - campaign-optimization
+    - ab-testing
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Marketing teams send email campaigns regularly but often struggle to extract meaningful insights from performance data. Open rates, click rates, A/B test results, and segment performance all need to be analyzed together to understand what's really working.
+
+    ### The Challenge
+    Raw metrics don't tell the full story. A 25% open rate might be excellent for one industry but poor for another. A/B test results need statistical interpretation. Segment differences need context. Without proper analysis, teams make decisions on incomplete information.
+
+    ### What's At Stake
+    Unoptimized email campaigns waste budget and audience attention. Poor subject lines reduce opens. Bad send times miss engaged audiences. Untested assumptions become embedded as "best practices" without validation. The opportunity cost of suboptimal campaigns compounds over time.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Effective campaign analysis requires both quantitative metrics analysis and strategic recommendation generation. These are distinct skills that benefit from specialization.
+
+    ### The Method
+    A Campaign Analysis Coordinator orchestrates two specialists:
+
+    1. **Metrics Analyzer**: Calculates KPIs, compares to benchmarks, interprets A/B test statistical significance, analyzes segment performance, and identifies send time patterns
+    2. **Optimization Strategist**: Generates subject line recommendations, send time optimizations, segmentation strategies, content improvements, and A/B testing roadmaps
+
+    The workflow is sequential: metrics analysis informs strategic recommendations.
+
+    ### Why This Works
+    The Metrics Analyzer focuses purely on what the data says, without jumping to conclusions. The Optimization Strategist then applies marketing best practices to those findings. The coordinator synthesizes both into a prioritized action plan. This separation prevents confirmation bias and ensures recommendations are grounded in data.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Calculates and benchmarks key performance indicators
+    - Interprets A/B test results with statistical significance
+    - Analyzes segment-level performance differences
+    - Identifies optimal send time windows
+    - Generates prioritized optimization recommendations
+
+    ### Analysis Types
+    - Open rate, click rate, conversion rate analysis
+    - Click-to-open rate interpretation
+    - A/B test winner determination with confidence levels
+    - Segment performance ranking and comparison
+    - Send time pattern detection
+    - Benchmark comparison (B2B, B2C, E-commerce)
+
+    ### Recommendation Categories
+    - Subject line optimization (length, personalization, urgency)
+    - Send time tuning (day, time, timezone)
+    - Audience segmentation strategies
+    - Content and CTA improvements
+    - Future A/B test roadmap
+
+    ### Supported Inputs
+    - Campaign metrics (sent, opens, clicks, conversions)
+    - Segment breakdowns with per-segment metrics
+    - A/B test variants with results
+    - Send time distribution data
+    - Historical campaign comparison data
+
+    ### Boundaries
+    - Requires actual campaign data (cannot generate from scratch)
+    - Statistical significance requires adequate sample sizes
+    - Recommendations are guidance, not guaranteed results
+    - Industry benchmarks are general, not company-specific
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    Export your campaign data from your email platform (Mailchimp, HubSpot, Klaviyo, etc.)
+
+    ### Your First Run
+    Try this prompt:
+
+    "Analyze this email campaign performance:
+
+    Campaign: Summer Sale Announcement
+    Sent: July 15, 2024
+
+    Overall Metrics:
+    - Total Sent: 25,000
+    - Opens: 5,500 (22%)
+    - Clicks: 750 (3%)
+    - Conversions: 125 (0.5%)
+
+    Segment Performance:
+    - VIP Customers (5,000 sent): 32% open rate, 6% click rate
+    - Regular Customers (15,000 sent): 20% open rate, 2.5% click rate
+    - New Subscribers (5,000 sent): 18% open rate, 2% click rate
+
+    A/B Test (Subject Line):
+    - Variant A: 'Summer Sale: Up to 50% Off' - 21% open rate (12,500 sent)
+    - Variant B: 'Your Exclusive Summer Savings Inside' - 23% open rate (12,500 sent)
+
+    Send Times:
+    - 8am: 8,000 sent, 20% open rate
+    - 12pm: 9,000 sent, 24% open rate
+    - 6pm: 8,000 sent, 21% open rate"
+
+    ### Pro Tips
+    - **Include Benchmarks**: Mention your industry for relevant comparisons
+    - **Provide Context**: Note any external factors (holidays, promotions, website issues)
+    - **Share History**: Compare to previous campaigns for trend analysis
+    - **Ask Specifics**: Focus on particular areas ("focus on subject line optimization")
+    - **Follow Up**: Run analysis monthly to track improvement
+
+    ### Example Use Cases
+    - Post-campaign performance review
+    - Monthly email marketing report
+    - A/B test result interpretation
+    - Send time optimization study
+    - Segment strategy refinement
+
+root_agents:
+  - ../agents/campaign-analysis-coordinator.yaml
+ids:
+  blueprint: d686f995-b5df-4f76-b971-7303697b1bae
+  agents:
+    ../agents/campaign-analysis-coordinator.yaml: 695bd028c2dad05ba69ad6a7
+    ../agents/metrics-analyzer.yaml: 695bd023c2dad05ba69ad6a5
+    ../agents/optimization-strategist.yaml: 695bd027457887dd859fb24a

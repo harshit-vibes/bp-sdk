@@ -1,0 +1,2 @@
+[console_scripts]
+bp = sdk.cli.main:app

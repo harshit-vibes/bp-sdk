@@ -1,0 +1,148 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Multi-Modal Vision and Text Agent
+  description: Combined vision and text processing for comprehensive document 
+    understanding with parallel visual analysis, text extraction, layout 
+    understanding, and multi-modal synthesis.
+  category: featured
+  tags:
+    - featured
+    - multi-agent
+    - multimodal
+    - vision
+    - document-understanding
+    - ocr
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Modern documents combine text, images, charts, diagrams, and complex layouts. Understanding them requires both reading text and interpreting visual elements. Single-modality analysis misses half the picture.
+
+    ### The Challenge
+    Documents encode meaning in multiple ways: explicit text, visual representations of data, spatial organization, and relationships between elements. Comprehensive understanding requires analyzing and integrating all modalities.
+
+    ### What's At Stake
+    Missing visual information means missing data in charts, context in images, and meaning in layout. Incomplete document understanding leads to incomplete decisions.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    True document understanding requires multi-modal analysis: extracting visual information, capturing text content, understanding layout structure, and synthesizing these into unified comprehension.
+
+    ### The Method
+    A Multi-Modal Coordinator orchestrates four specialists:
+
+    1. **Image Analyzer**: Analyzes visual elements including photographs, charts, diagrams, logos, and embedded graphics. Extracts data from visualizations.
+
+    2. **Document Text Extractor**: Captures all text content with structure preservation. Maintains hierarchy, lists, tables, and formatting context.
+
+    3. **Layout Analyzer**: Understands document spatial organization. Maps reading flow, content zones, and relationships between regions.
+
+    4. **Multi-Modal Synthesizer**: Integrates visual, textual, and structural analysis into unified document understanding with cross-modal insights.
+
+    ### Why This Works
+    Parallel extraction maximizes information capture. Specialized agents handle each modality expertly. Synthesis creates understanding greater than the sum of parts. The result is comprehensive document intelligence.
+
+    ---
+
+    ## Capabilities
+
+    ### Visual Analysis
+    - Object and scene recognition
+    - Chart and graph interpretation
+    - Diagram and flowchart understanding
+    - Logo and brand identification
+    - Image quality assessment
+
+    ### Text Extraction
+    - Full text capture
+    - Structure preservation
+    - Hierarchy maintenance
+    - Table extraction
+    - Metadata capture
+
+    ### Layout Understanding
+    - Spatial organization mapping
+    - Reading flow determination
+    - Content zone identification
+    - Visual hierarchy analysis
+    - Multi-column handling
+
+    ### Multi-Modal Synthesis
+    - Cross-modal integration
+    - Conflict resolution
+    - Unified interpretation
+    - Key insight extraction
+    - Actionable summaries
+
+    ### Document Types Supported
+    - Reports and presentations
+    - Forms and applications
+    - Contracts and agreements
+    - Technical documents
+    - Marketing materials
+    - Financial statements
+
+    ### Boundaries
+    - Best for documents with mixed content
+    - Requires clear image quality
+    - Works with standard document formats
+    - May need OCR for scanned documents
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - A document with text and visual elements
+    - Clear, readable image quality
+    - Defined analysis objectives
+
+    ### Your First Run
+    Try this prompt:
+
+    "Analyze this quarterly financial report. Extract all the key metrics from the charts, summarize the executive summary text, and identify the main business insights."
+
+    ### Pro Tips
+    - **Provide Context**: Mention what type of document it is
+    - **Specify Focus**: Indicate what information you need most
+    - **Ask Questions**: Request specific insights or data points
+    - **Request Comparison**: Ask to compare visual data with text claims
+
+    ### Example Use Cases
+    - Financial report analysis
+    - Contract review with exhibits
+    - Technical documentation understanding
+    - Marketing material assessment
+    - Research paper comprehension
+    - Form and application processing
+
+    ### Sample Interactions
+
+    Financial Report:
+    Input: "Analyze this annual report including the revenue charts and executive letter"
+    Output: Integrated analysis of financial metrics, text summaries, and cross-referenced insights
+
+    Technical Document:
+    Input: "Extract the architecture diagram details and relate them to the specification text"
+    Output: Diagram components linked to textual descriptions with unified technical understanding
+
+    Contract with Exhibits:
+    Input: "Review this contract including the attached floor plans and pricing tables"
+    Output: Contract terms connected to visual exhibits with comprehensive agreement analysis
+
+root_agents:
+  - ../agents/multimodal-coordinator.yaml
+ids:
+  blueprint: 37274bdb-6da0-4008-83ba-07951492edcf
+  agents:
+    ../agents/multimodal-coordinator.yaml: 695c78fba45696ac999e31e1
+    ../agents/image-analyzer.yaml: 695c78f9a45696ac999e31df
+    ../agents/document-text-extractor.yaml: 695c78f96363be71980eee72
+    ../agents/layout-analyzer.yaml: 695c78faa45696ac999e31e0
+    ../agents/multimodal-synthesizer.yaml: 695c78fb6363be71980eee73

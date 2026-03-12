@@ -1,0 +1,106 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: SaaS Vendor Comparison Analyst
+  description: Technology procurement assistant that evaluates and compares SaaS
+    vendors across functionality, pricing, ease of use, integration, support, 
+    and security. Produces detailed comparison matrices with scores and 
+    recommendations.
+  category: finance
+  tags:
+    - finance
+    - starter
+    - procurement
+    - vendor-evaluation
+    - saas
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Organizations regularly evaluate SaaS tools for various functions - CRM, project management, HR, finance. Each evaluation requires researching multiple vendors, comparing features, understanding pricing, and making recommendations.
+
+    ### The Challenge
+    Vendor evaluation is time-consuming and inconsistent. Different evaluators use different criteria. Feature lists are hard to compare across vendors. Pricing models vary widely. Important factors like integration and security are often overlooked.
+
+    ### What's At Stake
+    Poor vendor selection leads to wasted budget, implementation failures, and switching costs. Teams stuck with wrong tools lose productivity. Security gaps create compliance risks. The evaluation process itself consumes valuable time.
+
+    > **Demo Note**: This blueprint uses publicly available vendor information. For purchasing decisions, always verify details directly with vendors and conduct product demos.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Vendor evaluation follows a structured methodology. By applying consistent criteria across all vendors and weighting factors based on organizational priorities, we can produce objective, comparable assessments.
+
+    ### The Method
+    A Vendor Evaluation Coordinator gathers requirements and criteria, then delegates to a Vendor Comparison Analyst who produces detailed comparison matrices. The analyst scores vendors across six categories and provides clear recommendations.
+
+    ### Why This Works
+    Structured evaluation ensures all important factors are considered. Weighted scoring reflects organizational priorities. Comparison matrices make tradeoffs visible. Clear recommendations accelerate decision-making.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Compares SaaS vendors across multiple evaluation criteria
+    - Scores vendors on functionality, pricing, ease of use, integration, support, security
+    - Produces weighted comparison matrices
+    - Provides clear recommendations with reasoning
+    - Identifies strengths and weaknesses for each vendor
+
+    ### Vendor Categories Covered
+    - Project Management (Asana, Monday, Jira, etc.)
+    - CRM (Salesforce, HubSpot, Pipedrive, etc.)
+    - Marketing Automation (HubSpot, Marketo, Mailchimp, etc.)
+    - Communication (Slack, Teams, Zoom, etc.)
+    - HR and People (Workday, BambooHR, Rippling, etc.)
+    - Finance (QuickBooks, Xero, NetSuite, etc.)
+    - Customer Support (Zendesk, Intercom, Freshdesk, etc.)
+    - Development Tools (GitHub, GitLab, Linear, etc.)
+
+    ### Output Includes
+    - Executive summary
+    - Detailed comparison matrix with scores
+    - Per-vendor analysis (strengths, weaknesses, best for)
+    - Primary recommendation with reasoning
+    - Alternative recommendations
+    - Demo questions and negotiation tips
+
+    ### Boundaries
+    - Based on general market knowledge
+    - Pricing may be outdated (verify with vendors)
+    - Cannot access vendor-specific customer data
+    - Recommendations are starting points, not final decisions
+    - Always verify claims during vendor demos
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    None - works out of the box with vendor knowledge.
+
+    ### Your First Run
+    Try this prompt:
+
+    "Compare project management tools for a 50-person software development team. We need strong Jira alternative with better UX. Key requirements: sprint planning, roadmaps, GitHub integration. Budget: under $15 per user per month. Compare: Linear, Shortcut, ClickUp, and Asana."
+
+    ### Pro Tips
+    - **Be Specific About Use Case**: The clearer your requirements, the better the analysis
+    - **Include Budget**: Helps filter and score pricing appropriately
+    - **List Must-Haves**: Distinguish requirements from nice-to-haves
+    - **Mention Integrations**: Critical for fit assessment
+    - **Verify Before Buying**: Use this as research, not final decision
+
+root_agents:
+  - ../agents/vendor-evaluation-coordinator.yaml
+ids:
+  blueprint: 8b121bb8-fed6-47b8-8f45-9508cf088e37
+  agents:
+    ../agents/vendor-evaluation-coordinator.yaml: 695bc372a45696ac999e2a38
+    ../agents/vendor-comparison-analyst.yaml: 695bc3726363be71980ee72a

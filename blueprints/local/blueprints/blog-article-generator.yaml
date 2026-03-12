@@ -1,0 +1,104 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Blog Article Draft Generator
+  description: Marketing content creation system that transforms topic ideas 
+    into well-structured blog article drafts. Produces SEO-optimized content 
+    with compelling headlines, clear structure, and actionable conclusions.
+  category: marketing
+  tags:
+    - marketing
+    - starter
+    - content
+    - blog
+    - writing
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Content marketing requires a steady stream of blog articles. Marketing teams need to publish regularly to maintain SEO rankings, engage audiences, and support sales efforts. Each article requires research, outlining, writing, and editing.
+
+    ### The Challenge
+    Quality content takes time. Writers face blank page syndrome. Maintaining consistent voice across articles is difficult. Meeting publishing schedules while maintaining quality creates constant pressure.
+
+    ### What's At Stake
+    Inconsistent publishing hurts SEO rankings and audience engagement. Rushed content damages brand credibility. Writer burnout leads to quality decline. Missed opportunities for thought leadership and lead generation.
+
+    > **Demo Note**: This blueprint generates draft content that should be reviewed and edited before publishing. It works best when given clear briefs with target audience and key messages.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Good blog articles follow predictable structures. A compelling headline, engaging introduction, well-organized body, and actionable conclusion. By systematizing the content creation process, we can produce consistent quality drafts quickly.
+
+    ### The Method
+    A Content Planning Coordinator receives topic requests, develops content briefs, and delegates to a Blog Article Writer who crafts polished drafts. The writer follows proven structures and SEO best practices to produce publish-ready content.
+
+    ### Why This Works
+    Structured processes beat inspiration. Clear briefs lead to focused content. Consistent templates ensure quality. Fast draft generation gives editors more time for refinement.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Transforms topics into complete article drafts
+    - Creates compelling, SEO-friendly headlines
+    - Writes engaging introductions with hooks
+    - Structures content with clear subheadings
+    - Delivers actionable conclusions with CTAs
+    - Provides meta descriptions and keywords
+
+    ### Content Types
+    - How-to guides and tutorials
+    - Listicles and roundups
+    - Thought leadership pieces
+    - Industry news commentary
+    - Product and feature announcements
+    - Case study narratives
+
+    ### Output Includes
+    - Complete article draft
+    - Suggested meta description
+    - Target keywords
+    - Estimated reading time
+    - Word count
+    - Image placement suggestions
+
+    ### Boundaries
+    - Produces drafts requiring human review
+    - Does not conduct original research
+    - Cannot access real-time data or news
+    - English language content only
+    - Does not create images or graphics
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    None - works out of the box with topic input.
+
+    ### Your First Run
+    Try this prompt:
+
+    "Write a blog article about the benefits of remote work for software development teams. Target audience is engineering managers. Tone should be professional but conversational. Medium length around 1000 words."
+
+    ### Pro Tips
+    - **Be Specific**: The more detail in your brief, the better the output
+    - **Define Audience**: Clear audience targeting improves relevance
+    - **Set Tone**: Specify the voice you want (professional, casual, technical)
+    - **Include Keywords**: Mention target SEO keywords if you have them
+    - **Request Structure**: Ask for specific sections if needed
+
+root_agents:
+  - ../agents/content-planning-coordinator.yaml
+ids:
+  blueprint: 20bce885-1614-4e6f-8afd-20525c399d3e
+  agents:
+    ../agents/content-planning-coordinator.yaml: 695bc3186363be71980ee71d
+    ../agents/blog-article-writer.yaml: 695bc318a45696ac999e2a2a

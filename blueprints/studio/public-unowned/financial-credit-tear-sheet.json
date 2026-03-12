@@ -1,0 +1,793 @@
+{
+  "_id": "65c87ab3-1d4a-4ec2-a0c0-4559774d4c6a",
+  "name": "Financial Credit Tear Sheet",
+  "description": "Analyzes portfolio holdings, market data, news events, and risk correlations to produce professional, client-ready credit reports in compressed financial language.",
+  "orchestration_type": "Manager Agent",
+  "orchestration_name": "Financial Credit Tear Sheet",
+  "owner_id": "mem_cmf759267006b0vq83g9ldpxz",
+  "organization_id": "2c6aaebd-895c-4ce4-b925-229f299b93c8",
+  "share_type": "public",
+  "shared_with_users": [],
+  "shared_with_organizations": [],
+  "blueprint_data": {
+    "manager_agent_id": "68bb278923454f14b14b147b",
+    "tree_structure": {
+      "nodes": [
+        {
+          "id": "68bb28a48a8eb0a43d844e87",
+          "position": {
+            "x": -267.0269095799444,
+            "y": 385.9723514211886
+          },
+          "data": {
+            "_id": "68bb28a48a8eb0a43d844e87",
+            "api_key": "***REDACTED***",
+            "name": "News & Event Analysis Agent",
+            "description": "This agent extracts high-impact news and filings from the last 24\u201348 hours that affect portfolio holdings.",
+            "agent_role": "",
+            "agent_instructions": "You are the News & Event Analysis Agent.  \nTask: Extract last 24-48h impactful events for tickers in the given portfolio.  \nSources: Earnings, SEC filings (8-K, 10-K, Q), macro news.  \nOutput: Bullet points in compressed financial language.  \nFormat Example:\n- AAPL EPS +12% YoY \u2192 bullish hardware/serv rev.\n- AMZN AWS rev +17.5% YoY \u2192 margin support.\n- GOLD +40% YoY rally \u2192 hedge demand \u2191.  \n\nOnly report high-value news that affects valuation, risk, or credit. No fluff.",
+            "agent_goal": "",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [
+              {
+                "type": "MEMORY",
+                "config": {
+                  "max_messages_context_count": 50
+                },
+                "priority": 0
+              }
+            ],
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "Perplexity",
+            "model": "perplexity/sonar",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-05T18:15:00.444000",
+            "updated_at": "2025-09-12T13:53:12.931000",
+            "llm_credential_id": "lyzr_perplexity",
+            "tools": []
+          }
+        },
+        {
+          "id": "68bb28bd23454f14b14b1484",
+          "position": {
+            "x": 27.830713159073582,
+            "y": 900
+          },
+          "data": {
+            "_id": "68bb28bd23454f14b14b1484",
+            "api_key": "***REDACTED***",
+            "name": "Market Data Agent",
+            "description": "This agent provides short-term market performance metrics such as % changes, volatility, CDS spreads, and ETF flows.",
+            "agent_role": "",
+            "agent_instructions": "You are the Market Data Agent.  \nTask: Provide short-term market performance of tickers in the portfolio.  \nInclude: % price change (1D, 1W, 1M), vol levels, yield/spread changes.  \nFocus: Credit & trading signals (not generic commentary).  \n\nOutput Example:\n- AAPL +3.1% 1W, vol \u2191 vs 30d avg.\n- MSFT -2.2% 1M, CDS spread +12bps.\n- GOLD +5% MoM, ETF inflows \u2191.  \nKeep it financial, concise, code-only.",
+            "agent_goal": "",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [
+              {
+                "type": "MEMORY",
+                "config": {
+                  "max_messages_context_count": 50
+                },
+                "priority": 0
+              }
+            ],
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "Perplexity",
+            "model": "perplexity/sonar",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-05T18:15:25.258000",
+            "updated_at": "2025-09-12T13:53:13.602000",
+            "llm_credential_id": "lyzr_perplexity",
+            "tools": []
+          }
+        },
+        {
+          "id": "68bb28e28a8eb0a43d844e88",
+          "position": {
+            "x": 652.9242532107531,
+            "y": 700
+          },
+          "data": {
+            "_id": "68bb28e28a8eb0a43d844e88",
+            "api_key": "***REDACTED***",
+            "name": "Risk & Correlation Agent",
+            "description": "This agent analyzes portfolio concentration, cross-asset correlations, and scenario risks to highlight diversification and stress outcomes.",
+            "agent_role": "",
+            "agent_instructions": "You are the Risk & Correlation Agent.  \nTask: Identify concentration, beta, and cross-asset risk in the client portfolio.  \nInclude: Correlation matrix, scenario risks (Fed hike, recession, inflation).  \nOutput Example:\n- High tech clustering: AAPL/MSFT corr 0.82.  \n- NFLX low corr (0.45) \u2192 diversifier.  \n- GOLD negative corr vs tech (-0.37) \u2192 hedge.  \n- Risk: inflation spike \u2192 AMZN margin squeeze, GOLD \u2191.  \n\nBe precise, quantitative, and in financial analyst tone.",
+            "agent_goal": "",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [
+              {
+                "type": "MEMORY",
+                "config": {
+                  "max_messages_context_count": 50
+                },
+                "priority": 0
+              }
+            ],
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-05T18:16:02.957000",
+            "updated_at": "2025-09-12T13:53:14.317000",
+            "llm_credential_id": "lyzr_openai",
+            "tools": []
+          }
+        },
+        {
+          "id": "68bb28fae29571cc5dd2cf07",
+          "position": {
+            "x": 1069.2139172934405,
+            "y": 500
+          },
+          "data": {
+            "_id": "68bb28fae29571cc5dd2cf07",
+            "api_key": "***REDACTED***",
+            "name": "Portfolio Summary Agent",
+            "description": "This agent synthesizes all insights into a concise, client-ready Credit Tear Sheet with Key Insights & Summary and Forward-Looking View.",
+            "agent_role": "",
+            "agent_instructions": "You are the Portfolio Summary Agent.  \nTask: Take outputs from all sub-agents and synthesize into final Credit Tear Sheet.  \nFormat:\nClient: [ID/Name]\n\nKey Insights & Summary:\n- [Concise financial bullet points linking events, data, credit signals]\n\nForward-Looking View:\n- [Risks, catalysts, opportunities next 1-2 quarters]\n\nLanguage: Professional, compressed, financial-code style (tickers only).  \nFinal report must be executive-ready, 1-page max per client.",
+            "agent_goal": "",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [
+              {
+                "type": "MEMORY",
+                "config": {
+                  "max_messages_context_count": 50
+                },
+                "priority": 0
+              }
+            ],
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4.1",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-05T18:16:26.586000",
+            "updated_at": "2025-09-12T13:53:15.135000",
+            "llm_credential_id": "lyzr_openai",
+            "tools": []
+          }
+        },
+        {
+          "id": "68bb278923454f14b14b147b",
+          "position": {
+            "x": 390.727353985947,
+            "y": 100
+          },
+          "data": {
+            "_id": "68bb278923454f14b14b147b",
+            "api_key": "***REDACTED***",
+            "name": "Credit Tear sheet Agent",
+            "description": "This agent coordinates all sub-agents, aggregates their outputs, and delivers the final Credit Tear Sheet.",
+            "agent_role": "",
+            "agent_instructions": "You are the Manager Agent.  \nYour role is to orchestrate a team of financial research agents to produce Credit Tear Sheets.  \nTask:\n- Delegate work to sub-agents (News/Event, Market Data, Credit/Fundamentals, Risk/Correlation).\n- Aggregate their outputs.\n- Ensure results follow financial code language (tickers only, no full names).\n- Deliver final structured output with two sections:\n   1. Key Insights & Summary\n   2. Forward-Looking View\n- Ensure each report is concise, professional, client-ready.",
+            "agent_goal": "",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [
+              {
+                "type": "MEMORY",
+                "config": {
+                  "max_messages_context_count": 50
+                },
+                "priority": 0
+              }
+            ],
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4.1",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [
+              {
+                "id": "68bb28a48a8eb0a43d844e87",
+                "name": "News & Event Analysis Agent",
+                "usage_description": "Use this agent when:  You need to extract fresh, high-impact events (last 24\u201348h) that affect portfolio holdings."
+              },
+              {
+                "id": "68bb28bd23454f14b14b1484",
+                "name": "Market Data Agent",
+                "usage_description": "Use this agent when:  You want short-term market movements (% change, volatility, CDS spreads, ETF flows)."
+              },
+              {
+                "id": "68bb28e28a8eb0a43d844e88",
+                "name": "Risk & Correlation Agent",
+                "usage_description": "Use this agent when: You need balance sheet & solvency analysis for equities."
+              },
+              {
+                "id": "68bb28fae29571cc5dd2cf07",
+                "name": "Portfolio Summary Agent",
+                "usage_description": "Use this agent when:  You want to understand portfolio structure, concentration, and diversification."
+              },
+              {
+                "id": "kb-node-68bb278923454f14b14b147b",
+                "name": "Knowledge Base",
+                "usage_description": "Knowledge base connection"
+              }
+            ],
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-05T18:10:17.209000",
+            "updated_at": "2025-09-15T13:10:51.275000",
+            "llm_credential_id": "lyzr_openai",
+            "template_type": "single_task",
+            "tool": ""
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "68bb278923454f14b14b147b-68bb28a48a8eb0a43d844e87",
+          "source": "68bb278923454f14b14b147b",
+          "target": "68bb28a48a8eb0a43d844e87",
+          "label": "Use this agent when:  You need to extract fresh, high-impact events (last 24\u201348h) that affect portfolio holdings."
+        },
+        {
+          "id": "68bb278923454f14b14b147b-68bb28bd23454f14b14b1484",
+          "source": "68bb278923454f14b14b147b",
+          "target": "68bb28bd23454f14b14b1484",
+          "label": "Use this agent when:  You want short-term market movements (% change, volatility, CDS spreads, ETF flows)."
+        },
+        {
+          "id": "68bb278923454f14b14b147b-68bb28e28a8eb0a43d844e88",
+          "source": "68bb278923454f14b14b147b",
+          "target": "68bb28e28a8eb0a43d844e88",
+          "label": "Use this agent when: You need balance sheet & solvency analysis for equities."
+        },
+        {
+          "id": "68bb278923454f14b14b147b-68bb28fae29571cc5dd2cf07",
+          "source": "68bb278923454f14b14b147b",
+          "target": "68bb28fae29571cc5dd2cf07",
+          "label": "Use this agent when:  You want to understand portfolio structure, concentration, and diversification."
+        }
+      ]
+    },
+    "nodes": [
+      {
+        "id": "68bb28a48a8eb0a43d844e87",
+        "position": {
+          "x": -267.0269095799444,
+          "y": 385.9723514211886
+        },
+        "data": {
+          "_id": "68bb28a48a8eb0a43d844e87",
+          "api_key": "***REDACTED***",
+          "name": "News & Event Analysis Agent",
+          "description": "This agent extracts high-impact news and filings from the last 24\u201348 hours that affect portfolio holdings.",
+          "agent_role": "",
+          "agent_instructions": "You are the News & Event Analysis Agent.  \nTask: Extract last 24-48h impactful events for tickers in the given portfolio.  \nSources: Earnings, SEC filings (8-K, 10-K, Q), macro news.  \nOutput: Bullet points in compressed financial language.  \nFormat Example:\n- AAPL EPS +12% YoY \u2192 bullish hardware/serv rev.\n- AMZN AWS rev +17.5% YoY \u2192 margin support.\n- GOLD +40% YoY rally \u2192 hedge demand \u2191.  \n\nOnly report high-value news that affects valuation, risk, or credit. No fluff.",
+          "agent_goal": "",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [
+            {
+              "type": "MEMORY",
+              "config": {
+                "max_messages_context_count": 50
+              },
+              "priority": 0
+            }
+          ],
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "Perplexity",
+          "model": "perplexity/sonar",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-05T18:15:00.444000",
+          "updated_at": "2025-09-12T13:53:12.931000",
+          "llm_credential_id": "lyzr_perplexity",
+          "tools": []
+        }
+      },
+      {
+        "id": "68bb28bd23454f14b14b1484",
+        "position": {
+          "x": 27.830713159073582,
+          "y": 900
+        },
+        "data": {
+          "_id": "68bb28bd23454f14b14b1484",
+          "api_key": "***REDACTED***",
+          "name": "Market Data Agent",
+          "description": "This agent provides short-term market performance metrics such as % changes, volatility, CDS spreads, and ETF flows.",
+          "agent_role": "",
+          "agent_instructions": "You are the Market Data Agent.  \nTask: Provide short-term market performance of tickers in the portfolio.  \nInclude: % price change (1D, 1W, 1M), vol levels, yield/spread changes.  \nFocus: Credit & trading signals (not generic commentary).  \n\nOutput Example:\n- AAPL +3.1% 1W, vol \u2191 vs 30d avg.\n- MSFT -2.2% 1M, CDS spread +12bps.\n- GOLD +5% MoM, ETF inflows \u2191.  \nKeep it financial, concise, code-only.",
+          "agent_goal": "",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [
+            {
+              "type": "MEMORY",
+              "config": {
+                "max_messages_context_count": 50
+              },
+              "priority": 0
+            }
+          ],
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "Perplexity",
+          "model": "perplexity/sonar",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-05T18:15:25.258000",
+          "updated_at": "2025-09-12T13:53:13.602000",
+          "llm_credential_id": "lyzr_perplexity",
+          "tools": []
+        }
+      },
+      {
+        "id": "68bb28e28a8eb0a43d844e88",
+        "position": {
+          "x": 652.9242532107531,
+          "y": 700
+        },
+        "data": {
+          "_id": "68bb28e28a8eb0a43d844e88",
+          "api_key": "***REDACTED***",
+          "name": "Risk & Correlation Agent",
+          "description": "This agent analyzes portfolio concentration, cross-asset correlations, and scenario risks to highlight diversification and stress outcomes.",
+          "agent_role": "",
+          "agent_instructions": "You are the Risk & Correlation Agent.  \nTask: Identify concentration, beta, and cross-asset risk in the client portfolio.  \nInclude: Correlation matrix, scenario risks (Fed hike, recession, inflation).  \nOutput Example:\n- High tech clustering: AAPL/MSFT corr 0.82.  \n- NFLX low corr (0.45) \u2192 diversifier.  \n- GOLD negative corr vs tech (-0.37) \u2192 hedge.  \n- Risk: inflation spike \u2192 AMZN margin squeeze, GOLD \u2191.  \n\nBe precise, quantitative, and in financial analyst tone.",
+          "agent_goal": "",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [
+            {
+              "type": "MEMORY",
+              "config": {
+                "max_messages_context_count": 50
+              },
+              "priority": 0
+            }
+          ],
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-05T18:16:02.957000",
+          "updated_at": "2025-09-12T13:53:14.317000",
+          "llm_credential_id": "lyzr_openai",
+          "tools": []
+        }
+      },
+      {
+        "id": "68bb28fae29571cc5dd2cf07",
+        "position": {
+          "x": 1069.2139172934405,
+          "y": 500
+        },
+        "data": {
+          "_id": "68bb28fae29571cc5dd2cf07",
+          "api_key": "***REDACTED***",
+          "name": "Portfolio Summary Agent",
+          "description": "This agent synthesizes all insights into a concise, client-ready Credit Tear Sheet with Key Insights & Summary and Forward-Looking View.",
+          "agent_role": "",
+          "agent_instructions": "You are the Portfolio Summary Agent.  \nTask: Take outputs from all sub-agents and synthesize into final Credit Tear Sheet.  \nFormat:\nClient: [ID/Name]\n\nKey Insights & Summary:\n- [Concise financial bullet points linking events, data, credit signals]\n\nForward-Looking View:\n- [Risks, catalysts, opportunities next 1-2 quarters]\n\nLanguage: Professional, compressed, financial-code style (tickers only).  \nFinal report must be executive-ready, 1-page max per client.",
+          "agent_goal": "",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [
+            {
+              "type": "MEMORY",
+              "config": {
+                "max_messages_context_count": 50
+              },
+              "priority": 0
+            }
+          ],
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4.1",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-05T18:16:26.586000",
+          "updated_at": "2025-09-12T13:53:15.135000",
+          "llm_credential_id": "lyzr_openai",
+          "tools": []
+        }
+      },
+      {
+        "id": "68bb278923454f14b14b147b",
+        "position": {
+          "x": 390.727353985947,
+          "y": 100
+        },
+        "data": {
+          "_id": "68bb278923454f14b14b147b",
+          "api_key": "***REDACTED***",
+          "name": "Credit Tear sheet Agent",
+          "description": "This agent coordinates all sub-agents, aggregates their outputs, and delivers the final Credit Tear Sheet.",
+          "agent_role": "",
+          "agent_instructions": "You are the Manager Agent.  \nYour role is to orchestrate a team of financial research agents to produce Credit Tear Sheets.  \nTask:\n- Delegate work to sub-agents (News/Event, Market Data, Credit/Fundamentals, Risk/Correlation).\n- Aggregate their outputs.\n- Ensure results follow financial code language (tickers only, no full names).\n- Deliver final structured output with two sections:\n   1. Key Insights & Summary\n   2. Forward-Looking View\n- Ensure each report is concise, professional, client-ready.",
+          "agent_goal": "",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [
+            {
+              "type": "MEMORY",
+              "config": {
+                "max_messages_context_count": 50
+              },
+              "priority": 0
+            }
+          ],
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4.1",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [
+            {
+              "id": "68bb28a48a8eb0a43d844e87",
+              "name": "News & Event Analysis Agent",
+              "usage_description": "Use this agent when:  You need to extract fresh, high-impact events (last 24\u201348h) that affect portfolio holdings."
+            },
+            {
+              "id": "68bb28bd23454f14b14b1484",
+              "name": "Market Data Agent",
+              "usage_description": "Use this agent when:  You want short-term market movements (% change, volatility, CDS spreads, ETF flows)."
+            },
+            {
+              "id": "68bb28e28a8eb0a43d844e88",
+              "name": "Risk & Correlation Agent",
+              "usage_description": "Use this agent when: You need balance sheet & solvency analysis for equities."
+            },
+            {
+              "id": "68bb28fae29571cc5dd2cf07",
+              "name": "Portfolio Summary Agent",
+              "usage_description": "Use this agent when:  You want to understand portfolio structure, concentration, and diversification."
+            },
+            {
+              "id": "kb-node-68bb278923454f14b14b147b",
+              "name": "Knowledge Base",
+              "usage_description": "Knowledge base connection"
+            }
+          ],
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-05T18:10:17.209000",
+          "updated_at": "2025-09-15T13:10:51.275000",
+          "llm_credential_id": "lyzr_openai",
+          "template_type": "single_task",
+          "tool": ""
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "68bb278923454f14b14b147b-68bb28a48a8eb0a43d844e87",
+        "source": "68bb278923454f14b14b147b",
+        "target": "68bb28a48a8eb0a43d844e87",
+        "label": "Use this agent when:  You need to extract fresh, high-impact events (last 24\u201348h) that affect portfolio holdings."
+      },
+      {
+        "id": "68bb278923454f14b14b147b-68bb28bd23454f14b14b1484",
+        "source": "68bb278923454f14b14b147b",
+        "target": "68bb28bd23454f14b14b1484",
+        "label": "Use this agent when:  You want short-term market movements (% change, volatility, CDS spreads, ETF flows)."
+      },
+      {
+        "id": "68bb278923454f14b14b147b-68bb28e28a8eb0a43d844e88",
+        "source": "68bb278923454f14b14b147b",
+        "target": "68bb28e28a8eb0a43d844e88",
+        "label": "Use this agent when: You need balance sheet & solvency analysis for equities."
+      },
+      {
+        "id": "68bb278923454f14b14b147b-68bb28fae29571cc5dd2cf07",
+        "source": "68bb278923454f14b14b147b",
+        "target": "68bb28fae29571cc5dd2cf07",
+        "label": "Use this agent when:  You want to understand portfolio structure, concentration, and diversification."
+      }
+    ],
+    "agents": {
+      "68bb28a48a8eb0a43d844e87": {
+        "_id": "68bb28a48a8eb0a43d844e87",
+        "api_key": "***REDACTED***",
+        "name": "News & Event Analysis Agent",
+        "description": "This agent extracts high-impact news and filings from the last 24\u201348 hours that affect portfolio holdings.",
+        "agent_role": "",
+        "agent_instructions": "You are the News & Event Analysis Agent.  \nTask: Extract last 24-48h impactful events for tickers in the given portfolio.  \nSources: Earnings, SEC filings (8-K, 10-K, Q), macro news.  \nOutput: Bullet points in compressed financial language.  \nFormat Example:\n- AAPL EPS +12% YoY \u2192 bullish hardware/serv rev.\n- AMZN AWS rev +17.5% YoY \u2192 margin support.\n- GOLD +40% YoY rally \u2192 hedge demand \u2191.  \n\nOnly report high-value news that affects valuation, risk, or credit. No fluff.",
+        "agent_goal": "",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [
+          {
+            "type": "MEMORY",
+            "config": {
+              "max_messages_context_count": 50
+            },
+            "priority": 0
+          }
+        ],
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "Perplexity",
+        "model": "perplexity/sonar",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-05T18:15:00.444000",
+        "updated_at": "2025-09-12T13:53:12.931000",
+        "llm_credential_id": "lyzr_perplexity",
+        "tools": []
+      },
+      "68bb28bd23454f14b14b1484": {
+        "_id": "68bb28bd23454f14b14b1484",
+        "api_key": "***REDACTED***",
+        "name": "Market Data Agent",
+        "description": "This agent provides short-term market performance metrics such as % changes, volatility, CDS spreads, and ETF flows.",
+        "agent_role": "",
+        "agent_instructions": "You are the Market Data Agent.  \nTask: Provide short-term market performance of tickers in the portfolio.  \nInclude: % price change (1D, 1W, 1M), vol levels, yield/spread changes.  \nFocus: Credit & trading signals (not generic commentary).  \n\nOutput Example:\n- AAPL +3.1% 1W, vol \u2191 vs 30d avg.\n- MSFT -2.2% 1M, CDS spread +12bps.\n- GOLD +5% MoM, ETF inflows \u2191.  \nKeep it financial, concise, code-only.",
+        "agent_goal": "",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [
+          {
+            "type": "MEMORY",
+            "config": {
+              "max_messages_context_count": 50
+            },
+            "priority": 0
+          }
+        ],
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "Perplexity",
+        "model": "perplexity/sonar",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-05T18:15:25.258000",
+        "updated_at": "2025-09-12T13:53:13.602000",
+        "llm_credential_id": "lyzr_perplexity",
+        "tools": []
+      },
+      "68bb28e28a8eb0a43d844e88": {
+        "_id": "68bb28e28a8eb0a43d844e88",
+        "api_key": "***REDACTED***",
+        "name": "Risk & Correlation Agent",
+        "description": "This agent analyzes portfolio concentration, cross-asset correlations, and scenario risks to highlight diversification and stress outcomes.",
+        "agent_role": "",
+        "agent_instructions": "You are the Risk & Correlation Agent.  \nTask: Identify concentration, beta, and cross-asset risk in the client portfolio.  \nInclude: Correlation matrix, scenario risks (Fed hike, recession, inflation).  \nOutput Example:\n- High tech clustering: AAPL/MSFT corr 0.82.  \n- NFLX low corr (0.45) \u2192 diversifier.  \n- GOLD negative corr vs tech (-0.37) \u2192 hedge.  \n- Risk: inflation spike \u2192 AMZN margin squeeze, GOLD \u2191.  \n\nBe precise, quantitative, and in financial analyst tone.",
+        "agent_goal": "",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [
+          {
+            "type": "MEMORY",
+            "config": {
+              "max_messages_context_count": 50
+            },
+            "priority": 0
+          }
+        ],
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-05T18:16:02.957000",
+        "updated_at": "2025-09-12T13:53:14.317000",
+        "llm_credential_id": "lyzr_openai",
+        "tools": []
+      },
+      "68bb28fae29571cc5dd2cf07": {
+        "_id": "68bb28fae29571cc5dd2cf07",
+        "api_key": "***REDACTED***",
+        "name": "Portfolio Summary Agent",
+        "description": "This agent synthesizes all insights into a concise, client-ready Credit Tear Sheet with Key Insights & Summary and Forward-Looking View.",
+        "agent_role": "",
+        "agent_instructions": "You are the Portfolio Summary Agent.  \nTask: Take outputs from all sub-agents and synthesize into final Credit Tear Sheet.  \nFormat:\nClient: [ID/Name]\n\nKey Insights & Summary:\n- [Concise financial bullet points linking events, data, credit signals]\n\nForward-Looking View:\n- [Risks, catalysts, opportunities next 1-2 quarters]\n\nLanguage: Professional, compressed, financial-code style (tickers only).  \nFinal report must be executive-ready, 1-page max per client.",
+        "agent_goal": "",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [
+          {
+            "type": "MEMORY",
+            "config": {
+              "max_messages_context_count": 50
+            },
+            "priority": 0
+          }
+        ],
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4.1",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-05T18:16:26.586000",
+        "updated_at": "2025-09-12T13:53:15.135000",
+        "llm_credential_id": "lyzr_openai",
+        "tools": []
+      },
+      "68bb278923454f14b14b147b": {
+        "_id": "68bb278923454f14b14b147b",
+        "api_key": "***REDACTED***",
+        "name": "Credit Tear sheet Agent",
+        "description": "This agent coordinates all sub-agents, aggregates their outputs, and delivers the final Credit Tear Sheet.",
+        "agent_role": "",
+        "agent_instructions": "You are the Manager Agent.  \nYour role is to orchestrate a team of financial research agents to produce Credit Tear Sheets.  \nTask:\n- Delegate work to sub-agents (News/Event, Market Data, Credit/Fundamentals, Risk/Correlation).\n- Aggregate their outputs.\n- Ensure results follow financial code language (tickers only, no full names).\n- Deliver final structured output with two sections:\n   1. Key Insights & Summary\n   2. Forward-Looking View\n- Ensure each report is concise, professional, client-ready.",
+        "agent_goal": "",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [
+          {
+            "type": "MEMORY",
+            "config": {
+              "max_messages_context_count": 50
+            },
+            "priority": 0
+          }
+        ],
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4.1",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [
+          {
+            "id": "68bb28a48a8eb0a43d844e87",
+            "name": "News & Event Analysis Agent",
+            "usage_description": "Use this agent when:  You need to extract fresh, high-impact events (last 24\u201348h) that affect portfolio holdings."
+          },
+          {
+            "id": "68bb28bd23454f14b14b1484",
+            "name": "Market Data Agent",
+            "usage_description": "Use this agent when:  You want short-term market movements (% change, volatility, CDS spreads, ETF flows)."
+          },
+          {
+            "id": "68bb28e28a8eb0a43d844e88",
+            "name": "Risk & Correlation Agent",
+            "usage_description": "Use this agent when: You need balance sheet & solvency analysis for equities."
+          },
+          {
+            "id": "68bb28fae29571cc5dd2cf07",
+            "name": "Portfolio Summary Agent",
+            "usage_description": "Use this agent when:  You want to understand portfolio structure, concentration, and diversification."
+          },
+          {
+            "id": "kb-node-68bb278923454f14b14b147b",
+            "name": "Knowledge Base",
+            "usage_description": "Knowledge base connection"
+          }
+        ],
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-05T18:10:17.209000",
+        "updated_at": "2025-09-15T13:10:51.275000",
+        "llm_credential_id": "lyzr_openai",
+        "template_type": "single_task",
+        "tool": ""
+      }
+    }
+  },
+  "blueprint_info": {
+    "documentation_data": {
+      "markdown": "**Blueprint Documentation**\n\n**Overview**\nThis blueprint creates a comprehensive Credit Tear Sheet generation system using a manager agent that orchestrates four specialized financial analysis sub-agents. The system analyzes portfolio holdings, market data, news events, and risk correlations to produce professional, client-ready credit reports in compressed financial language.\n\n**How to Use**\n1. Step 1: Provide portfolio information directly in your message (list of tickers and holdings)\n2. Step 2: The manager agent automatically delegates analysis tasks to specialized sub-agents\n3. Step 3: Each sub-agent analyzes specific aspects: news/events, market data, risk correlations, and portfolio structure\n4. Step 4: Manager agent aggregates all insights and generates a structured Credit Tear Sheet\n5. Step 5: Receive final report with Key Insights & Summary and Forward-Looking View sections\n\n**Configuration**\n* **Manager Agent: Credit Tear sheet Agent**: Orchestrates the entire analysis workflow, delegates tasks to sub-agents, and compiles the final professional Credit Tear Sheet\n* **Agent 1: News & Event Analysis Agent**: Extracts high-impact news, earnings, and SEC filings from the last 24-48 hours affecting portfolio holdings\n* **Agent 2: Market Data Agent**: Provides short-term market performance metrics including price changes, volatility levels, CDS spreads, and ETF flows\n* **Agent 3: Risk & Correlation Agent**: Analyzes portfolio concentration, cross-asset correlations, and scenario risks for diversification insights\n* **Agent 4: Portfolio Summary Agent**: Synthesizes all sub-agent outputs into a concise, executive-ready Credit Tear Sheet\n\n**Requirements**\n* **Ready to Use** - This blueprint works immediately without any additional setup\n* Simply provide portfolio tickers and holdings in your input message\n\n**Examples**\n\n**Example 1: Basic Portfolio Analysis**\nUser: \"Generate a credit tear sheet for portfolio: AAPL (20%), MSFT (15%), AMZN (10%), GOLD (5%), NFLX (8%)\"\nResponse: Complete Credit Tear Sheet with news analysis, market data, risk correlations, and forward-looking recommendations in compressed financial language\n\n**Example 2: Tech-Heavy Portfolio**\nUser: \"Analyze this tech portfolio: AAPL, MSFT, GOOGL, META, NVDA with equal weights\"\nResponse: Detailed analysis highlighting tech sector concentration, correlation risks, recent earnings impacts, and hedging recommendations\n\n**Example 3: Diversified Portfolio**\nUser: \"Create tear sheet for: Tech (AAPL, MSFT), Financials (JPM, BAC), Commodities (GOLD, SLV), Consumer (AMZN, NFLX)\"\nResponse: Comprehensive analysis showing cross-sector correlations, diversification benefits, scenario risks (Fed hikes, recession), and sector-specific opportunities"
+    },
+    "type": "markdown"
+  },
+  "version": "1.0.0",
+  "tags": [
+    "Finance",
+    "Research"
+  ],
+  "category": "data-analysis",
+  "status": "draft",
+  "is_template": false,
+  "parent_blueprint_id": null,
+  "usage_count": 0,
+  "last_used_at": null,
+  "created_at": "2025-09-15T14:03:55.938000",
+  "updated_at": "2025-09-15T14:03:55.938000",
+  "published_at": null,
+  "is_owner": false,
+  "can_edit": false,
+  "can_share": false,
+  "can_delete": false,
+  "owner_name": null,
+  "owner_email": null,
+  "organization_name": null
+}

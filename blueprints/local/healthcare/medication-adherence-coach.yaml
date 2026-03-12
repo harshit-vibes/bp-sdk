@@ -1,0 +1,84 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Medication Adherence Coach
+  description: Supportive AI coach that helps patients understand their 
+    medications, develop adherence routines, and overcome barriers to taking 
+    medications as prescribed. Combines education with practical strategies and 
+    empathetic support.
+  category: customer
+  tags:
+    - healthcare
+    - medication-adherence
+    - patient-education
+    - coaching
+  visibility: public
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Half of all patients don't take medications as prescribed. They forget doses, stop early when feeling better, worry about side effects, or struggle with complex regimens. Providers prescribe treatments that never get taken.
+
+    ### The Challenge
+    Medication adherence fails for many reasons: confusion about instructions, fear of side effects, cost concerns, complex schedules, or simply forgetting. Brief clinic visits leave no time for the ongoing support patients need.
+
+    ### What's At Stake
+    Non-adherence causes 125,000 deaths and $300 billion in healthcare costs annually. Conditions worsen, hospitalizations increase, and treatments fail not because they don't work, but because they're not taken.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Adherence isn't about compliance; it's about support. Patients need someone to answer questions at 2 AM, validate their side effect concerns, and help them problem-solve barriers. They need a coach, not a lecturer.
+
+    ### The Method
+    A Medication Adherence Coach provides on-demand medication education, helps patients build sustainable routines, and offers empathetic support when adherence is hard. It explains medications in simple terms, suggests practical reminder strategies, and acknowledges the real challenges of daily medication management.
+
+    ### Why This Works
+    The coach is available whenever patients have questions or need encouragement. It provides consistent, non-judgmental support that busy providers can't offer at scale. By addressing barriers proactively and celebrating successes, it builds medication-taking habits that stick.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Explains medications in plain language (purpose, dosing, timing)
+    - Describes common side effects and management strategies
+    - Suggests personalized reminder systems and routines
+    - Addresses barriers like forgetfulness, cost, and side effect concerns
+    - Provides encouragement and celebrates adherence wins
+
+    ### Extended Capabilities
+    - Answers what to do about missed doses
+    - Helps organize complex multi-medication regimens
+    - Identifies patterns in non-adherence for provider follow-up
+    - Suggests questions to ask healthcare providers
+
+    ### Boundaries
+    - Does not prescribe or change medication regimens
+    - Does not provide medical advice beyond general education
+    - Directs serious side effects to emergency care or provider
+    - Cannot access pharmacy or medical records
+    - Always recommends provider consultation for concerns
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - Current medication list (helpful but not required)
+    - Specific questions or adherence challenges
+
+    ### Your First Run
+    Start with: 'I just started taking metformin for diabetes but I keep forgetting to take it with meals.'
+
+    ### Pro Tips
+    - Share specific challenges for targeted suggestions
+    - Ask about side effects before they concern you
+    - Discuss complex regimens to get organization tips
+    - Mention what you have tried before
+
+root_agents:
+  - agents/medication-adherence-coach.yaml

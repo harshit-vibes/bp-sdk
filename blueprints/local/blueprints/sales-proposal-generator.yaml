@@ -1,0 +1,140 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Sales Proposal Document Generator
+  description: Automates the creation of professional, customized sales 
+    proposals from CRM opportunity data by coordinating data analysis, value 
+    proposition development, pricing assembly, and document formatting.
+  category: sales
+  tags:
+    - sales
+    - proposals
+    - documents
+    - crm
+    - enterprise
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Sales teams spend hours creating proposals for each opportunity. They manually gather CRM data, craft messaging, assemble pricing, find relevant case studies, and format documents. This repetitive work takes time away from selling.
+
+    ### The Challenge
+    Quality proposals require multiple skills: data analysis to understand the opportunity, copywriting to craft compelling messages, commercial acumen for pricing, and attention to detail for formatting. Most sales reps excel at some but not all of these.
+
+    ### What's At Stake
+    Slow proposal turnaround delays deals and frustrates prospects. Inconsistent quality creates uneven customer experiences. Generic proposals fail to resonate with specific customer needs. Sales productivity suffers when reps spend time on documents instead of relationships.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Proposal creation is a pipeline: extract data, craft messaging, build pricing, add proof, format document. Each stage benefits from specialized attention. By coordinating specialists, proposals become both faster and better.
+
+    ### The Method
+    A Proposal Generation Coordinator manages five specialists:
+
+    1. **Opportunity Data Analyzer**: Extracts deal details, customer profile, pain points, and requirements from CRM data
+    2. **Value Proposition Crafter**: Creates compelling executive summaries and customer-specific value propositions
+    3. **Pricing and Terms Architect**: Builds clear pricing tables with options, discounts, and payment terms
+    4. **Social Proof Selector**: Matches customer profile with relevant case studies and testimonials
+    5. **Proposal Document Formatter**: Assembles all sections into a polished, professional document
+
+    ### Why This Works
+    Sequential processing ensures each component builds on previous work. The data analyzer provides foundation for messaging. Messaging informs pricing presentation. Social proof matches customer profile. The formatter creates a cohesive whole greater than the parts.
+
+    ---
+
+    ## Capabilities
+
+    ### Data Extraction
+    - Parse CRM opportunity records
+    - Identify customer pain points and needs
+    - Extract stakeholder information
+    - Capture evaluation criteria
+    - Flag competitive context
+
+    ### Messaging Development
+    - Executive summary generation
+    - Customer-specific value propositions
+    - Win themes and differentiators
+    - Benefits-focused narratives
+    - Audience-appropriate messaging
+
+    ### Pricing Assembly
+    - Multi-tier pricing options
+    - Volume and commitment discounts
+    - Clear pricing tables
+    - Payment terms and schedules
+    - Commercial terms summary
+
+    ### Social Proof Selection
+    - Industry-matched case studies
+    - Size-appropriate references
+    - Relevant testimonials
+    - Success metrics compilation
+    - Customer logo selection
+
+    ### Document Formatting
+    - Professional structure
+    - Consistent formatting
+    - Section assembly
+    - Quality validation
+    - Ready-to-send output
+
+    ### Boundaries
+    - Requires opportunity data input
+    - Generates text-based proposals (markdown)
+    - Does not connect to CRM directly
+    - English language primary
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    None - works out of the box.
+
+    ### Your First Run
+    Try this prompt:
+
+    "Create a proposal for this opportunity:
+
+    Company: TechCorp Industries
+    Industry: Manufacturing
+    Size: 500 employees, $75M revenue
+    Deal Value: $150,000
+    Products: Enterprise Platform (50 seats), Premium Support, Implementation Services
+
+    Contact: Sarah Chen, VP Operations
+    Pain Points: Manual processes causing delays, lack of visibility into operations, difficulty scaling with growth
+    Competition: Currently evaluating us vs. Competitor X
+    Timeline: Decision by end of quarter"
+
+    ### Pro Tips
+    - **Include Pain Points**: More detail yields better value propositions
+    - **Specify Products**: List exact products for accurate pricing
+    - **Name Stakeholders**: Helps tailor messaging to decision makers
+    - **Note Competition**: Enables differentiation messaging
+    - **Set Timeline**: Creates appropriate urgency in proposal
+
+    ### Example Use Cases
+    - Enterprise software proposals
+    - Professional services quotes
+    - SaaS subscription proposals
+    - Implementation project scopes
+    - Renewal and expansion proposals
+
+root_agents:
+  - ../agents/proposal-generation-coordinator.yaml
+ids:
+  blueprint: 7428a372-5a5b-4363-9d92-f6c45becb717
+  agents:
+    ../agents/proposal-generation-coordinator.yaml: 695be7f8457887dd859fb4e3
+    ../agents/opportunity-data-analyzer.yaml: 695be7f5c2dad05ba69ad904
+    ../agents/value-proposition-crafter.yaml: 695be7f6457887dd859fb4e1
+    ../agents/pricing-terms-architect.yaml: 695be7f6c2dad05ba69ad905
+    ../agents/social-proof-selector.yaml: 695be7f7457887dd859fb4e2
+    ../agents/proposal-document-formatter.yaml: 695be7f8c2dad05ba69ad906

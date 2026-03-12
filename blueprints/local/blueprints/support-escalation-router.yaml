@@ -1,0 +1,128 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Support Ticket Escalation Router
+  description: Analyzes support tickets for complexity and urgency, routes to 
+    appropriate tier (L1 self-service, L2 agent, L3 specialist, or human 
+    escalation), and prepares comprehensive handoff context for human escalation
+    cases.
+  category: customer
+  tags:
+    - customer
+    - support
+    - escalation
+    - triage
+    - routing
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Support teams receive tickets of varying complexity. Simple password resets mix with critical data issues. Without proper triage, complex tickets wait while agents handle simple questions, and critical issues get lost in the queue.
+
+    ### The Challenge
+    Manual triage is inconsistent and slow. Different agents apply different criteria. Human escalation handoffs often lack context, forcing agents to re-gather information. There is no systematic tracking of escalation patterns.
+
+    ### What's At Stake
+    Mis-routed tickets waste time and frustrate customers. Critical issues delayed cause business impact. Poor handoffs to human agents extend resolution time. Without pattern tracking, systemic issues go unnoticed.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Effective escalation requires two distinct assessments: understanding ticket complexity and matching it to the right resolution tier. When human escalation is needed, context quality determines resolution speed.
+
+    ### The Method
+    An Escalation Coordinator manages two specialists:
+
+    1. **Complexity Analyzer**: Assesses technical complexity (simple to critical), urgency level, issue scope, and detects escalation triggers like security concerns or VIP customers
+    2. **Tier Router**: Matches tickets to L1/L2/L3/Human tiers and prepares comprehensive handoff packages for human escalation cases
+
+    ### Why This Works
+    Separating analysis from routing prevents assessment bias. The Complexity Analyzer focuses purely on understanding the issue. The Tier Router applies consistent routing criteria. When humans are needed, they receive complete context: executive summary, key facts, timeline, attempted solutions, and recommended actions.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Assesses ticket complexity (simple/moderate/complex/critical)
+    - Evaluates urgency based on impact and SLA considerations
+    - Detects escalation triggers (security, VIP, data issues)
+    - Routes to appropriate tier with rationale
+    - Prepares comprehensive human handoff context
+
+    ### Escalation Tiers
+    - L1 Self-Service: Simple issues with documented solutions
+    - L2 Agent: Moderate complexity, standard procedures
+    - L3 Specialist: Complex technical requiring deep expertise
+    - Human Escalation: Critical impact requiring immediate attention
+
+    ### Handoff Package Contents
+    - Executive summary (2-3 sentence overview)
+    - Key facts bullet list
+    - Timeline of events
+    - Attempted solutions and outcomes
+    - Recommended actions for human agent
+    - Required specialist skills
+    - Customer context and sentiment
+
+    ### Escalation Triggers Detected
+    - Security or compliance concerns
+    - Data loss or integrity issues
+    - VIP/Enterprise customer impact
+    - Multi-system involvement
+    - Customer explicit escalation request
+    - SLA at risk
+
+    ### Boundaries
+    - Analyzes ticket content only (no CRM integration)
+    - Provides routing recommendation (does not update ticket system)
+    - English language primary focus
+    - Assumes L1/L2/L3/Human tier structure
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    None - works out of the box.
+
+    ### Your First Run
+    Try this prompt:
+
+    "Route this support ticket:
+
+    Subject: URGENT - Production Database Down
+
+    Customer: Acme Corp (Enterprise tier)
+
+    Description: Our production database has been unresponsive for the past 2 hours. We've tried restarting the service but it keeps crashing. This is affecting all 500 users in our organization and we cannot process any orders. We've already contacted support twice today with no resolution. Our CEO is asking for updates and we have a board presentation tomorrow that depends on this data.
+
+    Previous tickets: 2 tickets opened today, both marked as 'investigating'"
+
+    ### Pro Tips
+    - **Include Customer Tier**: Helps prioritize VIP customers appropriately
+    - **Mention Previous Attempts**: Informs handoff context about what has been tried
+    - **Note Business Impact**: Helps urgency assessment
+    - **Add Timeline**: Enables better handoff preparation
+    - **Batch Analysis**: Process multiple tickets for queue prioritization
+
+    ### Example Use Cases
+    - Incoming ticket triage automation
+    - Priority queue management
+    - Human agent handoff preparation
+    - Escalation pattern tracking
+    - SLA impact assessment
+    - Support team routing optimization
+
+root_agents:
+  - ../agents/escalation-coordinator.yaml
+ids:
+  blueprint: b1bc65df-c28a-4317-8125-13bdf3574ac6
+  agents:
+    ../agents/escalation-coordinator.yaml: 695bd4b7c2dad05ba69ad719
+    ../agents/complexity-analyzer.yaml: 695bd4b6c2dad05ba69ad718
+    ../agents/tier-router.yaml: 695bd4b6457887dd859fb2ca

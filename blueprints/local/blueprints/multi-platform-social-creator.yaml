@@ -1,0 +1,119 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Multi-Platform Social Post Creator
+  description: Transforms any marketing message into platform-optimized social 
+    media content across LinkedIn, Twitter/X, Instagram, and Facebook. Maintains
+    brand consistency while maximizing each platform's unique engagement 
+    mechanics.
+  category: marketing
+  tags:
+    - marketing
+    - social-media
+    - content-creation
+    - copywriting
+    - multi-platform
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Marketing teams need to maintain presence across LinkedIn, Twitter/X, Instagram, and Facebook. Each platform has different audiences, formats, and engagement patterns. A single announcement needs four different versions.
+
+    ### The Challenge
+    Writing platform-native content is time-consuming. What works on LinkedIn (long-form thought leadership) falls flat on Twitter (concise and punchy). Instagram needs visual focus and hashtags, while Facebook thrives on community questions. Creating four quality posts for every piece of content is a bottleneck.
+
+    ### What's At Stake
+    Copy-paste content performs poorly. Generic posts get ignored by algorithms and audiences alike. Brands that don't adapt to platform conventions waste their reach. The time saved by posting the same content everywhere is lost to lower engagement.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Platform optimization is a distinct skill from content strategy. The same core message can be transformed into platform-native formats by understanding each channel's constraints and audience expectations.
+
+    ### The Method
+    A Social Media Campaign Coordinator analyzes the input and delegates to a Multi-Platform Content Generator that creates four distinct posts:
+
+    1. **LinkedIn**: Professional thought leadership (1000-1500 chars, minimal emoji, industry hashtags)
+    2. **Twitter/X**: Punchy and direct (280 chars max, 2-3 hashtags, shareable)
+    3. **Instagram**: Visual-first aspirational (100-150 chars, emoji-rich, 5-10 hashtags)
+    4. **Facebook**: Conversational community-building (200-300 chars, question-driven)
+
+    ### Why This Works
+    The coordinator ensures strategic consistency while the content generator optimizes for each platform's unique mechanics. The result is four posts that feel native to their platforms while maintaining unified brand messaging.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Transforms single input into 4 platform-specific posts
+    - Maintains brand voice consistency across platforms
+    - Optimizes for platform-specific character limits
+    - Applies appropriate hashtag strategies
+    - Includes posting time recommendations
+
+    ### Platform Coverage
+    - LinkedIn: Professional, data-driven, thought leadership
+    - Twitter/X: Concise, punchy, conversation-starting
+    - Instagram: Visual-focused, aspirational, hashtag-rich
+    - Facebook: Community-oriented, question-driven, casual
+
+    ### Content Types Supported
+    - Product launches and announcements
+    - Blog post promotions
+    - Event announcements
+    - Company news and updates
+    - Thought leadership topics
+    - Campaign messages
+
+    ### Output Includes
+    - Complete post text for each platform
+    - Platform-appropriate hashtags
+    - Character counts
+    - Best posting times
+    - Visual suggestions (for Instagram)
+
+    ### Boundaries
+    - Does not create actual images or videos
+    - Does not schedule or post automatically
+    - Optimizes for organic reach, not paid ads
+    - English language primary focus
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    None - works out of the box.
+
+    ### Your First Run
+    Try this prompt:
+
+    "Create social media posts for: We're launching an AI-powered project management tool that uses machine learning to prioritize tasks automatically. Key benefits: saves 5 hours per week, integrates with Slack and Jira, free 14-day trial."
+
+    ### Pro Tips
+    - **Be Specific**: Include key features, benefits, and target audience
+    - **Add Context**: Mention if it's B2B or B2C focused
+    - **Include Links**: Specify what URL to promote
+    - **Set Tone**: Request specific brand voice (playful, professional, bold)
+    - **Time It**: Mention if it's time-sensitive for urgency in copy
+
+    ### Example Use Cases
+    - Product launch announcements
+    - Blog post promotion across channels
+    - Event invitations and reminders
+    - Company milestone celebrations
+    - Industry thought leadership
+    - Weekly content calendar creation
+
+root_agents:
+  - ../agents/social-media-coordinator.yaml
+ids:
+  blueprint: d2cca1a6-5729-48cf-bf57-ddc5ab5f4f1f
+  agents:
+    ../agents/social-media-coordinator.yaml: 695bd144a45696ac999e2adb
+    ../agents/social-content-generator.yaml: 695bd1436363be71980ee7d3

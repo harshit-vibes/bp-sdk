@@ -1,0 +1,135 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: MetaGPT Software Development Team
+  description: Multi-agent software development team simulation inspired by 
+    MetaGPT. Coordinates Product Manager, Architect, Developer, and QA Engineer 
+    agents to transform requirements into tested code through a structured 
+    development workflow.
+  category: tech
+  tags:
+    - tech
+    - featured
+    - multi-agent
+    - software-development
+    - metagpt
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Software development involves multiple specialized roles working together. Product managers define requirements, architects design systems, developers write code, and QA engineers ensure quality. Coordinating these activities requires careful handoffs and communication.
+
+    ### The Challenge
+    Traditional AI code generation produces code without the surrounding development process. There's no requirements analysis, no architectural planning, no quality validation. The result is often code that works in isolation but doesn't fit into a larger system or meet real user needs.
+
+    ### What's At Stake
+    Code without process leads to rework. Missing requirements cause incorrect implementations. Poor architecture creates technical debt. Skipped QA introduces bugs. The cost of fixing issues grows exponentially as they progress through stages.
+
+    > **Research Note**: This blueprint is inspired by MetaGPT, a multi-agent framework that assigns specialized roles to LLM agents and coordinates them through structured workflows. See: github.com/geekan/MetaGPT
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Software development succeeds when each phase produces clear artifacts that the next phase can build upon. Requirements become specifications. Specifications become architecture. Architecture becomes code. Code becomes tested software.
+
+    ### The Method
+    A Development Lead coordinates four specialized agents through a sequential workflow:
+
+    1. **Product Manager**: Analyzes requests, creates user stories and acceptance criteria
+    2. **Software Architect**: Designs system components, data models, and APIs
+    3. **Software Developer**: Implements code following the architectural blueprint
+    4. **QA Engineer**: Reviews code, writes tests, validates against requirements
+
+    Each agent produces structured artifacts that feed into the next phase.
+
+    ### Why This Works
+    Specialized agents excel at focused tasks. Clear handoff documents prevent information loss. Sequential workflow catches issues early. The final output includes not just code, but the full context needed to understand and extend it.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Transforms vague requests into detailed requirements
+    - Produces system architecture with component diagrams
+    - Generates complete, documented code implementations
+    - Creates test cases and quality assessments
+    - Coordinates multi-phase development workflow
+
+    ### Development Artifacts
+    - Product Requirements Document (user stories, acceptance criteria)
+    - Technical Architecture Document (components, data models, APIs)
+    - Implementation Report (code, setup instructions, examples)
+    - QA Report (test cases, bug reports, quality score)
+
+    ### Supported Project Types
+    - Small features and modules
+    - Proof of concept implementations
+    - Code refactoring exercises
+    - Technical design explorations
+    - Learning and demonstration
+
+    ### Technology Coverage
+    - Python (FastAPI, Django, Flask)
+    - JavaScript/TypeScript (Node.js, React)
+    - General purpose programming
+    - REST API design
+    - Database modeling
+
+    ### Boundaries
+    - Best for small to medium scope projects
+    - Produces design artifacts and code, not deployed systems
+    - Cannot access external APIs or databases
+    - Code requires human review before production use
+    - Not a replacement for professional development teams
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    None - works out of the box.
+
+    ### Your First Run
+    Try this prompt:
+
+    "Build a simple task management API with the following features:
+    - Create, read, update, delete tasks
+    - Tasks have title, description, status, and due date
+    - Filter tasks by status
+    - Simple authentication"
+
+    The team will produce:
+    1. Product requirements with user stories
+    2. System architecture with API design
+    3. Complete Python/FastAPI implementation
+    4. QA report with test cases
+
+    ### Pro Tips
+    - **Be Specific**: Clear requirements lead to better implementations
+    - **Start Small**: Complex projects should be broken into phases
+    - **Review Each Phase**: Check intermediate artifacts before proceeding
+    - **Iterate**: Use QA feedback to improve future requests
+    - **Extend Thoughtfully**: Add complexity incrementally
+
+    ### Example Projects
+    - REST API for a resource (users, products, orders)
+    - CLI tool for file processing
+    - Data validation service
+    - Simple CRUD web application
+    - Algorithm implementation with tests
+
+root_agents:
+  - ../agents/software-dev-lead.yaml
+ids:
+  blueprint: 4e1282f7-852f-4dee-be9a-6ed6c7e992b7
+  agents:
+    ../agents/software-dev-lead.yaml: 695bc41d457887dd859fb1b8
+    ../agents/metagpt-product-manager.yaml: 695bc41b457887dd859fb1b6
+    ../agents/metagpt-architect.yaml: 695bc41cc2dad05ba69ad5fe
+    ../agents/metagpt-developer.yaml: 695bc41c457887dd859fb1b7
+    ../agents/metagpt-qa-engineer.yaml: 695bc41dc2dad05ba69ad5ff

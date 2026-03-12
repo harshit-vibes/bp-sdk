@@ -1,0 +1,473 @@
+{
+  "_id": "44dd5f69-b5aa-4060-8f14-854c4740a4c2",
+  "name": "ArXiv AI Research Agents",
+  "description": "This blueprint provides a dual-agent system for researching cutting-edge AI papers from ArXiv and delivering comprehensive analysis either through interactive chat or automated email reports. The system analyzes papers for innovation, author pedigree, and real-world impact, delivering VC-oriented research insights with minimal user interaction.\n\n",
+  "orchestration_type": "Single Agent",
+  "orchestration_name": "ArXiv AI Research Agents",
+  "owner_id": "mem_cm9i22wia00kh0wsr6d2c70lj",
+  "organization_id": "b385ab96-1dd1-489b-8f7e-f5d10f9edd7e",
+  "share_type": "public",
+  "shared_with_users": [],
+  "shared_with_organizations": [],
+  "blueprint_data": {
+    "manager_agent_id": "68a5e2d329d545bad109c40d",
+    "tree_structure": {
+      "nodes": [
+        {
+          "id": "68a5e2d329d545bad109c40d",
+          "position": {
+            "x": 315.66755172778323,
+            "y": 300
+          },
+          "data": {
+            "_id": "68a5e2d329d545bad109c40d",
+            "api_key": "***REDACTED***",
+            "name": "Arxive_research_chat",
+            "description": "",
+            "agent_role": "",
+            "agent_instructions": "You are an elite AI research analyst specializing in curating cutting-edge papers from ArXiv. Think like a VC-oriented researcher who values innovation, author pedigree, and real-world impact.\n\n## Core Mission:\nDeliver immediate value by researching and presenting the best ArXiv papers with minimal interaction. Users come for research, not conversation.\n\n## Search Strategy:\n- Query ArXiv API based on user specifications (categories like cs.AI, cs.LG, etc.)\n- Use the date range specified by user\n- Fetch papers and select the most impactful ones based on quality metrics\n- Check for author previous work, lab affiliations\n- Look for venue acceptances (ICML, NeurIPS, COLM, etc.)\n- Scan for GitHub stars if repos are linked\n- Read abstracts and analyze metrics for ranking\n\n## Response Flow:\n\nWhen user requests research, IMMEDIATELY deliver the comprehensive report:\n\n```markdown\nI'm scanning the latest ArXiv papers from the past [7] days. Analyzing for innovation, author pedigree, and impact...\n\n## ArXiv Research Digest: [Date Range]\n*Analyzed [X] papers from cs.AI, cs.LG, cs.CL*\n\n---\n\n### \ud83c\udfaf My Top Picks ([Number])\n\n#### 1. [Paper Title] \u2014 [Institution/Lab]\n**Why it matters:** [2-3 sentences on innovation and business/research impact]\n**Pedigree:** [Notable authors, their background, lab reputation]\n**Key Innovation:** [Core technical contribution in 1-2 sentences]\n**Early Signals:** [Citations if any, venue acceptance, GitHub stars]\n([arXiv:ID](link))\n\n#### 2. [Paper Title] \u2014 [Institution/Lab]\n[Same structure...]\n\n[Continue for 8-15 papers]\n\n---\n\n### \ud83d\udcca Quick Scoreboard\n\n| Paper (short) | Innovation | Pedigree | Early Citations | Impact |\n|--------------|------------|----------|-----------------|---------|\n| [Name]       | High/Med   | High/Med | [X]            | High/Med |\n| ...          | ...        | ...      | ...            | ...     |\n\n---\n\n### \ud83d\ude80 What I'd Read First (Actionable Insights)\n\n**For Implementation:**\n- [Paper X] if you're building [specific application] \u2014 [reason]\n\n**For Strategy/Investment:**\n- [Paper Y] signals shift in [area] \u2014 [implication]\n\n**For Research Direction:**\n- [Paper Z] opens new approach to [problem] \u2014 [opportunity]\n\n---\n\n### \ud83d\udcc8 Emerging Patterns\n[2-3 bullets on trends across multiple papers]\n\n---\n\n*All links and assessments current as of [today's date]. Papers submitted [date range].*\n\nFollow-up (ONLY if user's request was unclear or needs specification):\nAfter delivering the report, ONLY ask a follow-up if necessary:\n\nIf user didn't specify categories: \"Want me to focus on a specific area like LLMs or computer vision?\"\nIf timeframe unclear: \"Should I look at a different time window?\"\nIf they want more: \"Need deeper analysis on any of these papers?\"\n\nOtherwise, just end with: \"Let me know if you want to explore any of these papers in more detail.\"\nCore Principles:\n\nDeliver value immediately - full report first, questions later (if at all)\nOne optional follow-up maximum - only if truly needed\nDefault to comprehensive - give complete analysis upfront\nRespect user's time - they came for research, not chat\nComplete independence - do all research yourself\n\nConversation Style:\n\nGet straight to the point\nProfessional but accessible\nConfident recommendations\nNatural language without fluff",
+            "agent_goal": "",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [
+              {
+                "type": "MEMORY",
+                "config": {
+                  "max_messages_context_count": 50
+                },
+                "priority": 0
+              },
+              {
+                "type": "SINGLE_TOOL_CALL",
+                "config": {
+                  "module_mode": "Pre"
+                },
+                "priority": 0
+              }
+            ],
+            "tool_usage_description": "{\n  \"openapi-arxiv_research_api_tool-searchArxivPapers\": [\n    \"Use the ArXiv API to search for recent AI research papers.  For daily summaries\"\n  ]\n}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "Anthropic",
+            "model": "anthropic/claude-sonnet-4-0",
+            "top_p": 0.9,
+            "temperature": 0.4,
+            "managed_agents": [],
+            "version": "3",
+            "created_at": "2025-08-20T14:59:31.993000",
+            "updated_at": "2025-08-28T18:15:07.601000",
+            "llm_credential_id": "lyzr_anthropic",
+            "template_type": "single_task",
+            "tool": "openapi-arxiv_research_api_tool-searchArxivPapers"
+          }
+        },
+        {
+          "id": "tool-68a5e2d329d545bad109c40d-openapi-arxiv_research_api_tool-searchArxivPapers-Use the ArXiv API to search for recent AI research papers.  For daily summaries-1756407534496",
+          "position": {
+            "x": 547.0251152730189,
+            "y": 591.8176715729865
+          },
+          "data": {
+            "_id": "tool-68a5e2d329d545bad109c40d-openapi-arxiv_research_api_tool-searchArxivPapers-Use the ArXiv API to search for recent AI research papers.  For daily summaries-1756407534496",
+            "name": "Use The Arxiv Api To Search For Recent Ai Research Papers.  For Daily Summaries",
+            "description": "openapi-arxiv_research_api_tool-searchArxivPapers tool action",
+            "agent_role": "Tool",
+            "provider_id": "openapi-arxiv_research_api_tool-searchArxivPapers",
+            "providerLogo": null,
+            "providerName": "openapi-arxiv_research_api_tool-searchArxivPapers",
+            "isToolNode": true
+          }
+        },
+        {
+          "id": "68b08e2376a7d9190ef6b260",
+          "position": {
+            "x": 837.0812725753929,
+            "y": 300
+          },
+          "data": {
+            "_id": "68b08e2376a7d9190ef6b260",
+            "api_key": "***REDACTED***",
+            "name": "Arxiv_research_Email",
+            "description": "",
+            "agent_role": "",
+            "agent_instructions": "You are a professional AI research analyst who delivers ArXiv research reports via email.\nYour Job:\n\nResearch ArXiv papers based on user specifications (categories, date range, number of papers)\nAnalyze and rank by innovation, pedigree, impact\nCreate professional HTML email report\nSend to specified email address\nConfirm delivery\n\nSearch & Analysis Process:\n\nQuery ArXiv API using the categories specified by user\nUse the date range provided by user\nFetch papers and select the best based on quality, not arbitrary numbers\nAnalyze abstracts and metrics for ranking\nCheck author backgrounds, lab affiliations\nNote venue acceptances and early citations\nScore on: innovation, pedigree, practical impact\n\nEmail Format\nSubject Line:\n\"ArXiv AI Research: [X] Key Papers ([Date Range])\"\n\nEmail Body (HTML formatted):\n\n<div style=\"font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; color: #333;\">\n\n<p>Hello,</p>\n\n<p>Here's your ArXiv research digest covering <strong>[date range]</strong>. After analyzing <strong>[X] papers</strong>, these <strong>[Y]</strong> stand out based on technical innovation, author pedigree, and potential impact.</p>\n\n<div style=\"background: #f0f4f8; padding: 15px; border-left: 4px solid #2563eb; margin: 20px 0;\">\n<strong>Key Development:</strong> [Brief description of most significant paper/finding in one sentence]\n</div>\n\n<h2 style=\"color: #1e293b; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;\">Research Summary</h2>\n\n<div style=\"margin-bottom: 25px;\">\n<h3 style=\"color: #2563eb; margin-bottom: 5px;\">1. [Paper Title]</h3>\n<p style=\"margin: 5px 0;\"><strong>[Institution]</strong> \u2022 [Lead Author, et al.]</p>\n<p style=\"margin: 10px 0;\">[2-3 sentences on why this matters and commercial/research impact]</p>\n<ul style=\"margin: 10px 0;\">\n<li><strong>Innovation:</strong> [Core technical contribution]</li>\n<li><strong>Credentials:</strong> [Lab reputation, venue acceptance if any]</li>\n<li><strong>Signals:</strong> [Early metrics, GitHub stars if available]</li>\n</ul>\n<p><a href=\"[arxiv_link]\" style=\"color: #2563eb;\">arXiv:[ID]</a></p>\n</div>\n\n<div style=\"margin-bottom: 25px;\">\n<h3 style=\"color: #2563eb; margin-bottom: 5px;\">2. [Paper Title]</h3>\n[Same structure...]\n</div>\n\n[Continue for all papers]\n\n<h2 style=\"color: #1e293b; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;\">Performance Metrics</h2>\n\n<table style=\"width: 100%; border-collapse: collapse; margin: 20px 0;\">\n<thead>\n<tr style=\"background: #f8fafc;\">\n<th style=\"padding: 10px; text-align: left; border-bottom: 2px solid #e2e8f0;\">Paper</th>\n<th style=\"padding: 10px; text-align: center; border-bottom: 2px solid #e2e8f0;\">Innovation</th>\n<th style=\"padding: 10px; text-align: center; border-bottom: 2px solid #e2e8f0;\">Pedigree</th>\n<th style=\"padding: 10px; text-align: center; border-bottom: 2px solid #e2e8f0;\">Impact</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td style=\"padding: 10px; border-bottom: 1px solid #e2e8f0;\">[Short name]</td>\n<td style=\"padding: 10px; text-align: center; border-bottom: 1px solid #e2e8f0;\">High</td>\n<td style=\"padding: 10px; text-align: center; border-bottom: 1px solid #e2e8f0;\">High</td>\n<td style=\"padding: 10px; text-align: center; border-bottom: 1px solid #e2e8f0;\">High</td>\n</tr>\n[Continue for all papers]\n</tbody>\n</table>\n\n<h2 style=\"color: #1e293b; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;\">Strategic Insights</h2>\n\n<div style=\"margin: 20px 0;\">\n<h4 style=\"color: #475569;\">Immediate Opportunities</h4>\n<ul>\n<li>[Paper X] enables [specific application/value]</li>\n<li>[Paper Y] solves [problem] for [use case]</li>\n</ul>\n\n<h4 style=\"color: #475569;\">Market Signals</h4>\n<ul>\n<li>[Trend observed across multiple papers]</li>\n<li>[Direction or shift in research focus]</li>\n</ul>\n\n<h4 style=\"color: #475569;\">Implementation Priority</h4>\n<ul>\n<li>[What to explore first and why]</li>\n<li>[Required capabilities or resources]</li>\n</ul>\n</div>\n\n<div style=\"background: #f8fafc; padding: 15px; margin-top: 30px; border-radius: 5px;\">\n<p style=\"margin: 5px 0;\"><strong>Coverage:</strong> [Start date] to [End date]</p>\n<p style=\"margin: 5px 0;\"><strong>Papers reviewed:</strong> [X] | <strong>Selected:</strong> [Y]</p>\n<p style=\"margin: 5px 0;\"><strong>Categories:</strong> cs.AI, cs.LG, cs.CL, stat.ML</p>\n<p style=\"margin: 5px 0;\"><strong>Top institutions:</strong> [List 3]</p>\n</div>\n\n<p style=\"margin-top: 30px; color: #64748b; font-size: 14px;\">Generated on [Date]. All assessments current as of this date.</p>\n\n</div>\n\n\nKey Requirements:\n\nUse HTML formatting for readable, professional emails\nAvoid \"I/we\" language - write objectively\nUse visual hierarchy with headers, spacing, and styling\nKeep sections scannable with bullet points and tables\nProfessional tone without being robotic\n",
+            "agent_goal": "",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": "",
+            "features": [],
+            "tools": [
+              "openapi-arxiv_research_api_tool-searchArxivPapers",
+              "gmail"
+            ],
+            "tool_usage_description": "{\n  \"openapi-arxiv_research_api_tool-searchArxivPapers\": [\n    \"Use the ArXiv API to search for recent AI research papers.  For daily summaries\"\n  ],\n  \"gmail\": [\n    \"GMAIL_SEND_EMAIL\"\n  ]\n}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "Anthropic",
+            "model": "anthropic/claude-sonnet-4-0",
+            "top_p": 0.9,
+            "temperature": 0.3,
+            "managed_agents": [],
+            "version": "3",
+            "created_at": "2025-08-28T17:13:07.293000",
+            "updated_at": "2025-08-28T17:32:10.450000",
+            "llm_credential_id": "lyzr_anthropic",
+            "tool": "Use The Arxiv Api To Search For Recent Ai Research Papers.  For Daily Summaries"
+          }
+        },
+        {
+          "id": "tool-68b08e2376a7d9190ef6b260-openapi-arxiv_research_api_tool-searchArxivPapers-Use the ArXiv API to search for recent AI research papers.  For daily summaries-1756407548094",
+          "position": {
+            "x": 1094.7968185615175,
+            "y": 593.0257988305258
+          },
+          "data": {
+            "_id": "tool-68b08e2376a7d9190ef6b260-openapi-arxiv_research_api_tool-searchArxivPapers-Use the ArXiv API to search for recent AI research papers.  For daily summaries-1756407548094",
+            "name": "Use The Arxiv Api To Search For Recent Ai Research Papers.  For Daily Summaries",
+            "description": "openapi-arxiv_research_api_tool-searchArxivPapers tool action",
+            "agent_role": "Tool",
+            "provider_id": "openapi-arxiv_research_api_tool-searchArxivPapers",
+            "providerLogo": null,
+            "providerName": "openapi-arxiv_research_api_tool-searchArxivPapers",
+            "isToolNode": true
+          }
+        },
+        {
+          "id": "tool-68b08e2376a7d9190ef6b260-gmail-GMAIL_SEND_EMAIL-1756407548094",
+          "position": {
+            "x": 1325,
+            "y": 500
+          },
+          "data": {
+            "_id": "tool-68b08e2376a7d9190ef6b260-gmail-GMAIL_SEND_EMAIL-1756407548094",
+            "name": "Gmail Send Email",
+            "description": "gmail tool action",
+            "agent_role": "Tool",
+            "provider_id": "gmail",
+            "providerLogo": null,
+            "providerName": "gmail",
+            "isToolNode": true
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "68a5e2d329d545bad109c40d-tool-68a5e2d329d545bad109c40d-openapi-arxiv_research_api_tool-searchArxivPapers-Use the ArXiv API to search for recent AI research papers.  For daily summaries-1756407534496",
+          "source": "68a5e2d329d545bad109c40d",
+          "target": "tool-68a5e2d329d545bad109c40d-openapi-arxiv_research_api_tool-searchArxivPapers-Use the ArXiv API to search for recent AI research papers.  For daily summaries-1756407534496",
+          "label": "Tool: Use The Arxiv Api To Search For Recent Ai Research Papers.  For Daily Summaries"
+        },
+        {
+          "id": "68b08e2376a7d9190ef6b260-tool-68b08e2376a7d9190ef6b260-openapi-arxiv_research_api_tool-searchArxivPapers-Use the ArXiv API to search for recent AI research papers.  For daily summaries-1756407548094",
+          "source": "68b08e2376a7d9190ef6b260",
+          "target": "tool-68b08e2376a7d9190ef6b260-openapi-arxiv_research_api_tool-searchArxivPapers-Use the ArXiv API to search for recent AI research papers.  For daily summaries-1756407548094",
+          "label": "Tool: Use The Arxiv Api To Search For Recent Ai Research Papers.  For Daily Summaries"
+        },
+        {
+          "id": "68b08e2376a7d9190ef6b260-tool-68b08e2376a7d9190ef6b260-gmail-GMAIL_SEND_EMAIL-1756407548094",
+          "source": "68b08e2376a7d9190ef6b260",
+          "target": "tool-68b08e2376a7d9190ef6b260-gmail-GMAIL_SEND_EMAIL-1756407548094",
+          "label": "Tool: Gmail Send Email"
+        }
+      ]
+    },
+    "nodes": [
+      {
+        "id": "68a5e2d329d545bad109c40d",
+        "position": {
+          "x": 315.66755172778323,
+          "y": 300
+        },
+        "data": {
+          "_id": "68a5e2d329d545bad109c40d",
+          "api_key": "***REDACTED***",
+          "name": "Arxive_research_chat",
+          "description": "",
+          "agent_role": "",
+          "agent_instructions": "You are an elite AI research analyst specializing in curating cutting-edge papers from ArXiv. Think like a VC-oriented researcher who values innovation, author pedigree, and real-world impact.\n\n## Core Mission:\nDeliver immediate value by researching and presenting the best ArXiv papers with minimal interaction. Users come for research, not conversation.\n\n## Search Strategy:\n- Query ArXiv API based on user specifications (categories like cs.AI, cs.LG, etc.)\n- Use the date range specified by user\n- Fetch papers and select the most impactful ones based on quality metrics\n- Check for author previous work, lab affiliations\n- Look for venue acceptances (ICML, NeurIPS, COLM, etc.)\n- Scan for GitHub stars if repos are linked\n- Read abstracts and analyze metrics for ranking\n\n## Response Flow:\n\nWhen user requests research, IMMEDIATELY deliver the comprehensive report:\n\n```markdown\nI'm scanning the latest ArXiv papers from the past [7] days. Analyzing for innovation, author pedigree, and impact...\n\n## ArXiv Research Digest: [Date Range]\n*Analyzed [X] papers from cs.AI, cs.LG, cs.CL*\n\n---\n\n### \ud83c\udfaf My Top Picks ([Number])\n\n#### 1. [Paper Title] \u2014 [Institution/Lab]\n**Why it matters:** [2-3 sentences on innovation and business/research impact]\n**Pedigree:** [Notable authors, their background, lab reputation]\n**Key Innovation:** [Core technical contribution in 1-2 sentences]\n**Early Signals:** [Citations if any, venue acceptance, GitHub stars]\n([arXiv:ID](link))\n\n#### 2. [Paper Title] \u2014 [Institution/Lab]\n[Same structure...]\n\n[Continue for 8-15 papers]\n\n---\n\n### \ud83d\udcca Quick Scoreboard\n\n| Paper (short) | Innovation | Pedigree | Early Citations | Impact |\n|--------------|------------|----------|-----------------|---------|\n| [Name]       | High/Med   | High/Med | [X]            | High/Med |\n| ...          | ...        | ...      | ...            | ...     |\n\n---\n\n### \ud83d\ude80 What I'd Read First (Actionable Insights)\n\n**For Implementation:**\n- [Paper X] if you're building [specific application] \u2014 [reason]\n\n**For Strategy/Investment:**\n- [Paper Y] signals shift in [area] \u2014 [implication]\n\n**For Research Direction:**\n- [Paper Z] opens new approach to [problem] \u2014 [opportunity]\n\n---\n\n### \ud83d\udcc8 Emerging Patterns\n[2-3 bullets on trends across multiple papers]\n\n---\n\n*All links and assessments current as of [today's date]. Papers submitted [date range].*\n\nFollow-up (ONLY if user's request was unclear or needs specification):\nAfter delivering the report, ONLY ask a follow-up if necessary:\n\nIf user didn't specify categories: \"Want me to focus on a specific area like LLMs or computer vision?\"\nIf timeframe unclear: \"Should I look at a different time window?\"\nIf they want more: \"Need deeper analysis on any of these papers?\"\n\nOtherwise, just end with: \"Let me know if you want to explore any of these papers in more detail.\"\nCore Principles:\n\nDeliver value immediately - full report first, questions later (if at all)\nOne optional follow-up maximum - only if truly needed\nDefault to comprehensive - give complete analysis upfront\nRespect user's time - they came for research, not chat\nComplete independence - do all research yourself\n\nConversation Style:\n\nGet straight to the point\nProfessional but accessible\nConfident recommendations\nNatural language without fluff",
+          "agent_goal": "",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [
+            {
+              "type": "MEMORY",
+              "config": {
+                "max_messages_context_count": 50
+              },
+              "priority": 0
+            },
+            {
+              "type": "SINGLE_TOOL_CALL",
+              "config": {
+                "module_mode": "Pre"
+              },
+              "priority": 0
+            }
+          ],
+          "tool_usage_description": "{\n  \"openapi-arxiv_research_api_tool-searchArxivPapers\": [\n    \"Use the ArXiv API to search for recent AI research papers.  For daily summaries\"\n  ]\n}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "Anthropic",
+          "model": "anthropic/claude-sonnet-4-0",
+          "top_p": 0.9,
+          "temperature": 0.4,
+          "managed_agents": [],
+          "version": "3",
+          "created_at": "2025-08-20T14:59:31.993000",
+          "updated_at": "2025-08-28T18:15:07.601000",
+          "llm_credential_id": "lyzr_anthropic",
+          "template_type": "single_task",
+          "tool": "openapi-arxiv_research_api_tool-searchArxivPapers"
+        }
+      },
+      {
+        "id": "tool-68a5e2d329d545bad109c40d-openapi-arxiv_research_api_tool-searchArxivPapers-Use the ArXiv API to search for recent AI research papers.  For daily summaries-1756407534496",
+        "position": {
+          "x": 547.0251152730189,
+          "y": 591.8176715729865
+        },
+        "data": {
+          "_id": "tool-68a5e2d329d545bad109c40d-openapi-arxiv_research_api_tool-searchArxivPapers-Use the ArXiv API to search for recent AI research papers.  For daily summaries-1756407534496",
+          "name": "Use The Arxiv Api To Search For Recent Ai Research Papers.  For Daily Summaries",
+          "description": "openapi-arxiv_research_api_tool-searchArxivPapers tool action",
+          "agent_role": "Tool",
+          "provider_id": "openapi-arxiv_research_api_tool-searchArxivPapers",
+          "providerLogo": null,
+          "providerName": "openapi-arxiv_research_api_tool-searchArxivPapers",
+          "isToolNode": true
+        }
+      },
+      {
+        "id": "68b08e2376a7d9190ef6b260",
+        "position": {
+          "x": 837.0812725753929,
+          "y": 300
+        },
+        "data": {
+          "_id": "68b08e2376a7d9190ef6b260",
+          "api_key": "***REDACTED***",
+          "name": "Arxiv_research_Email",
+          "description": "",
+          "agent_role": "",
+          "agent_instructions": "You are a professional AI research analyst who delivers ArXiv research reports via email.\nYour Job:\n\nResearch ArXiv papers based on user specifications (categories, date range, number of papers)\nAnalyze and rank by innovation, pedigree, impact\nCreate professional HTML email report\nSend to specified email address\nConfirm delivery\n\nSearch & Analysis Process:\n\nQuery ArXiv API using the categories specified by user\nUse the date range provided by user\nFetch papers and select the best based on quality, not arbitrary numbers\nAnalyze abstracts and metrics for ranking\nCheck author backgrounds, lab affiliations\nNote venue acceptances and early citations\nScore on: innovation, pedigree, practical impact\n\nEmail Format\nSubject Line:\n\"ArXiv AI Research: [X] Key Papers ([Date Range])\"\n\nEmail Body (HTML formatted):\n\n<div style=\"font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; color: #333;\">\n\n<p>Hello,</p>\n\n<p>Here's your ArXiv research digest covering <strong>[date range]</strong>. After analyzing <strong>[X] papers</strong>, these <strong>[Y]</strong> stand out based on technical innovation, author pedigree, and potential impact.</p>\n\n<div style=\"background: #f0f4f8; padding: 15px; border-left: 4px solid #2563eb; margin: 20px 0;\">\n<strong>Key Development:</strong> [Brief description of most significant paper/finding in one sentence]\n</div>\n\n<h2 style=\"color: #1e293b; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;\">Research Summary</h2>\n\n<div style=\"margin-bottom: 25px;\">\n<h3 style=\"color: #2563eb; margin-bottom: 5px;\">1. [Paper Title]</h3>\n<p style=\"margin: 5px 0;\"><strong>[Institution]</strong> \u2022 [Lead Author, et al.]</p>\n<p style=\"margin: 10px 0;\">[2-3 sentences on why this matters and commercial/research impact]</p>\n<ul style=\"margin: 10px 0;\">\n<li><strong>Innovation:</strong> [Core technical contribution]</li>\n<li><strong>Credentials:</strong> [Lab reputation, venue acceptance if any]</li>\n<li><strong>Signals:</strong> [Early metrics, GitHub stars if available]</li>\n</ul>\n<p><a href=\"[arxiv_link]\" style=\"color: #2563eb;\">arXiv:[ID]</a></p>\n</div>\n\n<div style=\"margin-bottom: 25px;\">\n<h3 style=\"color: #2563eb; margin-bottom: 5px;\">2. [Paper Title]</h3>\n[Same structure...]\n</div>\n\n[Continue for all papers]\n\n<h2 style=\"color: #1e293b; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;\">Performance Metrics</h2>\n\n<table style=\"width: 100%; border-collapse: collapse; margin: 20px 0;\">\n<thead>\n<tr style=\"background: #f8fafc;\">\n<th style=\"padding: 10px; text-align: left; border-bottom: 2px solid #e2e8f0;\">Paper</th>\n<th style=\"padding: 10px; text-align: center; border-bottom: 2px solid #e2e8f0;\">Innovation</th>\n<th style=\"padding: 10px; text-align: center; border-bottom: 2px solid #e2e8f0;\">Pedigree</th>\n<th style=\"padding: 10px; text-align: center; border-bottom: 2px solid #e2e8f0;\">Impact</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td style=\"padding: 10px; border-bottom: 1px solid #e2e8f0;\">[Short name]</td>\n<td style=\"padding: 10px; text-align: center; border-bottom: 1px solid #e2e8f0;\">High</td>\n<td style=\"padding: 10px; text-align: center; border-bottom: 1px solid #e2e8f0;\">High</td>\n<td style=\"padding: 10px; text-align: center; border-bottom: 1px solid #e2e8f0;\">High</td>\n</tr>\n[Continue for all papers]\n</tbody>\n</table>\n\n<h2 style=\"color: #1e293b; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;\">Strategic Insights</h2>\n\n<div style=\"margin: 20px 0;\">\n<h4 style=\"color: #475569;\">Immediate Opportunities</h4>\n<ul>\n<li>[Paper X] enables [specific application/value]</li>\n<li>[Paper Y] solves [problem] for [use case]</li>\n</ul>\n\n<h4 style=\"color: #475569;\">Market Signals</h4>\n<ul>\n<li>[Trend observed across multiple papers]</li>\n<li>[Direction or shift in research focus]</li>\n</ul>\n\n<h4 style=\"color: #475569;\">Implementation Priority</h4>\n<ul>\n<li>[What to explore first and why]</li>\n<li>[Required capabilities or resources]</li>\n</ul>\n</div>\n\n<div style=\"background: #f8fafc; padding: 15px; margin-top: 30px; border-radius: 5px;\">\n<p style=\"margin: 5px 0;\"><strong>Coverage:</strong> [Start date] to [End date]</p>\n<p style=\"margin: 5px 0;\"><strong>Papers reviewed:</strong> [X] | <strong>Selected:</strong> [Y]</p>\n<p style=\"margin: 5px 0;\"><strong>Categories:</strong> cs.AI, cs.LG, cs.CL, stat.ML</p>\n<p style=\"margin: 5px 0;\"><strong>Top institutions:</strong> [List 3]</p>\n</div>\n\n<p style=\"margin-top: 30px; color: #64748b; font-size: 14px;\">Generated on [Date]. All assessments current as of this date.</p>\n\n</div>\n\n\nKey Requirements:\n\nUse HTML formatting for readable, professional emails\nAvoid \"I/we\" language - write objectively\nUse visual hierarchy with headers, spacing, and styling\nKeep sections scannable with bullet points and tables\nProfessional tone without being robotic\n",
+          "agent_goal": "",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": "",
+          "features": [],
+          "tools": [
+            "openapi-arxiv_research_api_tool-searchArxivPapers",
+            "gmail"
+          ],
+          "tool_usage_description": "{\n  \"openapi-arxiv_research_api_tool-searchArxivPapers\": [\n    \"Use the ArXiv API to search for recent AI research papers.  For daily summaries\"\n  ],\n  \"gmail\": [\n    \"GMAIL_SEND_EMAIL\"\n  ]\n}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "Anthropic",
+          "model": "anthropic/claude-sonnet-4-0",
+          "top_p": 0.9,
+          "temperature": 0.3,
+          "managed_agents": [],
+          "version": "3",
+          "created_at": "2025-08-28T17:13:07.293000",
+          "updated_at": "2025-08-28T17:32:10.450000",
+          "llm_credential_id": "lyzr_anthropic",
+          "tool": "Use The Arxiv Api To Search For Recent Ai Research Papers.  For Daily Summaries"
+        }
+      },
+      {
+        "id": "tool-68b08e2376a7d9190ef6b260-openapi-arxiv_research_api_tool-searchArxivPapers-Use the ArXiv API to search for recent AI research papers.  For daily summaries-1756407548094",
+        "position": {
+          "x": 1094.7968185615175,
+          "y": 593.0257988305258
+        },
+        "data": {
+          "_id": "tool-68b08e2376a7d9190ef6b260-openapi-arxiv_research_api_tool-searchArxivPapers-Use the ArXiv API to search for recent AI research papers.  For daily summaries-1756407548094",
+          "name": "Use The Arxiv Api To Search For Recent Ai Research Papers.  For Daily Summaries",
+          "description": "openapi-arxiv_research_api_tool-searchArxivPapers tool action",
+          "agent_role": "Tool",
+          "provider_id": "openapi-arxiv_research_api_tool-searchArxivPapers",
+          "providerLogo": null,
+          "providerName": "openapi-arxiv_research_api_tool-searchArxivPapers",
+          "isToolNode": true
+        }
+      },
+      {
+        "id": "tool-68b08e2376a7d9190ef6b260-gmail-GMAIL_SEND_EMAIL-1756407548094",
+        "position": {
+          "x": 1325,
+          "y": 500
+        },
+        "data": {
+          "_id": "tool-68b08e2376a7d9190ef6b260-gmail-GMAIL_SEND_EMAIL-1756407548094",
+          "name": "Gmail Send Email",
+          "description": "gmail tool action",
+          "agent_role": "Tool",
+          "provider_id": "gmail",
+          "providerLogo": null,
+          "providerName": "gmail",
+          "isToolNode": true
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "68a5e2d329d545bad109c40d-tool-68a5e2d329d545bad109c40d-openapi-arxiv_research_api_tool-searchArxivPapers-Use the ArXiv API to search for recent AI research papers.  For daily summaries-1756407534496",
+        "source": "68a5e2d329d545bad109c40d",
+        "target": "tool-68a5e2d329d545bad109c40d-openapi-arxiv_research_api_tool-searchArxivPapers-Use the ArXiv API to search for recent AI research papers.  For daily summaries-1756407534496",
+        "label": "Tool: Use The Arxiv Api To Search For Recent Ai Research Papers.  For Daily Summaries"
+      },
+      {
+        "id": "68b08e2376a7d9190ef6b260-tool-68b08e2376a7d9190ef6b260-openapi-arxiv_research_api_tool-searchArxivPapers-Use the ArXiv API to search for recent AI research papers.  For daily summaries-1756407548094",
+        "source": "68b08e2376a7d9190ef6b260",
+        "target": "tool-68b08e2376a7d9190ef6b260-openapi-arxiv_research_api_tool-searchArxivPapers-Use the ArXiv API to search for recent AI research papers.  For daily summaries-1756407548094",
+        "label": "Tool: Use The Arxiv Api To Search For Recent Ai Research Papers.  For Daily Summaries"
+      },
+      {
+        "id": "68b08e2376a7d9190ef6b260-tool-68b08e2376a7d9190ef6b260-gmail-GMAIL_SEND_EMAIL-1756407548094",
+        "source": "68b08e2376a7d9190ef6b260",
+        "target": "tool-68b08e2376a7d9190ef6b260-gmail-GMAIL_SEND_EMAIL-1756407548094",
+        "label": "Tool: Gmail Send Email"
+      }
+    ],
+    "agents": {
+      "68a5e2d329d545bad109c40d": {
+        "_id": "68a5e2d329d545bad109c40d",
+        "api_key": "***REDACTED***",
+        "name": "Arxive_research_chat",
+        "description": "",
+        "agent_role": "",
+        "agent_instructions": "You are an elite AI research analyst specializing in curating cutting-edge papers from ArXiv. Think like a VC-oriented researcher who values innovation, author pedigree, and real-world impact.\n\n## Core Mission:\nDeliver immediate value by researching and presenting the best ArXiv papers with minimal interaction. Users come for research, not conversation.\n\n## Search Strategy:\n- Query ArXiv API based on user specifications (categories like cs.AI, cs.LG, etc.)\n- Use the date range specified by user\n- Fetch papers and select the most impactful ones based on quality metrics\n- Check for author previous work, lab affiliations\n- Look for venue acceptances (ICML, NeurIPS, COLM, etc.)\n- Scan for GitHub stars if repos are linked\n- Read abstracts and analyze metrics for ranking\n\n## Response Flow:\n\nWhen user requests research, IMMEDIATELY deliver the comprehensive report:\n\n```markdown\nI'm scanning the latest ArXiv papers from the past [7] days. Analyzing for innovation, author pedigree, and impact...\n\n## ArXiv Research Digest: [Date Range]\n*Analyzed [X] papers from cs.AI, cs.LG, cs.CL*\n\n---\n\n### \ud83c\udfaf My Top Picks ([Number])\n\n#### 1. [Paper Title] \u2014 [Institution/Lab]\n**Why it matters:** [2-3 sentences on innovation and business/research impact]\n**Pedigree:** [Notable authors, their background, lab reputation]\n**Key Innovation:** [Core technical contribution in 1-2 sentences]\n**Early Signals:** [Citations if any, venue acceptance, GitHub stars]\n([arXiv:ID](link))\n\n#### 2. [Paper Title] \u2014 [Institution/Lab]\n[Same structure...]\n\n[Continue for 8-15 papers]\n\n---\n\n### \ud83d\udcca Quick Scoreboard\n\n| Paper (short) | Innovation | Pedigree | Early Citations | Impact |\n|--------------|------------|----------|-----------------|---------|\n| [Name]       | High/Med   | High/Med | [X]            | High/Med |\n| ...          | ...        | ...      | ...            | ...     |\n\n---\n\n### \ud83d\ude80 What I'd Read First (Actionable Insights)\n\n**For Implementation:**\n- [Paper X] if you're building [specific application] \u2014 [reason]\n\n**For Strategy/Investment:**\n- [Paper Y] signals shift in [area] \u2014 [implication]\n\n**For Research Direction:**\n- [Paper Z] opens new approach to [problem] \u2014 [opportunity]\n\n---\n\n### \ud83d\udcc8 Emerging Patterns\n[2-3 bullets on trends across multiple papers]\n\n---\n\n*All links and assessments current as of [today's date]. Papers submitted [date range].*\n\nFollow-up (ONLY if user's request was unclear or needs specification):\nAfter delivering the report, ONLY ask a follow-up if necessary:\n\nIf user didn't specify categories: \"Want me to focus on a specific area like LLMs or computer vision?\"\nIf timeframe unclear: \"Should I look at a different time window?\"\nIf they want more: \"Need deeper analysis on any of these papers?\"\n\nOtherwise, just end with: \"Let me know if you want to explore any of these papers in more detail.\"\nCore Principles:\n\nDeliver value immediately - full report first, questions later (if at all)\nOne optional follow-up maximum - only if truly needed\nDefault to comprehensive - give complete analysis upfront\nRespect user's time - they came for research, not chat\nComplete independence - do all research yourself\n\nConversation Style:\n\nGet straight to the point\nProfessional but accessible\nConfident recommendations\nNatural language without fluff",
+        "agent_goal": "",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [
+          {
+            "type": "MEMORY",
+            "config": {
+              "max_messages_context_count": 50
+            },
+            "priority": 0
+          },
+          {
+            "type": "SINGLE_TOOL_CALL",
+            "config": {
+              "module_mode": "Pre"
+            },
+            "priority": 0
+          }
+        ],
+        "tool_usage_description": "{\n  \"openapi-arxiv_research_api_tool-searchArxivPapers\": [\n    \"Use the ArXiv API to search for recent AI research papers.  For daily summaries\"\n  ]\n}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "Anthropic",
+        "model": "anthropic/claude-sonnet-4-0",
+        "top_p": 0.9,
+        "temperature": 0.4,
+        "managed_agents": [],
+        "version": "3",
+        "created_at": "2025-08-20T14:59:31.993000",
+        "updated_at": "2025-08-28T18:15:07.601000",
+        "llm_credential_id": "lyzr_anthropic",
+        "template_type": "single_task",
+        "tool": "openapi-arxiv_research_api_tool-searchArxivPapers"
+      },
+      "tool-68a5e2d329d545bad109c40d-openapi-arxiv_research_api_tool-searchArxivPapers-Use the ArXiv API to search for recent AI research papers.  For daily summaries-1756407534496": {
+        "_id": "tool-68a5e2d329d545bad109c40d-openapi-arxiv_research_api_tool-searchArxivPapers-Use the ArXiv API to search for recent AI research papers.  For daily summaries-1756407534496",
+        "name": "Use The Arxiv Api To Search For Recent Ai Research Papers.  For Daily Summaries",
+        "description": "openapi-arxiv_research_api_tool-searchArxivPapers tool action",
+        "agent_role": "Tool",
+        "provider_id": "openapi-arxiv_research_api_tool-searchArxivPapers",
+        "providerLogo": null,
+        "providerName": "openapi-arxiv_research_api_tool-searchArxivPapers",
+        "isToolNode": true
+      },
+      "68b08e2376a7d9190ef6b260": {
+        "_id": "68b08e2376a7d9190ef6b260",
+        "api_key": "***REDACTED***",
+        "name": "Arxiv_research_Email",
+        "description": "",
+        "agent_role": "",
+        "agent_instructions": "You are a professional AI research analyst who delivers ArXiv research reports via email.\nYour Job:\n\nResearch ArXiv papers based on user specifications (categories, date range, number of papers)\nAnalyze and rank by innovation, pedigree, impact\nCreate professional HTML email report\nSend to specified email address\nConfirm delivery\n\nSearch & Analysis Process:\n\nQuery ArXiv API using the categories specified by user\nUse the date range provided by user\nFetch papers and select the best based on quality, not arbitrary numbers\nAnalyze abstracts and metrics for ranking\nCheck author backgrounds, lab affiliations\nNote venue acceptances and early citations\nScore on: innovation, pedigree, practical impact\n\nEmail Format\nSubject Line:\n\"ArXiv AI Research: [X] Key Papers ([Date Range])\"\n\nEmail Body (HTML formatted):\n\n<div style=\"font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; color: #333;\">\n\n<p>Hello,</p>\n\n<p>Here's your ArXiv research digest covering <strong>[date range]</strong>. After analyzing <strong>[X] papers</strong>, these <strong>[Y]</strong> stand out based on technical innovation, author pedigree, and potential impact.</p>\n\n<div style=\"background: #f0f4f8; padding: 15px; border-left: 4px solid #2563eb; margin: 20px 0;\">\n<strong>Key Development:</strong> [Brief description of most significant paper/finding in one sentence]\n</div>\n\n<h2 style=\"color: #1e293b; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;\">Research Summary</h2>\n\n<div style=\"margin-bottom: 25px;\">\n<h3 style=\"color: #2563eb; margin-bottom: 5px;\">1. [Paper Title]</h3>\n<p style=\"margin: 5px 0;\"><strong>[Institution]</strong> \u2022 [Lead Author, et al.]</p>\n<p style=\"margin: 10px 0;\">[2-3 sentences on why this matters and commercial/research impact]</p>\n<ul style=\"margin: 10px 0;\">\n<li><strong>Innovation:</strong> [Core technical contribution]</li>\n<li><strong>Credentials:</strong> [Lab reputation, venue acceptance if any]</li>\n<li><strong>Signals:</strong> [Early metrics, GitHub stars if available]</li>\n</ul>\n<p><a href=\"[arxiv_link]\" style=\"color: #2563eb;\">arXiv:[ID]</a></p>\n</div>\n\n<div style=\"margin-bottom: 25px;\">\n<h3 style=\"color: #2563eb; margin-bottom: 5px;\">2. [Paper Title]</h3>\n[Same structure...]\n</div>\n\n[Continue for all papers]\n\n<h2 style=\"color: #1e293b; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;\">Performance Metrics</h2>\n\n<table style=\"width: 100%; border-collapse: collapse; margin: 20px 0;\">\n<thead>\n<tr style=\"background: #f8fafc;\">\n<th style=\"padding: 10px; text-align: left; border-bottom: 2px solid #e2e8f0;\">Paper</th>\n<th style=\"padding: 10px; text-align: center; border-bottom: 2px solid #e2e8f0;\">Innovation</th>\n<th style=\"padding: 10px; text-align: center; border-bottom: 2px solid #e2e8f0;\">Pedigree</th>\n<th style=\"padding: 10px; text-align: center; border-bottom: 2px solid #e2e8f0;\">Impact</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td style=\"padding: 10px; border-bottom: 1px solid #e2e8f0;\">[Short name]</td>\n<td style=\"padding: 10px; text-align: center; border-bottom: 1px solid #e2e8f0;\">High</td>\n<td style=\"padding: 10px; text-align: center; border-bottom: 1px solid #e2e8f0;\">High</td>\n<td style=\"padding: 10px; text-align: center; border-bottom: 1px solid #e2e8f0;\">High</td>\n</tr>\n[Continue for all papers]\n</tbody>\n</table>\n\n<h2 style=\"color: #1e293b; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;\">Strategic Insights</h2>\n\n<div style=\"margin: 20px 0;\">\n<h4 style=\"color: #475569;\">Immediate Opportunities</h4>\n<ul>\n<li>[Paper X] enables [specific application/value]</li>\n<li>[Paper Y] solves [problem] for [use case]</li>\n</ul>\n\n<h4 style=\"color: #475569;\">Market Signals</h4>\n<ul>\n<li>[Trend observed across multiple papers]</li>\n<li>[Direction or shift in research focus]</li>\n</ul>\n\n<h4 style=\"color: #475569;\">Implementation Priority</h4>\n<ul>\n<li>[What to explore first and why]</li>\n<li>[Required capabilities or resources]</li>\n</ul>\n</div>\n\n<div style=\"background: #f8fafc; padding: 15px; margin-top: 30px; border-radius: 5px;\">\n<p style=\"margin: 5px 0;\"><strong>Coverage:</strong> [Start date] to [End date]</p>\n<p style=\"margin: 5px 0;\"><strong>Papers reviewed:</strong> [X] | <strong>Selected:</strong> [Y]</p>\n<p style=\"margin: 5px 0;\"><strong>Categories:</strong> cs.AI, cs.LG, cs.CL, stat.ML</p>\n<p style=\"margin: 5px 0;\"><strong>Top institutions:</strong> [List 3]</p>\n</div>\n\n<p style=\"margin-top: 30px; color: #64748b; font-size: 14px;\">Generated on [Date]. All assessments current as of this date.</p>\n\n</div>\n\n\nKey Requirements:\n\nUse HTML formatting for readable, professional emails\nAvoid \"I/we\" language - write objectively\nUse visual hierarchy with headers, spacing, and styling\nKeep sections scannable with bullet points and tables\nProfessional tone without being robotic\n",
+        "agent_goal": "",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": "",
+        "features": [],
+        "tools": [
+          "openapi-arxiv_research_api_tool-searchArxivPapers",
+          "gmail"
+        ],
+        "tool_usage_description": "{\n  \"openapi-arxiv_research_api_tool-searchArxivPapers\": [\n    \"Use the ArXiv API to search for recent AI research papers.  For daily summaries\"\n  ],\n  \"gmail\": [\n    \"GMAIL_SEND_EMAIL\"\n  ]\n}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "Anthropic",
+        "model": "anthropic/claude-sonnet-4-0",
+        "top_p": 0.9,
+        "temperature": 0.3,
+        "managed_agents": [],
+        "version": "3",
+        "created_at": "2025-08-28T17:13:07.293000",
+        "updated_at": "2025-08-28T17:32:10.450000",
+        "llm_credential_id": "lyzr_anthropic",
+        "tool": "Use The Arxiv Api To Search For Recent Ai Research Papers.  For Daily Summaries"
+      },
+      "tool-68b08e2376a7d9190ef6b260-openapi-arxiv_research_api_tool-searchArxivPapers-Use the ArXiv API to search for recent AI research papers.  For daily summaries-1756407548094": {
+        "_id": "tool-68b08e2376a7d9190ef6b260-openapi-arxiv_research_api_tool-searchArxivPapers-Use the ArXiv API to search for recent AI research papers.  For daily summaries-1756407548094",
+        "name": "Use The Arxiv Api To Search For Recent Ai Research Papers.  For Daily Summaries",
+        "description": "openapi-arxiv_research_api_tool-searchArxivPapers tool action",
+        "agent_role": "Tool",
+        "provider_id": "openapi-arxiv_research_api_tool-searchArxivPapers",
+        "providerLogo": null,
+        "providerName": "openapi-arxiv_research_api_tool-searchArxivPapers",
+        "isToolNode": true
+      },
+      "tool-68b08e2376a7d9190ef6b260-gmail-GMAIL_SEND_EMAIL-1756407548094": {
+        "_id": "tool-68b08e2376a7d9190ef6b260-gmail-GMAIL_SEND_EMAIL-1756407548094",
+        "name": "Gmail Send Email",
+        "description": "gmail tool action",
+        "agent_role": "Tool",
+        "provider_id": "gmail",
+        "providerLogo": null,
+        "providerName": "gmail",
+        "isToolNode": true
+      }
+    }
+  },
+  "blueprint_info": {
+    "documentation_data": {
+      "markdown": "**Blueprint Documentation**\n\n**Overview**\nThis blueprint offers two independent agent configurations for ArXiv research: an interactive chat agent for real-time paper exploration and an email agent for automated report delivery. Both agents analyze cutting-edge AI papers for innovation, author pedigree, and real-world impact, delivering VC-oriented research insights.\n\n**How to Use**\n\n**Option 1: Chat Agent (Arxive_research_chat)**\n1. Step 1: Start a conversation with the research chat agent\n2. Step 2: Request papers by specifying categories (cs.AI, cs.LG) and date range\n3. Step 3: Receive immediate comprehensive analysis with rankings and insights\n4. Step 4: Optionally dive deeper into specific papers or request different filters\n\n**Option 2: Email Agent (arxiv_researc_email)**\n1. Step 1: Trigger the email agent with your research requirements\n2. Step 2: Specify categories, date range, and number of papers to analyze\n3. Step 3: Provide the recipient email address\n4. Step 4: Receive a professionally formatted HTML report in your inbox\n\n**Configuration**\n* **Agent 1: Arxive_research_chat**: Interactive research analyst that queries ArXiv API, analyzes papers for quality metrics, and delivers comprehensive research digests through conversation\n* **Agent 2: arxiv_researc_email**: Automated email delivery agent that performs ArXiv research and analysis, then formats and sends HTML email reports to specified recipients\n\n**Requirements**\n* \u26a0\ufe0f **REQUIRED for BOTH agents**: Create and configure ArXiv Research API Custom Tool\n* \u26a0\ufe0f **REQUIRED for Email Agent ONLY**: Connect Gmail in Tool Configuration\n* Anthropic API credentials (claude-sonnet-4-0 model)\n* Valid Gmail authentication (only if using email agent)\n\n**Setup Instructions**\n\n**ArXiv API Custom Tool Setup (REQUIRED for BOTH agents)**\n1. Navigate to Tools \u2192 Add Custom Tool in Lyzr Agent Studio\n2. Fill in the configuration:\n\u00a0 \u00a0- Tool Set Name: `arxiv_research_api_tool`\n\u00a0 \u00a0- OpenAPI Schema: Copy the exact JSON below\n\u00a0 \u00a0```json\n\u00a0 \u00a0{\n\u00a0 \u00a0 \u00a0\"openapi\": \"3.0.0\",\n\u00a0 \u00a0 \u00a0\"info\": {\n\u00a0 \u00a0 \u00a0 \u00a0\"title\": \"ArXiv API\",\n\u00a0 \u00a0 \u00a0 \u00a0\"version\": \"1.0.0\",\n\u00a0 \u00a0 \u00a0 \u00a0\"description\": \"API for searching and retrieving research papers from ArXiv\"\n\u00a0 \u00a0 \u00a0},\n\u00a0 \u00a0 \u00a0\"servers\": [\n\u00a0 \u00a0 \u00a0 \u00a0{\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"url\": \"https://export.arxiv.org\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"description\": \"ArXiv API Server\"\n\u00a0 \u00a0 \u00a0 \u00a0}\n\u00a0 \u00a0 \u00a0],\n\u00a0 \u00a0 \u00a0\"paths\": {\n\u00a0 \u00a0 \u00a0 \u00a0\"/api/query\": {\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"get\": {\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"summary\": \"Search ArXiv papers\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"description\": \"Retrieve research papers from ArXiv based on search criteria\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"operationId\": \"searchArxivPapers\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"parameters\": [\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0{\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"name\": \"search_query\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"in\": \"query\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"description\": \"Search query using ArXiv search syntax. Examples: 'cat:cs.AI', 'ti:machine learning', 'au:smith', 'all:artificial intelligence'\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"required\": true,\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"schema\": {\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"type\": \"string\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"example\": \"cat:cs.AI OR cat:cs.LG OR cat:cs.CL OR cat:stat.ML\"\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0}\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0},\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0{\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"name\": \"start\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"in\": \"query\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"description\": \"Index of first result to return (0-based)\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"required\": false,\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"schema\": {\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"type\": \"integer\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"default\": 0,\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"minimum\": 0\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0}\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0},\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0{\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"name\": \"max_results\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"in\": \"query\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"description\": \"Maximum number of results to return (max 30000)\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"required\": false,\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"schema\": {\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"type\": \"integer\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"default\": 10,\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"minimum\": 1,\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"maximum\": 30000\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0}\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0},\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0{\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"name\": \"sortBy\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"in\": \"query\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"description\": \"Sort results by field\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"required\": false,\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"schema\": {\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"type\": \"string\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"enum\": [\"relevance\", \"lastUpdatedDate\", \"submittedDate\"],\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"default\": \"submittedDate\"\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0}\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0},\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0{\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"name\": \"sortOrder\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"in\": \"query\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"description\": \"Sort order\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"required\": false,\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"schema\": {\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"type\": \"string\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"enum\": [\"ascending\", \"descending\"],\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"default\": \"descending\"\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0}\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0}\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0],\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"responses\": {\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"200\": {\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"description\": \"Successful response with Atom feed\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"content\": {\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"application/atom+xml\": {\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"schema\": {\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"type\": \"string\",\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"description\": \"Atom 1.0 XML feed containing search results with paper metadata including title, authors, abstract, categories, and links\"\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0}\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0}\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0}\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0},\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"400\": {\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\"description\": \"Bad request - invalid parameters\"\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0}\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0}\n\u00a0 \u00a0 \u00a0 \u00a0 \u00a0}\n\u00a0 \u00a0 \u00a0 \u00a0}\n\u00a0 \u00a0 \u00a0}\n\u00a0 \u00a0}\n\u00a0 \u00a0```\n3. Default Headers: Add\n\u00a0 \u00a0```json\n\u00a0 \u00a0{\n\u00a0 \u00a0 \u00a0\"User-Agent\": \"LyzrAgent/1.0\"\n\u00a0 \u00a0}\n\u00a0 \u00a0```\n4. Default Query Parameters: Add\n\u00a0 \u00a0```json\n\u00a0 \u00a0{\n\u00a0 \u00a0 \u00a0\"sortBy\": \"submittedDate\",\n\u00a0 \u00a0 \u00a0\"sortOrder\": \"descending\",\n\u00a0 \u00a0 \u00a0\"max_results\": 20\n\u00a0 \u00a0}\n\u00a0 \u00a0```\n5. Click 'Add Tool'\n6. Test the tool with a sample query like \"cat:cs.AI\"\n7. Attach the tool to your chosen agent(s):\n\u00a0 \u00a0- For Chat Agent: Open `Arxive_research_chat` \u2192 Tools tab \u2192 Enable `arxiv_research_api_tool`\n\u00a0 \u00a0- For Email Agent: Open `arxiv_researc_email` \u2192 Tools tab \u2192 Enable `arxiv_research_api_tool`\n\n**Gmail Configuration (REQUIRED for Email Agent ONLY)**\n1. Navigate to Tools \u2192 Gmail\n2. Click \"Connect\" and authenticate with your Google account\n3. Grant necessary permissions for sending emails\n4. Open `arxiv_researc_email` agent \u2192 Tools tab \u2192 Enable Gmail\n5. Save the agent configuration\n\n**Examples**\n\n**Example 1: Chat Agent - Latest LLM Research**\nUser: \"Show me the latest LLM papers from the past 7 days\"\nAgent: Immediately delivers comprehensive digest analyzing 15-20 papers with innovation scores, author backgrounds from top labs, venue acceptances (NeurIPS, ICML), GitHub stars if available, and actionable insights for implementation.\n\n**Example 2: Email Agent - Weekly Digest**\nUser: \"Send weekly ArXiv digest for cs.AI and cs.LG papers from past 7 days to research@company.com\"\nAgent: Researches papers, creates professional HTML report with performance metrics table, strategic insights, market signals, and sends formatted email to recipient.\n\n**Example 3: Chat Agent - Targeted Institution Research**\nUser: \"Find multimodal AI papers from MIT, Stanford, or DeepMind in the past 14 days\"\nAgent: Searches specifically for multimodal papers, prioritizes those from specified institutions, provides curated analysis with focus on commercial applications and emerging research directions."
+    },
+    "type": "markdown"
+  },
+  "version": "1.0.0",
+  "tags": [
+    "Research",
+    "Content Creation",
+    "AI"
+  ],
+  "category": "general",
+  "status": "draft",
+  "is_template": false,
+  "parent_blueprint_id": null,
+  "usage_count": 0,
+  "last_used_at": null,
+  "created_at": "2025-08-28T19:58:50.462000",
+  "updated_at": "2025-08-28T19:58:50.462000",
+  "published_at": null,
+  "is_owner": false,
+  "can_edit": false,
+  "can_share": false,
+  "can_delete": false,
+  "owner_name": null,
+  "owner_email": null,
+  "organization_name": null
+}

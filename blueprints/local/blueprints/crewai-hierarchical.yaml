@@ -1,0 +1,156 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: CrewAI Hierarchical Task Delegation
+  description: Multi-agent system implementing CrewAI-inspired hierarchical task
+    delegation patterns with specialized workers for research, analysis, 
+    writing, planning, and quality review.
+  category: featured
+  tags:
+    - featured
+    - multi-agent
+    - crewai
+    - hierarchical
+    - delegation
+    - productivity
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Complex knowledge work requires diverse skills: research, analysis, writing, planning, and quality assurance. Single agents juggle all roles, leading to inconsistent quality and missed perspectives.
+
+    ### The Challenge
+    Human teams naturally specialize and delegate. Replicating this in AI requires clear role definitions, structured handoffs, and managerial oversight to synthesize specialist contributions into coherent outputs.
+
+    ### What's At Stake
+    Without specialization, tasks receive surface-level treatment. Without coordination, outputs lack coherence. Without quality gates, errors propagate to final deliverables.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    CrewAI's hierarchical process pattern separates task decomposition from execution. A manager agent thinks strategically about what needs to be done and who should do it, while specialists focus deeply on their domains.
+
+    ### The Method
+    A Crew Manager coordinates five role-based specialists:
+
+    1. **Crew Researcher**: Gathers information and conducts research with source evaluation and confidence levels.
+
+    2. **Crew Analyst**: Transforms data into insights through pattern identification and rigorous analysis.
+
+    3. **Crew Writer**: Creates polished content tailored to audience and purpose, from reports to communications.
+
+    4. **Crew Planner**: Develops strategies and roadmaps with phases, milestones, and actionable steps.
+
+    5. **Crew Reviewer**: Ensures quality through structured review with prioritized, constructive feedback.
+
+    ### Why This Works
+    Role specialization enables depth. Hierarchical delegation ensures coordination. Quality gates catch issues. Managerial synthesis creates coherent deliverables that leverage multiple perspectives.
+
+    ---
+
+    ## Capabilities
+
+    ### Task Decomposition
+    - Complex task breakdown
+    - Sub-task identification
+    - Dependency mapping
+    - Specialist assignment
+
+    ### Research Operations
+    - Information gathering
+    - Source evaluation
+    - Finding synthesis
+    - Gap identification
+
+    ### Analysis Operations
+    - Data examination
+    - Pattern recognition
+    - Insight extraction
+    - Risk assessment
+
+    ### Content Creation
+    - Report writing
+    - Documentation
+    - Communications
+    - Presentation materials
+
+    ### Strategic Planning
+    - Goal clarification
+    - Roadmap development
+    - Milestone setting
+    - Action planning
+
+    ### Quality Assurance
+    - Completeness verification
+    - Accuracy checking
+    - Standards enforcement
+    - Constructive feedback
+
+    ### Delegation Patterns
+    - Research-first workflows
+    - Analysis-driven processes
+    - Planning-execution sequences
+    - Parallel and sequential delegation
+
+    ### Boundaries
+    - Best for complex, multi-faceted tasks
+    - More thorough than single-agent approaches
+    - Requires clear task articulation
+    - May over-engineer simple requests
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - A knowledge work task requiring multiple skills
+    - Clear articulation of desired outcome
+    - Patience for thorough, delegated execution
+
+    ### Your First Run
+    Try this prompt:
+
+    "Research the current state of remote work policies in tech companies, analyze the key trends, create a recommendation report for implementing a hybrid policy, and ensure it meets quality standards."
+
+    ### Pro Tips
+    - **Be Specific**: Clear goals enable better delegation
+    - **Provide Context**: Background helps specialists understand the task
+    - **Request Quality Review**: Ask the manager to involve the Reviewer
+    - **Specify Deliverable Format**: State what final output you need
+
+    ### Example Use Cases
+    - Market research and analysis reports
+    - Strategic planning documents
+    - Content creation with research backing
+    - Process documentation with quality review
+    - Multi-faceted business recommendations
+
+    ### Sample Interactions
+
+    Research Report:
+    Input: "Research competitor pricing strategies and write an analysis report"
+    Output: Researcher gathers data, Analyst identifies patterns, Writer creates report, Reviewer ensures quality
+
+    Strategic Plan:
+    Input: "Develop a go-to-market strategy for our new product"
+    Output: Planner creates strategy, Researcher validates assumptions, Writer documents, Reviewer ensures completeness
+
+    Documentation Project:
+    Input: "Create comprehensive onboarding documentation for new engineers"
+    Output: Researcher gathers requirements, Writer creates content, Planner structures rollout, Reviewer ensures accuracy
+
+root_agents:
+  - ../agents/crew-manager.yaml
+ids:
+  blueprint: 5a6f81f6-82a6-4408-910e-d3fc04537c89
+  agents:
+    ../agents/crew-manager.yaml: 695c7020c2dad05ba69add1e
+    ../agents/crew-researcher.yaml: 695c701d457887dd859fb8ec
+    ../agents/crew-analyst.yaml: 695c701dc2dad05ba69add1c
+    ../agents/crew-writer.yaml: 695c701e457887dd859fb8ed
+    ../agents/crew-planner.yaml: 695c701fc2dad05ba69add1d
+    ../agents/crew-reviewer.yaml: 695c701f457887dd859fb8ee

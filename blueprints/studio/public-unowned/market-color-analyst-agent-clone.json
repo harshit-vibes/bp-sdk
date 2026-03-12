@@ -1,0 +1,622 @@
+{
+  "_id": "5e9aef62-e2dc-435c-8ae4-2e3b085db53d",
+  "name": "Market Color Analyst Agent - (clone)",
+  "description": "An intelligent agent system that automatically generates professional Market Color notes by collecting, filtering, and synthesizing the latest 24-48 hour sector news into compressed financial analysis. Delivers client-ready reports with high-impact insights and forward-looking views for any industry sector.",
+  "orchestration_type": "Manager Agent",
+  "orchestration_name": "Market Color Analyst Agent - (clone)",
+  "owner_id": "mem_cm4ijyqpd18cc0sra0c7n920j",
+  "organization_id": "6877712d5978a4cc5b34c413",
+  "share_type": "public",
+  "shared_with_users": [],
+  "shared_with_organizations": [],
+  "blueprint_data": {
+    "manager_agent_id": "68d26f65a756729bfd953f90",
+    "tree_structure": {
+      "nodes": [
+        {
+          "id": "68d26f631af9c9ff0ff309db",
+          "position": {
+            "x": 7.358139534883662,
+            "y": 558.4819121447028
+          },
+          "type": "agent",
+          "data": {
+            "_id": "68d26f631af9c9ff0ff309db",
+            "api_key": "***REDACTED***",
+            "template_type": "single_task",
+            "name": "News Collector Agent",
+            "description": "This agent gathers the latest 24\u201348h sector news including earnings, filings, macro drivers, and policy updates.",
+            "agent_role": "",
+            "agent_instructions": "You are the News Collector Agent.  \nTask: Gather the most recent news (last 24\u201348h) for the specified sector.  \nInclude: earnings releases, SEC filings, macro events, policy/regulation, M&A, or commodity drivers.  \nOutput: JSON array with headline + short summary + relevance score (1\u20135).  \nDo not filter for impact yet, just collect sector-specific items.  \nKeep summaries factual, 1\u20132 sentences only.  ",
+            "agent_goal": "",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [
+              {
+                "type": "MEMORY",
+                "config": {
+                  "max_messages_context_count": 50
+                },
+                "priority": 0
+              }
+            ],
+            "tool": "",
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "Perplexity",
+            "model": "perplexity/sonar",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-05T18:34:16.767000",
+            "updated_at": "2025-09-05T18:34:16.767000",
+            "llm_credential_id": "lyzr_perplexity"
+          }
+        },
+        {
+          "id": "68d26f6356408705c02475a4",
+          "position": {
+            "x": 662.3392764857881,
+            "y": 700
+          },
+          "type": "agent",
+          "data": {
+            "_id": "68d26f6356408705c02475a4",
+            "api_key": "***REDACTED***",
+            "template_type": "single_task",
+            "name": "Impact Filter Agent",
+            "description": "This agent filters the collected news, keeping only high-impact events that affect valuation, credit, or sector sentiment.",
+            "agent_role": "",
+            "agent_instructions": "You are the Impact Filter Agent.  \nTask: Review collected sector news and keep only high-impact events.  \nHigh-impact means events that directly influence valuation, credit spreads, flows, or sector sentiment.  \nConvert each item into compressed financial-code language.  \nExample:\n- AAPL EPS +12% YoY \u2192 bullish tech beta.\n- FDA approval delay \u2192 healthcare selloff risk.  \nOutput: Bullet points with only filtered high-impact news.  ",
+            "agent_goal": "",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [],
+            "tool": "",
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "Perplexity",
+            "model": "perplexity/sonar",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-05T18:34:49.992000",
+            "updated_at": "2025-09-10T13:59:50.754000",
+            "llm_credential_id": "lyzr_perplexity"
+          }
+        },
+        {
+          "id": "68d26f644897a966eb2c56cd",
+          "position": {
+            "x": 1522.738090804073,
+            "y": 500
+          },
+          "type": "agent",
+          "data": {
+            "_id": "68d26f644897a966eb2c56cd",
+            "api_key": "***REDACTED***",
+            "template_type": "single_task",
+            "name": "Sector Synthesizer Agent",
+            "description": "This agent transforms filtered events into a structured Market Color Note with Key Insights & Summary and Forward-Looking View.",
+            "agent_role": "You are the Sector Synthesizer Agent.  ",
+            "agent_instructions": "You are the Sector Synthesizer Agent.  \nTask: Convert filtered news into a polished Market Color Note.  \nFormat:\nSector: [Sector Name]\n\nKey Insights & Summary:\n- [Bullets on latest events affecting sector]\n\nForward-Looking View:\n- [Bullets on catalysts, risks, opportunities over next 1\u20132 quarters]\n\nLanguage: Professional, compressed, client-ready, in financial-analyst tone.  \nKeep it concise (executive briefing style).  ",
+            "agent_goal": "Convert filtered news into a polished Market Color Note. ",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [
+              {
+                "type": "MEMORY",
+                "config": {
+                  "max_messages_context_count": 50
+                },
+                "priority": 0
+              }
+            ],
+            "tool": "",
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "Perplexity",
+            "model": "perplexity/sonar",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-05T18:35:27.178000",
+            "updated_at": "2025-09-10T14:00:03.642000",
+            "llm_credential_id": "lyzr_perplexity"
+          }
+        },
+        {
+          "id": "68d26f65a756729bfd953f90",
+          "position": {
+            "x": 658.830361757106,
+            "y": 100
+          },
+          "type": "agent",
+          "data": {
+            "_id": "68d26f65a756729bfd953f90",
+            "api_key": "***REDACTED***",
+            "template_type": "single_task",
+            "name": "Market Color Agent",
+            "description": "This agent manages the full market color workflow by orchestrating news collection, filtering, and synthesis into a client-ready note.",
+            "agent_role": "You are the Manager Agent for Market Color reports.  ",
+            "agent_instructions": "You are the Manager Agent for Market Color reports.\nYour role is to orchestrate a team of three sub-agents (News Collector, Impact Filter, Sector Synthesizer).  \nInput: sector name (e.g., Tech, Healthcare, Metals).  \nTask:\n- Instruct News Collector to gather fresh news (last 24\u201348h).  \n- Pass results to Impact Filter to identify only high-impact items.  \n- Send filtered results to Sector Synthesizer to prepare the Market Color report.  \n- Deliver final structured output with two sections:\n   1. Key Insights & Summary\n- Ensure professional, compressed financial-code language (tickers only).  \n- Give atleast 10 news.\n\nGive response In markdown",
+            "agent_goal": "Your role is to orchestrate a team of three sub-agents (News Collector, Impact Filter, Sector Synthesizer).  ",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [
+              {
+                "type": "MEMORY",
+                "config": {
+                  "max_messages_context_count": 50
+                },
+                "priority": 0
+              }
+            ],
+            "tool": "",
+            "tool_usage_description": "{}",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o-mini",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [
+              {
+                "id": "68d26f631af9c9ff0ff309db",
+                "name": "News Collector Agent",
+                "usage_description": "Use this agent when you need a raw feed of all relevant news before filtering for impact."
+              },
+              {
+                "id": "68d26f6356408705c02475a4",
+                "name": "Impact Filter Agent",
+                "usage_description": "Use this agent when you want compressed financial-code language bullets of only the most important events."
+              },
+              {
+                "id": "68d26f644897a966eb2c56cd",
+                "name": "Sector Synthesizer Agent",
+                "usage_description": "Use this agent when you need a polished, client-ready sector commentary in analyst tone."
+              }
+            ],
+            "store_messages": false,
+            "version": "3",
+            "created_at": "2025-09-05T18:36:36.605000",
+            "updated_at": "2025-09-10T13:59:20.269000",
+            "llm_credential_id": "lyzr_openai"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "68d26f65a756729bfd953f90-68d26f631af9c9ff0ff309db",
+          "source": "68d26f65a756729bfd953f90",
+          "target": "68d26f631af9c9ff0ff309db",
+          "label": "Use this agent when you need a raw feed of all relevant news before filtering for impact."
+        },
+        {
+          "id": "68d26f65a756729bfd953f90-68d26f6356408705c02475a4",
+          "source": "68d26f65a756729bfd953f90",
+          "target": "68d26f6356408705c02475a4",
+          "label": "Use this agent when you want compressed financial-code language bullets of only the most important events."
+        },
+        {
+          "id": "68d26f65a756729bfd953f90-68d26f644897a966eb2c56cd",
+          "source": "68d26f65a756729bfd953f90",
+          "target": "68d26f644897a966eb2c56cd",
+          "label": "Use this agent when you need a polished, client-ready sector commentary in analyst tone."
+        }
+      ]
+    },
+    "nodes": [
+      {
+        "id": "68d26f631af9c9ff0ff309db",
+        "position": {
+          "x": 7.358139534883662,
+          "y": 558.4819121447028
+        },
+        "type": "agent",
+        "data": {
+          "_id": "68d26f631af9c9ff0ff309db",
+          "api_key": "***REDACTED***",
+          "template_type": "single_task",
+          "name": "News Collector Agent",
+          "description": "This agent gathers the latest 24\u201348h sector news including earnings, filings, macro drivers, and policy updates.",
+          "agent_role": "",
+          "agent_instructions": "You are the News Collector Agent.  \nTask: Gather the most recent news (last 24\u201348h) for the specified sector.  \nInclude: earnings releases, SEC filings, macro events, policy/regulation, M&A, or commodity drivers.  \nOutput: JSON array with headline + short summary + relevance score (1\u20135).  \nDo not filter for impact yet, just collect sector-specific items.  \nKeep summaries factual, 1\u20132 sentences only.  ",
+          "agent_goal": "",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [
+            {
+              "type": "MEMORY",
+              "config": {
+                "max_messages_context_count": 50
+              },
+              "priority": 0
+            }
+          ],
+          "tool": "",
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "Perplexity",
+          "model": "perplexity/sonar",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-05T18:34:16.767000",
+          "updated_at": "2025-09-05T18:34:16.767000",
+          "llm_credential_id": "lyzr_perplexity"
+        }
+      },
+      {
+        "id": "68d26f6356408705c02475a4",
+        "position": {
+          "x": 662.3392764857881,
+          "y": 700
+        },
+        "type": "agent",
+        "data": {
+          "_id": "68d26f6356408705c02475a4",
+          "api_key": "***REDACTED***",
+          "template_type": "single_task",
+          "name": "Impact Filter Agent",
+          "description": "This agent filters the collected news, keeping only high-impact events that affect valuation, credit, or sector sentiment.",
+          "agent_role": "",
+          "agent_instructions": "You are the Impact Filter Agent.  \nTask: Review collected sector news and keep only high-impact events.  \nHigh-impact means events that directly influence valuation, credit spreads, flows, or sector sentiment.  \nConvert each item into compressed financial-code language.  \nExample:\n- AAPL EPS +12% YoY \u2192 bullish tech beta.\n- FDA approval delay \u2192 healthcare selloff risk.  \nOutput: Bullet points with only filtered high-impact news.  ",
+          "agent_goal": "",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [],
+          "tool": "",
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "Perplexity",
+          "model": "perplexity/sonar",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-05T18:34:49.992000",
+          "updated_at": "2025-09-10T13:59:50.754000",
+          "llm_credential_id": "lyzr_perplexity"
+        }
+      },
+      {
+        "id": "68d26f644897a966eb2c56cd",
+        "position": {
+          "x": 1522.738090804073,
+          "y": 500
+        },
+        "type": "agent",
+        "data": {
+          "_id": "68d26f644897a966eb2c56cd",
+          "api_key": "***REDACTED***",
+          "template_type": "single_task",
+          "name": "Sector Synthesizer Agent",
+          "description": "This agent transforms filtered events into a structured Market Color Note with Key Insights & Summary and Forward-Looking View.",
+          "agent_role": "You are the Sector Synthesizer Agent.  ",
+          "agent_instructions": "You are the Sector Synthesizer Agent.  \nTask: Convert filtered news into a polished Market Color Note.  \nFormat:\nSector: [Sector Name]\n\nKey Insights & Summary:\n- [Bullets on latest events affecting sector]\n\nForward-Looking View:\n- [Bullets on catalysts, risks, opportunities over next 1\u20132 quarters]\n\nLanguage: Professional, compressed, client-ready, in financial-analyst tone.  \nKeep it concise (executive briefing style).  ",
+          "agent_goal": "Convert filtered news into a polished Market Color Note. ",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [
+            {
+              "type": "MEMORY",
+              "config": {
+                "max_messages_context_count": 50
+              },
+              "priority": 0
+            }
+          ],
+          "tool": "",
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "Perplexity",
+          "model": "perplexity/sonar",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-05T18:35:27.178000",
+          "updated_at": "2025-09-10T14:00:03.642000",
+          "llm_credential_id": "lyzr_perplexity"
+        }
+      },
+      {
+        "id": "68d26f65a756729bfd953f90",
+        "position": {
+          "x": 658.830361757106,
+          "y": 100
+        },
+        "type": "agent",
+        "data": {
+          "_id": "68d26f65a756729bfd953f90",
+          "api_key": "***REDACTED***",
+          "template_type": "single_task",
+          "name": "Market Color Agent",
+          "description": "This agent manages the full market color workflow by orchestrating news collection, filtering, and synthesis into a client-ready note.",
+          "agent_role": "You are the Manager Agent for Market Color reports.  ",
+          "agent_instructions": "You are the Manager Agent for Market Color reports.\nYour role is to orchestrate a team of three sub-agents (News Collector, Impact Filter, Sector Synthesizer).  \nInput: sector name (e.g., Tech, Healthcare, Metals).  \nTask:\n- Instruct News Collector to gather fresh news (last 24\u201348h).  \n- Pass results to Impact Filter to identify only high-impact items.  \n- Send filtered results to Sector Synthesizer to prepare the Market Color report.  \n- Deliver final structured output with two sections:\n   1. Key Insights & Summary\n- Ensure professional, compressed financial-code language (tickers only).  \n- Give atleast 10 news.\n\nGive response In markdown",
+          "agent_goal": "Your role is to orchestrate a team of three sub-agents (News Collector, Impact Filter, Sector Synthesizer).  ",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [
+            {
+              "type": "MEMORY",
+              "config": {
+                "max_messages_context_count": 50
+              },
+              "priority": 0
+            }
+          ],
+          "tool": "",
+          "tool_usage_description": "{}",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o-mini",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [
+            {
+              "id": "68d26f631af9c9ff0ff309db",
+              "name": "News Collector Agent",
+              "usage_description": "Use this agent when you need a raw feed of all relevant news before filtering for impact."
+            },
+            {
+              "id": "68d26f6356408705c02475a4",
+              "name": "Impact Filter Agent",
+              "usage_description": "Use this agent when you want compressed financial-code language bullets of only the most important events."
+            },
+            {
+              "id": "68d26f644897a966eb2c56cd",
+              "name": "Sector Synthesizer Agent",
+              "usage_description": "Use this agent when you need a polished, client-ready sector commentary in analyst tone."
+            }
+          ],
+          "store_messages": false,
+          "version": "3",
+          "created_at": "2025-09-05T18:36:36.605000",
+          "updated_at": "2025-09-10T13:59:20.269000",
+          "llm_credential_id": "lyzr_openai"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "68d26f65a756729bfd953f90-68d26f631af9c9ff0ff309db",
+        "source": "68d26f65a756729bfd953f90",
+        "target": "68d26f631af9c9ff0ff309db",
+        "label": "Use this agent when you need a raw feed of all relevant news before filtering for impact."
+      },
+      {
+        "id": "68d26f65a756729bfd953f90-68d26f6356408705c02475a4",
+        "source": "68d26f65a756729bfd953f90",
+        "target": "68d26f6356408705c02475a4",
+        "label": "Use this agent when you want compressed financial-code language bullets of only the most important events."
+      },
+      {
+        "id": "68d26f65a756729bfd953f90-68d26f644897a966eb2c56cd",
+        "source": "68d26f65a756729bfd953f90",
+        "target": "68d26f644897a966eb2c56cd",
+        "label": "Use this agent when you need a polished, client-ready sector commentary in analyst tone."
+      }
+    ],
+    "agents": {
+      "68d26f631af9c9ff0ff309db": {
+        "_id": "68d26f631af9c9ff0ff309db",
+        "api_key": "***REDACTED***",
+        "template_type": "single_task",
+        "name": "News Collector Agent",
+        "description": "This agent gathers the latest 24\u201348h sector news including earnings, filings, macro drivers, and policy updates.",
+        "agent_role": "",
+        "agent_instructions": "You are the News Collector Agent.  \nTask: Gather the most recent news (last 24\u201348h) for the specified sector.  \nInclude: earnings releases, SEC filings, macro events, policy/regulation, M&A, or commodity drivers.  \nOutput: JSON array with headline + short summary + relevance score (1\u20135).  \nDo not filter for impact yet, just collect sector-specific items.  \nKeep summaries factual, 1\u20132 sentences only.  ",
+        "agent_goal": "",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [
+          {
+            "type": "MEMORY",
+            "config": {
+              "max_messages_context_count": 50
+            },
+            "priority": 0
+          }
+        ],
+        "tool": "",
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "Perplexity",
+        "model": "perplexity/sonar",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-05T18:34:16.767000",
+        "updated_at": "2025-09-05T18:34:16.767000",
+        "llm_credential_id": "lyzr_perplexity"
+      },
+      "68d26f6356408705c02475a4": {
+        "_id": "68d26f6356408705c02475a4",
+        "api_key": "***REDACTED***",
+        "template_type": "single_task",
+        "name": "Impact Filter Agent",
+        "description": "This agent filters the collected news, keeping only high-impact events that affect valuation, credit, or sector sentiment.",
+        "agent_role": "",
+        "agent_instructions": "You are the Impact Filter Agent.  \nTask: Review collected sector news and keep only high-impact events.  \nHigh-impact means events that directly influence valuation, credit spreads, flows, or sector sentiment.  \nConvert each item into compressed financial-code language.  \nExample:\n- AAPL EPS +12% YoY \u2192 bullish tech beta.\n- FDA approval delay \u2192 healthcare selloff risk.  \nOutput: Bullet points with only filtered high-impact news.  ",
+        "agent_goal": "",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [],
+        "tool": "",
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "Perplexity",
+        "model": "perplexity/sonar",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-05T18:34:49.992000",
+        "updated_at": "2025-09-10T13:59:50.754000",
+        "llm_credential_id": "lyzr_perplexity"
+      },
+      "68d26f644897a966eb2c56cd": {
+        "_id": "68d26f644897a966eb2c56cd",
+        "api_key": "***REDACTED***",
+        "template_type": "single_task",
+        "name": "Sector Synthesizer Agent",
+        "description": "This agent transforms filtered events into a structured Market Color Note with Key Insights & Summary and Forward-Looking View.",
+        "agent_role": "You are the Sector Synthesizer Agent.  ",
+        "agent_instructions": "You are the Sector Synthesizer Agent.  \nTask: Convert filtered news into a polished Market Color Note.  \nFormat:\nSector: [Sector Name]\n\nKey Insights & Summary:\n- [Bullets on latest events affecting sector]\n\nForward-Looking View:\n- [Bullets on catalysts, risks, opportunities over next 1\u20132 quarters]\n\nLanguage: Professional, compressed, client-ready, in financial-analyst tone.  \nKeep it concise (executive briefing style).  ",
+        "agent_goal": "Convert filtered news into a polished Market Color Note. ",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [
+          {
+            "type": "MEMORY",
+            "config": {
+              "max_messages_context_count": 50
+            },
+            "priority": 0
+          }
+        ],
+        "tool": "",
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "Perplexity",
+        "model": "perplexity/sonar",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-05T18:35:27.178000",
+        "updated_at": "2025-09-10T14:00:03.642000",
+        "llm_credential_id": "lyzr_perplexity"
+      },
+      "68d26f65a756729bfd953f90": {
+        "_id": "68d26f65a756729bfd953f90",
+        "api_key": "***REDACTED***",
+        "template_type": "single_task",
+        "name": "Market Color Agent",
+        "description": "This agent manages the full market color workflow by orchestrating news collection, filtering, and synthesis into a client-ready note.",
+        "agent_role": "You are the Manager Agent for Market Color reports.  ",
+        "agent_instructions": "You are the Manager Agent for Market Color reports.\nYour role is to orchestrate a team of three sub-agents (News Collector, Impact Filter, Sector Synthesizer).  \nInput: sector name (e.g., Tech, Healthcare, Metals).  \nTask:\n- Instruct News Collector to gather fresh news (last 24\u201348h).  \n- Pass results to Impact Filter to identify only high-impact items.  \n- Send filtered results to Sector Synthesizer to prepare the Market Color report.  \n- Deliver final structured output with two sections:\n   1. Key Insights & Summary\n- Ensure professional, compressed financial-code language (tickers only).  \n- Give atleast 10 news.\n\nGive response In markdown",
+        "agent_goal": "Your role is to orchestrate a team of three sub-agents (News Collector, Impact Filter, Sector Synthesizer).  ",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [
+          {
+            "type": "MEMORY",
+            "config": {
+              "max_messages_context_count": 50
+            },
+            "priority": 0
+          }
+        ],
+        "tool": "",
+        "tool_usage_description": "{}",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o-mini",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [
+          {
+            "id": "68d26f631af9c9ff0ff309db",
+            "name": "News Collector Agent",
+            "usage_description": "Use this agent when you need a raw feed of all relevant news before filtering for impact."
+          },
+          {
+            "id": "68d26f6356408705c02475a4",
+            "name": "Impact Filter Agent",
+            "usage_description": "Use this agent when you want compressed financial-code language bullets of only the most important events."
+          },
+          {
+            "id": "68d26f644897a966eb2c56cd",
+            "name": "Sector Synthesizer Agent",
+            "usage_description": "Use this agent when you need a polished, client-ready sector commentary in analyst tone."
+          }
+        ],
+        "store_messages": false,
+        "version": "3",
+        "created_at": "2025-09-05T18:36:36.605000",
+        "updated_at": "2025-09-10T13:59:20.269000",
+        "llm_credential_id": "lyzr_openai"
+      }
+    }
+  },
+  "blueprint_info": {
+    "documentation_data": {
+      "markdown": "**Blueprint Documentation**\n\n**Overview**\nThis blueprint provides a complete market intelligence system that automatically gathers, filters, and synthesizes the latest 24-48 hour sector news into professional, client-ready Market Color reports. The system orchestrates three specialized agents to deliver compressed financial analysis with key insights and forward-looking views for any specified sector.\n\n**How to Use**\n1. Step 1: Provide the sector name you want to analyze (e.g., \"Tech\", \"Healthcare\", \"Metals\", \"Energy\")\n2. Step 2: The Market Color Agent automatically orchestrates the workflow:\n\u00a0 \u00a0- Collects fresh news from the past 24-48 hours\n\u00a0 \u00a0- Filters for high-impact events only\n\u00a0 \u00a0- Synthesizes into a structured report\n3. Step 3: Receive a professional Market Color Note with two sections:\n\u00a0 \u00a0- Key Insights & Summary (latest events affecting the sector)\n\u00a0 \u00a0- Forward-Looking View (catalysts, risks, opportunities for next 1-2 quarters)\n4. Step 4: Use the generated report for client briefings, market analysis, or investment decisions\n\n**Configuration**\n* **Manager Agent: Market Color Agent**: Orchestrates the entire workflow, managing three sub-agents to deliver a complete market analysis report with at least 10 high-impact news items in markdown format\n* **Sub-Agent 1: News Collector Agent**: Gathers comprehensive sector news from the last 24-48 hours including earnings releases, SEC filings, macro events, policy updates, M&A activity, and commodity drivers\n* **Sub-Agent 2: Impact Filter Agent**: Reviews collected news and filters only high-impact events that directly influence valuation, credit spreads, flows, or sector sentiment, converting them to compressed financial-code language\n* **Sub-Agent 3: Sector Synthesizer Agent**: Transforms filtered events into a polished, client-ready Market Color Note with professional analyst tone and executive briefing style\n\n**Requirements**\n* **Ready to Use** - This blueprint works immediately without any configuration\n* No knowledge base required\n* No external tools required\n\n**Examples**\n\n**Example 1: Technology Sector Analysis**\nInput: \"Tech\"\nOutput:\n```markdown\nSector: Technology\n\nKey Insights & Summary:\n- NVDA Q4 guidance +15% above consensus \u2192 AI infrastructure demand intact\n- AAPL services revenue +12% YoY \u2192 ecosystem monetization accelerating\n- META efficiency gains $3B annualized \u2192 margin expansion narrative\n- GOOGL antitrust ruling delayed \u2192 regulatory overhang extended\n- MSFT Azure growth 29% \u2192 cloud share gains continuing\n\nForward-Looking View:\n- AI capex cycle extending through H1'25\n- Consumer device refresh cycle Q2'25 catalyst\n- Regulatory scrutiny intensifying pre-election\n- Margin pressure from talent war escalation\n```\n\n**Example 2: Healthcare Sector Analysis**\nInput: \"Healthcare\"\nOutput:\n```markdown\nSector: Healthcare\n\nKey Insights & Summary:\n- LLY GLP-1 supply expansion \u2192 $50B TAM capture accelerating\n- PFE oncology pipeline advancement \u2192 diversification beyond COVID\n- UNH Medicare Advantage rates +3.7% \u2192 margin stability confirmed\n- JNJ talc settlement $8.9B \u2192 liability cap established\n- MRNA RSV vaccine approval \u2192 platform validation beyond COVID\n\nForward-Looking View:\n- IRA drug pricing impact H2'25 implementation\n- M&A acceleration as valuations compress\n- GLP-1 competition intensifying Q3'25\n- Biosimilar adoption accelerating margin pressure\n```\n\n**Example 3: Metals & Mining Sector Analysis**\nInput: \"Metals\"\nOutput:\n```markdown\nSector: Metals & Mining\n\nKey Insights & Summary:\n- Copper spot $4.20/lb \u2192 China stimulus expectations building\n- FCX production guidance maintained \u2192 operational excellence\n- NEM all-in costs $1,350/oz \u2192 margin expansion trajectory\n- Iron ore futures +8% \u2192 steel demand recovery signals\n- Lithium prices -15% MoM \u2192 EV demand softness persisting\n\nForward-Looking View:\n- China infrastructure package Q1'25 catalyst\n- Fed easing cycle supporting precious metals\n- Energy transition metals supply deficit 2026\n- Geopolitical risk premium increasing\n```"
+    },
+    "type": "markdown"
+  },
+  "version": "1.0.0",
+  "tags": [
+    "Finance",
+    "Research"
+  ],
+  "category": "data-analysis",
+  "status": "draft",
+  "is_template": false,
+  "parent_blueprint_id": "7157df0a-c85c-4c73-bcc6-4360af023e0d",
+  "usage_count": 0,
+  "last_used_at": null,
+  "created_at": "2025-09-23T09:59:01.987000",
+  "updated_at": "2025-12-06T06:53:32.383000",
+  "published_at": null,
+  "is_owner": false,
+  "can_edit": false,
+  "can_share": false,
+  "can_delete": false,
+  "owner_name": null,
+  "owner_email": null,
+  "organization_name": null
+}

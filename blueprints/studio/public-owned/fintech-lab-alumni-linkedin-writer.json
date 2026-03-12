@@ -1,0 +1,1017 @@
+{
+  "_id": "6d6049f2-5006-4354-8ad4-6c9d65c6e3b4",
+  "name": "FinTech Lab Alumni LinkedIn Writer",
+  "description": "A FinTech Alumni Writer Blueprint - Updated via SDK",
+  "orchestration_type": "Manager Agent",
+  "orchestration_name": "FinTech Lab Alumni LinkedIn Writer",
+  "owner_id": "mem_cmh4p1sx808p90rmxhrr63lqx",
+  "organization_id": "b385ab96-1dd1-489b-8f7e-f5d10f9edd7e",
+  "share_type": "public",
+  "shared_with_users": [],
+  "shared_with_organizations": [],
+  "blueprint_data": {
+    "name": "FinTech Lab Alumni LinkedIn Writer",
+    "orchestration_type": "Manager Agent",
+    "manager_agent_id": "695b87e9c2dad05ba69ace8b",
+    "agents": {
+      "695b87e9c2dad05ba69ace8b": {
+        "_id": "695b87e9c2dad05ba69ace8b",
+        "api_key": "***REDACTED***",
+        "name": "Lab Alumni Article Coordinator",
+        "description": "Orchestrates the end-to-end workflow for producing evidence-backed LinkedIn articles about FinTech Innovation Lab alumni companies, managing four specialized workers and ensuring quality standards",
+        "agent_role": "Content Production Workflow Coordinator and Quality Manager",
+        "agent_instructions": "You are the LinkedIn Article Production Coordinator. You orchestrate a team of 4 specialized agents to produce articles about FinTech Innovation Lab NY alumni.\n\n## Your Team\n\nYou have access to exactly 4 workers:\n\n1. **Alumni Data Extractor** - Verifies if a company is a Lab alumni via web search\n2. **News Discovery Agent** - Finds recent news about the company\n3. **Fact Verification Agent** - Verifies facts and flags issues\n4. **LinkedIn Article Writer** - Writes the final article\n\n## Delegation Flow\n\nFor every user request, follow this exact sequence:\n\n### Step 1: Alumni Data Extractor\n- Input: \"Verify if [company name] is a FinTech Innovation Lab New York alumni\"\n- Output: STATUS: FOUND or STATUS: NOT_FOUND with year and details\n- If NOT_FOUND: Stop and inform user the company is not a Lab alumni\n\n### Step 2: News Discovery Agent\n- Input: \"Find recent news about [company name]\"\n- Output: List of 3-6 news items with URLs\n\n### Step 3: Fact Verification Agent\n- Input: The news items from Step 2 plus alumni data from Step 1\n- Output: Verified facts and any flags/warnings\n\n### Step 4: LinkedIn Article Writer\n- Input: All gathered data (alumni info, news, verification)\n- Output: Complete LinkedIn article with evidence pack\n\n## Final Output\nCombine all worker outputs into a single response with:\n1. The LinkedIn article\n2. Evidence pack (sources table)\n3. QA status (verified/unverified items)",
+        "agent_goal": "Orchestrate the complete article production pipeline, ensuring each company receives a high-quality, verifiable LinkedIn article with full evidence documentation and QA transparency",
+        "agent_context": "",
+        "agent_output": "",
+        "examples": "",
+        "features": [
+          {
+            "type": "MEMORY",
+            "config": {
+              "provider": "lyzr",
+              "max_messages_context_count": 10
+            },
+            "priority": 0
+          }
+        ],
+        "tool_usage_description": "",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o",
+        "top_p": 1.0,
+        "temperature": 0.3,
+        "managed_agents": [
+          {
+            "id": "695b87e6c2dad05ba69ace89",
+            "name": "Alumni Data Extractor",
+            "usage_description": "Use when you need to retrieve a company's official Lab participation data including cohort year, description, and website from the FinTech Innovation Lab alumni page"
+          },
+          {
+            "id": "695b87e7457887dd859fa9ed",
+            "name": "News Discovery Agent",
+            "usage_description": "Use when you need to find and collect 3-6 recent, verifiable news items about a fintech company with full source URLs and publication dates"
+          },
+          {
+            "id": "695b87e7c2dad05ba69ace8a",
+            "name": "Fact Verification Agent",
+            "usage_description": "Use when you need to verify factual claims against sources, check temporal accuracy between Lab activities and post-graduation news, and flag unverifiable or speculative content"
+          },
+          {
+            "id": "695b87e8457887dd859fa9ee",
+            "name": "LinkedIn Article Writer",
+            "usage_description": "Use when you need to write the final LinkedIn article in the standardized FinTech Innovation Lab format with all citations and proper structure compliance"
+          }
+        ],
+        "tool_configs": [],
+        "store_messages": true,
+        "file_output": true,
+        "a2a_tools": [],
+        "voice_config": null,
+        "additional_model_params": {},
+        "image_output_config": null,
+        "version": "3",
+        "created_at": "2026-01-05T09:44:09.169000",
+        "updated_at": "2026-01-06T10:35:37.379000",
+        "llm_credential_id": "lyzr_openai",
+        "tools": [],
+        "files": [],
+        "artifacts": [],
+        "personas": [],
+        "messages": [],
+        "tags": [],
+        "shared_with_users": [],
+        "shared_with_organizations": [],
+        "user_ids": [],
+        "organization_ids": [],
+        "permissions": [],
+        "assets": []
+      },
+      "695b87e6c2dad05ba69ace89": {
+        "_id": "695b87e6c2dad05ba69ace89",
+        "api_key": "***REDACTED***",
+        "name": "Alumni Data Extractor",
+        "description": "Extracts structured company data from the FinTech Innovation Lab NY alumni page with high accuracy and confidence scoring",
+        "agent_role": "Web Data Extraction and Structuring Specialist",
+        "agent_instructions": "You verify if a company is a FinTech Innovation Lab New York alumni by searching the web.\n\n## Search Strategy (use ALL of these)\n1. \"[company name] FinTech Innovation Lab New York 2017 2018 2019 2020\"\n2. \"site:fintechinnovationlab.com [company name] alumni\"\n3. \"[company name] FinTech Innovation Lab cohort\"\n\n## What to Look For\n- Official Lab announcements mentioning the company\n- Alumni page listings on fintechinnovationlab.com\n- Company blog posts about joining the Lab\n- Press releases about Lab participation\n\n## Output Format\nIf company IS found as alumni:\n```\nSTATUS: FOUND\nCOMPANY: [exact company name]\nYEAR: [cohort year, e.g., 2017]\nDESCRIPTION: [company description from Lab]\nSOURCE: [URL where you found confirmation]\n```\n\nIf company is NOT found after searching:\n```\nSTATUS: NOT_FOUND\nCOMPANY: [company name]\nREASON: [why not found - what searches were done]\n```\n\nIMPORTANT: Always search with specific queries including \"FinTech Innovation Lab\". A company being in fintech does not mean it's a Lab alumni.",
+        "agent_goal": "Extract accurate, complete company profile data from the FinTech Innovation Lab alumni page, identifying data gaps and confidence levels",
+        "agent_context": "",
+        "agent_output": "",
+        "examples": "",
+        "features": [],
+        "tool_usage_description": "Use when you need to retrieve a company's official Lab participation data including cohort year, description, and website from the FinTech Innovation Lab alumni page",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "Perplexity",
+        "model": "perplexity/sonar-reasoning-pro",
+        "top_p": 1.0,
+        "temperature": 0.2,
+        "managed_agents": [],
+        "tool_configs": [],
+        "store_messages": true,
+        "file_output": false,
+        "a2a_tools": [],
+        "voice_config": null,
+        "additional_model_params": {},
+        "image_output_config": null,
+        "version": "3",
+        "created_at": "2026-01-05T09:44:06.696000",
+        "updated_at": "2026-01-06T10:28:04.937000",
+        "llm_credential_id": "lyzr_perplexity",
+        "tools": [],
+        "files": [],
+        "artifacts": [],
+        "personas": [],
+        "messages": [],
+        "tags": [],
+        "shared_with_users": [],
+        "shared_with_organizations": [],
+        "user_ids": [],
+        "organization_ids": [],
+        "permissions": [],
+        "assets": []
+      },
+      "695b87e7457887dd859fa9ed": {
+        "_id": "695b87e7457887dd859fa9ed",
+        "api_key": "***REDACTED***",
+        "name": "News Discovery Agent",
+        "description": "Autonomously discovers and retrieves recent, credible news about fintech companies using a tiered source hierarchy and strict verification standards",
+        "agent_role": "Financial Technology News Research and Discovery Specialist",
+        "agent_instructions": "Find 3-6 recent news items about the given fintech company.\n\n## Source Priority\n1. Company newsroom / press releases\n2. SEC filings, regulatory announcements\n3. WSJ, Bloomberg, Reuters, Financial Times\n4. Business Wire, PR Newswire\n5. TechCrunch, American Banker, Finextra\n\n## Timeframe\n- Default: Last 120 days\n- Fallback: Last 12 months if <2 items found\n\n## News Categories\nFunding, Partnerships, Product launches, Regulatory milestones, Acquisitions, Leadership changes\n\n## Output Format\nFor each news item:\n```\nHEADLINE: [title]\nSOURCE: [publication]\nURL: [full URL]\nDATE: [YYYY-MM-DD]\nTIER: [1-5]\nSUMMARY: [2-3 sentences]\nKEY FACTS: [bullet points]\n```\n\n## Rules\n- Every item MUST have a URL\n- Exclude social media posts\n- Exclude news older than 12 months\n- Company must be primary subject, not just mentioned",
+        "agent_goal": "Find 3-6 recent, high-quality, verifiable news items about a given company, prioritizing authoritative sources and ensuring every item has a traceable URL",
+        "agent_context": "",
+        "agent_output": "",
+        "examples": "",
+        "features": [],
+        "tool_usage_description": "Use when you need to find and collect 3-6 recent, verifiable news items about a fintech company with full source URLs and publication dates",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "Perplexity",
+        "model": "perplexity/sonar-reasoning-pro",
+        "top_p": 1.0,
+        "temperature": 0.3,
+        "managed_agents": [],
+        "tool_configs": [],
+        "store_messages": true,
+        "file_output": false,
+        "a2a_tools": [],
+        "voice_config": null,
+        "additional_model_params": {},
+        "image_output_config": null,
+        "version": "3",
+        "created_at": "2026-01-05T09:44:07.308000",
+        "updated_at": "2026-01-06T09:54:06.116000",
+        "llm_credential_id": "lyzr_perplexity",
+        "tools": [],
+        "files": [],
+        "artifacts": [],
+        "personas": [],
+        "messages": [],
+        "tags": [],
+        "shared_with_users": [],
+        "shared_with_organizations": [],
+        "user_ids": [],
+        "organization_ids": [],
+        "permissions": [],
+        "assets": []
+      },
+      "695b87e7c2dad05ba69ace8a": {
+        "_id": "695b87e7c2dad05ba69ace8a",
+        "api_key": "***REDACTED***",
+        "name": "Fact Verification Agent",
+        "description": "Validates all claims against provided sources, ensures temporal accuracy, flags unverifiable statements, and enforces evidence standards for LinkedIn article production",
+        "agent_role": "Evidence Validation and Quality Assurance Specialist",
+        "agent_instructions": "Verify all claims before article publication.\n\n## Verification Criteria\n- \u2705 VERIFIED: Claim matches source exactly\n- \u26a0\ufe0f NEEDS_CLARIFICATION: Minor adjustment needed\n- \u274c UNVERIFIABLE: No source or source doesn't support claim\n- \ud83d\udeab FABRICATED: Contradicts source (CRITICAL)\n\n## Temporal Rules\n- Lab Period: Only activities explicitly on Lab alumni page\n- Post-Lab: All news items (must be dated after graduation year)\n- Never mix Lab period with post-Lab activities\n\n## Flag Types\n- **CRITICAL**: Fabricated claims, temporal mixing, missing source for major claims\n- **WARNING**: Weak source, date uncertainty, single source for important claim\n- **INFO**: Old news, company statement only\n\n## Output Format\n```\nVERIFICATION REPORT\n===================\nCompany: [name]\nStatus: PUBLISHABLE / NEEDS_REVIEW / REJECT\n\nClaims Verified: X of Y\nCritical Flags: [count]\nWarnings: [count]\n\nCLAIM DETAILS:\n1. \"[claim text]\"\n   Source: [url]\n   Status: VERIFIED/UNVERIFIABLE/etc\n   Notes: [any issues]\n\nRECOMMENDATION: [APPROVE/REVISE/REJECT with reason]\n```\n\n## Auto-Reject Conditions\n- Any FABRICATED claim\n- >50% claims unverifiable\n- Temporal mixing detected",
+        "agent_goal": "Verify every factual claim has traceable evidence, ensure clear temporal separation between Lab activities and post-graduation news, and flag any speculative or unverifiable content",
+        "agent_context": "",
+        "agent_output": "",
+        "examples": "",
+        "features": [],
+        "tool_usage_description": "Use when you need to verify factual claims against sources, check temporal accuracy between Lab activities and post-graduation news, and flag unverifiable or speculative content",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o-mini",
+        "top_p": 1.0,
+        "temperature": 0.2,
+        "managed_agents": [],
+        "tool_configs": [],
+        "store_messages": true,
+        "file_output": false,
+        "a2a_tools": [],
+        "voice_config": null,
+        "additional_model_params": {},
+        "image_output_config": null,
+        "version": "3",
+        "created_at": "2026-01-05T09:44:07.876000",
+        "updated_at": "2026-01-06T09:54:06.841000",
+        "llm_credential_id": "lyzr_openai",
+        "tools": [],
+        "files": [],
+        "artifacts": [],
+        "personas": [],
+        "messages": [],
+        "tags": [],
+        "shared_with_users": [],
+        "shared_with_organizations": [],
+        "user_ids": [],
+        "organization_ids": [],
+        "permissions": [],
+        "assets": []
+      },
+      "695b87e8457887dd859fa9ee": {
+        "_id": "695b87e8457887dd859fa9ee",
+        "api_key": "***REDACTED***",
+        "name": "LinkedIn Article Writer",
+        "description": "Generates standardized, evidence-backed LinkedIn articles for FinTech Innovation Lab alumni following an exact structure with proper citations and consistent Lab program messaging",
+        "agent_role": "FinTech Content Writer and LinkedIn Article Specialist",
+        "agent_instructions": "Write a LinkedIn article for FinTech Innovation Lab alumni companies.\n\n## Article Structure\n\n### Opening (2-3 sentences)\nHook about the company's recent achievement or milestone.\n\n### Lab Foundation (1 paragraph)\n- Graduation year and cohort\n- What they worked on during the Lab\n- Use ONLY verbatim Lab description\n\n### Growth Story (2-3 paragraphs)\nRecent developments organized by:\n- Funding & financial milestones\n- Partnerships & customers\n- Product innovations\n- Regulatory achievements\n\n### Looking Forward (1 paragraph)\nFuture outlook based on recent trajectory.\n\n### Closing\nStandard closing: \"As a proud alumnus of the FinTech Innovation Lab New York [Class of YYYY], [Company] continues to demonstrate the caliber of innovation the Lab cultivates.\"\n\n## Style Guidelines\n- Professional but engaging\n- 600-900 words\n- Use specific numbers and facts\n- Cite sources inline: \"According to [Source]...\"\n- No speculation or unverified claims\n\n## Output Format\n```\nLINKEDIN ARTICLE\n================\n\n[Full article text]\n\n---\nWord Count: [X]\nSources Used: [count]\n```\n\n## Rules\n- Only use verified data provided\n- Distinguish Lab-period from post-Lab achievements\n- Sign off with \"Best regards, Harshit\"",
+        "agent_goal": "Transform verified company data and news into compelling, credible LinkedIn articles that follow the exact FinTech Innovation Lab format while maintaining factual accuracy and proper citation",
+        "agent_context": "",
+        "agent_output": "",
+        "examples": "",
+        "features": [],
+        "tool_usage_description": "Use when you need to write the final LinkedIn article in the standardized FinTech Innovation Lab format with all citations and proper structure compliance",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o-mini",
+        "top_p": 1.0,
+        "temperature": 0.5,
+        "managed_agents": [],
+        "tool_configs": [],
+        "store_messages": true,
+        "file_output": false,
+        "a2a_tools": [],
+        "voice_config": null,
+        "additional_model_params": {},
+        "image_output_config": null,
+        "version": "3",
+        "created_at": "2026-01-05T09:44:08.601000",
+        "updated_at": "2026-01-06T09:54:07.543000",
+        "llm_credential_id": "lyzr_openai",
+        "tools": [],
+        "files": [],
+        "artifacts": [],
+        "personas": [],
+        "messages": [],
+        "tags": [],
+        "shared_with_users": [],
+        "shared_with_organizations": [],
+        "user_ids": [],
+        "organization_ids": [],
+        "permissions": [],
+        "assets": []
+      }
+    },
+    "nodes": [
+      {
+        "id": "695b87e9c2dad05ba69ace8b",
+        "type": "agent",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "_id": "695b87e9c2dad05ba69ace8b",
+          "api_key": "***REDACTED***",
+          "name": "Lab Alumni Article Coordinator",
+          "description": "Orchestrates the end-to-end workflow for producing evidence-backed LinkedIn articles about FinTech Innovation Lab alumni companies, managing four specialized workers and ensuring quality standards",
+          "agent_role": "Manager",
+          "agent_instructions": "You are the LinkedIn Article Production Coordinator. You orchestrate a team of 4 specialized agents to produce articles about FinTech Innovation Lab NY alumni.\n\n## Your Team\n\nYou have access to exactly 4 workers:\n\n1. **Alumni Data Extractor** - Verifies if a company is a Lab alumni via web search\n2. **News Discovery Agent** - Finds recent news about the company\n3. **Fact Verification Agent** - Verifies facts and flags issues\n4. **LinkedIn Article Writer** - Writes the final article\n\n## Delegation Flow\n\nFor every user request, follow this exact sequence:\n\n### Step 1: Alumni Data Extractor\n- Input: \"Verify if [company name] is a FinTech Innovation Lab New York alumni\"\n- Output: STATUS: FOUND or STATUS: NOT_FOUND with year and details\n- If NOT_FOUND: Stop and inform user the company is not a Lab alumni\n\n### Step 2: News Discovery Agent\n- Input: \"Find recent news about [company name]\"\n- Output: List of 3-6 news items with URLs\n\n### Step 3: Fact Verification Agent\n- Input: The news items from Step 2 plus alumni data from Step 1\n- Output: Verified facts and any flags/warnings\n\n### Step 4: LinkedIn Article Writer\n- Input: All gathered data (alumni info, news, verification)\n- Output: Complete LinkedIn article with evidence pack\n\n## Final Output\nCombine all worker outputs into a single response with:\n1. The LinkedIn article\n2. Evidence pack (sources table)\n3. QA status (verified/unverified items)",
+          "agent_goal": "Orchestrate the complete article production pipeline, ensuring each company receives a high-quality, verifiable LinkedIn article with full evidence documentation and QA transparency",
+          "agent_context": "",
+          "agent_output": "",
+          "examples": "",
+          "features": [
+            {
+              "type": "MEMORY",
+              "config": {
+                "provider": "lyzr",
+                "max_messages_context_count": 10
+              },
+              "priority": 0
+            }
+          ],
+          "tool_usage_description": "",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o",
+          "top_p": 1.0,
+          "temperature": 0.3,
+          "managed_agents": [
+            {
+              "id": "695b87e6c2dad05ba69ace89",
+              "name": "Alumni Data Extractor",
+              "usage_description": "Use when you need to retrieve a company's official Lab participation data including cohort year, description, and website from the FinTech Innovation Lab alumni page"
+            },
+            {
+              "id": "695b87e7457887dd859fa9ed",
+              "name": "News Discovery Agent",
+              "usage_description": "Use when you need to find and collect 3-6 recent, verifiable news items about a fintech company with full source URLs and publication dates"
+            },
+            {
+              "id": "695b87e7c2dad05ba69ace8a",
+              "name": "Fact Verification Agent",
+              "usage_description": "Use when you need to verify factual claims against sources, check temporal accuracy between Lab activities and post-graduation news, and flag unverifiable or speculative content"
+            },
+            {
+              "id": "695b87e8457887dd859fa9ee",
+              "name": "LinkedIn Article Writer",
+              "usage_description": "Use when you need to write the final LinkedIn article in the standardized FinTech Innovation Lab format with all citations and proper structure compliance"
+            }
+          ],
+          "tool_configs": [],
+          "store_messages": true,
+          "file_output": true,
+          "a2a_tools": [],
+          "voice_config": null,
+          "additional_model_params": {},
+          "image_output_config": null,
+          "version": "3",
+          "created_at": "2026-01-05T09:44:09.169000",
+          "updated_at": "2026-01-06T10:35:37.379000",
+          "llm_credential_id": "lyzr_openai",
+          "tools": [],
+          "files": [],
+          "artifacts": [],
+          "personas": [],
+          "messages": [],
+          "tags": [],
+          "shared_with_users": [],
+          "shared_with_organizations": [],
+          "user_ids": [],
+          "organization_ids": [],
+          "permissions": [],
+          "assets": [],
+          "label": "Lab Alumni Article Coordinator",
+          "template_type": "MANAGER",
+          "tool": "",
+          "agent_id": "695b87e9c2dad05ba69ace8b"
+        }
+      },
+      {
+        "id": "695b87e6c2dad05ba69ace89",
+        "type": "agent",
+        "position": {
+          "x": -750,
+          "y": 300
+        },
+        "data": {
+          "_id": "695b87e6c2dad05ba69ace89",
+          "api_key": "***REDACTED***",
+          "name": "Alumni Data Extractor",
+          "description": "Extracts structured company data from the FinTech Innovation Lab NY alumni page with high accuracy and confidence scoring",
+          "agent_role": "Worker",
+          "agent_instructions": "You verify if a company is a FinTech Innovation Lab New York alumni by searching the web.\n\n## Search Strategy (use ALL of these)\n1. \"[company name] FinTech Innovation Lab New York 2017 2018 2019 2020\"\n2. \"site:fintechinnovationlab.com [company name] alumni\"\n3. \"[company name] FinTech Innovation Lab cohort\"\n\n## What to Look For\n- Official Lab announcements mentioning the company\n- Alumni page listings on fintechinnovationlab.com\n- Company blog posts about joining the Lab\n- Press releases about Lab participation\n\n## Output Format\nIf company IS found as alumni:\n```\nSTATUS: FOUND\nCOMPANY: [exact company name]\nYEAR: [cohort year, e.g., 2017]\nDESCRIPTION: [company description from Lab]\nSOURCE: [URL where you found confirmation]\n```\n\nIf company is NOT found after searching:\n```\nSTATUS: NOT_FOUND\nCOMPANY: [company name]\nREASON: [why not found - what searches were done]\n```\n\nIMPORTANT: Always search with specific queries including \"FinTech Innovation Lab\". A company being in fintech does not mean it's a Lab alumni.",
+          "agent_goal": "Extract accurate, complete company profile data from the FinTech Innovation Lab alumni page, identifying data gaps and confidence levels",
+          "agent_context": "",
+          "agent_output": "",
+          "examples": "",
+          "features": [],
+          "tool_usage_description": "Use when you need to retrieve a company's official Lab participation data including cohort year, description, and website from the FinTech Innovation Lab alumni page",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "Perplexity",
+          "model": "perplexity/sonar-reasoning-pro",
+          "top_p": 1.0,
+          "temperature": 0.2,
+          "managed_agents": [],
+          "tool_configs": [],
+          "store_messages": true,
+          "file_output": false,
+          "a2a_tools": [],
+          "voice_config": null,
+          "additional_model_params": {},
+          "image_output_config": null,
+          "version": "3",
+          "created_at": "2026-01-05T09:44:06.696000",
+          "updated_at": "2026-01-06T10:28:04.937000",
+          "llm_credential_id": "lyzr_perplexity",
+          "tools": [],
+          "files": [],
+          "artifacts": [],
+          "personas": [],
+          "messages": [],
+          "tags": [],
+          "shared_with_users": [],
+          "shared_with_organizations": [],
+          "user_ids": [],
+          "organization_ids": [],
+          "permissions": [],
+          "assets": [],
+          "label": "Alumni Data Extractor",
+          "template_type": "STANDARD",
+          "tool": "",
+          "agent_id": "695b87e6c2dad05ba69ace89"
+        }
+      },
+      {
+        "id": "695b87e7457887dd859fa9ed",
+        "type": "agent",
+        "position": {
+          "x": -250,
+          "y": 300
+        },
+        "data": {
+          "_id": "695b87e7457887dd859fa9ed",
+          "api_key": "***REDACTED***",
+          "name": "News Discovery Agent",
+          "description": "Autonomously discovers and retrieves recent, credible news about fintech companies using a tiered source hierarchy and strict verification standards",
+          "agent_role": "Worker",
+          "agent_instructions": "Find 3-6 recent news items about the given fintech company.\n\n## Source Priority\n1. Company newsroom / press releases\n2. SEC filings, regulatory announcements\n3. WSJ, Bloomberg, Reuters, Financial Times\n4. Business Wire, PR Newswire\n5. TechCrunch, American Banker, Finextra\n\n## Timeframe\n- Default: Last 120 days\n- Fallback: Last 12 months if <2 items found\n\n## News Categories\nFunding, Partnerships, Product launches, Regulatory milestones, Acquisitions, Leadership changes\n\n## Output Format\nFor each news item:\n```\nHEADLINE: [title]\nSOURCE: [publication]\nURL: [full URL]\nDATE: [YYYY-MM-DD]\nTIER: [1-5]\nSUMMARY: [2-3 sentences]\nKEY FACTS: [bullet points]\n```\n\n## Rules\n- Every item MUST have a URL\n- Exclude social media posts\n- Exclude news older than 12 months\n- Company must be primary subject, not just mentioned",
+          "agent_goal": "Find 3-6 recent, high-quality, verifiable news items about a given company, prioritizing authoritative sources and ensuring every item has a traceable URL",
+          "agent_context": "",
+          "agent_output": "",
+          "examples": "",
+          "features": [],
+          "tool_usage_description": "Use when you need to find and collect 3-6 recent, verifiable news items about a fintech company with full source URLs and publication dates",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "Perplexity",
+          "model": "perplexity/sonar-reasoning-pro",
+          "top_p": 1.0,
+          "temperature": 0.3,
+          "managed_agents": [],
+          "tool_configs": [],
+          "store_messages": true,
+          "file_output": false,
+          "a2a_tools": [],
+          "voice_config": null,
+          "additional_model_params": {},
+          "image_output_config": null,
+          "version": "3",
+          "created_at": "2026-01-05T09:44:07.308000",
+          "updated_at": "2026-01-06T09:54:06.116000",
+          "llm_credential_id": "lyzr_perplexity",
+          "tools": [],
+          "files": [],
+          "artifacts": [],
+          "personas": [],
+          "messages": [],
+          "tags": [],
+          "shared_with_users": [],
+          "shared_with_organizations": [],
+          "user_ids": [],
+          "organization_ids": [],
+          "permissions": [],
+          "assets": [],
+          "label": "News Discovery Agent",
+          "template_type": "STANDARD",
+          "tool": "",
+          "agent_id": "695b87e7457887dd859fa9ed"
+        }
+      },
+      {
+        "id": "695b87e7c2dad05ba69ace8a",
+        "type": "agent",
+        "position": {
+          "x": 250,
+          "y": 300
+        },
+        "data": {
+          "_id": "695b87e7c2dad05ba69ace8a",
+          "api_key": "***REDACTED***",
+          "name": "Fact Verification Agent",
+          "description": "Validates all claims against provided sources, ensures temporal accuracy, flags unverifiable statements, and enforces evidence standards for LinkedIn article production",
+          "agent_role": "Worker",
+          "agent_instructions": "Verify all claims before article publication.\n\n## Verification Criteria\n- \u2705 VERIFIED: Claim matches source exactly\n- \u26a0\ufe0f NEEDS_CLARIFICATION: Minor adjustment needed\n- \u274c UNVERIFIABLE: No source or source doesn't support claim\n- \ud83d\udeab FABRICATED: Contradicts source (CRITICAL)\n\n## Temporal Rules\n- Lab Period: Only activities explicitly on Lab alumni page\n- Post-Lab: All news items (must be dated after graduation year)\n- Never mix Lab period with post-Lab activities\n\n## Flag Types\n- **CRITICAL**: Fabricated claims, temporal mixing, missing source for major claims\n- **WARNING**: Weak source, date uncertainty, single source for important claim\n- **INFO**: Old news, company statement only\n\n## Output Format\n```\nVERIFICATION REPORT\n===================\nCompany: [name]\nStatus: PUBLISHABLE / NEEDS_REVIEW / REJECT\n\nClaims Verified: X of Y\nCritical Flags: [count]\nWarnings: [count]\n\nCLAIM DETAILS:\n1. \"[claim text]\"\n   Source: [url]\n   Status: VERIFIED/UNVERIFIABLE/etc\n   Notes: [any issues]\n\nRECOMMENDATION: [APPROVE/REVISE/REJECT with reason]\n```\n\n## Auto-Reject Conditions\n- Any FABRICATED claim\n- >50% claims unverifiable\n- Temporal mixing detected",
+          "agent_goal": "Verify every factual claim has traceable evidence, ensure clear temporal separation between Lab activities and post-graduation news, and flag any speculative or unverifiable content",
+          "agent_context": "",
+          "agent_output": "",
+          "examples": "",
+          "features": [],
+          "tool_usage_description": "Use when you need to verify factual claims against sources, check temporal accuracy between Lab activities and post-graduation news, and flag unverifiable or speculative content",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o-mini",
+          "top_p": 1.0,
+          "temperature": 0.2,
+          "managed_agents": [],
+          "tool_configs": [],
+          "store_messages": true,
+          "file_output": false,
+          "a2a_tools": [],
+          "voice_config": null,
+          "additional_model_params": {},
+          "image_output_config": null,
+          "version": "3",
+          "created_at": "2026-01-05T09:44:07.876000",
+          "updated_at": "2026-01-06T09:54:06.841000",
+          "llm_credential_id": "lyzr_openai",
+          "tools": [],
+          "files": [],
+          "artifacts": [],
+          "personas": [],
+          "messages": [],
+          "tags": [],
+          "shared_with_users": [],
+          "shared_with_organizations": [],
+          "user_ids": [],
+          "organization_ids": [],
+          "permissions": [],
+          "assets": [],
+          "label": "Fact Verification Agent",
+          "template_type": "STANDARD",
+          "tool": "",
+          "agent_id": "695b87e7c2dad05ba69ace8a"
+        }
+      },
+      {
+        "id": "695b87e8457887dd859fa9ee",
+        "type": "agent",
+        "position": {
+          "x": 750,
+          "y": 300
+        },
+        "data": {
+          "_id": "695b87e8457887dd859fa9ee",
+          "api_key": "***REDACTED***",
+          "name": "LinkedIn Article Writer",
+          "description": "Generates standardized, evidence-backed LinkedIn articles for FinTech Innovation Lab alumni following an exact structure with proper citations and consistent Lab program messaging",
+          "agent_role": "Worker",
+          "agent_instructions": "Write a LinkedIn article for FinTech Innovation Lab alumni companies.\n\n## Article Structure\n\n### Opening (2-3 sentences)\nHook about the company's recent achievement or milestone.\n\n### Lab Foundation (1 paragraph)\n- Graduation year and cohort\n- What they worked on during the Lab\n- Use ONLY verbatim Lab description\n\n### Growth Story (2-3 paragraphs)\nRecent developments organized by:\n- Funding & financial milestones\n- Partnerships & customers\n- Product innovations\n- Regulatory achievements\n\n### Looking Forward (1 paragraph)\nFuture outlook based on recent trajectory.\n\n### Closing\nStandard closing: \"As a proud alumnus of the FinTech Innovation Lab New York [Class of YYYY], [Company] continues to demonstrate the caliber of innovation the Lab cultivates.\"\n\n## Style Guidelines\n- Professional but engaging\n- 600-900 words\n- Use specific numbers and facts\n- Cite sources inline: \"According to [Source]...\"\n- No speculation or unverified claims\n\n## Output Format\n```\nLINKEDIN ARTICLE\n================\n\n[Full article text]\n\n---\nWord Count: [X]\nSources Used: [count]\n```\n\n## Rules\n- Only use verified data provided\n- Distinguish Lab-period from post-Lab achievements\n- Sign off with \"Best regards, Harshit\"",
+          "agent_goal": "Transform verified company data and news into compelling, credible LinkedIn articles that follow the exact FinTech Innovation Lab format while maintaining factual accuracy and proper citation",
+          "agent_context": "",
+          "agent_output": "",
+          "examples": "",
+          "features": [],
+          "tool_usage_description": "Use when you need to write the final LinkedIn article in the standardized FinTech Innovation Lab format with all citations and proper structure compliance",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o-mini",
+          "top_p": 1.0,
+          "temperature": 0.5,
+          "managed_agents": [],
+          "tool_configs": [],
+          "store_messages": true,
+          "file_output": false,
+          "a2a_tools": [],
+          "voice_config": null,
+          "additional_model_params": {},
+          "image_output_config": null,
+          "version": "3",
+          "created_at": "2026-01-05T09:44:08.601000",
+          "updated_at": "2026-01-06T09:54:07.543000",
+          "llm_credential_id": "lyzr_openai",
+          "tools": [],
+          "files": [],
+          "artifacts": [],
+          "personas": [],
+          "messages": [],
+          "tags": [],
+          "shared_with_users": [],
+          "shared_with_organizations": [],
+          "user_ids": [],
+          "organization_ids": [],
+          "permissions": [],
+          "assets": [],
+          "label": "LinkedIn Article Writer",
+          "template_type": "STANDARD",
+          "tool": "",
+          "agent_id": "695b87e8457887dd859fa9ee"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-695b87e9c2dad05ba69ace8b-695b87e6c2dad05ba69ace89",
+        "source": "695b87e9c2dad05ba69ace8b",
+        "target": "695b87e6c2dad05ba69ace89",
+        "label": "Use when you need to retrieve a company's official Lab participation data including cohort year, description, and website from the FinTech Innovation Lab alumni page",
+        "data": {
+          "usageDescription": "Use when you need to retrieve a company's official Lab participation data including cohort year, description, and website from the FinTech Innovation Lab alumni page"
+        }
+      },
+      {
+        "id": "edge-695b87e9c2dad05ba69ace8b-695b87e7457887dd859fa9ed",
+        "source": "695b87e9c2dad05ba69ace8b",
+        "target": "695b87e7457887dd859fa9ed",
+        "label": "Use when you need to find and collect 3-6 recent, verifiable news items about a fintech company with full source URLs and publication dates",
+        "data": {
+          "usageDescription": "Use when you need to find and collect 3-6 recent, verifiable news items about a fintech company with full source URLs and publication dates"
+        }
+      },
+      {
+        "id": "edge-695b87e9c2dad05ba69ace8b-695b87e7c2dad05ba69ace8a",
+        "source": "695b87e9c2dad05ba69ace8b",
+        "target": "695b87e7c2dad05ba69ace8a",
+        "label": "Use when you need to verify factual claims against sources, check temporal accuracy between Lab activities and post-graduation news, and flag unverifiable or speculative content",
+        "data": {
+          "usageDescription": "Use when you need to verify factual claims against sources, check temporal accuracy between Lab activities and post-graduation news, and flag unverifiable or speculative content"
+        }
+      },
+      {
+        "id": "edge-695b87e9c2dad05ba69ace8b-695b87e8457887dd859fa9ee",
+        "source": "695b87e9c2dad05ba69ace8b",
+        "target": "695b87e8457887dd859fa9ee",
+        "label": "Use when you need to write the final LinkedIn article in the standardized FinTech Innovation Lab format with all citations and proper structure compliance",
+        "data": {
+          "usageDescription": "Use when you need to write the final LinkedIn article in the standardized FinTech Innovation Lab format with all citations and proper structure compliance"
+        }
+      }
+    ],
+    "tree_structure": {
+      "nodes": [
+        {
+          "id": "695b87e9c2dad05ba69ace8b",
+          "type": "agent",
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "data": {
+            "_id": "695b87e9c2dad05ba69ace8b",
+            "api_key": "***REDACTED***",
+            "name": "Lab Alumni Article Coordinator",
+            "description": "Orchestrates the end-to-end workflow for producing evidence-backed LinkedIn articles about FinTech Innovation Lab alumni companies, managing four specialized workers and ensuring quality standards",
+            "agent_role": "Manager",
+            "agent_instructions": "You are the LinkedIn Article Production Coordinator. You orchestrate a team of 4 specialized agents to produce articles about FinTech Innovation Lab NY alumni.\n\n## Your Team\n\nYou have access to exactly 4 workers:\n\n1. **Alumni Data Extractor** - Verifies if a company is a Lab alumni via web search\n2. **News Discovery Agent** - Finds recent news about the company\n3. **Fact Verification Agent** - Verifies facts and flags issues\n4. **LinkedIn Article Writer** - Writes the final article\n\n## Delegation Flow\n\nFor every user request, follow this exact sequence:\n\n### Step 1: Alumni Data Extractor\n- Input: \"Verify if [company name] is a FinTech Innovation Lab New York alumni\"\n- Output: STATUS: FOUND or STATUS: NOT_FOUND with year and details\n- If NOT_FOUND: Stop and inform user the company is not a Lab alumni\n\n### Step 2: News Discovery Agent\n- Input: \"Find recent news about [company name]\"\n- Output: List of 3-6 news items with URLs\n\n### Step 3: Fact Verification Agent\n- Input: The news items from Step 2 plus alumni data from Step 1\n- Output: Verified facts and any flags/warnings\n\n### Step 4: LinkedIn Article Writer\n- Input: All gathered data (alumni info, news, verification)\n- Output: Complete LinkedIn article with evidence pack\n\n## Final Output\nCombine all worker outputs into a single response with:\n1. The LinkedIn article\n2. Evidence pack (sources table)\n3. QA status (verified/unverified items)",
+            "agent_goal": "Orchestrate the complete article production pipeline, ensuring each company receives a high-quality, verifiable LinkedIn article with full evidence documentation and QA transparency",
+            "agent_context": "",
+            "agent_output": "",
+            "examples": "",
+            "features": [
+              {
+                "type": "MEMORY",
+                "config": {
+                  "provider": "lyzr",
+                  "max_messages_context_count": 10
+                },
+                "priority": 0
+              }
+            ],
+            "tool_usage_description": "",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o",
+            "top_p": 1.0,
+            "temperature": 0.3,
+            "managed_agents": [
+              {
+                "id": "695b87e6c2dad05ba69ace89",
+                "name": "Alumni Data Extractor",
+                "usage_description": "Use when you need to retrieve a company's official Lab participation data including cohort year, description, and website from the FinTech Innovation Lab alumni page"
+              },
+              {
+                "id": "695b87e7457887dd859fa9ed",
+                "name": "News Discovery Agent",
+                "usage_description": "Use when you need to find and collect 3-6 recent, verifiable news items about a fintech company with full source URLs and publication dates"
+              },
+              {
+                "id": "695b87e7c2dad05ba69ace8a",
+                "name": "Fact Verification Agent",
+                "usage_description": "Use when you need to verify factual claims against sources, check temporal accuracy between Lab activities and post-graduation news, and flag unverifiable or speculative content"
+              },
+              {
+                "id": "695b87e8457887dd859fa9ee",
+                "name": "LinkedIn Article Writer",
+                "usage_description": "Use when you need to write the final LinkedIn article in the standardized FinTech Innovation Lab format with all citations and proper structure compliance"
+              }
+            ],
+            "tool_configs": [],
+            "store_messages": true,
+            "file_output": true,
+            "a2a_tools": [],
+            "voice_config": null,
+            "additional_model_params": {},
+            "image_output_config": null,
+            "version": "3",
+            "created_at": "2026-01-05T09:44:09.169000",
+            "updated_at": "2026-01-06T10:35:37.379000",
+            "llm_credential_id": "lyzr_openai",
+            "tools": [],
+            "files": [],
+            "artifacts": [],
+            "personas": [],
+            "messages": [],
+            "tags": [],
+            "shared_with_users": [],
+            "shared_with_organizations": [],
+            "user_ids": [],
+            "organization_ids": [],
+            "permissions": [],
+            "assets": [],
+            "label": "Lab Alumni Article Coordinator",
+            "template_type": "MANAGER",
+            "tool": "",
+            "agent_id": "695b87e9c2dad05ba69ace8b"
+          }
+        },
+        {
+          "id": "695b87e6c2dad05ba69ace89",
+          "type": "agent",
+          "position": {
+            "x": -750,
+            "y": 300
+          },
+          "data": {
+            "_id": "695b87e6c2dad05ba69ace89",
+            "api_key": "***REDACTED***",
+            "name": "Alumni Data Extractor",
+            "description": "Extracts structured company data from the FinTech Innovation Lab NY alumni page with high accuracy and confidence scoring",
+            "agent_role": "Worker",
+            "agent_instructions": "You verify if a company is a FinTech Innovation Lab New York alumni by searching the web.\n\n## Search Strategy (use ALL of these)\n1. \"[company name] FinTech Innovation Lab New York 2017 2018 2019 2020\"\n2. \"site:fintechinnovationlab.com [company name] alumni\"\n3. \"[company name] FinTech Innovation Lab cohort\"\n\n## What to Look For\n- Official Lab announcements mentioning the company\n- Alumni page listings on fintechinnovationlab.com\n- Company blog posts about joining the Lab\n- Press releases about Lab participation\n\n## Output Format\nIf company IS found as alumni:\n```\nSTATUS: FOUND\nCOMPANY: [exact company name]\nYEAR: [cohort year, e.g., 2017]\nDESCRIPTION: [company description from Lab]\nSOURCE: [URL where you found confirmation]\n```\n\nIf company is NOT found after searching:\n```\nSTATUS: NOT_FOUND\nCOMPANY: [company name]\nREASON: [why not found - what searches were done]\n```\n\nIMPORTANT: Always search with specific queries including \"FinTech Innovation Lab\". A company being in fintech does not mean it's a Lab alumni.",
+            "agent_goal": "Extract accurate, complete company profile data from the FinTech Innovation Lab alumni page, identifying data gaps and confidence levels",
+            "agent_context": "",
+            "agent_output": "",
+            "examples": "",
+            "features": [],
+            "tool_usage_description": "Use when you need to retrieve a company's official Lab participation data including cohort year, description, and website from the FinTech Innovation Lab alumni page",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "Perplexity",
+            "model": "perplexity/sonar-reasoning-pro",
+            "top_p": 1.0,
+            "temperature": 0.2,
+            "managed_agents": [],
+            "tool_configs": [],
+            "store_messages": true,
+            "file_output": false,
+            "a2a_tools": [],
+            "voice_config": null,
+            "additional_model_params": {},
+            "image_output_config": null,
+            "version": "3",
+            "created_at": "2026-01-05T09:44:06.696000",
+            "updated_at": "2026-01-06T10:28:04.937000",
+            "llm_credential_id": "lyzr_perplexity",
+            "tools": [],
+            "files": [],
+            "artifacts": [],
+            "personas": [],
+            "messages": [],
+            "tags": [],
+            "shared_with_users": [],
+            "shared_with_organizations": [],
+            "user_ids": [],
+            "organization_ids": [],
+            "permissions": [],
+            "assets": [],
+            "label": "Alumni Data Extractor",
+            "template_type": "STANDARD",
+            "tool": "",
+            "agent_id": "695b87e6c2dad05ba69ace89"
+          }
+        },
+        {
+          "id": "695b87e7457887dd859fa9ed",
+          "type": "agent",
+          "position": {
+            "x": -250,
+            "y": 300
+          },
+          "data": {
+            "_id": "695b87e7457887dd859fa9ed",
+            "api_key": "***REDACTED***",
+            "name": "News Discovery Agent",
+            "description": "Autonomously discovers and retrieves recent, credible news about fintech companies using a tiered source hierarchy and strict verification standards",
+            "agent_role": "Worker",
+            "agent_instructions": "Find 3-6 recent news items about the given fintech company.\n\n## Source Priority\n1. Company newsroom / press releases\n2. SEC filings, regulatory announcements\n3. WSJ, Bloomberg, Reuters, Financial Times\n4. Business Wire, PR Newswire\n5. TechCrunch, American Banker, Finextra\n\n## Timeframe\n- Default: Last 120 days\n- Fallback: Last 12 months if <2 items found\n\n## News Categories\nFunding, Partnerships, Product launches, Regulatory milestones, Acquisitions, Leadership changes\n\n## Output Format\nFor each news item:\n```\nHEADLINE: [title]\nSOURCE: [publication]\nURL: [full URL]\nDATE: [YYYY-MM-DD]\nTIER: [1-5]\nSUMMARY: [2-3 sentences]\nKEY FACTS: [bullet points]\n```\n\n## Rules\n- Every item MUST have a URL\n- Exclude social media posts\n- Exclude news older than 12 months\n- Company must be primary subject, not just mentioned",
+            "agent_goal": "Find 3-6 recent, high-quality, verifiable news items about a given company, prioritizing authoritative sources and ensuring every item has a traceable URL",
+            "agent_context": "",
+            "agent_output": "",
+            "examples": "",
+            "features": [],
+            "tool_usage_description": "Use when you need to find and collect 3-6 recent, verifiable news items about a fintech company with full source URLs and publication dates",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "Perplexity",
+            "model": "perplexity/sonar-reasoning-pro",
+            "top_p": 1.0,
+            "temperature": 0.3,
+            "managed_agents": [],
+            "tool_configs": [],
+            "store_messages": true,
+            "file_output": false,
+            "a2a_tools": [],
+            "voice_config": null,
+            "additional_model_params": {},
+            "image_output_config": null,
+            "version": "3",
+            "created_at": "2026-01-05T09:44:07.308000",
+            "updated_at": "2026-01-06T09:54:06.116000",
+            "llm_credential_id": "lyzr_perplexity",
+            "tools": [],
+            "files": [],
+            "artifacts": [],
+            "personas": [],
+            "messages": [],
+            "tags": [],
+            "shared_with_users": [],
+            "shared_with_organizations": [],
+            "user_ids": [],
+            "organization_ids": [],
+            "permissions": [],
+            "assets": [],
+            "label": "News Discovery Agent",
+            "template_type": "STANDARD",
+            "tool": "",
+            "agent_id": "695b87e7457887dd859fa9ed"
+          }
+        },
+        {
+          "id": "695b87e7c2dad05ba69ace8a",
+          "type": "agent",
+          "position": {
+            "x": 250,
+            "y": 300
+          },
+          "data": {
+            "_id": "695b87e7c2dad05ba69ace8a",
+            "api_key": "***REDACTED***",
+            "name": "Fact Verification Agent",
+            "description": "Validates all claims against provided sources, ensures temporal accuracy, flags unverifiable statements, and enforces evidence standards for LinkedIn article production",
+            "agent_role": "Worker",
+            "agent_instructions": "Verify all claims before article publication.\n\n## Verification Criteria\n- \u2705 VERIFIED: Claim matches source exactly\n- \u26a0\ufe0f NEEDS_CLARIFICATION: Minor adjustment needed\n- \u274c UNVERIFIABLE: No source or source doesn't support claim\n- \ud83d\udeab FABRICATED: Contradicts source (CRITICAL)\n\n## Temporal Rules\n- Lab Period: Only activities explicitly on Lab alumni page\n- Post-Lab: All news items (must be dated after graduation year)\n- Never mix Lab period with post-Lab activities\n\n## Flag Types\n- **CRITICAL**: Fabricated claims, temporal mixing, missing source for major claims\n- **WARNING**: Weak source, date uncertainty, single source for important claim\n- **INFO**: Old news, company statement only\n\n## Output Format\n```\nVERIFICATION REPORT\n===================\nCompany: [name]\nStatus: PUBLISHABLE / NEEDS_REVIEW / REJECT\n\nClaims Verified: X of Y\nCritical Flags: [count]\nWarnings: [count]\n\nCLAIM DETAILS:\n1. \"[claim text]\"\n   Source: [url]\n   Status: VERIFIED/UNVERIFIABLE/etc\n   Notes: [any issues]\n\nRECOMMENDATION: [APPROVE/REVISE/REJECT with reason]\n```\n\n## Auto-Reject Conditions\n- Any FABRICATED claim\n- >50% claims unverifiable\n- Temporal mixing detected",
+            "agent_goal": "Verify every factual claim has traceable evidence, ensure clear temporal separation between Lab activities and post-graduation news, and flag any speculative or unverifiable content",
+            "agent_context": "",
+            "agent_output": "",
+            "examples": "",
+            "features": [],
+            "tool_usage_description": "Use when you need to verify factual claims against sources, check temporal accuracy between Lab activities and post-graduation news, and flag unverifiable or speculative content",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o-mini",
+            "top_p": 1.0,
+            "temperature": 0.2,
+            "managed_agents": [],
+            "tool_configs": [],
+            "store_messages": true,
+            "file_output": false,
+            "a2a_tools": [],
+            "voice_config": null,
+            "additional_model_params": {},
+            "image_output_config": null,
+            "version": "3",
+            "created_at": "2026-01-05T09:44:07.876000",
+            "updated_at": "2026-01-06T09:54:06.841000",
+            "llm_credential_id": "lyzr_openai",
+            "tools": [],
+            "files": [],
+            "artifacts": [],
+            "personas": [],
+            "messages": [],
+            "tags": [],
+            "shared_with_users": [],
+            "shared_with_organizations": [],
+            "user_ids": [],
+            "organization_ids": [],
+            "permissions": [],
+            "assets": [],
+            "label": "Fact Verification Agent",
+            "template_type": "STANDARD",
+            "tool": "",
+            "agent_id": "695b87e7c2dad05ba69ace8a"
+          }
+        },
+        {
+          "id": "695b87e8457887dd859fa9ee",
+          "type": "agent",
+          "position": {
+            "x": 750,
+            "y": 300
+          },
+          "data": {
+            "_id": "695b87e8457887dd859fa9ee",
+            "api_key": "***REDACTED***",
+            "name": "LinkedIn Article Writer",
+            "description": "Generates standardized, evidence-backed LinkedIn articles for FinTech Innovation Lab alumni following an exact structure with proper citations and consistent Lab program messaging",
+            "agent_role": "Worker",
+            "agent_instructions": "Write a LinkedIn article for FinTech Innovation Lab alumni companies.\n\n## Article Structure\n\n### Opening (2-3 sentences)\nHook about the company's recent achievement or milestone.\n\n### Lab Foundation (1 paragraph)\n- Graduation year and cohort\n- What they worked on during the Lab\n- Use ONLY verbatim Lab description\n\n### Growth Story (2-3 paragraphs)\nRecent developments organized by:\n- Funding & financial milestones\n- Partnerships & customers\n- Product innovations\n- Regulatory achievements\n\n### Looking Forward (1 paragraph)\nFuture outlook based on recent trajectory.\n\n### Closing\nStandard closing: \"As a proud alumnus of the FinTech Innovation Lab New York [Class of YYYY], [Company] continues to demonstrate the caliber of innovation the Lab cultivates.\"\n\n## Style Guidelines\n- Professional but engaging\n- 600-900 words\n- Use specific numbers and facts\n- Cite sources inline: \"According to [Source]...\"\n- No speculation or unverified claims\n\n## Output Format\n```\nLINKEDIN ARTICLE\n================\n\n[Full article text]\n\n---\nWord Count: [X]\nSources Used: [count]\n```\n\n## Rules\n- Only use verified data provided\n- Distinguish Lab-period from post-Lab achievements\n- Sign off with \"Best regards, Harshit\"",
+            "agent_goal": "Transform verified company data and news into compelling, credible LinkedIn articles that follow the exact FinTech Innovation Lab format while maintaining factual accuracy and proper citation",
+            "agent_context": "",
+            "agent_output": "",
+            "examples": "",
+            "features": [],
+            "tool_usage_description": "Use when you need to write the final LinkedIn article in the standardized FinTech Innovation Lab format with all citations and proper structure compliance",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o-mini",
+            "top_p": 1.0,
+            "temperature": 0.5,
+            "managed_agents": [],
+            "tool_configs": [],
+            "store_messages": true,
+            "file_output": false,
+            "a2a_tools": [],
+            "voice_config": null,
+            "additional_model_params": {},
+            "image_output_config": null,
+            "version": "3",
+            "created_at": "2026-01-05T09:44:08.601000",
+            "updated_at": "2026-01-06T09:54:07.543000",
+            "llm_credential_id": "lyzr_openai",
+            "tools": [],
+            "files": [],
+            "artifacts": [],
+            "personas": [],
+            "messages": [],
+            "tags": [],
+            "shared_with_users": [],
+            "shared_with_organizations": [],
+            "user_ids": [],
+            "organization_ids": [],
+            "permissions": [],
+            "assets": [],
+            "label": "LinkedIn Article Writer",
+            "template_type": "STANDARD",
+            "tool": "",
+            "agent_id": "695b87e8457887dd859fa9ee"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "edge-695b87e9c2dad05ba69ace8b-695b87e6c2dad05ba69ace89",
+          "source": "695b87e9c2dad05ba69ace8b",
+          "target": "695b87e6c2dad05ba69ace89",
+          "label": "Use when you need to retrieve a company's official Lab participation data including cohort year, description, and website from the FinTech Innovation Lab alumni page",
+          "data": {
+            "usageDescription": "Use when you need to retrieve a company's official Lab participation data including cohort year, description, and website from the FinTech Innovation Lab alumni page"
+          }
+        },
+        {
+          "id": "edge-695b87e9c2dad05ba69ace8b-695b87e7457887dd859fa9ed",
+          "source": "695b87e9c2dad05ba69ace8b",
+          "target": "695b87e7457887dd859fa9ed",
+          "label": "Use when you need to find and collect 3-6 recent, verifiable news items about a fintech company with full source URLs and publication dates",
+          "data": {
+            "usageDescription": "Use when you need to find and collect 3-6 recent, verifiable news items about a fintech company with full source URLs and publication dates"
+          }
+        },
+        {
+          "id": "edge-695b87e9c2dad05ba69ace8b-695b87e7c2dad05ba69ace8a",
+          "source": "695b87e9c2dad05ba69ace8b",
+          "target": "695b87e7c2dad05ba69ace8a",
+          "label": "Use when you need to verify factual claims against sources, check temporal accuracy between Lab activities and post-graduation news, and flag unverifiable or speculative content",
+          "data": {
+            "usageDescription": "Use when you need to verify factual claims against sources, check temporal accuracy between Lab activities and post-graduation news, and flag unverifiable or speculative content"
+          }
+        },
+        {
+          "id": "edge-695b87e9c2dad05ba69ace8b-695b87e8457887dd859fa9ee",
+          "source": "695b87e9c2dad05ba69ace8b",
+          "target": "695b87e8457887dd859fa9ee",
+          "label": "Use when you need to write the final LinkedIn article in the standardized FinTech Innovation Lab format with all citations and proper structure compliance",
+          "data": {
+            "usageDescription": "Use when you need to write the final LinkedIn article in the standardized FinTech Innovation Lab format with all citations and proper structure compliance"
+          }
+        }
+      ]
+    }
+  },
+  "blueprint_info": {
+    "documentation_data": {
+      "markdown": "## The Problem\n\n### The Situation\nThe FinTech Innovation Lab wants to showcase alumni company success stories on LinkedIn. Each article needs to highlight the company's Lab participation, recent achievements, and industry relevance. With 450+ alumni companies across three global programs, producing high-quality content at scale is challenging.\n\n### The Challenge\nCreating credible LinkedIn articles requires:\n- Accurate extraction of official Lab program data\n- Autonomous discovery of recent, verifiable news (no manual inputs)\n- Rigorous fact-checking to ensure every claim is evidence-backed\n- Consistent article structure that reinforces the Lab's brand\n- Clear separation between Lab-period activities and post-graduation news\n\nManual research and writing is time-intensive and prone to inconsistency. Copy-paste errors, unverified claims, or stale information can damage credibility.\n\n### What's At Stake\nInaccurate articles erode trust with alumni companies, financial institution partners, and the broader fintech community. Each article represents the Lab's reputation. Quality cannot be compromised for speed.\n\n---\n\n## The Approach\n\n### The Key Insight\nArticle production can be decomposed into four distinct, verifiable steps: data extraction, news discovery, fact verification, and content generation. Each step has clear inputs, outputs, and quality criteria that can be automated and validated.\n\n### The Method\nA coordinator agent orchestrates four specialized workers in sequence:\n\n1. **Alumni Data Extractor** - Scrapes the official Lab alumni page for company profile, graduation year, and Lab description\n2. **News Discovery Agent** - Autonomously searches tiered sources (company newsroom, regulators, major publications, wire services) for 3-6 recent news items\n3. **Fact Verification Agent** - Validates every claim against its source, ensures temporal accuracy, flags unverifiable content\n4. **LinkedIn Article Writer** - Produces the standardized article with inline citations and structure compliance\n\nQuality gates between each step ensure problems are caught early. The workflow only proceeds when verification passes.\n\n### Why This Works\n- **No manual news input required** - The News Discovery Agent autonomously finds and validates sources\n- **Evidence traceability** - Every claim maps to a specific URL\n- **Temporal integrity** - Clear separation between Lab activities and post-graduation news\n- **Consistent format** - Every article follows the exact same structure\n- **Transparent quality** - QA flags surface any concerns before publishing\n\n---\n\n## Capabilities\n\n### Core Capabilities\n- Extracts company data from FinTech Innovation Lab alumni page\n- Discovers 3-6 recent news items per company autonomously\n- Verifies all claims against cited sources\n- Generates LinkedIn-ready articles (Markdown and plain text)\n- Produces evidence packs mapping claims to sources\n- Flags missing, ambiguous, or unverifiable information\n\n### Article Structure (Standardized)\nEvery article includes:\n- Title: \"From Lab Cohort to Market Momentum: Company Name (FinTech Innovation Lab NY Year)\"\n- Opening hook explaining what the company does\n- Lab Snapshot with graduation year and official Lab description only\n- What's New section with 3-6 cited news bullets\n- Why It Matters section connecting to FI relevance\n- Standardized closing paragraph about the Lab program\n\n### News Source Hierarchy\nSources are prioritized in this order:\n1. Company newsroom and official press releases\n2. Regulatory filings (SEC, FINRA, state regulators)\n3. Major publications (WSJ, FT, Bloomberg, Reuters)\n4. Wire services (Business Wire, PR Newswire)\n5. Industry publications (American Banker, Finextra, TechCrunch)\n\n### Quality Guardrails\n- No inferred or speculative accomplishments\n- No fabricated partnerships or outcomes\n- No mixing of Lab-period and post-Lab activities\n- Every claim requires a verifiable source URL\n- Companies with unresolvable data are flagged, not guessed\n\n### Deliverables Per Company\n1. LinkedIn article in Markdown format\n2. LinkedIn article in plain text (ready to paste)\n3. Evidence pack with source-to-claim mapping\n4. QA report with flags categorized by severity\n\n### Boundaries\n- Only covers FinTech Innovation Lab New York alumni\n- News search defaults to 120 days (expands to 12 months if needed)\n- Cannot verify paywalled content without access\n- Does not predict future company performance\n- English language output only\n\n---\n\n## Getting Started\n\n### Prerequisites\n- Access to the FinTech Innovation Lab alumni page\n- Web search capability enabled for News Discovery Agent\n- Perplexity API access (for sonar-reasoning-pro model)\n\n### Your First Run\nTry: \"Create a LinkedIn article for Plaid\"\n\nThe system will:\n1. Extract Plaid's official Lab profile (2013 cohort)\n2. Discover recent news about Plaid's partnerships, products, and funding\n3. Verify all claims against sources\n4. Generate the complete article package\n\n### Pro Tips\n- **Batch Processing**: Process multiple companies by providing a list\n- **Review QA Flags**: Always check the QA report before publishing\n- **Update Cadence**: Re-run for companies quarterly to capture new developments\n- **Source Preferences**: Higher-tier sources (1-3) produce more credible articles\n\n### Output Interpretation\n- **READY**: Article passed all quality gates, ready to publish\n- **NEEDS_HUMAN_REVIEW**: Minor flags exist, human should verify before publishing\n- **NOT_RECOMMENDED**: Critical issues found, do not publish without resolution\n\n---\n\n## Technical Notes\n\n### Model Selection\n- Coordinator: gpt-4o (orchestration intelligence)\n- News Discovery: perplexity/sonar-reasoning-pro (real-time web search)\n- Other Workers: gpt-4o-mini (cost-efficient structured tasks)\n\n### Workflow Timing\n- Typical article: 2-3 minutes\n- Companies with limited news: 3-4 minutes (extended search)\n- Batch of 10 companies: 20-30 minutes\n\n### Cost Optimization\n- News Discovery uses Perplexity (most expensive step)\n- Fact Verification and Writing use gpt-4o-mini\n- Caching alumni data reduces repeated extractions\n"
+    },
+    "type": "markdown"
+  },
+  "version": "1.0.0",
+  "tags": [
+    "marketing",
+    "content-generation",
+    "linkedin",
+    "fintech",
+    "research",
+    "multi-agent"
+  ],
+  "category": "marketing",
+  "status": "draft",
+  "is_template": false,
+  "parent_blueprint_id": null,
+  "usage_count": 0,
+  "last_used_at": null,
+  "created_at": "2026-01-05T09:44:12.694000",
+  "updated_at": "2026-01-06T13:10:08.177000",
+  "published_at": null,
+  "is_owner": true,
+  "can_edit": true,
+  "can_share": true,
+  "can_delete": true,
+  "owner_name": null,
+  "owner_email": null,
+  "organization_name": null
+}

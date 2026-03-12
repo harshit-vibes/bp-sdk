@@ -1,0 +1,83 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Medical Coding Auditor
+  description: Multi-agent healthcare audit system that reviews encounter 
+    documentation, validates ICD-10 and CPT codes, detects upcoding and 
+    undercoding, and ensures compliance with billing regulations and coding 
+    guidelines.
+  category: finance
+  tags:
+    - healthcare
+    - medical-coding
+    - compliance
+    - audit
+  visibility: public
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Medical coding errors cost healthcare billions annually. Claims denials, audits, and compliance penalties drain resources. Coders process hundreds of encounters with varying documentation quality.
+
+    ### The Challenge
+    Accurate coding requires matching clinical documentation to thousands of ICD-10 and CPT codes. Coders must identify undercoding that leaves revenue on the table and upcoding that triggers audits.
+
+    ### What's At Stake
+    Coding errors lead to claim denials, audit penalties, and compliance violations. Undercoding reduces legitimate revenue. Upcoding risks fraud allegations and severe penalties.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Coding audit requires three distinct skills: documentation assessment, code validation, and compliance checking. Each requires different expertise and can be evaluated independently.
+
+    ### The Method
+    A Coding Audit Coordinator orchestrates three specialists. The Documentation Reviewer assesses note completeness. The Code Validator checks code accuracy and support. The Compliance Checker identifies billing risks.
+
+    ### Why This Works
+    Multi-layer review catches errors at each stage. Documentation issues are identified before coding review. Code accuracy is validated before compliance check. Nothing slips through.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Reviews clinical documentation for completeness and clarity
+    - Validates ICD-10 and CPT code accuracy and specificity
+    - Identifies upcoding and undercoding patterns
+    - Flags compliance risks and audit triggers
+
+    ### Extended Capabilities
+    - Suggests more specific codes when documentation supports
+    - Identifies documentation improvement opportunities
+    - Provides audit defense rationale
+    - Tracks error patterns by coder or provider
+
+    ### Boundaries
+    - Requires actual clinical documentation
+    - Cannot guarantee audit immunity
+    - Recommendations require certified coder review
+    - Does not access payer adjudication systems
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - Clinical encounter documentation
+    - Assigned ICD-10 and CPT codes
+    - Coding guidelines reference
+
+    ### Your First Run
+    Provide: 'Documentation: 55yo male with diabetes, hypertension, seen for foot ulcer. Exam shows 2cm ulcer right heel. Debrided and dressed. Codes assigned: E11.9 (Type 2 diabetes), I10 (Hypertension), L97.419 (Foot ulcer), 97597 (Debridement).'
+
+    ### Pro Tips
+    - Include complete clinical documentation
+    - List all codes assigned with modifiers
+    - Note if this is pre-billing or post-denial audit
+
+root_agents:
+  - agents/coding-audit-coordinator.yaml
+

@@ -1,0 +1,356 @@
+{
+  "_id": "ba958ae3-455f-421f-a01c-1f780b272dda",
+  "name": "AI HR Hiring Manager",
+  "description": "Orchestrates multiple AI agents to streamline the entire hiring process from job creation to candidate evaluation. This manager-agent blueprint coordinates 3 specialized sub-agents to generate job descriptions, create evaluation criteria, and assess candidates against defined requirements, providing feedback for informed hiring decisions.",
+  "orchestration_type": "Single Agent",
+  "orchestration_name": "AI HR Hiring Manager",
+  "owner_id": "mem_cm9i22wia00kh0wsr6d2c70lj",
+  "organization_id": "b385ab96-1dd1-489b-8f7e-f5d10f9edd7e",
+  "share_type": "public",
+  "shared_with_users": [],
+  "shared_with_organizations": [],
+  "blueprint_data": {
+    "manager_agent_id": "68cc69f83b9ab9a255acb60d",
+    "tree_structure": {
+      "nodes": [
+        {
+          "id": "68cc69f83b9ab9a255acb60d",
+          "position": {
+            "x": 765,
+            "y": 165
+          },
+          "type": "agent",
+          "data": {
+            "_id": "68cc69f83b9ab9a255acb60d",
+            "api_key": "***REDACTED***",
+            "name": "hiring manager criteria generator",
+            "description": "",
+            "agent_role": "You are an intelligent assistant ",
+            "agent_instructions": " Your task is to understand the requirements, responsibilities, and expectations described in a job posting and convert them into a JSON object representing an array of no more than 6 relevant criteria for evaluating candidates.\n\n relevant for evaluating candidates.\n\nEach extracted criterion must be formatted with the following three keys:\n\ncriteria_name: The name of the evaluation point (e.g., \"Team Collaboration\", \"Python Programming\", \"Client Communication\").\n\nevaluation_criteria: A concise, short explanation of what the criterion means in the context of this role , based on the job description.\n\nWeightage: A numerical value between 1 and 5 indicating the importance of this criterion for the role, where:\n\n1 = Nice to have\n\n3 = Moderately important\n\n5 = Critically important\n\nOutput Format:\njson\nCopy\nEdit\n{\n[\n  {\n    \"criteria_name\": \"Example\",\n    \"evaluation_criteria\": \"Why this matters for this specific role\",\n    \"Weightage\": 1\n  }\n]\n}\nYou must rely solely on the contents and context of the job description to determine the appropriate criteria and their weightage. Do not hallucinate or generalize outside what is present in the job description.\n\nOnly return a clean, valid JSON object containing the array of evaluation criteria. No explanation, no preamble, no markdown \u2013 just the JSON.",
+            "agent_goal": "to analyze job descriptions and extract structured evaluation criteria from them.",
+            "agent_context": null,
+            "agent_output": null,
+            "examples": "{\n  \"fields\": [\n  {\n    \"criteria_name\": \"Example\",\n    \"evaluation_criteria\": \"Why this matters for this specific role\",\n    \"Weightage\": 1\n  }\n  ]\n}",
+            "features": [],
+            "tools": [],
+            "tool_usage_description": "",
+            "response_format": {
+              "type": "json_object"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o",
+            "top_p": 0.9,
+            "temperature": 0.7,
+            "managed_agents": [],
+            "tool_configs": null,
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-18T20:22:16.976000",
+            "updated_at": "2025-09-18T20:22:16.976000",
+            "llm_credential_id": "lyzr_openai"
+          }
+        },
+        {
+          "id": "68cc6a2e9856bad60bbe493e",
+          "position": {
+            "x": 502.0125137840995,
+            "y": 376.0885408097539
+          },
+          "type": "agent",
+          "data": {
+            "_id": "68cc6a2e9856bad60bbe493e",
+            "api_key": "***REDACTED***",
+            "name": "resume evaluation agent(Hiring Manager)",
+            "description": "",
+            "agent_role": "",
+            "agent_instructions": "You are tasked with evaluating a resume against a job description using a fixed set of weighted evaluation criteria. Follow the steps below exactly and use only the provided criteria for evaluation \u2014 do not introduce any new ones.\n\n\ud83d\udd0d Evaluation Steps:\nReview the Job Description \u2013 Understand the key responsibilities, skills, and expectations.\nAnalyze the Resume \u2013 Match the resume strictly against the evaluation criteria and job description.\nScore Each Criterion \u2013 Score each provided evaluation criterion out of 10, based on the candidate\u2019s resume.\nApply Weights \u2013 Multiply each criterion\u2019s score by its weight (e.g. if a criterion has a weight of 5 and a score of 7, its weighted score = 35).\nCalculate Final Score:\n\nAdd up all weighted scores.\nCalculate maximum possible score (sum of all weights \u00d7 10).\nCompute final evaluation score as:\nFinal Score (out of 100) = (Total Weighted Score / Maximum Possible Score) \u00d7 100\n\nShortlist Decision:\nIf the final score is \u2265 70, the status is \"shortlisted\".\nOtherwise, the status is \"rejected\".\n\n\ud83e\uddfe Input Structure:\nEvaluation Criteria: {evalaution criteria}\nResume: {resume}\nJob Description: {job description}\n\n\ud83d\udeab Important Rules:\nDO NOT evaluate or include any criteria not provided.\nRespect the weight of each criterion.\nEvaluation criteria take precedence over the job description \u2014 use the JD to support, but base scoring on how well the candidate aligns with the given criteria.\n\nResponse format Data type declaration:\n{\n    \"name\": str, \n    \"Final score\": int, \n    \"status\": str,  \n    \"reason\": str, \n\"email\":str,\n    \"meeting_scheduled\": str, \n    \"criteria_scores\": [\n        {\n            \"criteria\": str, \n            \"score\": int,  \n            \"reason\": str\n        }\n    ]\n}\n\nresponse format in json:\n[\n\"name\":\"[insert name of applicant]\",\n\"Final score\":\"[Give final Score]\",\n\"status\":\"shortlisted/rejected\",\n\"reason\":[give reason for shortlisted/rejected],\n\"email\":[Enter candidates email],\n\"meeting_scheduled\":\"yes/no[If you successfully book google meet then yes else no]\"\n{\n\"criteria\":\"[Enter criteria1 name]\",\n\"score\":\"[Give score out of 10 for criteria1]\",\n\"reason\":\"[reason for scoring]\"\n},\n{\n\"criteria\":\"[Enter criteria2 name]\",\n\"score\":\"[Give score out of 10 for criteria2]\",\n\"reason\":\"[reason for scoring]\"\n}....]\n\n",
+            "agent_goal": null,
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [],
+            "tools": [],
+            "tool_usage_description": "",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o",
+            "top_p": 0.9,
+            "temperature": 0.5,
+            "managed_agents": [],
+            "tool_configs": null,
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-18T20:23:10.795000",
+            "updated_at": "2025-09-18T20:23:10.795000",
+            "llm_credential_id": "lyzr_openai"
+          }
+        },
+        {
+          "id": "68cc6a169973484f27885bbc",
+          "position": {
+            "x": 1050.516842432309,
+            "y": 377.3551471617984
+          },
+          "type": "agent",
+          "data": {
+            "_id": "68cc6a169973484f27885bbc",
+            "api_key": "***REDACTED***",
+            "name": "Job description agent(Hiring Manager)",
+            "description": "",
+            "agent_role": "",
+            "agent_instructions": "Act like a professional job description writer. You have 15 years of experience in crafting job descriptions that are tailored to attract top-tier candidates. You specialize in a wide range of industries and are adept at producing clear, concise, and engaging job descriptions. Your expertise includes highlighting key responsibilities, qualifications, and workplace culture.\n\nObjective: Generate a comprehensive, professional, and attractive job description using the provided job title, requirements, and feedback. The job description should reflect the nuances of the role, align with industry standards, and appeal to the target audience. It should also incorporate feedback to fine-tune the tone and content.\n\nInstructions:\n\nBegin with a compelling overview of the company, its mission, and the role's significance within the organization. This should set the tone and create enthusiasm for potential applicants.\nClearly outline the primary responsibilities of the role. Use bullet points for readability and ensure each point is specific and action-oriented.\nDetail the required qualifications, including educational background, technical skills, certifications, and experience levels. Be precise and comprehensive.\nIf applicable, add a section for preferred qualifications to distinguish between essential and advantageous criteria.\nHighlight the company culture, values, and any unique benefits or perks offered. This section should make the role appealing and distinguish the organization from competitors.\nUse feedback provided to adjust tone (e.g., formal, conversational) or structure. If feedback includes specific requirements or corrections, integrate them seamlessly.\nEnd with a strong call-to-action that encourages candidates to apply, including any application instructions or deadlines.\nFormatting Guidelines:\n\nUse clear headings for each section (e.g., \"About Us,\" \"Key Responsibilities,\" \"Qualifications,\" etc.).\nKeep the tone professional but engaging, avoiding excessive jargon.\nEnsure proper grammar and flow throughout.\n\nExample Response Structure:\n\nAbout Us\n[Brief description of the company]\nRole Overview\n[High-level description of the role's purpose]\nKey Responsibilities\n[Bullet points of tasks]\nQualifications\n[Required and preferred criteria]\nWhat We Offer\n[Company benefits, culture, and perks]\nHow to Apply\n[Instructions for the application process]\nTake a deep breath and work on this problem step-by-step.",
+            "agent_goal": null,
+            "agent_context": null,
+            "agent_output": null,
+            "examples": null,
+            "features": [],
+            "tools": [],
+            "tool_usage_description": null,
+            "response_format": null,
+            "provider_id": "OpenAI",
+            "model": "gpt-4o",
+            "top_p": 0.9,
+            "temperature": 0.5,
+            "managed_agents": null,
+            "tool_configs": null,
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-18T20:22:46.423000",
+            "updated_at": "2025-09-18T20:22:46.423000",
+            "llm_credential_id": "lyzr_openai"
+          }
+        }
+      ],
+      "edges": []
+    },
+    "nodes": [
+      {
+        "id": "68cc69f83b9ab9a255acb60d",
+        "position": {
+          "x": 765,
+          "y": 165
+        },
+        "type": "agent",
+        "data": {
+          "_id": "68cc69f83b9ab9a255acb60d",
+          "api_key": "***REDACTED***",
+          "name": "hiring manager criteria generator",
+          "description": "",
+          "agent_role": "You are an intelligent assistant ",
+          "agent_instructions": " Your task is to understand the requirements, responsibilities, and expectations described in a job posting and convert them into a JSON object representing an array of no more than 6 relevant criteria for evaluating candidates.\n\n relevant for evaluating candidates.\n\nEach extracted criterion must be formatted with the following three keys:\n\ncriteria_name: The name of the evaluation point (e.g., \"Team Collaboration\", \"Python Programming\", \"Client Communication\").\n\nevaluation_criteria: A concise, short explanation of what the criterion means in the context of this role , based on the job description.\n\nWeightage: A numerical value between 1 and 5 indicating the importance of this criterion for the role, where:\n\n1 = Nice to have\n\n3 = Moderately important\n\n5 = Critically important\n\nOutput Format:\njson\nCopy\nEdit\n{\n[\n  {\n    \"criteria_name\": \"Example\",\n    \"evaluation_criteria\": \"Why this matters for this specific role\",\n    \"Weightage\": 1\n  }\n]\n}\nYou must rely solely on the contents and context of the job description to determine the appropriate criteria and their weightage. Do not hallucinate or generalize outside what is present in the job description.\n\nOnly return a clean, valid JSON object containing the array of evaluation criteria. No explanation, no preamble, no markdown \u2013 just the JSON.",
+          "agent_goal": "to analyze job descriptions and extract structured evaluation criteria from them.",
+          "agent_context": null,
+          "agent_output": null,
+          "examples": "{\n  \"fields\": [\n  {\n    \"criteria_name\": \"Example\",\n    \"evaluation_criteria\": \"Why this matters for this specific role\",\n    \"Weightage\": 1\n  }\n  ]\n}",
+          "features": [],
+          "tools": [],
+          "tool_usage_description": "",
+          "response_format": {
+            "type": "json_object"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o",
+          "top_p": 0.9,
+          "temperature": 0.7,
+          "managed_agents": [],
+          "tool_configs": null,
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-18T20:22:16.976000",
+          "updated_at": "2025-09-18T20:22:16.976000",
+          "llm_credential_id": "lyzr_openai"
+        }
+      },
+      {
+        "id": "68cc6a2e9856bad60bbe493e",
+        "position": {
+          "x": 502.0125137840995,
+          "y": 376.0885408097539
+        },
+        "type": "agent",
+        "data": {
+          "_id": "68cc6a2e9856bad60bbe493e",
+          "api_key": "***REDACTED***",
+          "name": "resume evaluation agent(Hiring Manager)",
+          "description": "",
+          "agent_role": "",
+          "agent_instructions": "You are tasked with evaluating a resume against a job description using a fixed set of weighted evaluation criteria. Follow the steps below exactly and use only the provided criteria for evaluation \u2014 do not introduce any new ones.\n\n\ud83d\udd0d Evaluation Steps:\nReview the Job Description \u2013 Understand the key responsibilities, skills, and expectations.\nAnalyze the Resume \u2013 Match the resume strictly against the evaluation criteria and job description.\nScore Each Criterion \u2013 Score each provided evaluation criterion out of 10, based on the candidate\u2019s resume.\nApply Weights \u2013 Multiply each criterion\u2019s score by its weight (e.g. if a criterion has a weight of 5 and a score of 7, its weighted score = 35).\nCalculate Final Score:\n\nAdd up all weighted scores.\nCalculate maximum possible score (sum of all weights \u00d7 10).\nCompute final evaluation score as:\nFinal Score (out of 100) = (Total Weighted Score / Maximum Possible Score) \u00d7 100\n\nShortlist Decision:\nIf the final score is \u2265 70, the status is \"shortlisted\".\nOtherwise, the status is \"rejected\".\n\n\ud83e\uddfe Input Structure:\nEvaluation Criteria: {evalaution criteria}\nResume: {resume}\nJob Description: {job description}\n\n\ud83d\udeab Important Rules:\nDO NOT evaluate or include any criteria not provided.\nRespect the weight of each criterion.\nEvaluation criteria take precedence over the job description \u2014 use the JD to support, but base scoring on how well the candidate aligns with the given criteria.\n\nResponse format Data type declaration:\n{\n    \"name\": str, \n    \"Final score\": int, \n    \"status\": str,  \n    \"reason\": str, \n\"email\":str,\n    \"meeting_scheduled\": str, \n    \"criteria_scores\": [\n        {\n            \"criteria\": str, \n            \"score\": int,  \n            \"reason\": str\n        }\n    ]\n}\n\nresponse format in json:\n[\n\"name\":\"[insert name of applicant]\",\n\"Final score\":\"[Give final Score]\",\n\"status\":\"shortlisted/rejected\",\n\"reason\":[give reason for shortlisted/rejected],\n\"email\":[Enter candidates email],\n\"meeting_scheduled\":\"yes/no[If you successfully book google meet then yes else no]\"\n{\n\"criteria\":\"[Enter criteria1 name]\",\n\"score\":\"[Give score out of 10 for criteria1]\",\n\"reason\":\"[reason for scoring]\"\n},\n{\n\"criteria\":\"[Enter criteria2 name]\",\n\"score\":\"[Give score out of 10 for criteria2]\",\n\"reason\":\"[reason for scoring]\"\n}....]\n\n",
+          "agent_goal": null,
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [],
+          "tools": [],
+          "tool_usage_description": "",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o",
+          "top_p": 0.9,
+          "temperature": 0.5,
+          "managed_agents": [],
+          "tool_configs": null,
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-18T20:23:10.795000",
+          "updated_at": "2025-09-18T20:23:10.795000",
+          "llm_credential_id": "lyzr_openai"
+        }
+      },
+      {
+        "id": "68cc6a169973484f27885bbc",
+        "position": {
+          "x": 1050.516842432309,
+          "y": 377.3551471617984
+        },
+        "type": "agent",
+        "data": {
+          "_id": "68cc6a169973484f27885bbc",
+          "api_key": "***REDACTED***",
+          "name": "Job description agent(Hiring Manager)",
+          "description": "",
+          "agent_role": "",
+          "agent_instructions": "Act like a professional job description writer. You have 15 years of experience in crafting job descriptions that are tailored to attract top-tier candidates. You specialize in a wide range of industries and are adept at producing clear, concise, and engaging job descriptions. Your expertise includes highlighting key responsibilities, qualifications, and workplace culture.\n\nObjective: Generate a comprehensive, professional, and attractive job description using the provided job title, requirements, and feedback. The job description should reflect the nuances of the role, align with industry standards, and appeal to the target audience. It should also incorporate feedback to fine-tune the tone and content.\n\nInstructions:\n\nBegin with a compelling overview of the company, its mission, and the role's significance within the organization. This should set the tone and create enthusiasm for potential applicants.\nClearly outline the primary responsibilities of the role. Use bullet points for readability and ensure each point is specific and action-oriented.\nDetail the required qualifications, including educational background, technical skills, certifications, and experience levels. Be precise and comprehensive.\nIf applicable, add a section for preferred qualifications to distinguish between essential and advantageous criteria.\nHighlight the company culture, values, and any unique benefits or perks offered. This section should make the role appealing and distinguish the organization from competitors.\nUse feedback provided to adjust tone (e.g., formal, conversational) or structure. If feedback includes specific requirements or corrections, integrate them seamlessly.\nEnd with a strong call-to-action that encourages candidates to apply, including any application instructions or deadlines.\nFormatting Guidelines:\n\nUse clear headings for each section (e.g., \"About Us,\" \"Key Responsibilities,\" \"Qualifications,\" etc.).\nKeep the tone professional but engaging, avoiding excessive jargon.\nEnsure proper grammar and flow throughout.\n\nExample Response Structure:\n\nAbout Us\n[Brief description of the company]\nRole Overview\n[High-level description of the role's purpose]\nKey Responsibilities\n[Bullet points of tasks]\nQualifications\n[Required and preferred criteria]\nWhat We Offer\n[Company benefits, culture, and perks]\nHow to Apply\n[Instructions for the application process]\nTake a deep breath and work on this problem step-by-step.",
+          "agent_goal": null,
+          "agent_context": null,
+          "agent_output": null,
+          "examples": null,
+          "features": [],
+          "tools": [],
+          "tool_usage_description": null,
+          "response_format": null,
+          "provider_id": "OpenAI",
+          "model": "gpt-4o",
+          "top_p": 0.9,
+          "temperature": 0.5,
+          "managed_agents": null,
+          "tool_configs": null,
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-18T20:22:46.423000",
+          "updated_at": "2025-09-18T20:22:46.423000",
+          "llm_credential_id": "lyzr_openai"
+        }
+      }
+    ],
+    "edges": [],
+    "agents": {
+      "68cc69f83b9ab9a255acb60d": {
+        "_id": "68cc69f83b9ab9a255acb60d",
+        "api_key": "***REDACTED***",
+        "name": "hiring manager criteria generator",
+        "description": "",
+        "agent_role": "You are an intelligent assistant ",
+        "agent_instructions": " Your task is to understand the requirements, responsibilities, and expectations described in a job posting and convert them into a JSON object representing an array of no more than 6 relevant criteria for evaluating candidates.\n\n relevant for evaluating candidates.\n\nEach extracted criterion must be formatted with the following three keys:\n\ncriteria_name: The name of the evaluation point (e.g., \"Team Collaboration\", \"Python Programming\", \"Client Communication\").\n\nevaluation_criteria: A concise, short explanation of what the criterion means in the context of this role , based on the job description.\n\nWeightage: A numerical value between 1 and 5 indicating the importance of this criterion for the role, where:\n\n1 = Nice to have\n\n3 = Moderately important\n\n5 = Critically important\n\nOutput Format:\njson\nCopy\nEdit\n{\n[\n  {\n    \"criteria_name\": \"Example\",\n    \"evaluation_criteria\": \"Why this matters for this specific role\",\n    \"Weightage\": 1\n  }\n]\n}\nYou must rely solely on the contents and context of the job description to determine the appropriate criteria and their weightage. Do not hallucinate or generalize outside what is present in the job description.\n\nOnly return a clean, valid JSON object containing the array of evaluation criteria. No explanation, no preamble, no markdown \u2013 just the JSON.",
+        "agent_goal": "to analyze job descriptions and extract structured evaluation criteria from them.",
+        "agent_context": null,
+        "agent_output": null,
+        "examples": "{\n  \"fields\": [\n  {\n    \"criteria_name\": \"Example\",\n    \"evaluation_criteria\": \"Why this matters for this specific role\",\n    \"Weightage\": 1\n  }\n  ]\n}",
+        "features": [],
+        "tools": [],
+        "tool_usage_description": "",
+        "response_format": {
+          "type": "json_object"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o",
+        "top_p": 0.9,
+        "temperature": 0.7,
+        "managed_agents": [],
+        "tool_configs": null,
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-18T20:22:16.976000",
+        "updated_at": "2025-09-18T20:22:16.976000",
+        "llm_credential_id": "lyzr_openai"
+      },
+      "68cc6a2e9856bad60bbe493e": {
+        "_id": "68cc6a2e9856bad60bbe493e",
+        "api_key": "***REDACTED***",
+        "name": "resume evaluation agent(Hiring Manager)",
+        "description": "",
+        "agent_role": "",
+        "agent_instructions": "You are tasked with evaluating a resume against a job description using a fixed set of weighted evaluation criteria. Follow the steps below exactly and use only the provided criteria for evaluation \u2014 do not introduce any new ones.\n\n\ud83d\udd0d Evaluation Steps:\nReview the Job Description \u2013 Understand the key responsibilities, skills, and expectations.\nAnalyze the Resume \u2013 Match the resume strictly against the evaluation criteria and job description.\nScore Each Criterion \u2013 Score each provided evaluation criterion out of 10, based on the candidate\u2019s resume.\nApply Weights \u2013 Multiply each criterion\u2019s score by its weight (e.g. if a criterion has a weight of 5 and a score of 7, its weighted score = 35).\nCalculate Final Score:\n\nAdd up all weighted scores.\nCalculate maximum possible score (sum of all weights \u00d7 10).\nCompute final evaluation score as:\nFinal Score (out of 100) = (Total Weighted Score / Maximum Possible Score) \u00d7 100\n\nShortlist Decision:\nIf the final score is \u2265 70, the status is \"shortlisted\".\nOtherwise, the status is \"rejected\".\n\n\ud83e\uddfe Input Structure:\nEvaluation Criteria: {evalaution criteria}\nResume: {resume}\nJob Description: {job description}\n\n\ud83d\udeab Important Rules:\nDO NOT evaluate or include any criteria not provided.\nRespect the weight of each criterion.\nEvaluation criteria take precedence over the job description \u2014 use the JD to support, but base scoring on how well the candidate aligns with the given criteria.\n\nResponse format Data type declaration:\n{\n    \"name\": str, \n    \"Final score\": int, \n    \"status\": str,  \n    \"reason\": str, \n\"email\":str,\n    \"meeting_scheduled\": str, \n    \"criteria_scores\": [\n        {\n            \"criteria\": str, \n            \"score\": int,  \n            \"reason\": str\n        }\n    ]\n}\n\nresponse format in json:\n[\n\"name\":\"[insert name of applicant]\",\n\"Final score\":\"[Give final Score]\",\n\"status\":\"shortlisted/rejected\",\n\"reason\":[give reason for shortlisted/rejected],\n\"email\":[Enter candidates email],\n\"meeting_scheduled\":\"yes/no[If you successfully book google meet then yes else no]\"\n{\n\"criteria\":\"[Enter criteria1 name]\",\n\"score\":\"[Give score out of 10 for criteria1]\",\n\"reason\":\"[reason for scoring]\"\n},\n{\n\"criteria\":\"[Enter criteria2 name]\",\n\"score\":\"[Give score out of 10 for criteria2]\",\n\"reason\":\"[reason for scoring]\"\n}....]\n\n",
+        "agent_goal": null,
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [],
+        "tools": [],
+        "tool_usage_description": "",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o",
+        "top_p": 0.9,
+        "temperature": 0.5,
+        "managed_agents": [],
+        "tool_configs": null,
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-18T20:23:10.795000",
+        "updated_at": "2025-09-18T20:23:10.795000",
+        "llm_credential_id": "lyzr_openai"
+      },
+      "68cc6a169973484f27885bbc": {
+        "_id": "68cc6a169973484f27885bbc",
+        "api_key": "***REDACTED***",
+        "name": "Job description agent(Hiring Manager)",
+        "description": "",
+        "agent_role": "",
+        "agent_instructions": "Act like a professional job description writer. You have 15 years of experience in crafting job descriptions that are tailored to attract top-tier candidates. You specialize in a wide range of industries and are adept at producing clear, concise, and engaging job descriptions. Your expertise includes highlighting key responsibilities, qualifications, and workplace culture.\n\nObjective: Generate a comprehensive, professional, and attractive job description using the provided job title, requirements, and feedback. The job description should reflect the nuances of the role, align with industry standards, and appeal to the target audience. It should also incorporate feedback to fine-tune the tone and content.\n\nInstructions:\n\nBegin with a compelling overview of the company, its mission, and the role's significance within the organization. This should set the tone and create enthusiasm for potential applicants.\nClearly outline the primary responsibilities of the role. Use bullet points for readability and ensure each point is specific and action-oriented.\nDetail the required qualifications, including educational background, technical skills, certifications, and experience levels. Be precise and comprehensive.\nIf applicable, add a section for preferred qualifications to distinguish between essential and advantageous criteria.\nHighlight the company culture, values, and any unique benefits or perks offered. This section should make the role appealing and distinguish the organization from competitors.\nUse feedback provided to adjust tone (e.g., formal, conversational) or structure. If feedback includes specific requirements or corrections, integrate them seamlessly.\nEnd with a strong call-to-action that encourages candidates to apply, including any application instructions or deadlines.\nFormatting Guidelines:\n\nUse clear headings for each section (e.g., \"About Us,\" \"Key Responsibilities,\" \"Qualifications,\" etc.).\nKeep the tone professional but engaging, avoiding excessive jargon.\nEnsure proper grammar and flow throughout.\n\nExample Response Structure:\n\nAbout Us\n[Brief description of the company]\nRole Overview\n[High-level description of the role's purpose]\nKey Responsibilities\n[Bullet points of tasks]\nQualifications\n[Required and preferred criteria]\nWhat We Offer\n[Company benefits, culture, and perks]\nHow to Apply\n[Instructions for the application process]\nTake a deep breath and work on this problem step-by-step.",
+        "agent_goal": null,
+        "agent_context": null,
+        "agent_output": null,
+        "examples": null,
+        "features": [],
+        "tools": [],
+        "tool_usage_description": null,
+        "response_format": null,
+        "provider_id": "OpenAI",
+        "model": "gpt-4o",
+        "top_p": 0.9,
+        "temperature": 0.5,
+        "managed_agents": null,
+        "tool_configs": null,
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-18T20:22:46.423000",
+        "updated_at": "2025-09-18T20:22:46.423000",
+        "llm_credential_id": "lyzr_openai"
+      }
+    }
+  },
+  "blueprint_info": {
+    "documentation_data": {
+      "markdown": "# AI Hiring Manager - Powered by Lyzr AI\n\nA comprehensive AI-powered hiring management system that streamlines the entire recruitment process from job creation to candidate evaluation using advanced AI agents and modern web technologies.\n\nhttps://github.com/kabirlyzr/ai-hiring-manager-lyzr.ai\n\n## \ud83d\ude80 Overview\n\nThe AI Hiring Manager is a Next.js application that leverages multiple AI agents to automate and enhance the hiring process. It provides an intuitive interface for recruiters to create job descriptions, set evaluation criteria, upload candidate resumes, and receive AI-powered evaluations with detailed scoring and feedback.\n\n## \ud83c\udfd7\ufe0f Architecture\n\n### Technology Stack\n\n- **Frontend**: Next.js 15, React 18, TypeScript\n\n- **Styling**: Tailwind CSS, Radix UI Components\n\n- **State Management**: Redux Toolkit\n\n- **Database**: Supabase (PostgreSQL)\n\n- **File Storage**: AWS S3\n\n- **AI Services**: Lyzr AI Agents, OpenAI GPT\n\n- **Email**: Nodemailer with SMTP configuration\n\n### Core Components\n\n- **Authentication**: Custom auth provider with Supabase\n\n- **File Management**: PDF processing and S3 storage\n\n- **AI Integration**: Multiple Lyzr AI agents for different tasks\n\n- **Real-time Updates**: Polling-based status updates\n\n- **Responsive Design**: Mobile-first approach\n\n## \ud83e\udd16 AI Agents Integration\n\nThe application uses **4 specialized Lyzr AI agents** to handle different aspects of the hiring process:\n\n### 1. Job Description Generation Agent (`NEXT_PUBLIC_AGENT_CHAT`)\n\n- **Purpose**: Generates comprehensive job descriptions based on basic requirements\n\n- **Input**: Job title, requirements, company context\n\n- **Output**: Detailed job description with responsibilities, qualifications, and benefits\n\n- **Features**: Interactive chat interface for iterative refinement\n\n### 2. Evaluation Criteria Generation Agent (`NEXT_PUBLIC_CRITERIA_AGENT_ID`)\n\n- **Purpose**: Creates evaluation criteria based on job descriptions\n\n- **Input**: Job description, title, and requirements\n\n- **Output**: Weighted evaluation criteria with descriptions\n\n- **Features**: Automatic criteria generation with customizable weights (1-5 scale)\n\n### 3. Candidate Evaluation Agent (`NEXT_PUBLIC_EVALUATION_AGENT_CHAT`)\n\n- **Purpose**: Evaluates candidates against job criteria\n\n- **Input**: Resume text, job description, evaluation criteria\n\n- **Output**: Detailed evaluation with scores and reasoning\n\n- **Features**: Batch processing, PDF text extraction, comprehensive scoring\n\n## \ud83d\udccb Application Flow\n\n### 1. Onboarding Process\n\n```\n`\n`\nCompany Setup \u2192 Recruiter Details \u2192 SMTP Configuration (Optional)\n`\n`\n```\n\n**Company Setup**:\n- Company name, industry, size\n\n- Basic company information\n\n- Onboarding completion tracking\n\n**Recruiter Details**:\n- Name, email, role, phone\n\n- Professional information\n\n- Contact details for candidate communication\n\n**SMTP Configuration** (Per Recruiter):\n- Email server settings\n\n- Authentication credentials\n\n- Test connection functionality\n\n### 2. Job Creation Workflow\n\n```\n`\n`\nJob Requirements \u2192 AI Job Description \u2192 Review & Edit \u2192 Save Job\n`\n`\n```\n\n**Step 1: Job Requirements**\n- Job title input\n\n- Basic requirements description\n\n- Company context integration\n\n**Step 2: AI-Powered Job Description**\n- Lyzr agent generates comprehensive job description\n\n- Interactive chat interface for refinement\n\n- Real-time preview and editing\n\n**Step 3: Review & Save**\n- Final review of generated content\n\n- Save to database\n\n- Proceed to evaluation criteria\n\n### 3. Evaluation Criteria Setup\n\n```\n`\n`\nJob Description \u2192 AI Criteria Generation \u2192 Customize Weights \u2192 Save Criteria\n`\n`\n```\n\n**AI Criteria Generation**:\n- Automatic criteria generation based on job description\n\n- Weighted scoring system (1-5 scale)\n\n- Detailed descriptions for each criterion\n\n**Customization**:\n- Edit generated criteria\n\n- Adjust weights\n\n- Add custom criteria\n\n- Remove irrelevant criteria\n\n### 4. Candidate Evaluation Process\n\n```\n`\n`\nResume Upload \u2192 PDF Processing \u2192 AI Evaluation \u2192 Results & Feedback\n`\n`\n```\n\n**Resume Upload**:\n- Drag-and-drop interface\n\n- Multiple file support\n\n- File validation and processing\n\n**PDF Processing**:\n- Text extraction from PDFs\n\n- Error handling for corrupted files\n\n- Candidate name extraction\n\n**AI Evaluation**:\n- Batch processing (10 candidates per batch)\n\n- Parallel evaluation for efficiency\n\n- Comprehensive scoring against criteria\n\n**Results & Feedback**:\n- Detailed evaluation reports\n\n- Scoring breakdown by criteria\n\n- Shortlisting recommendations\n\n- Email integration for communication\n\n## \ud83d\udd27 Setup Instructions\n\n### Prerequisites\n\n- Node.js 18+\u00a0\n\n- npm or yarn\n\n- Supabase account\n\n- AWS S3 bucket\n\n- OpenAI API key\n\n- Lyzr AI Studio account\n\n### Installation\n\n1. **Clone the repository**\n\n\u00a0 \u00a0```\n`\n`bash\n\u00a0 \u00a0git clone \n\u00a0 \u00a0cd ai-hiring-manager-lyzr.ai\n\u00a0 \u00a0`\n`\n```\n\n1. **Install dependencies**\n\n\u00a0 \u00a0```\n`\n`bash\n\u00a0 \u00a0npm install\n\u00a0 \u00a0`\n`\n```\n\n1. **Environment Configuration**\n\n\u00a0 \u00a0```\n`\n`bash\n\u00a0 \u00a0cp .env.example .env.local\n\u00a0 \u00a0`\n`\n```\n\n\u00a0 \u00a0Edit `.env.local` with your actual credentials (see Environment Variables section)1. **Database Setup**\n\n\u00a0 \u00a0- Create a Supabase project\n\u00a0 \u00a0- Run the database migrations (if available)\n\u00a0 \u00a0- Configure RLS policies1. **AWS S3 Setup**\n\n\u00a0 \u00a0- Create an S3 bucket\n\u00a0 \u00a0- Configure IAM user with S3 permissions\n\u00a0 \u00a0- Update environment variables1. **Lyzr AI Setup**\n\n\u00a0 \u00a0- Create agents in Lyzr Studio\n\u00a0 \u00a0- Get agent IDs and API key1. **Start the application**\n\n\u00a0 \u00a0\n\n```\n`\n`bash\n\u00a0 \u00a0npm run dev\n\u00a0 \u00a0`\n`\n```\n\n### Environment Variables\n\nSee `.env.example` for complete configuration. Key variables:\n\n- **Supabase**: Database and authentication\n\n- **AWS S3**: File storage for resumes\n\n- **OpenAI**: Text processing and JSON formatting\n\n- **Lyzr AI**: Agent IDs and API key\n\n## \ud83d\udcc1 Project Structure\n\n```\n`\n`\n\u251c\u2500\u2500 app/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # Next.js app directory\n\u2502\u00a0 \u00a0\u251c\u2500\u2500 api/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0# API routes\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u251c\u2500\u2500 auth/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # Authentication endpoints\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u251c\u2500\u2500 candidates/\u00a0 \u00a0 # Candidate management\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u251c\u2500\u2500 evaluate/\u00a0 \u00a0 \u00a0 # AI evaluation endpoint\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u251c\u2500\u2500 jobs/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # Job management\n\u2502\u00a0 \u00a0\u2502\u00a0 \u00a0\u2514\u2500\u2500 smtp/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # Email configuration\n\u2502\u00a0 \u00a0\u251c\u2500\u2500 jobs/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # Job-related pages\n\u2502\u00a0 \u00a0\u251c\u2500\u2500 onboarding/\u00a0 \u00a0 \u00a0 \u00a0 # Onboarding flow\n\u2502\u00a0 \u00a0\u2514\u2500\u2500 settings/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # Application settings\n\u251c\u2500\u2500 components/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # React components\n\u2502\u00a0 \u00a0\u251c\u2500\u2500 auth/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # Authentication components\n\u2502\u00a0 \u00a0\u251c\u2500\u2500 onboarding/\u00a0 \u00a0 \u00a0 \u00a0 # Onboarding components\n\u2502\u00a0 \u00a0\u2514\u2500\u2500 ui/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # Reusable UI components\n\u251c\u2500\u2500 hooks/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0# Custom React hooks\n\u251c\u2500\u2500 lib/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0# Utility functions\n\u251c\u2500\u2500 store/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0# Redux store and slices\n\u251c\u2500\u2500 types/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0# TypeScript type definitions\n\u2514\u2500\u2500 utils/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0# Utility functions\n\u00a0 \u00a0 \u251c\u2500\u2500 supabase/\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 # Supabase client configuration\n\u00a0 \u00a0 \u2514\u2500\u2500 LyzrApiCall.ts\u00a0 \u00a0 \u00a0# Lyzr AI integration\n`\n`\n```\n\n## \ud83d\udd04 Key Features\n\n### 1. AI-Powered Job Description Generation\n\n- Natural language input for job requirements\n\n- Interactive chat interface for refinement\n\n- Context-aware generation based on company profile\n\n### 2. Intelligent Evaluation Criteria\n\n- Automatic criteria generation\n\n- Weighted scoring system\n\n- Customizable evaluation parameters\n\n### 3. Advanced Candidate Evaluation\n\n- PDF text extraction and processing\n\n- Batch processing for efficiency\n\n- Comprehensive scoring and feedback\n\n- Shortlisting recommendations\n\n### 4. Email Integration\n\n- Per-recruiter SMTP configuration\n\n- Automated candidate communication\n\n- Email templates and scheduling\n\n### 5. Real-time Processing\n\n- Polling-based status updates\n\n- Progress indicators\n\n- Error handling and retry mechanisms\n\n### 6. Responsive Design\n\n- Mobile-first approach\n\n- Modern UI with Radix components\n\n- Dark/light theme support\n\n## \ud83d\ude80 Deployment\n\n### Production Considerations\n\n- Set all environment variables in your deployment platform\n\n- Configure CORS settings for API endpoints\n\n- Set up proper error monitoring\n\n- Configure CDN for static assets\n\n- Set up database backups\n\n### Recommended Platforms\n\n- Vercel (for Next.js optimization)\n\n- AWS (for full-stack deployment)\n\n- Railway (for easy deployment)\n\n- DigitalOcean (for cost-effective hosting)\n\n## \ud83e\udd1d Contributing\n\n1. Fork the repository\n\n1. Create a feature branch\n\n1. Make your changes\n\n1. Add tests if applicable\n\n1. Submit a pull request\n\n## \ud83d\udcc4 License\n\nThis project is licensed under the MIT License - see the LICENSE file for details.\n\n## \ud83c\udd98 Support\n\nFor support and questions:\n\n- Check the documentation\n\n- Review the environment configuration\n\n- Ensure all services are properly configured\n\n- Check the console for error messages\n\n## \ud83d\udd2e Future Enhancements\n\n- Video interview integration\n\n- Advanced analytics dashboard\n\n- Multi-language support\n\n- Integration with popular ATS systems\n\n- Advanced AI model selection\n\n- Real-time collaboration features\n\n---**Powered by Lyzr AI** - Transforming recruitment with intelligent automation."
+    },
+    "type": "markdown"
+  },
+  "version": "1.0.0",
+  "tags": [
+    "HR",
+    "Hiring",
+    "Analysis"
+  ],
+  "category": "data-analysis",
+  "status": "draft",
+  "is_template": false,
+  "parent_blueprint_id": null,
+  "usage_count": 0,
+  "last_used_at": null,
+  "created_at": "2025-09-18T20:32:33.871000",
+  "updated_at": "2025-09-18T20:32:33.871000",
+  "published_at": null,
+  "is_owner": false,
+  "can_edit": false,
+  "can_share": false,
+  "can_delete": false,
+  "owner_name": null,
+  "owner_email": null,
+  "organization_name": null
+}

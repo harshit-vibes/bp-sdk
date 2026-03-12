@@ -1,0 +1,585 @@
+Metadata-Version: 2.4
+Name: bp-sdk
+Version: 0.1.0
+Summary: Python SDK for JSON-based CRUD operations on Lyzr blueprints and agents
+Author-email: Lyzr <support@lyzr.ai>
+License: MIT
+Project-URL: Homepage, https://lyzr.ai
+Project-URL: Documentation, https://docs.lyzr.ai
+Project-URL: Repository, https://github.com/lyzr-ai/bp-sdk
+Keywords: lyzr,blueprint,agents,ai,sdk
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: httpx>=0.25.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: ruamel.yaml>=0.18.0
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: keyring>=24.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: pytest-mock>=3.10.0; extra == "dev"
+Requires-Dist: ruff>=0.1.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: pre-commit>=3.0.0; extra == "dev"
+Provides-Extra: cli
+Requires-Dist: typer>=0.9.0; extra == "cli"
+Requires-Dist: rich>=13.0.0; extra == "cli"
+Provides-Extra: api
+Requires-Dist: fastapi>=0.109.0; extra == "api"
+Requires-Dist: uvicorn[standard]>=0.27.0; extra == "api"
+Requires-Dist: sse-starlette>=1.8.0; extra == "api"
+Requires-Dist: pydantic-settings>=2.0.0; extra == "api"
+Provides-Extra: composio
+Requires-Dist: composio-core>=0.5.0; extra == "composio"
+Provides-Extra: mcp
+Requires-Dist: mcp>=1.0.0; extra == "mcp"
+
+# BP-SDK
+
+Python SDK for JSON-based CRUD operations on Lyzr blueprints and agents.
+
+[![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
+## Overview
+
+BP-SDK provides a clean interface for creating, managing, and maintaining multi-agent AI blueprints on the Lyzr platform. It handles complex API synchronization transparently.
+
+### Key Features
+
+- **Stateless Design** - No local database; always fetches fresh data from APIs
+- **Full Stack Management** - Manages both Agent API and Blueprint API in sync
+- **Automatic Synchronization** - Keeps agent data, tree structures, and blueprints in sync
+- **Data Sanitization** - Prevents "NoneType is not iterable" errors automatically
+- **Validation Framework** - Built-in `doctor()` function for pre-flight configuration checks
+- **Rollback on Failure** - Atomic operations that clean up on errors
+
+---
+
+## Installation
+
+```bash
+pip install bp-sdk
+```
+
+### From Source
+
+```bash
+git clone https://github.com/lyzr/bp-sdk.git
+cd bp-sdk
+pip install -e .
+```
+
+---
+
+## Quick Start
+
+```python
+from sdk import BlueprintClient, BlueprintConfig, AgentConfig
+
+# Initialize client
+client = BlueprintClient(
+    api_key="your-agent-api-key",
+    bearer_token="your-bearer-token",
+    organization_id="your-org-id",
+)
+
+# Define blueprint configuration
+config = BlueprintConfig(
+    name="HR Assistant",
+    description="Automates HR workflows with intelligent agents",
+    category="Human Resources",
+    tags=["hr", "recruiting", "automation"],
+    manager=AgentConfig(
+        name="HR Manager",
+        role="HR Operations Coordinator",
+        goal="Orchestrate hiring workflows by delegating to specialized workers",
+        description="Coordinates HR tasks across specialized workers",
+        instructions="""You are an HR manager who orchestrates hiring workflows.
+When a user submits a request:
+1. Analyze the request type
+2. Delegate to the appropriate worker agent
+3. Synthesize the results into a clear response""",
+        model="gpt-4o",
+        temperature=0.3,
+    ),
+    workers=[
+        AgentConfig(
+            name="Resume Screener",
+            role="Resume Analysis Specialist",
+            goal="Screen and analyze candidate resumes against job requirements",
+            description="Screens candidate resumes for qualifications",
+            instructions="You analyze resumes for qualifications and experience...",
+            model="gpt-4o-mini",
+            temperature=0.5,
+            usage_description="Use for screening and analyzing candidate resumes",
+        ),
+    ],
+)
+
+# Validate before creating
+report = client.doctor_config(config)
+if not report.valid:
+    print(f"Errors: {report.errors}")
+    exit(1)
+
+# Create blueprint
+blueprint = client.create(config)
+print(f"Created: {blueprint.id}")
+```
+
+---
+
+## Configuration
+
+### Environment Variables
+
+Create a `.env` file in your project root (or copy from `.env.example`):
+
+```bash
+LYZR_API_KEY=...               # For Agent API (X-API-Key header)
+BLUEPRINT_BEARER_TOKEN=...     # For Blueprint API (Bearer token)
+LYZR_ORG_ID=...                # Organization context
+```
+
+The CLI and SDK auto-load from `.env` files.
+
+### API Endpoints
+
+| Environment | Agent API | Blueprint API |
+|-------------|-----------|---------------|
+| Production | `https://agent-prod.studio.lyzr.ai` | `https://pagos-prod.studio.lyzr.ai` |
+
+### Supported Models
+
+| Provider | Models | Credential ID |
+|----------|--------|---------------|
+| **OpenAI** | gpt-4o, gpt-4o-mini, o1, o1-mini, o3-mini | `lyzr_openai` |
+| **Anthropic** | claude-sonnet-4-0, claude-3-5-haiku-latest | `lyzr_anthropic` |
+| **Google** | gemini-2.5-pro, gemini-2.0-flash | `lyzr_google` |
+| **Groq** | llama-3.3-70b-versatile | `lyzr_groq` |
+| **Bedrock** | amazon.nova-pro-v1:0 | `lyzr_bedrock` |
+| **Perplexity** | sonar-pro, sonar | `lyzr_perplexity` |
+
+---
+
+## API Reference
+
+### BlueprintClient
+
+```python
+client = BlueprintClient(
+    api_key="...",
+    bearer_token="...",
+    organization_id="...",
+)
+```
+
+#### CRUD Operations
+
+```python
+# Create
+blueprint = client.create(config)
+
+# Read
+blueprint = client.get(blueprint_id)
+blueprints = client.get_all(filters=ListFilters(limit=50))
+
+# Update
+blueprint = client.update(blueprint_id, BlueprintUpdate(
+    name="New Name",
+    manager=AgentUpdate(id="mgr-id", instructions="Updated instructions"),
+))
+
+# Delete
+client.delete(blueprint_id, delete_agents=True)
+```
+
+#### Visibility Management
+
+```python
+from sdk import Visibility
+
+client.set_visibility(blueprint_id, Visibility.PUBLIC)
+client.set_visibility(blueprint_id, Visibility.ORGANIZATION)
+client.set_visibility(blueprint_id, Visibility.PRIVATE)
+```
+
+#### Validation
+
+```python
+# Validate config before creating
+report = client.doctor_config(config)
+
+# Validate existing blueprint
+report = client.doctor(blueprint_id)
+
+if not report.valid:
+    print(f"Errors: {report.errors}")
+```
+
+#### Synchronization
+
+```python
+# Force sync blueprint with latest agent data
+blueprint = client.sync(blueprint_id)
+```
+
+### Models
+
+#### AgentConfig
+
+```python
+from sdk import AgentConfig
+
+agent = AgentConfig(
+    # Required
+    name="Agent Name",
+    description="Description",
+    instructions="System prompt...",
+
+    # Recommended
+    role="Expert Analyst",           # 15-80 chars
+    goal="Analyze data...",          # 50-300 chars
+
+    # Optional
+    model="gpt-4o",
+    temperature=0.3,                 # 0.0-1.0
+    usage_description="...",         # Required for workers
+)
+```
+
+#### BlueprintConfig
+
+```python
+from sdk import BlueprintConfig, Visibility
+
+config = BlueprintConfig(
+    name="Blueprint Name",
+    description="Description",
+    manager=AgentConfig(...),
+    workers=[AgentConfig(...)],      # At least 1 worker
+
+    # Optional
+    category="Human Resources",
+    tags=["tag1", "tag2"],           # Max 20 tags
+    visibility=Visibility.PRIVATE,
+)
+```
+
+#### BlueprintUpdate
+
+```python
+from sdk import BlueprintUpdate, AgentUpdate
+
+update = BlueprintUpdate(
+    name="New Name",
+    manager=AgentUpdate(id="mgr-id", instructions="New instructions"),
+    workers=[AgentUpdate(id="worker-id", temperature=0.5)],
+)
+```
+
+---
+
+## YAML Workflow
+
+Define blueprints as YAML files for version control and GitOps workflows:
+
+```yaml
+# blueprint.yaml
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Customer Support
+  description: Multi-agent customer support team
+  category: customer
+  tags: [support, automation]
+
+spec:
+  manager: agents/support-manager.yaml
+  workers:
+    - agents/technical-support.yaml
+    - agents/billing-support.yaml
+```
+
+```yaml
+# agents/support-manager.yaml
+apiVersion: lyzr.ai/v1
+kind: Agent
+
+metadata:
+  name: Support Manager
+  description: Routes customer requests
+
+spec:
+  model: gpt-4o
+  temperature: 0.3
+  instructions: |
+    You route customer requests to specialized agents...
+```
+
+### YAML Operations
+
+```python
+from pathlib import Path
+
+# Create from YAML
+blueprint = client.create_from_yaml(Path("my-blueprint/blueprint.yaml"))
+
+# Update from YAML (must have IDs)
+blueprint = client.update_from_yaml(Path("my-blueprint/blueprint.yaml"))
+
+# Export to YAML
+path = client.export_to_yaml(blueprint_id, Path("./exported"))
+
+# Validate YAML without API calls
+report = client.validate_yaml(Path("my-blueprint/blueprint.yaml"))
+```
+
+### CLI Commands
+
+```bash
+# Validate YAML
+bp validate my-blueprint/blueprint.yaml
+
+# Create from YAML
+bp create my-blueprint/blueprint.yaml
+
+# Update from YAML
+bp update my-blueprint/blueprint.yaml
+
+# Export to YAML
+bp export <blueprint-id> -o ./exported
+```
+
+---
+
+## API Quirks Handled
+
+The SDK automatically handles these Lyzr API quirks:
+
+| Quirk | Problem | SDK Solution |
+|-------|---------|--------------|
+| **Quadruple Storage** | Agent data stored in 4 places | Keeps all in sync |
+| **managed_agents** | API-only field, not in responses | Preserved during updates |
+| **NoneType Fields** | 23 fields must be arrays, never None | Auto-sanitization |
+| **ReactFlow Fields** | Nodes need label, template_type | Auto-populated |
+
+---
+
+## Exceptions
+
+```python
+from sdk.exceptions import (
+    BlueprintSDKError,      # Base exception
+    APIError,               # HTTP failures
+    ValidationError,        # Config validation
+    AgentCreationError,     # Agent creation failed
+    BlueprintCreationError, # Blueprint creation failed
+    SyncError,              # Sync failures
+)
+```
+
+---
+
+## Development
+
+```bash
+# Install with dev dependencies
+pip install -e ".[dev]"
+
+# Run tests
+pytest
+
+# With coverage
+pytest --cov=sdk
+
+# Type checking
+mypy sdk
+
+# Linting
+ruff check sdk
+```
+
+---
+
+## Claude Code Automation
+
+This repository includes a comprehensive [Claude Code](https://claude.ai/code) automation system for blueprint development with **skills**, **slash commands**, and **sub-agents**.
+
+### Skills
+
+Skills auto-apply when working in this repository:
+
+| Skill | Purpose |
+|-------|---------|
+| `blueprint-architecture` | Multi-agent orchestration patterns, single vs multi-agent decisions |
+| `agent-persona` | Crafting agent identities (name, description, role, goal) |
+| `agent-instructions` | Writing effective agent instructions with proper structure |
+| `agent-technical` | Model selection, temperature tuning, feature configuration |
+| `blueprint-yaml` | SDK/CLI usage, YAML schema, common errors and fixes |
+| `blueprint-readme` | Documentation structure (Problem/Approach/Capabilities) |
+
+### Slash Commands
+
+| Command | Description |
+|---------|-------------|
+| `/bp-create [path]` | Create blueprint from YAML file |
+| `/bp-eval [agent-id] [query]` | Test agent with query and trace analysis |
+| `/bp-architect [use-case]` | Design blueprint architecture for a use case |
+| `/bp-doctor [blueprint-id]` | Diagnose and fix blueprint issues |
+| `/bp-sync [options]` | Sync blueprints from Lyzr Studio API |
+| `/bp-linear [cmd]` | Sync roadmap tasks with Linear |
+
+### Sub-Agents
+
+Specialized assistants for blueprint operations:
+
+| Agent | Purpose |
+|-------|---------|
+| `blueprint-architect` | Designs multi-agent orchestration patterns |
+| `agent-crafter` | Creates high-quality agent definitions |
+| `blueprint-qa` | Tests and validates blueprints |
+| `blueprint-docs` | Writes README documentation |
+
+### Workflow Example
+
+```bash
+# 1. Design architecture for a use case
+/bp-architect "customer support ticket triage"
+
+# 2. Create the blueprint from YAML
+/bp-create blueprints/local/blueprints/ticket-triage.yaml
+
+# 3. Test the deployed agent
+/bp-eval <agent-id> "I can't login to my account"
+
+# 4. Diagnose any issues
+/bp-doctor <blueprint-id>
+```
+
+---
+
+## Linear Task Tracking
+
+Track blueprint development tasks in Linear with `bp linear` commands.
+
+### Setup
+
+```bash
+# Add to .env
+LINEAR_API_KEY=lin_api_xxx
+LINEAR_TEAM_ID=xxx
+```
+
+### Commands
+
+```bash
+bp linear push              # Push tasks to Linear
+bp linear pull              # Pull project IDs from Linear
+bp linear status            # Show sync status
+bp linear delete-issues ID  # Delete issues in a project
+```
+
+### Task Management
+
+Tasks are defined in `roadmap/tasks.csv`:
+
+```csv
+id,title,project_id,description,priority,state,labels,linear_id,week
+LIB-001,Create Sales Blueprint,BP-LIB,Sales agent,high,todo,sales,,week-1
+```
+
+Push to Linear:
+```bash
+bp linear push --dry-run    # Preview changes
+bp linear push              # Sync to Linear
+```
+
+---
+
+## Project Structure
+
+```
+bp-sdk/
+├── sdk/
+│   ├── __init__.py           # Public API exports
+│   ├── client.py             # BlueprintClient
+│   ├── models.py             # Pydantic models
+│   ├── exceptions.py         # Custom exceptions
+│   ├── api/                  # API clients
+│   │   ├── http.py           # Sync HTTP client
+│   │   ├── agent.py          # Agent API
+│   │   └── blueprint.py      # Blueprint API
+│   ├── builders/             # Data construction
+│   │   ├── payload.py        # API payload builder
+│   │   └── tree.py           # ReactFlow tree builder
+│   ├── utils/                # Utilities
+│   │   ├── sanitize.py       # Data sanitization
+│   │   └── validation.py     # Blueprint validation
+│   ├── yaml/                 # YAML workflow
+│   │   ├── loader.py         # Load YAML files
+│   │   ├── writer.py         # Write YAML files
+│   │   ├── converter.py      # Format conversion
+│   │   ├── models.py         # YAML Pydantic models
+│   │   └── ids.py            # ID management
+│   └── cli/                  # CLI commands
+│       ├── main.py           # Typer CLI app
+│       └── commands/         # Command implementations
+├── .claude/                  # Claude Code automation
+│   ├── skills/               # Auto-applied knowledge
+│   │   ├── blueprint-architecture/
+│   │   ├── agent-persona/
+│   │   ├── agent-instructions/
+│   │   ├── agent-technical/
+│   │   ├── blueprint-yaml/
+│   │   └── blueprint-readme/
+│   ├── commands/             # Slash commands
+│   │   ├── bp-create.md
+│   │   ├── bp-eval.md
+│   │   ├── bp-architect.md
+│   │   ├── bp-doctor.md
+│   │   └── bp-sync.md
+│   └── agents/               # Sub-agents
+│       ├── blueprint-architect/
+│       ├── agent-crafter/
+│       ├── blueprint-qa/
+│       └── blueprint-docs/
+├── blueprints/               # YAML collections
+│   └── local/
+│       ├── blueprints/       # Blueprint definitions
+│       └── agents/           # Agent definitions
+├── roadmap/                  # Task tracking
+│   ├── projects.csv          # Linear projects
+│   ├── tasks.csv             # Linear tasks
+│   └── WEEKLY-SCHEDULE.md    # Sprint schedule
+├── tests/
+├── pyproject.toml
+└── README.md
+```
+
+---
+
+## License
+
+MIT License - see [LICENSE](LICENSE) for details.
+
+---
+
+## Support
+
+- **Documentation**: [docs.lyzr.ai](https://docs.lyzr.ai)
+- **Issues**: [GitHub Issues](https://github.com/lyzr/bp-sdk/issues)
+- **Email**: support@lyzr.ai

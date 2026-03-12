@@ -1,0 +1,107 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Compliance QA Agent
+  description: |
+    An AI-powered compliance Q&A system that provides consistent, evidence-based
+    answers from your document repository. Every answer includes source citations
+    with document name, page number, and section reference.
+
+    Built for legal teams, compliance officers, and business leaders who need
+    reliable answers to policy, contract, and governance questions. Supports
+    bilingual queries (English/Vietnamese).
+
+    Key Features:
+    - Deterministic responses (same question = same answer)
+    - Full source citations on every answer
+    - RAG-powered document retrieval
+    - Support for policies, contracts, meeting minutes, legal docs
+    - Bilingual support (English/Vietnamese)
+  category: legal
+  tags:
+    - legal
+    - compliance
+    - rag
+    - qa
+    - citations
+    - bilingual
+    - starter
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Tasco Group, a Vietnamese conglomerate with 150-200 subsidiaries listed on HNX as HUT, manages thousands of compliance documents across policies, contracts, legal decrees, meeting minutes, and governance frameworks. Their 4-person legal team fields dozens of compliance questions daily from business leaders, department heads, and subsidiary managers. Each question requires hunting through multiple document repositories, cross-referencing regulations, and providing citation-backed answers.
+
+    ### The Challenge
+    Compliance questions demand precision and consistency. The same question asked by different people should yield the same evidence-based answer, with exact citations to source documents. Manual research is time-consuming—a single question can require reviewing 5-10 documents across policies, legal texts, and meeting minutes. Without proper citations, answers lack credibility. With bilingual operations (English and Vietnamese), language barriers complicate document retrieval. Four legal staff cannot scale to support 150+ subsidiaries with consistent response quality.
+
+    ### What's At Stake
+    Inconsistent compliance guidance creates legal risk. Different answers to the same policy question expose the organization to governance failures. Without source citations, decisions lack audit trails. Delayed responses to compliance questions slow business operations—approvals wait, contracts stall, projects pause. Legal staff burnout increases when overwhelmed with repetitive research. Subsidiaries make decisions without proper compliance input, multiplying exposure across the conglomerate.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Compliance Q&A is a retrieval and synthesis problem, not a generation problem. Every answer must trace back to a specific document, page, and section. The workflow has two distinct phases: first, understand what the user is really asking (document type, entity scope, language, urgency). Second, search the knowledge base with precision, extract exact quotes, and format citations. Separating coordination from document retrieval allows specialization—one agent ensures quality standards, another focuses purely on accurate search and citation.
+
+    ### The Method
+    A Compliance QA Coordinator receives questions and analyzes query intent—what document type (policy, contract, legal), which entities are involved, what language to respond in, and how complex the question is. It delegates to a Compliance Document Specialist configured with zero-temperature Claude 3.5 Haiku for deterministic retrieval. The specialist searches the RAG-powered knowledge base, extracts relevant passages with exact page and section references, and returns structured citations. The coordinator validates that every answer includes proper sources, formats the response in a consistent structure (Answer → Source → Evidence → Additional Context), and delivers it to the user.
+
+    ### Why This Works
+    Determinism ensures consistency—the same question always returns the same answer because the Document Specialist operates at temperature 0 with the same retrieval logic. RAG-powered search handles the massive document corpus (policies, legal texts, contracts, minutes, governance docs) without hallucination. Full source citations provide audit trails and legal credibility. Bilingual support (English and Vietnamese) matches Tasco's operational needs. The structured output format standardizes responses across the legal team. The coordinator's validation step prevents incomplete or unsourced answers from reaching users.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - **Citation-Backed Answers**: Every response includes document name, page number, section reference, and direct quote
+    - **Deterministic Responses**: Same question returns identical answer every time (temperature 0 retrieval)
+    - **RAG-Powered Search**: Retrieves from knowledge base of policies, contracts, legal documents, meeting minutes, governance frameworks
+    - **Bilingual Support**: Responds in English or Vietnamese based on query language
+    - **Structured Output**: Consistent format with Answer, Source, Evidence, and Additional Context sections
+    - **Document Type Intelligence**: Identifies whether question requires policy, contract, legal text, or meeting minutes
+
+    ### Extended Capabilities
+    - **Multi-Entity Scope**: Handles questions spanning parent company and specific subsidiaries
+    - **Complexity Assessment**: Recognizes when questions require multi-document synthesis
+    - **Confidence Signaling**: Clear statement when no matching document exists (no hallucination)
+    - **Memory-Enabled Coordinator**: Tracks conversation context for follow-up questions
+
+    ### Boundaries
+    - Answers from document repository only (no legal interpretation beyond text)
+    - RAG knowledge base must be populated with relevant documents
+    - Citation quality depends on document structure (PDFs with clear page numbers work best)
+    - Vietnamese language support requires Vietnamese documents in knowledge base
+    - No real-time web search (compliance answers from internal sources only)
+    - Coordinator validates but does not generate answers independently
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - Knowledge base populated with compliance documents (policies, contracts, legal texts, meeting minutes)
+    - Documents with clear page numbers and section structure for accurate citations
+    - Optional: Vietnamese documents if bilingual responses are required
+
+    ### Your First Run
+    Try a policy question: "What is Tasco Group's policy on remote work eligibility for full-time employees? Which subsidiaries can approve remote work arrangements?"
+
+    ### Pro Tips
+    - Include entity names (parent company or specific subsidiary) for scoped answers
+    - Ask in the language you want the response in (English or Vietnamese)
+    - Request specific document types if known (e.g., "According to our IT policy..." vs. "According to board meeting minutes...")
+    - Review citations in the Source section to verify answer accuracy
+    - Use follow-up questions to dive deeper—the coordinator maintains conversation memory
+
+root_agents:
+  - agents/compliance-qa-coordinator.yaml
+ids:
+  blueprint: 98ad85ac-5951-4890-83c9-f3d1017f1c85
+  agents:
+    agents/compliance-qa-coordinator.yaml: 69607f24c57d451439d499a0
+    agents/compliance-document-specialist.yaml: 69607f24566bcffb7aebad83

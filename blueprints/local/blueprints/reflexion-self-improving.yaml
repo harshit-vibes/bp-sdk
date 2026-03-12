@@ -1,0 +1,136 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Reflexion Self-Improving Agent
+  description: Multi-agent system demonstrating self-improvement through 
+    iterative solution generation, critique, and reflection. Implements the 
+    Reflexion pattern showing how LLMs can bootstrap capabilities through 
+    structured feedback loops.
+  category: tech
+  tags:
+    - tech
+    - featured
+    - research
+    - reflexion
+    - self-improvement
+    - multi-agent
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Large Language Models generate responses in a single pass. Once an answer is produced, there is no mechanism for the model to recognize its own errors, learn from them, and try again. The quality of the first attempt is the final quality.
+
+    ### The Challenge
+    Complex problems often require iteration. Human experts rarely solve difficult problems on the first try - they attempt, evaluate, reflect on what went wrong, and try again with new insights. This iterative refinement is missing from standard LLM interactions.
+
+    ### What's At Stake
+    Single-pass generation caps LLM capability at first-attempt quality. Tasks that humans solve through iteration (debugging, optimization, complex reasoning) hit a ceiling. The potential for self-improvement through structured reflection remains untapped.
+
+    > **Research Note**: This blueprint implements the Reflexion pattern from AI research, which demonstrated that LLMs can significantly improve their outputs through explicit self-reflection and iterative refinement.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    LLMs can improve their own outputs if given a structured feedback loop: attempt, critique, reflect, retry. By separating these cognitive functions into specialized agents, we enable genuine self-improvement without human intervention.
+
+    ### The Method
+    A Reflexion Coordinator manages an iterative improvement loop with three specialists:
+
+    1. **Solution Generator**: Creates solutions to problems, incorporating learnings from prior failed attempts
+    2. **Solution Critic**: Objectively evaluates solutions against quality criteria (correctness, completeness, clarity, efficiency)
+    3. **Reflection Specialist**: Analyzes why solutions failed and extracts actionable insights for the next attempt
+
+    The loop iterates until the solution scores 8/10 or higher, or maximum attempts (5) are reached. Each iteration builds on accumulated learnings from all previous failures.
+
+    ### Why This Works
+    Separating generation from evaluation prevents self-justification bias. Explicit reflection creates actionable insights that compound across attempts. The coordinator tracks improvement trajectory and knows when to stop. The result is demonstrably better solutions than single-pass generation.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Iterative solution generation with learning accumulation
+    - Objective quality evaluation (1-10 scoring)
+    - Structured reflection that extracts actionable insights
+    - Compound learning across multiple attempts
+    - Automatic stopping when quality threshold met
+
+    ### Quality Dimensions Evaluated
+    - Correctness: Does the solution solve the problem? (40% weight)
+    - Completeness: Are all requirements addressed? (25% weight)
+    - Clarity: Is reasoning clear and understandable? (20% weight)
+    - Efficiency: Is the approach optimal? (15% weight)
+
+    ### Iteration Parameters
+    - Maximum Attempts: 5
+    - Success Threshold: 8/10 overall score
+    - Early Success: +2 improvement AND 7+ score
+    - Output: Final solution plus full improvement trajectory
+
+    ### Problem Types Supported
+    - Coding challenges (algorithms, debugging, optimization)
+    - Reasoning puzzles (logic, math, analysis)
+    - Content creation (writing, design, planning)
+    - Analysis tasks (evaluation, comparison, recommendation)
+
+    ### Boundaries
+    - Best for tasks with objective quality criteria
+    - Adds latency (3-5x single-shot due to iterations)
+    - Cannot fix fundamental knowledge gaps
+    - Research/demonstration pattern, not production-critical
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    None - works out of the box.
+
+    ### Your First Run
+    Try this prompt:
+
+    "Write a Python function to find the longest palindromic substring in a given string. The function should be efficient and handle edge cases."
+
+    Watch as the agent:
+    1. Generates an initial solution (likely brute force)
+    2. Receives critique about efficiency
+    3. Reflects and learns to try dynamic programming
+    4. Generates improved solution
+    5. Continues until optimal approach achieved
+
+    ### Pro Tips
+    - **Complex Problems**: Best value on problems that benefit from iteration
+    - **Watch the Trajectory**: The improvement path is as interesting as the result
+    - **Read Reflections**: See how the agent learns from its mistakes
+    - **Compare First/Last**: Compare first attempt to final to see improvement
+    - **Adjust Expectations**: Some problems may hit max attempts without perfect score
+
+    ### Example Use Cases
+    - Algorithm optimization (start simple, iterate to efficient)
+    - Code debugging (identify issues through critique, fix through reflection)
+    - Complex reasoning (multi-step problems that need iteration)
+    - Content refinement (drafts that improve through structured feedback)
+    - Learning demonstration (show how self-improvement works)
+
+    ### Research Context
+    This blueprint is inspired by:
+    - Reflexion: Language Agents with Verbal Reinforcement Learning
+    - Self-Refine: Iterative Refinement with Self-Feedback
+    - Constitutional AI: Training with AI Feedback
+
+    The pattern demonstrates that LLMs can bootstrap their capabilities through structured self-critique and reflection, without requiring human feedback at each step.
+
+root_agents:
+  - ../agents/reflexion-coordinator.yaml
+ids:
+  blueprint: 1d6dd179-2aeb-43fd-bd0c-40fc2d6c7b1b
+  agents:
+    ../agents/reflexion-coordinator.yaml: 695bd3476363be71980ee7ef
+    ../agents/solution-generator.yaml: 695bd343a45696ac999e2b0b
+    ../agents/solution-critic.yaml: 695bd3456363be71980ee7ee
+    ../agents/reflection-specialist.yaml: 695bd346a45696ac999e2b0c

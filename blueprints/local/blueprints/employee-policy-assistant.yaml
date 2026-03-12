@@ -1,0 +1,98 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Employee Policy Q&A Assistant
+  description: HR policy chatbot that answers employee questions about leave, 
+    benefits, compensation, workplace conduct, and company procedures. Provides 
+    accurate, context-aware responses based on policy documentation.
+  category: people
+  tags:
+    - people
+    - starter
+    - hr
+    - policy
+    - employee-self-service
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Employees have questions about company policies every day. How many PTO days do I have? What's the parental leave policy? Can I expense this meal? These questions flood HR inboxes and disrupt workflows for both employees and HR teams.
+
+    ### The Challenge
+    HR teams answer the same policy questions repeatedly. Employees wait for responses or search through lengthy policy documents. Inconsistent answers create confusion and compliance risks. Self-service portals exist but are often hard to navigate.
+
+    ### What's At Stake
+    Slow policy answers frustrate employees and hurt engagement. HR time spent on routine questions reduces capacity for strategic work. Inconsistent responses lead to fairness concerns and potential legal issues.
+
+    > **Demo Note**: This blueprint includes sample policies for PTO, sick leave, parental leave, remote work, and expenses. Replace with your actual company policies for production use.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Most policy questions follow predictable patterns. Employees want quick, accurate answers without reading entire policy documents. A conversational interface that understands context and provides targeted responses dramatically improves the experience.
+
+    ### The Method
+    An HR Policy Coordinator receives employee questions and routes them to a Policy Specialist who has deep knowledge of company policies. The specialist provides clear, accurate answers with relevant context and next steps.
+
+    ### Why This Works
+    Conversational Q&A makes policies accessible. Consistent responses from a trained agent ensure fairness. Instant answers improve employee satisfaction. HR teams are freed from routine questions to focus on complex cases.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Answers questions about leave policies (PTO, sick, parental, bereavement, FMLA)
+    - Explains benefits (health insurance, 401k, HSA, life insurance)
+    - Clarifies compensation policies (pay periods, overtime, bonuses)
+    - Describes workplace conduct expectations
+    - Provides expense and travel policy guidance
+    - Covers IT and remote work policies
+
+    ### Response Quality
+    - Clear, jargon-free language
+    - Relevant context and exceptions included
+    - Next steps and action items highlighted
+    - Appropriate disclaimers for sensitive topics
+    - Empathetic tone for personal situations
+
+    ### Boundaries
+    - Based on configured policy documentation
+    - Does not replace HR for complex situations
+    - Recommends direct HR contact for sensitive matters
+    - Does not provide legal or medical advice
+    - English language support
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    None - works out of the box with sample policies for demonstration.
+
+    ### Your First Run
+    Try these sample questions:
+
+    - "How many PTO days do I get per year?"
+    - "What is the parental leave policy?"
+    - "How do I submit expense reports?"
+    - "Can I work from home full time?"
+    - "What happens to unused PTO at year end?"
+
+    ### Pro Tips
+    - **Replace Sample Policies**: Update the specialist agent instructions with your actual company policies
+    - **Add Knowledge Base**: Connect to your policy document repository for RAG-based answers
+    - **Customize Tone**: Adjust the response style to match your company culture
+    - **Track Common Questions**: Review logs to identify policy gaps or confusion points
+
+root_agents:
+  - ../agents/hr-policy-coordinator.yaml
+ids:
+  blueprint: e7c2fccc-9c90-4848-b746-ee67b87a0df6
+  agents:
+    ../agents/hr-policy-coordinator.yaml: 695bc2aca45696ac999e2a23
+    ../agents/hr-policy-specialist.yaml: 695bc2ab6363be71980ee717

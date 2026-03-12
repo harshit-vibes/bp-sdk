@@ -1,0 +1,145 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Tree of Thoughts Reasoner
+  description: Implements Tree of Thoughts deliberate reasoning with systematic 
+    generation, evaluation, and exploration of multiple thought paths for 
+    complex problem solving.
+  category: featured
+  tags:
+    - featured
+    - multi-agent
+    - reasoning
+    - tree-of-thoughts
+    - deliberation
+    - problem-solving
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Complex problems require deliberate reasoning. Simple chain-of-thought approaches follow a single path and can get stuck or miss better solutions. Human experts naturally consider multiple approaches before committing.
+
+    ### The Challenge
+    Exploring multiple reasoning paths systematically requires generating diverse options, evaluating which are most promising, developing paths deeply, and synthesizing insights. Without structure, exploration becomes unfocused or incomplete.
+
+    ### What's At Stake
+    Single-path reasoning leads to suboptimal solutions. Important alternatives go unexplored. Local optima are mistaken for global optima. Complex problems deserve thorough deliberation.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Tree of Thoughts (ToT) structures reasoning as a search over a tree of possible thought paths. At each step, multiple thoughts are generated (breadth), the best are selected (evaluation), and promising paths are developed (depth). This mimics how experts deliberate.
+
+    ### The Method
+    A Tree Navigator orchestrates four specialists:
+
+    1. **Thought Generator**: Produces diverse candidate thoughts at each decision point using divergent thinking techniques.
+
+    2. **Thought Evaluator**: Scores thoughts on progress, feasibility, and promise. Recommends which to explore and which to prune.
+
+    3. **Branch Explorer**: Develops promising thoughts deeply, following implications and addressing obstacles.
+
+    4. **Solution Synthesizer**: Combines insights from explored branches into a coherent final solution.
+
+    ### Why This Works
+    Systematic breadth ensures alternatives are considered. Rigorous evaluation focuses effort on promising paths. Deep exploration develops ideas fully. Synthesis integrates the best insights. The result is thoroughly reasoned solutions.
+
+    ---
+
+    ## Capabilities
+
+    ### Thought Generation
+    - Diverse candidate generation
+    - Multiple reasoning approaches
+    - Conventional and unconventional paths
+    - Structured creativity
+
+    ### Thought Evaluation
+    - Multi-criteria scoring
+    - Progress assessment
+    - Feasibility analysis
+    - Promise estimation
+    - Pruning recommendations
+
+    ### Branch Exploration
+    - Deep path development
+    - Obstacle identification
+    - Forward reasoning
+    - Dead-end detection
+    - Insight capture
+
+    ### Solution Synthesis
+    - Multi-branch integration
+    - Conflict resolution
+    - Coherence building
+    - Completeness checking
+    - Justification tracing
+
+    ### Tree Management
+    - Breadth-first search
+    - Best-first search
+    - Adaptive strategy
+    - Backtracking support
+    - Exploration tracking
+
+    ### Boundaries
+    - Best for complex, multi-step problems
+    - More thorough but slower than simple reasoning
+    - Requires patience for deliberation
+    - Overkill for straightforward questions
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - A complex problem requiring deliberate reasoning
+    - Tolerance for multi-step exploration
+    - Appreciation for systematic approach
+
+    ### Your First Run
+    Try this prompt:
+
+    "A startup has 6 months of runway and needs to decide between three strategies: aggressive growth (risky but high upside), sustainable growth (moderate risk and return), or pivot to a new market (uncertain but potentially transformative). Analyze the decision systematically."
+
+    ### Pro Tips
+    - **Frame Clearly**: Well-defined problems enable better thought generation
+    - **Accept Exploration**: The process may explore dead ends before finding solutions
+    - **Trust Pruning**: Not all paths deserve exploration
+    - **Review the Tree**: The reasoning journey is as valuable as the answer
+
+    ### Example Use Cases
+    - Strategic decision making
+    - Complex trade-off analysis
+    - Creative problem solving
+    - Puzzle and logic challenges
+    - Multi-constraint optimization
+
+    ### Sample Interactions
+
+    Strategic Decision:
+    Input: "Should we build vs buy for our new CRM system?"
+    Output: Systematic exploration of build, buy, and hybrid paths with evaluated trade-offs
+
+    Complex Planning:
+    Input: "Design a migration strategy for moving from monolith to microservices"
+    Output: Multiple architecture paths explored, best approach synthesized with rationale
+
+    Creative Challenge:
+    Input: "How might we reduce customer churn by 50% in 6 months?"
+    Output: Diverse intervention strategies generated, evaluated, best paths developed into actionable plan
+
+root_agents:
+  - ../agents/tree-navigator.yaml
+ids:
+  blueprint: be56279a-87a3-4a18-81c1-7d2a3649e4f3
+  agents:
+    ../agents/tree-navigator.yaml: 695c70e96363be71980eee5b
+    ../agents/thought-generator.yaml: 695c70e66363be71980eee59
+    ../agents/thought-evaluator.yaml: 695c70e7a45696ac999e31cb
+    ../agents/branch-explorer.yaml: 695c70e76363be71980eee5a
+    ../agents/solution-synthesizer.yaml: 695c70e8a45696ac999e31cc

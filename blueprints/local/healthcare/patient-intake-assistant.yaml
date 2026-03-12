@@ -1,0 +1,87 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Patient Intake Assistant
+  description: Conversational AI that guides patients through comprehensive 
+    medical intake, collecting medical history, medications, allergies, and 
+    current symptoms in an empathetic, efficient manner. Reduces intake time 
+    while improving data completeness.
+  category: customer
+  tags:
+    - healthcare
+    - patient-intake
+    - medical-history
+    - conversational
+  visibility: public
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Healthcare providers need comprehensive patient information before appointments. Traditional intake involves lengthy paper forms or rigid digital questionnaires that patients rush through or abandon. Staff then spend valuable time clarifying incomplete or inconsistent information.
+
+    ### The Challenge
+    Patients struggle with medical terminology, forget important details, and feel frustrated by repetitive questions across different forms. Meanwhile, providers receive incomplete histories, miss medication interactions, and waste appointment time gathering basic information that should have been collected upfront.
+
+    ### What's At Stake
+    Incomplete intake leads to missed diagnoses, medication errors, and longer appointments. Patients feel unheard when forms don't capture their concerns. Provider burnout increases when every visit starts with information gaps. The foundation for quality care crumbles before the appointment even begins.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Conversation is how humans naturally share health information. When patients tell their story to a skilled listener who asks the right follow-up questions, they remember details they'd skip on a form. The key is guided dialogue that feels natural while systematically collecting required data.
+
+    ### The Method
+    A Patient Intake Assistant conducts a warm, conversational intake interview. It starts with the reason for the visit, then naturally flows through symptoms, medical history, medications, allergies, and lifestyle factors. Each response triggers relevant follow-up questions. The assistant acknowledges concerns, uses accessible language, and adapts to the patient's pace.
+
+    ### Why This Works
+    Patients engage more fully in conversation than with forms. The assistant never rushes, never judges, and asks smart follow-ups that surface forgotten details. It handles the tedious collection work, freeing staff to focus on care. The structured output gives providers complete, consistent information in a scannable format.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Conducts complete medical intake through natural conversation
+    - Collects chief complaint, history of present illness, and symptom details
+    - Gathers past medical history, surgical history, and family history
+    - Documents current medications with dosages and frequencies
+    - Records drug, food, and environmental allergies with reactions
+    - Captures social history including tobacco, alcohol, and exercise
+
+    ### Extended Capabilities
+    - Adapts language complexity to patient communication style
+    - Asks intelligent follow-up questions based on responses
+    - Recognizes and flags potential emergency symptoms
+    - Acknowledges patient concerns before continuing
+    - Provides structured summary in standard clinical format
+
+    ### Boundaries
+    - Does not provide diagnoses or treatment recommendations
+    - Does not interpret symptoms or suggest conditions
+    - Directs patients with emergency symptoms to seek immediate care
+    - Collects information only; does not access medical records
+    - English language only (customize for multilingual support)
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - Patient ready to provide health information
+    - Approximately 10-15 minutes for complete intake
+    - No special data inputs required
+
+    ### Your First Run
+    Start with: 'Hi, I'm here for my appointment with Dr. Smith. I've been having headaches for the past week.'
+
+    ### Pro Tips
+    - Let patients tell their story first before structured questions
+    - Mention specific symptoms for better follow-up questions
+    - Include medication names and doses if known
+    - The assistant will ask about anything you forget
+
+root_agents:
+  - agents/patient-intake-assistant.yaml

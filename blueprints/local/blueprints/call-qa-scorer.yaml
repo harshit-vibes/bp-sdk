@@ -1,0 +1,144 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Customer Service Call QA Scorer
+  description: Analyzes customer service call transcripts and provides 
+    comprehensive quality scoring across six dimensions including greeting 
+    quality, problem resolution, communication clarity, empathy, compliance 
+    adherence, and overall effectiveness.
+  category: customer
+  tags:
+    - customer
+    - quality-assurance
+    - call-center
+    - customer-service
+    - analytics
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Contact centers handle thousands of calls daily. Quality assurance traditionally relies on supervisors manually reviewing a small sample (2-5%) of calls. This creates inconsistent evaluations and missed coaching opportunities for most of the team.
+
+    ### The Challenge
+    Manual QA is time-consuming and subjective. Different reviewers apply different standards. Agents only get feedback on a tiny fraction of their calls. Compliance issues may go undetected until they become problems. Training focuses on generic improvements rather than individual agent needs.
+
+    ### What's At Stake
+    Poor call quality drives customer churn. Missed compliance issues create legal risk. Inconsistent feedback frustrates agents. Training investment yields poor returns when coaching isn't targeted. The gap between measured quality and actual quality grows as call volumes increase.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Effective QA requires consistent evaluation across multiple dimensions: greeting quality, problem resolution, communication clarity, empathy, compliance, and overall effectiveness. Each dimension needs specific criteria and evidence-based scoring.
+
+    ### The Method
+    A QA Scoring Coordinator orchestrates a QA Dimensions Analyst that evaluates transcripts across six quality dimensions:
+
+    1. **Greeting and Closing**: Warmth, personalization, script adherence
+    2. **Problem Resolution**: Identification accuracy, resolution efficiency
+    3. **Communication Clarity**: Language simplicity, jargon avoidance
+    4. **Empathy and Handling**: Customer acknowledgment, de-escalation
+    5. **Compliance Adherence**: Required disclosures, policy following
+    6. **Call Effectiveness**: Outcome quality, customer satisfaction
+
+    The analyst provides evidence quotes from the transcript, and the coordinator synthesizes scores into an actionable scorecard with coaching recommendations.
+
+    ### Why This Works
+    Consistent criteria applied to every call means fair comparisons across agents. Evidence-based scoring builds trust in the evaluations. Structured dimensions enable targeted coaching. Automated processing allows 100% call coverage instead of 2-5%.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Evaluates transcripts across 6 QA dimensions
+    - Provides evidence quotes from transcript
+    - Calculates weighted overall score
+    - Identifies top strengths and improvement areas
+    - Flags compliance violations and critical issues
+    - Generates coaching recommendations
+
+    ### QA Dimensions
+    - Greeting and Closing (5% weight)
+    - Problem Resolution (25% weight)
+    - Communication Clarity (20% weight)
+    - Empathy and Handling (20% weight)
+    - Compliance Adherence (15% weight)
+    - Call Effectiveness (15% weight)
+
+    ### Score Interpretation
+    - 90-100: Exceptional (role model performance)
+    - 80-89: Strong (meets/exceeds expectations)
+    - 70-79: Satisfactory (acceptable with minor improvements)
+    - 60-69: Needs Improvement (coaching required)
+    - Below 60: Critical (immediate intervention)
+
+    ### Output Deliverables
+    - Overall score (0-100)
+    - Dimension-level scores with evidence
+    - Top strengths with examples
+    - Improvement areas with guidance
+    - Critical flags for compliance issues
+    - Actionable coaching recommendations
+
+    ### Boundaries
+    - Requires text transcript (not audio files)
+    - Works best with English language calls
+    - Evaluates agent performance (not system issues)
+    - Cannot access external case history or CRM data
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    Export call transcripts from your contact center platform (Nice, Five9, Genesys, etc.)
+
+    ### Your First Run
+    Try this prompt:
+
+    "Score this customer service call:
+
+    Agent: Good morning, thank you for calling TechSupport, my name is Sarah. How can I help you today?
+
+    Customer: Hi Sarah. I'm really frustrated. My internet has been down for three days and nobody has fixed it.
+
+    Agent: I completely understand your frustration, and I apologize for the inconvenience. Three days without internet is unacceptable. Let me look into this right away. Can I have your account number please?
+
+    Customer: It's 12345678.
+
+    Agent: Thank you. I can see the previous tickets. It looks like a technician was scheduled but the appointment was missed. I'm very sorry about that. Let me escalate this and get someone out today. Would afternoon between 2-4pm work for you?
+
+    Customer: Yes, that works.
+
+    Agent: Perfect. I've scheduled a priority technician visit for today between 2-4pm. You'll receive a confirmation text shortly. I've also applied a credit to your account for the three days of outage. Is there anything else I can help you with?
+
+    Customer: No, that's great. Thank you for actually helping.
+
+    Agent: You're very welcome. Thank you for your patience, and I hope we can restore your service today. Have a great day!"
+
+    ### Pro Tips
+    - **Include Full Transcript**: More context enables better scoring
+    - **Add Metadata**: Include agent ID and date for tracking
+    - **Note Context**: Mention if call was escalated or complex
+    - **Batch Processing**: Score multiple calls for trend analysis
+    - **Track Over Time**: Compare scores across weeks for improvement
+
+    ### Example Use Cases
+    - Post-call quality assessment
+    - Agent performance reviews
+    - Compliance monitoring
+    - Training needs identification
+    - Team benchmarking
+    - Customer experience analysis
+
+root_agents:
+  - ../agents/qa-scoring-coordinator.yaml
+ids:
+  blueprint: 7baa4281-5ad9-4c48-9a60-d4ca62c94be6
+  agents:
+    ../agents/qa-scoring-coordinator.yaml: 695bd20f6363be71980ee7e0
+    ../agents/qa-dimensions-analyst.yaml: 695bd20ea45696ac999e2af5

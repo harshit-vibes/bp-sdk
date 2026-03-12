@@ -1,0 +1,22 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Harshit Email Classifier
+  description: Classifies emails for contactingharshit@gmail.com, tags them by 
+    category and priority, and drafts replies for important ones.
+  category: personal
+  tags:
+    - personal
+    - email
+    - productivity
+  visibility: private
+
+root_agents:
+  - agents/email-triage-manager.yaml
+ids:
+  blueprint: 0e8c5caf-1415-4e5c-8756-82fd481e88a0
+  agents:
+    agents/email-triage-manager.yaml: 695cb87cc2dad05ba69ae2d8
+    agents/email-classifier.yaml: 695cb87bc2dad05ba69ae2d7
+    agents/reply-drafter.yaml: 695cb87c457887dd859fbe55

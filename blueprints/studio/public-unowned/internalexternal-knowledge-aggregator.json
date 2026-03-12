@@ -1,0 +1,571 @@
+{
+  "_id": "250f1509-ad01-415f-8315-2e2e5c07e22e",
+  "name": "Internal/External Knowledge Aggregator",
+  "description": "A streamlined McKinsey-style knowledge agent that quickly answers consultant questions by routing them to the right sources. It uses:\n\nInternal Knowledge Agent for proprietary McKinsey frameworks and past cases,\n\nExternal Research Agent for market, competitor, tech, and regulatory intelligence with full clickable links, and\n\nInsights Synthesizer Agent to merge everything into a concise, actionable, McKinsey-tone answer.\n\nThe design eliminates redundant layers, prioritizes speed, and ensures all references include direct links instead of numeric placeholders, so consultants can immediately verify sources.",
+  "orchestration_type": "Manager Agent",
+  "orchestration_name": "Internal/External Knowledge Aggregator",
+  "owner_id": "mem_cm6mdgerd035x0spocm0pblm8",
+  "organization_id": "ec81e1f6-723b-47ff-8bba-2f0eaa080953",
+  "share_type": "public",
+  "shared_with_users": [],
+  "shared_with_organizations": [],
+  "blueprint_data": {
+    "manager_agent_id": "68cc18dc1565500a0b9ef371",
+    "tree_structure": {
+      "nodes": [
+        {
+          "id": "68cc18dc7023f809205cdff0",
+          "position": {
+            "x": -216.42187769861312,
+            "y": 500
+          },
+          "type": "agent",
+          "data": {
+            "_id": "68cc18dc7023f809205cdff0",
+            "api_key": "***REDACTED***",
+            "name": "(R) InternalKnowledgeAgent [Lilli Knowledge Orchestrator]",
+            "description": "Searches McKinsey\u2019s internal knowledge base for frameworks, cases, and playbooks.",
+            "agent_role": "Internal Knowledge",
+            "agent_instructions": "Return concise summaries tied to client context. If citing internal docs, provide the document title and an accessible link or reference ID, not just a number.",
+            "agent_goal": "Provide insights from proprietary IP with citations.",
+            "agent_context": "You are the agent called \"(R) InternalKnowledgeAgent [Lilli Knowledge Orchestrator]\".\nYour role is: Internal Knowledge.\nYour overall goal is: Provide insights from proprietary IP with citations..\nDescription: Searches McKinsey\u2019s internal knowledge base for frameworks, cases, and playbooks..\n\nFollow these instructions:\nReturn concise summaries tied to client context. If citing internal docs, provide the document title and an accessible link or reference ID, not just a number.\n\nAlways stay within your defined role and goal.\nOnly respond in ways that support your manager/role responsibilities.",
+            "agent_output": null,
+            "examples": null,
+            "features": [],
+            "tools": [],
+            "tool_usage_description": null,
+            "response_format": {
+              "type": "json"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o-mini",
+            "top_p": 1,
+            "temperature": 0.6,
+            "managed_agents": [],
+            "tool_configs": null,
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-18T14:36:12.098000",
+            "updated_at": "2025-09-18T14:36:12.098000",
+            "llm_credential_id": "gpt-4o-mini"
+          }
+        },
+        {
+          "id": "68cc18dcb4bc9553df2a7a05",
+          "position": {
+            "x": 183.57812230138688,
+            "y": 500
+          },
+          "type": "agent",
+          "data": {
+            "_id": "68cc18dcb4bc9553df2a7a05",
+            "api_key": "***REDACTED***",
+            "name": "(R) InsightsSynthesizerAgent [Lilli Knowledge Orchestrator]",
+            "description": "Combines internal and external findings into a final synthesis.",
+            "agent_role": "Synthesis & Delivery",
+            "agent_instructions": "Blend results, identify overlaps, and frame next steps in consulting tone. Preserve full links from all source agents so consultants can click through.",
+            "agent_goal": "Deliver a clear, structured answer with themes and actionable takeaways.",
+            "agent_context": "You are the agent called \"(R) InsightsSynthesizerAgent [Lilli Knowledge Orchestrator]\".\nYour role is: Synthesis & Delivery.\nYour overall goal is: Deliver a clear, structured answer with themes and actionable takeaways..\nDescription: Combines internal and external findings into a final synthesis..\n\nFollow these instructions:\nBlend results, identify overlaps, and frame next steps in consulting tone. Preserve full links from all source agents so consultants can click through.\n\nAlways stay within your defined role and goal.\nOnly respond in ways that support your manager/role responsibilities.",
+            "agent_output": null,
+            "examples": null,
+            "features": [],
+            "tools": [],
+            "tool_usage_description": null,
+            "response_format": {
+              "type": "json"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o-mini",
+            "top_p": 1,
+            "temperature": 0.6,
+            "managed_agents": [],
+            "tool_configs": null,
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-18T14:36:12.456000",
+            "updated_at": "2025-09-18T14:36:12.456000",
+            "llm_credential_id": "gpt-4o-mini"
+          }
+        },
+        {
+          "id": "68cc18dcdb8dcfa96f0dfd50",
+          "position": {
+            "x": 583.5781223013869,
+            "y": 500
+          },
+          "type": "agent",
+          "data": {
+            "_id": "68cc18dcdb8dcfa96f0dfd50",
+            "api_key": "***REDACTED***",
+            "name": "(R) ExternalResearchAgent [Lilli Knowledge Orchestrator]",
+            "description": "Uses external search to capture market trends, competitor intel, tech innovation, and regulatory changes.",
+            "agent_role": "External Research",
+            "agent_instructions": "Highlight 3\u20135 key insights with citations. Always include full URLs (not just numbers). For example: 'Oracle Cloud Infrastructure grew 52% [https://www.oracle.com/cloud/infrastructure/earnings-q4-2025]'.",
+            "agent_goal": "Deliver external view of industry, competitors, and environment.",
+            "agent_context": "You are the agent called \"(R) ExternalResearchAgent [Lilli Knowledge Orchestrator]\".\nYour role is: External Research.\nYour overall goal is: Deliver external view of industry, competitors, and environment..\nDescription: Uses external search to capture market trends, competitor intel, tech innovation, and regulatory changes..\n\nFollow these instructions:\nHighlight 3\u20135 key insights with citations. Always include full URLs (not just numbers). For example: 'Oracle Cloud Infrastructure grew 52% [https://www.oracle.com/cloud/infrastructure/earnings-q4-2025]'.\n\nAlways stay within your defined role and goal.\nOnly respond in ways that support your manager/role responsibilities.",
+            "agent_output": null,
+            "examples": null,
+            "features": [],
+            "tools": [],
+            "tool_usage_description": null,
+            "response_format": {
+              "type": "json"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o-mini",
+            "top_p": 1,
+            "temperature": 0.6,
+            "managed_agents": [],
+            "tool_configs": null,
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-18T14:36:12.331000",
+            "updated_at": "2025-09-18T14:36:12.331000",
+            "llm_credential_id": "gpt-4o-mini"
+          }
+        },
+        {
+          "id": "68cc18dc1565500a0b9ef371",
+          "position": {
+            "x": 183.57812230138688,
+            "y": 246.5196016579208
+          },
+          "type": "agent",
+          "data": {
+            "_id": "68cc18dc1565500a0b9ef371",
+            "api_key": "***REDACTED***",
+            "name": "Lilli Knowledge Orchestrator (18SEP2025_07:36AM_PDT)",
+            "description": "Central manager for consultant queries. Quickly routes questions to internal knowledge or external research and merges results.",
+            "agent_role": "Knowledge Manager",
+            "agent_instructions": "Clarify consultant queries. If relevant to McKinsey IP, use the InternalKnowledgeAgent. If external context is needed, use the ExternalResearchAgent. For strategic queries, use both. Always return concise, actionable answers with full clickable links for citations.",
+            "agent_goal": "Understand consultant questions, search the right knowledge sources, and deliver integrated, cited insights fast.",
+            "agent_context": "You are the agent called \"Lilli Knowledge Orchestrator (18SEP2025_07:36AM_PDT)\".\nYour role is: Knowledge Manager.\nYour overall goal is: Understand consultant questions, search the right knowledge sources, and deliver integrated, cited insights fast..\nDescription: Central manager for consultant queries. Quickly routes questions to internal knowledge or external research and merges results..\n\nFollow these instructions:\nClarify consultant queries. If relevant to McKinsey IP, use the InternalKnowledgeAgent. If external context is needed, use the ExternalResearchAgent. For strategic queries, use both. Always return concise, actionable answers with full clickable links for citations.\n\nAlways stay within your defined role and goal.\nOnly respond in ways that support your manager/role responsibilities.",
+            "agent_output": null,
+            "examples": null,
+            "features": [
+              {
+                "type": "MEMORY",
+                "config": {
+                  "max_messages_context_count": 15
+                },
+                "priority": 0
+              }
+            ],
+            "tools": [],
+            "tool_usage_description": null,
+            "response_format": {
+              "type": "json"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o",
+            "top_p": 1,
+            "temperature": 0.7,
+            "managed_agents": [
+              {
+                "id": "68cc18dc7023f809205cdff0",
+                "name": "(R) InternalKnowledgeAgent [Lilli Knowledge Orchestrator]",
+                "usage_description": "The Manager 'Lilli Knowledge Orchestrator' assigns tasks to the role agent '(R) InternalKnowledgeAgent [Lilli Knowledge Orchestrator]'. This agent\u2019s goal is to Provide insights from proprietary IP with citations.. It should operate according to these instructions: Return concise summaries tied to client context. If citing internal docs, provide the document title and an accessible link or reference ID, not just a number."
+              },
+              {
+                "id": "68cc18dcdb8dcfa96f0dfd50",
+                "name": "(R) ExternalResearchAgent [Lilli Knowledge Orchestrator]",
+                "usage_description": "The Manager 'Lilli Knowledge Orchestrator' assigns tasks to the role agent '(R) ExternalResearchAgent [Lilli Knowledge Orchestrator]'. This agent\u2019s goal is to Deliver external view of industry, competitors, and environment.. It should operate according to these instructions: Highlight 3\u20135 key insights with citations. Always include full URLs (not just numbers). For example: 'Oracle Cloud Infrastructure grew 52% [https://www.oracle.com/cloud/infrastructure/earnings-q4-2025]'."
+              },
+              {
+                "id": "68cc18dcb4bc9553df2a7a05",
+                "name": "(R) InsightsSynthesizerAgent [Lilli Knowledge Orchestrator]",
+                "usage_description": "The Manager 'Lilli Knowledge Orchestrator' assigns tasks to the role agent '(R) InsightsSynthesizerAgent [Lilli Knowledge Orchestrator]'. This agent\u2019s goal is to Deliver a clear, structured answer with themes and actionable takeaways.. It should operate according to these instructions: Blend results, identify overlaps, and frame next steps in consulting tone. Preserve full links from all source agents so consultants can click through."
+              }
+            ],
+            "tool_configs": null,
+            "store_messages": true,
+            "version": "3",
+            "created_at": "2025-09-18T14:36:12.596000",
+            "updated_at": "2025-09-18T14:36:12.596000",
+            "llm_credential_id": "gpt-4o"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "68cc18dc1565500a0b9ef371-68cc18dc7023f809205cdff0",
+          "source": "68cc18dc1565500a0b9ef371",
+          "target": "68cc18dc7023f809205cdff0",
+          "label": "The Manager 'Lilli Knowledge Orchestrator' assigns tasks to the role agent '(R) InternalKnowledgeAgent [Lilli Knowledge Orchestrator]'. This agent\u2019s goal is to Provide insights from proprietary IP with citations.. It should operate according to these instructions: Return concise summaries tied to client context. If citing internal docs, provide the document title and an accessible link or reference ID, not just a number."
+        },
+        {
+          "id": "68cc18dc1565500a0b9ef371-68cc18dcb4bc9553df2a7a05",
+          "source": "68cc18dc1565500a0b9ef371",
+          "target": "68cc18dcb4bc9553df2a7a05",
+          "label": "The Manager 'Lilli Knowledge Orchestrator' assigns tasks to the role agent '(R) InsightsSynthesizerAgent [Lilli Knowledge Orchestrator]'. This agent\u2019s goal is to Deliver a clear, structured answer with themes and actionable takeaways.. It should operate according to these instructions: Blend results, identify overlaps, and frame next steps in consulting tone. Preserve full links from all source agents so consultants can click through."
+        },
+        {
+          "id": "68cc18dc1565500a0b9ef371-68cc18dcdb8dcfa96f0dfd50",
+          "source": "68cc18dc1565500a0b9ef371",
+          "target": "68cc18dcdb8dcfa96f0dfd50",
+          "label": "The Manager 'Lilli Knowledge Orchestrator' assigns tasks to the role agent '(R) ExternalResearchAgent [Lilli Knowledge Orchestrator]'. This agent\u2019s goal is to Deliver external view of industry, competitors, and environment.. It should operate according to these instructions: Highlight 3\u20135 key insights with citations. Always include full URLs (not just numbers). For example: 'Oracle Cloud Infrastructure grew 52% [https://www.oracle.com/cloud/infrastructure/earnings-q4-2025]'."
+        }
+      ]
+    },
+    "nodes": [
+      {
+        "id": "68cc18dc7023f809205cdff0",
+        "position": {
+          "x": -216.42187769861312,
+          "y": 500
+        },
+        "type": "agent",
+        "data": {
+          "_id": "68cc18dc7023f809205cdff0",
+          "api_key": "***REDACTED***",
+          "name": "(R) InternalKnowledgeAgent [Lilli Knowledge Orchestrator]",
+          "description": "Searches McKinsey\u2019s internal knowledge base for frameworks, cases, and playbooks.",
+          "agent_role": "Internal Knowledge",
+          "agent_instructions": "Return concise summaries tied to client context. If citing internal docs, provide the document title and an accessible link or reference ID, not just a number.",
+          "agent_goal": "Provide insights from proprietary IP with citations.",
+          "agent_context": "You are the agent called \"(R) InternalKnowledgeAgent [Lilli Knowledge Orchestrator]\".\nYour role is: Internal Knowledge.\nYour overall goal is: Provide insights from proprietary IP with citations..\nDescription: Searches McKinsey\u2019s internal knowledge base for frameworks, cases, and playbooks..\n\nFollow these instructions:\nReturn concise summaries tied to client context. If citing internal docs, provide the document title and an accessible link or reference ID, not just a number.\n\nAlways stay within your defined role and goal.\nOnly respond in ways that support your manager/role responsibilities.",
+          "agent_output": null,
+          "examples": null,
+          "features": [],
+          "tools": [],
+          "tool_usage_description": null,
+          "response_format": {
+            "type": "json"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o-mini",
+          "top_p": 1,
+          "temperature": 0.6,
+          "managed_agents": [],
+          "tool_configs": null,
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-18T14:36:12.098000",
+          "updated_at": "2025-09-18T14:36:12.098000",
+          "llm_credential_id": "gpt-4o-mini"
+        }
+      },
+      {
+        "id": "68cc18dcb4bc9553df2a7a05",
+        "position": {
+          "x": 183.57812230138688,
+          "y": 500
+        },
+        "type": "agent",
+        "data": {
+          "_id": "68cc18dcb4bc9553df2a7a05",
+          "api_key": "***REDACTED***",
+          "name": "(R) InsightsSynthesizerAgent [Lilli Knowledge Orchestrator]",
+          "description": "Combines internal and external findings into a final synthesis.",
+          "agent_role": "Synthesis & Delivery",
+          "agent_instructions": "Blend results, identify overlaps, and frame next steps in consulting tone. Preserve full links from all source agents so consultants can click through.",
+          "agent_goal": "Deliver a clear, structured answer with themes and actionable takeaways.",
+          "agent_context": "You are the agent called \"(R) InsightsSynthesizerAgent [Lilli Knowledge Orchestrator]\".\nYour role is: Synthesis & Delivery.\nYour overall goal is: Deliver a clear, structured answer with themes and actionable takeaways..\nDescription: Combines internal and external findings into a final synthesis..\n\nFollow these instructions:\nBlend results, identify overlaps, and frame next steps in consulting tone. Preserve full links from all source agents so consultants can click through.\n\nAlways stay within your defined role and goal.\nOnly respond in ways that support your manager/role responsibilities.",
+          "agent_output": null,
+          "examples": null,
+          "features": [],
+          "tools": [],
+          "tool_usage_description": null,
+          "response_format": {
+            "type": "json"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o-mini",
+          "top_p": 1,
+          "temperature": 0.6,
+          "managed_agents": [],
+          "tool_configs": null,
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-18T14:36:12.456000",
+          "updated_at": "2025-09-18T14:36:12.456000",
+          "llm_credential_id": "gpt-4o-mini"
+        }
+      },
+      {
+        "id": "68cc18dcdb8dcfa96f0dfd50",
+        "position": {
+          "x": 583.5781223013869,
+          "y": 500
+        },
+        "type": "agent",
+        "data": {
+          "_id": "68cc18dcdb8dcfa96f0dfd50",
+          "api_key": "***REDACTED***",
+          "name": "(R) ExternalResearchAgent [Lilli Knowledge Orchestrator]",
+          "description": "Uses external search to capture market trends, competitor intel, tech innovation, and regulatory changes.",
+          "agent_role": "External Research",
+          "agent_instructions": "Highlight 3\u20135 key insights with citations. Always include full URLs (not just numbers). For example: 'Oracle Cloud Infrastructure grew 52% [https://www.oracle.com/cloud/infrastructure/earnings-q4-2025]'.",
+          "agent_goal": "Deliver external view of industry, competitors, and environment.",
+          "agent_context": "You are the agent called \"(R) ExternalResearchAgent [Lilli Knowledge Orchestrator]\".\nYour role is: External Research.\nYour overall goal is: Deliver external view of industry, competitors, and environment..\nDescription: Uses external search to capture market trends, competitor intel, tech innovation, and regulatory changes..\n\nFollow these instructions:\nHighlight 3\u20135 key insights with citations. Always include full URLs (not just numbers). For example: 'Oracle Cloud Infrastructure grew 52% [https://www.oracle.com/cloud/infrastructure/earnings-q4-2025]'.\n\nAlways stay within your defined role and goal.\nOnly respond in ways that support your manager/role responsibilities.",
+          "agent_output": null,
+          "examples": null,
+          "features": [],
+          "tools": [],
+          "tool_usage_description": null,
+          "response_format": {
+            "type": "json"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o-mini",
+          "top_p": 1,
+          "temperature": 0.6,
+          "managed_agents": [],
+          "tool_configs": null,
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-18T14:36:12.331000",
+          "updated_at": "2025-09-18T14:36:12.331000",
+          "llm_credential_id": "gpt-4o-mini"
+        }
+      },
+      {
+        "id": "68cc18dc1565500a0b9ef371",
+        "position": {
+          "x": 183.57812230138688,
+          "y": 246.5196016579208
+        },
+        "type": "agent",
+        "data": {
+          "_id": "68cc18dc1565500a0b9ef371",
+          "api_key": "***REDACTED***",
+          "name": "Lilli Knowledge Orchestrator (18SEP2025_07:36AM_PDT)",
+          "description": "Central manager for consultant queries. Quickly routes questions to internal knowledge or external research and merges results.",
+          "agent_role": "Knowledge Manager",
+          "agent_instructions": "Clarify consultant queries. If relevant to McKinsey IP, use the InternalKnowledgeAgent. If external context is needed, use the ExternalResearchAgent. For strategic queries, use both. Always return concise, actionable answers with full clickable links for citations.",
+          "agent_goal": "Understand consultant questions, search the right knowledge sources, and deliver integrated, cited insights fast.",
+          "agent_context": "You are the agent called \"Lilli Knowledge Orchestrator (18SEP2025_07:36AM_PDT)\".\nYour role is: Knowledge Manager.\nYour overall goal is: Understand consultant questions, search the right knowledge sources, and deliver integrated, cited insights fast..\nDescription: Central manager for consultant queries. Quickly routes questions to internal knowledge or external research and merges results..\n\nFollow these instructions:\nClarify consultant queries. If relevant to McKinsey IP, use the InternalKnowledgeAgent. If external context is needed, use the ExternalResearchAgent. For strategic queries, use both. Always return concise, actionable answers with full clickable links for citations.\n\nAlways stay within your defined role and goal.\nOnly respond in ways that support your manager/role responsibilities.",
+          "agent_output": null,
+          "examples": null,
+          "features": [
+            {
+              "type": "MEMORY",
+              "config": {
+                "max_messages_context_count": 15
+              },
+              "priority": 0
+            }
+          ],
+          "tools": [],
+          "tool_usage_description": null,
+          "response_format": {
+            "type": "json"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o",
+          "top_p": 1,
+          "temperature": 0.7,
+          "managed_agents": [
+            {
+              "id": "68cc18dc7023f809205cdff0",
+              "name": "(R) InternalKnowledgeAgent [Lilli Knowledge Orchestrator]",
+              "usage_description": "The Manager 'Lilli Knowledge Orchestrator' assigns tasks to the role agent '(R) InternalKnowledgeAgent [Lilli Knowledge Orchestrator]'. This agent\u2019s goal is to Provide insights from proprietary IP with citations.. It should operate according to these instructions: Return concise summaries tied to client context. If citing internal docs, provide the document title and an accessible link or reference ID, not just a number."
+            },
+            {
+              "id": "68cc18dcdb8dcfa96f0dfd50",
+              "name": "(R) ExternalResearchAgent [Lilli Knowledge Orchestrator]",
+              "usage_description": "The Manager 'Lilli Knowledge Orchestrator' assigns tasks to the role agent '(R) ExternalResearchAgent [Lilli Knowledge Orchestrator]'. This agent\u2019s goal is to Deliver external view of industry, competitors, and environment.. It should operate according to these instructions: Highlight 3\u20135 key insights with citations. Always include full URLs (not just numbers). For example: 'Oracle Cloud Infrastructure grew 52% [https://www.oracle.com/cloud/infrastructure/earnings-q4-2025]'."
+            },
+            {
+              "id": "68cc18dcb4bc9553df2a7a05",
+              "name": "(R) InsightsSynthesizerAgent [Lilli Knowledge Orchestrator]",
+              "usage_description": "The Manager 'Lilli Knowledge Orchestrator' assigns tasks to the role agent '(R) InsightsSynthesizerAgent [Lilli Knowledge Orchestrator]'. This agent\u2019s goal is to Deliver a clear, structured answer with themes and actionable takeaways.. It should operate according to these instructions: Blend results, identify overlaps, and frame next steps in consulting tone. Preserve full links from all source agents so consultants can click through."
+            }
+          ],
+          "tool_configs": null,
+          "store_messages": true,
+          "version": "3",
+          "created_at": "2025-09-18T14:36:12.596000",
+          "updated_at": "2025-09-18T14:36:12.596000",
+          "llm_credential_id": "gpt-4o"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "68cc18dc1565500a0b9ef371-68cc18dc7023f809205cdff0",
+        "source": "68cc18dc1565500a0b9ef371",
+        "target": "68cc18dc7023f809205cdff0",
+        "label": "The Manager 'Lilli Knowledge Orchestrator' assigns tasks to the role agent '(R) InternalKnowledgeAgent [Lilli Knowledge Orchestrator]'. This agent\u2019s goal is to Provide insights from proprietary IP with citations.. It should operate according to these instructions: Return concise summaries tied to client context. If citing internal docs, provide the document title and an accessible link or reference ID, not just a number."
+      },
+      {
+        "id": "68cc18dc1565500a0b9ef371-68cc18dcb4bc9553df2a7a05",
+        "source": "68cc18dc1565500a0b9ef371",
+        "target": "68cc18dcb4bc9553df2a7a05",
+        "label": "The Manager 'Lilli Knowledge Orchestrator' assigns tasks to the role agent '(R) InsightsSynthesizerAgent [Lilli Knowledge Orchestrator]'. This agent\u2019s goal is to Deliver a clear, structured answer with themes and actionable takeaways.. It should operate according to these instructions: Blend results, identify overlaps, and frame next steps in consulting tone. Preserve full links from all source agents so consultants can click through."
+      },
+      {
+        "id": "68cc18dc1565500a0b9ef371-68cc18dcdb8dcfa96f0dfd50",
+        "source": "68cc18dc1565500a0b9ef371",
+        "target": "68cc18dcdb8dcfa96f0dfd50",
+        "label": "The Manager 'Lilli Knowledge Orchestrator' assigns tasks to the role agent '(R) ExternalResearchAgent [Lilli Knowledge Orchestrator]'. This agent\u2019s goal is to Deliver external view of industry, competitors, and environment.. It should operate according to these instructions: Highlight 3\u20135 key insights with citations. Always include full URLs (not just numbers). For example: 'Oracle Cloud Infrastructure grew 52% [https://www.oracle.com/cloud/infrastructure/earnings-q4-2025]'."
+      }
+    ],
+    "agents": {
+      "68cc18dc7023f809205cdff0": {
+        "_id": "68cc18dc7023f809205cdff0",
+        "api_key": "***REDACTED***",
+        "name": "(R) InternalKnowledgeAgent [Lilli Knowledge Orchestrator]",
+        "description": "Searches McKinsey\u2019s internal knowledge base for frameworks, cases, and playbooks.",
+        "agent_role": "Internal Knowledge",
+        "agent_instructions": "Return concise summaries tied to client context. If citing internal docs, provide the document title and an accessible link or reference ID, not just a number.",
+        "agent_goal": "Provide insights from proprietary IP with citations.",
+        "agent_context": "You are the agent called \"(R) InternalKnowledgeAgent [Lilli Knowledge Orchestrator]\".\nYour role is: Internal Knowledge.\nYour overall goal is: Provide insights from proprietary IP with citations..\nDescription: Searches McKinsey\u2019s internal knowledge base for frameworks, cases, and playbooks..\n\nFollow these instructions:\nReturn concise summaries tied to client context. If citing internal docs, provide the document title and an accessible link or reference ID, not just a number.\n\nAlways stay within your defined role and goal.\nOnly respond in ways that support your manager/role responsibilities.",
+        "agent_output": null,
+        "examples": null,
+        "features": [],
+        "tools": [],
+        "tool_usage_description": null,
+        "response_format": {
+          "type": "json"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o-mini",
+        "top_p": 1,
+        "temperature": 0.6,
+        "managed_agents": [],
+        "tool_configs": null,
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-18T14:36:12.098000",
+        "updated_at": "2025-09-18T14:36:12.098000",
+        "llm_credential_id": "gpt-4o-mini"
+      },
+      "68cc18dcb4bc9553df2a7a05": {
+        "_id": "68cc18dcb4bc9553df2a7a05",
+        "api_key": "***REDACTED***",
+        "name": "(R) InsightsSynthesizerAgent [Lilli Knowledge Orchestrator]",
+        "description": "Combines internal and external findings into a final synthesis.",
+        "agent_role": "Synthesis & Delivery",
+        "agent_instructions": "Blend results, identify overlaps, and frame next steps in consulting tone. Preserve full links from all source agents so consultants can click through.",
+        "agent_goal": "Deliver a clear, structured answer with themes and actionable takeaways.",
+        "agent_context": "You are the agent called \"(R) InsightsSynthesizerAgent [Lilli Knowledge Orchestrator]\".\nYour role is: Synthesis & Delivery.\nYour overall goal is: Deliver a clear, structured answer with themes and actionable takeaways..\nDescription: Combines internal and external findings into a final synthesis..\n\nFollow these instructions:\nBlend results, identify overlaps, and frame next steps in consulting tone. Preserve full links from all source agents so consultants can click through.\n\nAlways stay within your defined role and goal.\nOnly respond in ways that support your manager/role responsibilities.",
+        "agent_output": null,
+        "examples": null,
+        "features": [],
+        "tools": [],
+        "tool_usage_description": null,
+        "response_format": {
+          "type": "json"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o-mini",
+        "top_p": 1,
+        "temperature": 0.6,
+        "managed_agents": [],
+        "tool_configs": null,
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-18T14:36:12.456000",
+        "updated_at": "2025-09-18T14:36:12.456000",
+        "llm_credential_id": "gpt-4o-mini"
+      },
+      "68cc18dcdb8dcfa96f0dfd50": {
+        "_id": "68cc18dcdb8dcfa96f0dfd50",
+        "api_key": "***REDACTED***",
+        "name": "(R) ExternalResearchAgent [Lilli Knowledge Orchestrator]",
+        "description": "Uses external search to capture market trends, competitor intel, tech innovation, and regulatory changes.",
+        "agent_role": "External Research",
+        "agent_instructions": "Highlight 3\u20135 key insights with citations. Always include full URLs (not just numbers). For example: 'Oracle Cloud Infrastructure grew 52% [https://www.oracle.com/cloud/infrastructure/earnings-q4-2025]'.",
+        "agent_goal": "Deliver external view of industry, competitors, and environment.",
+        "agent_context": "You are the agent called \"(R) ExternalResearchAgent [Lilli Knowledge Orchestrator]\".\nYour role is: External Research.\nYour overall goal is: Deliver external view of industry, competitors, and environment..\nDescription: Uses external search to capture market trends, competitor intel, tech innovation, and regulatory changes..\n\nFollow these instructions:\nHighlight 3\u20135 key insights with citations. Always include full URLs (not just numbers). For example: 'Oracle Cloud Infrastructure grew 52% [https://www.oracle.com/cloud/infrastructure/earnings-q4-2025]'.\n\nAlways stay within your defined role and goal.\nOnly respond in ways that support your manager/role responsibilities.",
+        "agent_output": null,
+        "examples": null,
+        "features": [],
+        "tools": [],
+        "tool_usage_description": null,
+        "response_format": {
+          "type": "json"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o-mini",
+        "top_p": 1,
+        "temperature": 0.6,
+        "managed_agents": [],
+        "tool_configs": null,
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-18T14:36:12.331000",
+        "updated_at": "2025-09-18T14:36:12.331000",
+        "llm_credential_id": "gpt-4o-mini"
+      },
+      "68cc18dc1565500a0b9ef371": {
+        "_id": "68cc18dc1565500a0b9ef371",
+        "api_key": "***REDACTED***",
+        "name": "Lilli Knowledge Orchestrator (18SEP2025_07:36AM_PDT)",
+        "description": "Central manager for consultant queries. Quickly routes questions to internal knowledge or external research and merges results.",
+        "agent_role": "Knowledge Manager",
+        "agent_instructions": "Clarify consultant queries. If relevant to McKinsey IP, use the InternalKnowledgeAgent. If external context is needed, use the ExternalResearchAgent. For strategic queries, use both. Always return concise, actionable answers with full clickable links for citations.",
+        "agent_goal": "Understand consultant questions, search the right knowledge sources, and deliver integrated, cited insights fast.",
+        "agent_context": "You are the agent called \"Lilli Knowledge Orchestrator (18SEP2025_07:36AM_PDT)\".\nYour role is: Knowledge Manager.\nYour overall goal is: Understand consultant questions, search the right knowledge sources, and deliver integrated, cited insights fast..\nDescription: Central manager for consultant queries. Quickly routes questions to internal knowledge or external research and merges results..\n\nFollow these instructions:\nClarify consultant queries. If relevant to McKinsey IP, use the InternalKnowledgeAgent. If external context is needed, use the ExternalResearchAgent. For strategic queries, use both. Always return concise, actionable answers with full clickable links for citations.\n\nAlways stay within your defined role and goal.\nOnly respond in ways that support your manager/role responsibilities.",
+        "agent_output": null,
+        "examples": null,
+        "features": [
+          {
+            "type": "MEMORY",
+            "config": {
+              "max_messages_context_count": 15
+            },
+            "priority": 0
+          }
+        ],
+        "tools": [],
+        "tool_usage_description": null,
+        "response_format": {
+          "type": "json"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o",
+        "top_p": 1,
+        "temperature": 0.7,
+        "managed_agents": [
+          {
+            "id": "68cc18dc7023f809205cdff0",
+            "name": "(R) InternalKnowledgeAgent [Lilli Knowledge Orchestrator]",
+            "usage_description": "The Manager 'Lilli Knowledge Orchestrator' assigns tasks to the role agent '(R) InternalKnowledgeAgent [Lilli Knowledge Orchestrator]'. This agent\u2019s goal is to Provide insights from proprietary IP with citations.. It should operate according to these instructions: Return concise summaries tied to client context. If citing internal docs, provide the document title and an accessible link or reference ID, not just a number."
+          },
+          {
+            "id": "68cc18dcdb8dcfa96f0dfd50",
+            "name": "(R) ExternalResearchAgent [Lilli Knowledge Orchestrator]",
+            "usage_description": "The Manager 'Lilli Knowledge Orchestrator' assigns tasks to the role agent '(R) ExternalResearchAgent [Lilli Knowledge Orchestrator]'. This agent\u2019s goal is to Deliver external view of industry, competitors, and environment.. It should operate according to these instructions: Highlight 3\u20135 key insights with citations. Always include full URLs (not just numbers). For example: 'Oracle Cloud Infrastructure grew 52% [https://www.oracle.com/cloud/infrastructure/earnings-q4-2025]'."
+          },
+          {
+            "id": "68cc18dcb4bc9553df2a7a05",
+            "name": "(R) InsightsSynthesizerAgent [Lilli Knowledge Orchestrator]",
+            "usage_description": "The Manager 'Lilli Knowledge Orchestrator' assigns tasks to the role agent '(R) InsightsSynthesizerAgent [Lilli Knowledge Orchestrator]'. This agent\u2019s goal is to Deliver a clear, structured answer with themes and actionable takeaways.. It should operate according to these instructions: Blend results, identify overlaps, and frame next steps in consulting tone. Preserve full links from all source agents so consultants can click through."
+          }
+        ],
+        "tool_configs": null,
+        "store_messages": true,
+        "version": "3",
+        "created_at": "2025-09-18T14:36:12.596000",
+        "updated_at": "2025-09-18T14:36:12.596000",
+        "llm_credential_id": "gpt-4o"
+      }
+    }
+  },
+  "blueprint_info": {
+    "documentation_data": {
+      "markdown": "# Lilli Knowledge Orchestrator (Simplified)\n\n## Overview\n\n# \n\nThe **Lilli Knowledge Orchestrator** is a streamlined McKinsey-style knowledge agent built to give consultants **fast, actionable, and fully cited insights**.\n\nUnlike heavier multi-layered orchestrators, this version uses **three core roles** to cut latency while maintaining depth:\n\n- \nInternal Knowledge\n\n- \nExternal Research\n\n- \nInsights Synthesis\n\nAll outputs include **full clickable links** instead of numeric placeholders, ensuring consultants can immediately verify and explore sources.\n\n## Key Features\n\n# \n\n- \n\ud83d\udd0d **Internal Knowledge Agent**\n\nAccesses McKinsey\u2019s proprietary cases, frameworks, and playbooks.\n\n- \n\ud83c\udf10 **External Research Agent**\n\nCaptures market trends, competitor moves, regulatory updates, and emerging technologies from trusted sources. Always provides **direct URLs**.\n\n- \n\ud83e\udde9 **Insights Synthesizer Agent**\n\nMerges internal and external findings into clear, structured takeaways with actionable next steps in a professional consulting tone.\n\n- \n\u26a1 **Speed-Optimized**\n\nOnly three roles, reducing orchestration overhead while preserving quality.\n\n- \n\ud83d\udd17 **Cited with Links**\n\nAll references appear as full clickable links (Markdown or APA-style) for immediate traceability.\n\n## How It Works\n\n# \n\n1. \n**Consultant asks a question**\n\n\u2192 Manager clarifies intent and routes to the right roles.\n\n2. \n**Relevant roles engage**\n\n- \nInternal Knowledge Agent for proprietary IP.\n\n- \nExternal Research Agent for public sources.\n\n3. \n**Insights Synthesizer Agent delivers**\n\n\u2192 Final structured answer with themes, takeaways, and **direct links**.\n\n## Example Query\n\n# \n**Question:** *\u201cWhat are Oracle\u2019s prospects for Q4 2025?\u201d*\n\n**Answer (simplified):**\n\nOracle posted **11% YoY growth**, with revenues reaching **$15.9B**. Cloud services rose **14% to $11.7B**, led by **OCI\u2019s 52% surge to $3B**, reflecting strong AI and multicloud demand.\n\nKey sources:\n\n- \n[Oracle Q4 2025 Earnings Release](https://www.oracle.com/earnings/q4-2025/)\n\n- \n[Financial Times \u2013 Oracle Cloud Growth](#)\n\n- \n[Bloomberg \u2013 OCI Expansion](#)\n\n## Benefits\n\n# \n\n- \n**Faster answers** than the original Lilli.\n\n- \n**Integrated internal + external view**.\n\n- \n**Clickable sources for transparency**.\n\n- \n**McKinsey-style synthesis** in every response."
+    },
+    "type": "markdown"
+  },
+  "version": "1.0.0",
+  "tags": [],
+  "category": "general",
+  "status": "draft",
+  "is_template": false,
+  "parent_blueprint_id": null,
+  "usage_count": 0,
+  "last_used_at": null,
+  "created_at": "2025-09-18T14:42:58.456000",
+  "updated_at": "2025-09-18T14:42:58.456000",
+  "published_at": null,
+  "is_owner": false,
+  "can_edit": false,
+  "can_share": false,
+  "can_delete": false,
+  "owner_name": null,
+  "owner_email": null,
+  "organization_name": null
+}

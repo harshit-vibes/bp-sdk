@@ -1,0 +1,125 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Pipeline Revenue Forecast Generator
+  description: Generates revenue forecasts from sales pipeline data by analyzing
+    deal health, calculating time-based projections, identifying risks, and 
+    providing actionable recommendations to improve forecast accuracy.
+  category: sales
+  tags:
+    - sales
+    - forecast
+    - pipeline
+    - revenue
+    - analytics
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Sales leaders need accurate revenue forecasts to make business decisions. They have pipeline data with deal amounts, stages, and close dates. But raw pipeline numbers rarely reflect what will actually close.
+
+    ### The Challenge
+    Pipeline data is inherently optimistic. Sales reps set aggressive close dates, overestimate probabilities, and deals slip without warning. Turning pipeline into a reliable forecast requires analyzing deal health, adjusting probabilities, and identifying risks - a time-consuming manual process.
+
+    ### What's At Stake
+    Inaccurate forecasts lead to bad decisions: missed hiring windows, inventory problems, cash flow surprises. Over-forecasting damages credibility with the board. Under-forecasting leaves money on the table.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    A reliable forecast requires three distinct analyses: assessing whether individual deals are on track, calculating what the numbers actually project, and identifying patterns that threaten the forecast. These are complementary but separate tasks.
+
+    ### The Method
+    A Forecast Orchestrator coordinates three specialists:
+
+    1. **Deal Health Analyst**: Scores each opportunity on stage appropriateness, activity patterns, close date realism, and probability alignment to produce adjusted win probabilities
+    2. **Revenue Calculator**: Applies weighted probability methodology to compute best case, most likely, and worst case scenarios by time period
+    3. **Risk Assessor**: Identifies patterns like concentration risk, slipping deals, and pipeline gaps that threaten forecast accuracy
+
+    ### Why This Works
+    Each specialist focuses on their expertise. The Deal Health Analyst prevents optimistic probabilities from inflating projections. The Revenue Calculator provides the math. The Risk Assessor catches systemic issues individual deal analysis might miss. The Orchestrator synthesizes everything into actionable forecast intelligence.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Individual deal health scoring (0-100)
+    - Probability adjustment recommendations
+    - Time-period revenue projections (monthly/quarterly)
+    - Best case / most likely / worst case scenarios
+    - Concentration risk analysis
+    - Slipping deal identification
+    - Pipeline coverage assessment
+    - Actionable mitigation recommendations
+
+    ### Deal Health Indicators
+    - Stage appropriateness vs. days in stage
+    - Activity recency (active, slowing, stalled, at risk)
+    - Close date realism given current stage
+    - Probability alignment with observed behavior
+
+    ### Forecast Scenarios
+    - Best Case: All deals close at stated value
+    - Most Likely: Probability-weighted projections
+    - Worst Case: Additional 30% risk haircut
+
+    ### Risk Categories Detected
+    - Slipping deals (close dates pushed repeatedly)
+    - Concentration risk (few deals dominate forecast)
+    - Pipeline coverage gaps (insufficient pipeline for targets)
+    - Stage distribution issues (inverted funnel)
+    - Activity health problems (stalled key deals)
+
+    ### Boundaries
+    - Analyzes provided pipeline data (no CRM integration)
+    - Provides forecast analysis (does not update CRM)
+    - Assumes standard sales stages (discovery, qualification, proposal, negotiation, closed)
+    - Works best with 10-100 deals
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    None - works out of the box.
+
+    ### Your First Run
+    Try this prompt:
+
+    "Generate a quarterly forecast for this pipeline:
+
+    1. Acme Corp: $150,000, Negotiation stage, 75% probability, closes Jan 31, last activity 3 days ago, 10 days in stage
+    2. TechStart Inc: $80,000, Proposal stage, 50% probability, closes Feb 15, last activity 12 days ago, 25 days in stage
+    3. GlobalBank: $300,000, Discovery stage, 25% probability, closes Jan 31, last activity 5 days ago, 45 days in stage
+    4. RetailMax: $45,000, Qualification stage, 40% probability, closes Mar 10, last activity 20 days ago, 30 days in stage
+    5. HealthCo: $200,000, Negotiation stage, 80% probability, closes Feb 28, last activity 1 day ago, 5 days in stage"
+
+    ### Pro Tips
+    - **Include Days in Stage**: Critical for health assessment
+    - **Add Last Activity Date**: Enables stall detection
+    - **Note Historical Slips**: If deals have pushed before, mention it
+    - **Provide Context**: Sales cycle length, average deal size help calibrate
+    - **Regular Updates**: Run weekly for trend analysis
+
+    ### Example Use Cases
+    - Weekly forecast review preparation
+    - Monthly business review forecast
+    - Quarterly planning forecast
+    - Board meeting forecast preparation
+    - Pipeline review prioritization
+    - Sales team coaching (deal health)
+
+root_agents:
+  - ../agents/forecast-orchestrator.yaml
+ids:
+  blueprint: b0cf6be5-9360-4c4c-bfe8-46a22c9fe815
+  agents:
+    ../agents/forecast-orchestrator.yaml: 695bd7b96363be71980ee872
+    ../agents/deal-health-analyst.yaml: 695bd7b3a45696ac999e2be8
+    ../agents/revenue-calculator.yaml: 695bd7b46363be71980ee871
+    ../agents/risk-assessor.yaml: 695bd7b6a45696ac999e2be9

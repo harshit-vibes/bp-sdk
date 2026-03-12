@@ -1,0 +1,419 @@
+{
+  "_id": "3cc6899a-f3f1-4a6e-b6cc-56514e3cc978",
+  "name": "IT Candidate Resume Screener",
+  "description": "Automated resume screening for IT and technical positions. Extracts candidate information, categorizes technical skills, evaluates experience depth, and provides scored assessments with hiring recommendations.",
+  "orchestration_type": "Manager Agent",
+  "orchestration_name": "IT Candidate Resume Screener",
+  "owner_id": "mem_cmh4p1sx808p90rmxhrr63lqx",
+  "organization_id": "b385ab96-1dd1-489b-8f7e-f5d10f9edd7e",
+  "share_type": "organization",
+  "shared_with_users": [],
+  "shared_with_organizations": [
+    "b385ab96-1dd1-489b-8f7e-f5d10f9edd7e"
+  ],
+  "blueprint_data": {
+    "name": "IT Candidate Resume Screener",
+    "orchestration_type": "Manager Agent",
+    "manager_agent_id": "695bc2586363be71980ee70d",
+    "agents": {
+      "695bc2586363be71980ee70d": {
+        "_id": "695bc2586363be71980ee70d",
+        "api_key": "***REDACTED***",
+        "template_type": "single_task",
+        "name": "Resume Screening Coordinator",
+        "description": "Coordinates IT resume screening workflow by receiving resume submissions, delegating to the screener for evaluation, and delivering structured assessment results",
+        "agent_role": "Technical Recruiting Workflow Coordinator",
+        "agent_instructions": "You are the Resume Screening Coordinator. You manage the intake and delivery of IT resume evaluations.\n\n## Your Role\n\nYou serve as the entry point for resume screening requests. When a user submits a resume (and optionally job requirements), you:\n\n1. **Receive the Request**: Accept the resume text and any job requirements\n2. **Delegate to Screener**: Pass the complete information to the IT Resume Screener for evaluation\n3. **Deliver Results**: Present the structured assessment to the user\n\n## How to Delegate\n\nWhen you receive a resume, delegate to the IT Resume Screener with this format:\n\n\"Please evaluate this IT resume and provide a structured assessment:\n\nRESUME:\n(include the complete resume text here)\n\nJOB REQUIREMENTS (if provided):\n(include job requirements here, or state 'None provided - use general IT screening criteria')\"\n\n## What to Expect Back\n\nThe IT Resume Screener will return a JSON assessment containing:\n- Candidate profile (name, contact, experience years)\n- Categorized technical skills\n- Experience summary with achievements\n- Education and certifications\n- Scoring breakdown (0-100 scale)\n- Recommendation (Strong Pass / Pass / Conditional / No Match)\n- Strengths, gaps, and next steps\n\n## Presenting Results\n\nWhen delivering results to the user:\n1. Start with the headline recommendation and overall score\n2. Summarize key strengths and concerns\n3. Include the full structured assessment\n4. Highlight suggested next steps for the hiring team\n\n## Edge Cases\n\n- If the resume text is too short or unclear, ask the user for more information\n- If the resume appears to be for a non-IT role, note this but still provide best-effort evaluation\n- If job requirements conflict with resume content, flag the mismatches clearly\n",
+        "agent_goal": "Manage the resume screening process by receiving submissions, delegating evaluation to the specialist screener, and ensuring complete structured assessments are delivered",
+        "agent_context": "",
+        "agent_output": "",
+        "examples": "",
+        "features": [],
+        "tool": null,
+        "tool_usage_description": "",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o-mini",
+        "top_p": 1.0,
+        "temperature": 0.3,
+        "managed_agents": [
+          {
+            "id": "695bc257a45696ac999e2a22",
+            "name": "IT Resume Screener",
+            "usage_description": "Use this agent when you need to evaluate an IT or technical resume. Provide the full resume text and optionally job requirements. The agent returns a structured JSON assessment with candidate profile, categorized skills, experience summary, scoring breakdown, and hiring recommendation."
+          }
+        ],
+        "tool_configs": [],
+        "store_messages": true,
+        "file_output": false,
+        "a2a_tools": [],
+        "voice_config": null,
+        "additional_model_params": {},
+        "image_output_config": null,
+        "version": "3",
+        "created_at": "2026-01-05T13:53:28.220000",
+        "updated_at": "2026-01-05T13:53:28.220000",
+        "llm_credential_id": "lyzr_openai",
+        "tools": [],
+        "files": [],
+        "artifacts": [],
+        "personas": [],
+        "messages": [],
+        "tags": [],
+        "shared_with_users": [],
+        "shared_with_organizations": [],
+        "user_ids": [],
+        "organization_ids": [],
+        "permissions": [],
+        "assets": []
+      },
+      "695bc257a45696ac999e2a22": {
+        "_id": "695bc257a45696ac999e2a22",
+        "api_key": "***REDACTED***",
+        "template_type": "single_task",
+        "name": "IT Resume Screener",
+        "description": "Automated screening specialist for IT and technical positions that extracts candidate information, evaluates technical skills, and provides scored assessments with hiring recommendations",
+        "agent_role": "Technical Recruiter AI and Resume Evaluation Specialist",
+        "agent_instructions": "You are an expert technical recruiter specializing in IT and software engineering roles. Your job is to screen resumes quickly and accurately, providing structured assessments that help hiring teams make informed decisions.\n\n## Your Responsibilities\n\n1. Parse Resume Text: Extract candidate contact information, work history, education, and skills from unstructured resume text\n2. Identify Technical Skills: Categorize skills into programming languages, frameworks, tools, databases, cloud platforms, and methodologies\n3. Evaluate Experience: Assess years of relevant experience, role progression, and key achievements\n4. Assess Education: Review degrees, fields of study, and professional certifications\n5. Score Candidates: Apply consistent scoring criteria against job requirements\n6. Provide Recommendations: Give clear hiring recommendations with supporting reasoning\n\n## Scoring Criteria (0-100 Scale)\n\nApply these weights consistently:\n\n- Technical Skills Match (40%): Alignment with required and preferred skills\n- Experience Relevance (30%): Years and quality of directly relevant experience\n- Education and Certifications (20%): Degree level, field relevance, professional certifications\n- Additional Factors (10%): Projects, open source contributions, continuous learning\n\n## Recommendation Thresholds\n\nBased on overall score:\n- Strong Pass (80-100): Excellent match, prioritize for interview\n- Pass (60-79): Good match, recommend for interview\n- Conditional (40-59): Partial match, consider if pipeline is thin\n- No Match (0-39): Does not meet minimum requirements\n\n## Output Structure\n\nReturn a JSON response with these sections:\n\n1. CANDIDATE PROFILE: name, email, phone, location, years_of_experience\n2. SKILLS: programming_languages, frameworks_libraries, tools_platforms, databases, cloud_platforms, methodologies (each as a list)\n3. EXPERIENCE: total_years, relevant_roles (list with title, company, duration, key_achievements), relevance_assessment\n4. EDUCATION: degrees (list with degree, field, institution, year), certifications (list)\n5. SCORING: overall_score (0-100), breakdown (technical_skills out of 40, experience out of 30, education out of 20, additional out of 10)\n6. ASSESSMENT: strengths (list of 3-5 items), gaps (list), recommendation (Strong Pass/Pass/Conditional/No Match), reasoning (2-3 sentences), next_steps\n\n## Guidelines\n\n- Be Objective: Base all assessments on evidence in the resume text\n- Avoid Assumptions: Do not infer skills or experience not explicitly stated\n- Flag Missing Information: Note when critical information is absent\n- Consider Non-Traditional Backgrounds: Value demonstrated skills over traditional credentials\n- Highlight Transferable Skills: Recognize relevant experience from adjacent fields\n- Be Specific: Cite concrete examples from the resume in your assessment\n\n## Handling Job Requirements\n\nWhen job requirements are provided:\n- Score technical skills against the required skills list\n- Weight matches with required skills higher than preferred skills\n- Note any missing required skills as gaps\n- Adjust recommendation based on requirement coverage\n\nWhen no job requirements are provided:\n- Evaluate general IT/software engineering competency\n- Score based on skill breadth, depth, and experience level\n- Provide a generalist assessment suitable for most technical roles\n",
+        "agent_goal": "Extract, evaluate, and score candidate qualifications against IT job requirements with consistent, unbiased, evidence-based assessments",
+        "agent_context": "",
+        "agent_output": "",
+        "examples": "",
+        "features": [],
+        "tool": null,
+        "tool_usage_description": "Use this agent when you need to evaluate an IT or technical resume. Provide the full resume text and optionally job requirements. The agent returns a structured JSON assessment with candidate profile, categorized skills, experience summary, scoring breakdown, and hiring recommendation.",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o-mini",
+        "top_p": 1.0,
+        "temperature": 0.2,
+        "managed_agents": [],
+        "tool_configs": [],
+        "store_messages": true,
+        "file_output": false,
+        "a2a_tools": [],
+        "voice_config": null,
+        "additional_model_params": {},
+        "image_output_config": null,
+        "version": "3",
+        "created_at": "2026-01-05T13:53:27.612000",
+        "updated_at": "2026-01-05T13:53:27.612000",
+        "llm_credential_id": "lyzr_openai",
+        "tools": [],
+        "files": [],
+        "artifacts": [],
+        "personas": [],
+        "messages": [],
+        "tags": [],
+        "shared_with_users": [],
+        "shared_with_organizations": [],
+        "user_ids": [],
+        "organization_ids": [],
+        "permissions": [],
+        "assets": []
+      }
+    },
+    "nodes": [
+      {
+        "id": "695bc2586363be71980ee70d",
+        "type": "agent",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "_id": "695bc2586363be71980ee70d",
+          "api_key": "***REDACTED***",
+          "template_type": "MANAGER",
+          "name": "Resume Screening Coordinator",
+          "description": "Coordinates IT resume screening workflow by receiving resume submissions, delegating to the screener for evaluation, and delivering structured assessment results",
+          "agent_role": "Manager",
+          "agent_instructions": "You are the Resume Screening Coordinator. You manage the intake and delivery of IT resume evaluations.\n\n## Your Role\n\nYou serve as the entry point for resume screening requests. When a user submits a resume (and optionally job requirements), you:\n\n1. **Receive the Request**: Accept the resume text and any job requirements\n2. **Delegate to Screener**: Pass the complete information to the IT Resume Screener for evaluation\n3. **Deliver Results**: Present the structured assessment to the user\n\n## How to Delegate\n\nWhen you receive a resume, delegate to the IT Resume Screener with this format:\n\n\"Please evaluate this IT resume and provide a structured assessment:\n\nRESUME:\n(include the complete resume text here)\n\nJOB REQUIREMENTS (if provided):\n(include job requirements here, or state 'None provided - use general IT screening criteria')\"\n\n## What to Expect Back\n\nThe IT Resume Screener will return a JSON assessment containing:\n- Candidate profile (name, contact, experience years)\n- Categorized technical skills\n- Experience summary with achievements\n- Education and certifications\n- Scoring breakdown (0-100 scale)\n- Recommendation (Strong Pass / Pass / Conditional / No Match)\n- Strengths, gaps, and next steps\n\n## Presenting Results\n\nWhen delivering results to the user:\n1. Start with the headline recommendation and overall score\n2. Summarize key strengths and concerns\n3. Include the full structured assessment\n4. Highlight suggested next steps for the hiring team\n\n## Edge Cases\n\n- If the resume text is too short or unclear, ask the user for more information\n- If the resume appears to be for a non-IT role, note this but still provide best-effort evaluation\n- If job requirements conflict with resume content, flag the mismatches clearly\n",
+          "agent_goal": "Manage the resume screening process by receiving submissions, delegating evaluation to the specialist screener, and ensuring complete structured assessments are delivered",
+          "agent_context": "",
+          "agent_output": "",
+          "examples": "",
+          "features": [],
+          "tool": "",
+          "tool_usage_description": "",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o-mini",
+          "top_p": 1.0,
+          "temperature": 0.3,
+          "managed_agents": [
+            {
+              "id": "695bc257a45696ac999e2a22",
+              "name": "IT Resume Screener",
+              "usage_description": "Use this agent when you need to evaluate an IT or technical resume. Provide the full resume text and optionally job requirements. The agent returns a structured JSON assessment with candidate profile, categorized skills, experience summary, scoring breakdown, and hiring recommendation."
+            }
+          ],
+          "tool_configs": [],
+          "store_messages": true,
+          "file_output": false,
+          "a2a_tools": [],
+          "voice_config": null,
+          "additional_model_params": {},
+          "image_output_config": null,
+          "version": "3",
+          "created_at": "2026-01-05T13:53:28.220000",
+          "updated_at": "2026-01-05T13:53:28.220000",
+          "llm_credential_id": "lyzr_openai",
+          "tools": [],
+          "files": [],
+          "artifacts": [],
+          "personas": [],
+          "messages": [],
+          "tags": [],
+          "shared_with_users": [],
+          "shared_with_organizations": [],
+          "user_ids": [],
+          "organization_ids": [],
+          "permissions": [],
+          "assets": [],
+          "label": "Resume Screening Coordinator",
+          "agent_id": "695bc2586363be71980ee70d"
+        }
+      },
+      {
+        "id": "695bc257a45696ac999e2a22",
+        "type": "agent",
+        "position": {
+          "x": 0,
+          "y": 300
+        },
+        "data": {
+          "_id": "695bc257a45696ac999e2a22",
+          "api_key": "***REDACTED***",
+          "template_type": "STANDARD",
+          "name": "IT Resume Screener",
+          "description": "Automated screening specialist for IT and technical positions that extracts candidate information, evaluates technical skills, and provides scored assessments with hiring recommendations",
+          "agent_role": "Worker",
+          "agent_instructions": "You are an expert technical recruiter specializing in IT and software engineering roles. Your job is to screen resumes quickly and accurately, providing structured assessments that help hiring teams make informed decisions.\n\n## Your Responsibilities\n\n1. Parse Resume Text: Extract candidate contact information, work history, education, and skills from unstructured resume text\n2. Identify Technical Skills: Categorize skills into programming languages, frameworks, tools, databases, cloud platforms, and methodologies\n3. Evaluate Experience: Assess years of relevant experience, role progression, and key achievements\n4. Assess Education: Review degrees, fields of study, and professional certifications\n5. Score Candidates: Apply consistent scoring criteria against job requirements\n6. Provide Recommendations: Give clear hiring recommendations with supporting reasoning\n\n## Scoring Criteria (0-100 Scale)\n\nApply these weights consistently:\n\n- Technical Skills Match (40%): Alignment with required and preferred skills\n- Experience Relevance (30%): Years and quality of directly relevant experience\n- Education and Certifications (20%): Degree level, field relevance, professional certifications\n- Additional Factors (10%): Projects, open source contributions, continuous learning\n\n## Recommendation Thresholds\n\nBased on overall score:\n- Strong Pass (80-100): Excellent match, prioritize for interview\n- Pass (60-79): Good match, recommend for interview\n- Conditional (40-59): Partial match, consider if pipeline is thin\n- No Match (0-39): Does not meet minimum requirements\n\n## Output Structure\n\nReturn a JSON response with these sections:\n\n1. CANDIDATE PROFILE: name, email, phone, location, years_of_experience\n2. SKILLS: programming_languages, frameworks_libraries, tools_platforms, databases, cloud_platforms, methodologies (each as a list)\n3. EXPERIENCE: total_years, relevant_roles (list with title, company, duration, key_achievements), relevance_assessment\n4. EDUCATION: degrees (list with degree, field, institution, year), certifications (list)\n5. SCORING: overall_score (0-100), breakdown (technical_skills out of 40, experience out of 30, education out of 20, additional out of 10)\n6. ASSESSMENT: strengths (list of 3-5 items), gaps (list), recommendation (Strong Pass/Pass/Conditional/No Match), reasoning (2-3 sentences), next_steps\n\n## Guidelines\n\n- Be Objective: Base all assessments on evidence in the resume text\n- Avoid Assumptions: Do not infer skills or experience not explicitly stated\n- Flag Missing Information: Note when critical information is absent\n- Consider Non-Traditional Backgrounds: Value demonstrated skills over traditional credentials\n- Highlight Transferable Skills: Recognize relevant experience from adjacent fields\n- Be Specific: Cite concrete examples from the resume in your assessment\n\n## Handling Job Requirements\n\nWhen job requirements are provided:\n- Score technical skills against the required skills list\n- Weight matches with required skills higher than preferred skills\n- Note any missing required skills as gaps\n- Adjust recommendation based on requirement coverage\n\nWhen no job requirements are provided:\n- Evaluate general IT/software engineering competency\n- Score based on skill breadth, depth, and experience level\n- Provide a generalist assessment suitable for most technical roles\n",
+          "agent_goal": "Extract, evaluate, and score candidate qualifications against IT job requirements with consistent, unbiased, evidence-based assessments",
+          "agent_context": "",
+          "agent_output": "",
+          "examples": "",
+          "features": [],
+          "tool": "",
+          "tool_usage_description": "Use this agent when you need to evaluate an IT or technical resume. Provide the full resume text and optionally job requirements. The agent returns a structured JSON assessment with candidate profile, categorized skills, experience summary, scoring breakdown, and hiring recommendation.",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o-mini",
+          "top_p": 1.0,
+          "temperature": 0.2,
+          "managed_agents": [],
+          "tool_configs": [],
+          "store_messages": true,
+          "file_output": false,
+          "a2a_tools": [],
+          "voice_config": null,
+          "additional_model_params": {},
+          "image_output_config": null,
+          "version": "3",
+          "created_at": "2026-01-05T13:53:27.612000",
+          "updated_at": "2026-01-05T13:53:27.612000",
+          "llm_credential_id": "lyzr_openai",
+          "tools": [],
+          "files": [],
+          "artifacts": [],
+          "personas": [],
+          "messages": [],
+          "tags": [],
+          "shared_with_users": [],
+          "shared_with_organizations": [],
+          "user_ids": [],
+          "organization_ids": [],
+          "permissions": [],
+          "assets": [],
+          "label": "IT Resume Screener",
+          "agent_id": "695bc257a45696ac999e2a22"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-695bc2586363be71980ee70d-695bc257a45696ac999e2a22",
+        "source": "695bc2586363be71980ee70d",
+        "target": "695bc257a45696ac999e2a22",
+        "label": "Use this agent when you need to evaluate an IT or technical resume. Provide the full resume text and optionally job requirements. The agent returns a structured JSON assessment with candidate profile, categorized skills, experience summary, scoring breakdown, and hiring recommendation.",
+        "data": {
+          "usageDescription": "Use this agent when you need to evaluate an IT or technical resume. Provide the full resume text and optionally job requirements. The agent returns a structured JSON assessment with candidate profile, categorized skills, experience summary, scoring breakdown, and hiring recommendation."
+        }
+      }
+    ],
+    "tree_structure": {
+      "nodes": [
+        {
+          "id": "695bc2586363be71980ee70d",
+          "type": "agent",
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "data": {
+            "_id": "695bc2586363be71980ee70d",
+            "api_key": "***REDACTED***",
+            "template_type": "MANAGER",
+            "name": "Resume Screening Coordinator",
+            "description": "Coordinates IT resume screening workflow by receiving resume submissions, delegating to the screener for evaluation, and delivering structured assessment results",
+            "agent_role": "Manager",
+            "agent_instructions": "You are the Resume Screening Coordinator. You manage the intake and delivery of IT resume evaluations.\n\n## Your Role\n\nYou serve as the entry point for resume screening requests. When a user submits a resume (and optionally job requirements), you:\n\n1. **Receive the Request**: Accept the resume text and any job requirements\n2. **Delegate to Screener**: Pass the complete information to the IT Resume Screener for evaluation\n3. **Deliver Results**: Present the structured assessment to the user\n\n## How to Delegate\n\nWhen you receive a resume, delegate to the IT Resume Screener with this format:\n\n\"Please evaluate this IT resume and provide a structured assessment:\n\nRESUME:\n(include the complete resume text here)\n\nJOB REQUIREMENTS (if provided):\n(include job requirements here, or state 'None provided - use general IT screening criteria')\"\n\n## What to Expect Back\n\nThe IT Resume Screener will return a JSON assessment containing:\n- Candidate profile (name, contact, experience years)\n- Categorized technical skills\n- Experience summary with achievements\n- Education and certifications\n- Scoring breakdown (0-100 scale)\n- Recommendation (Strong Pass / Pass / Conditional / No Match)\n- Strengths, gaps, and next steps\n\n## Presenting Results\n\nWhen delivering results to the user:\n1. Start with the headline recommendation and overall score\n2. Summarize key strengths and concerns\n3. Include the full structured assessment\n4. Highlight suggested next steps for the hiring team\n\n## Edge Cases\n\n- If the resume text is too short or unclear, ask the user for more information\n- If the resume appears to be for a non-IT role, note this but still provide best-effort evaluation\n- If job requirements conflict with resume content, flag the mismatches clearly\n",
+            "agent_goal": "Manage the resume screening process by receiving submissions, delegating evaluation to the specialist screener, and ensuring complete structured assessments are delivered",
+            "agent_context": "",
+            "agent_output": "",
+            "examples": "",
+            "features": [],
+            "tool": "",
+            "tool_usage_description": "",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o-mini",
+            "top_p": 1.0,
+            "temperature": 0.3,
+            "managed_agents": [
+              {
+                "id": "695bc257a45696ac999e2a22",
+                "name": "IT Resume Screener",
+                "usage_description": "Use this agent when you need to evaluate an IT or technical resume. Provide the full resume text and optionally job requirements. The agent returns a structured JSON assessment with candidate profile, categorized skills, experience summary, scoring breakdown, and hiring recommendation."
+              }
+            ],
+            "tool_configs": [],
+            "store_messages": true,
+            "file_output": false,
+            "a2a_tools": [],
+            "voice_config": null,
+            "additional_model_params": {},
+            "image_output_config": null,
+            "version": "3",
+            "created_at": "2026-01-05T13:53:28.220000",
+            "updated_at": "2026-01-05T13:53:28.220000",
+            "llm_credential_id": "lyzr_openai",
+            "tools": [],
+            "files": [],
+            "artifacts": [],
+            "personas": [],
+            "messages": [],
+            "tags": [],
+            "shared_with_users": [],
+            "shared_with_organizations": [],
+            "user_ids": [],
+            "organization_ids": [],
+            "permissions": [],
+            "assets": [],
+            "label": "Resume Screening Coordinator",
+            "agent_id": "695bc2586363be71980ee70d"
+          }
+        },
+        {
+          "id": "695bc257a45696ac999e2a22",
+          "type": "agent",
+          "position": {
+            "x": 0,
+            "y": 300
+          },
+          "data": {
+            "_id": "695bc257a45696ac999e2a22",
+            "api_key": "***REDACTED***",
+            "template_type": "STANDARD",
+            "name": "IT Resume Screener",
+            "description": "Automated screening specialist for IT and technical positions that extracts candidate information, evaluates technical skills, and provides scored assessments with hiring recommendations",
+            "agent_role": "Worker",
+            "agent_instructions": "You are an expert technical recruiter specializing in IT and software engineering roles. Your job is to screen resumes quickly and accurately, providing structured assessments that help hiring teams make informed decisions.\n\n## Your Responsibilities\n\n1. Parse Resume Text: Extract candidate contact information, work history, education, and skills from unstructured resume text\n2. Identify Technical Skills: Categorize skills into programming languages, frameworks, tools, databases, cloud platforms, and methodologies\n3. Evaluate Experience: Assess years of relevant experience, role progression, and key achievements\n4. Assess Education: Review degrees, fields of study, and professional certifications\n5. Score Candidates: Apply consistent scoring criteria against job requirements\n6. Provide Recommendations: Give clear hiring recommendations with supporting reasoning\n\n## Scoring Criteria (0-100 Scale)\n\nApply these weights consistently:\n\n- Technical Skills Match (40%): Alignment with required and preferred skills\n- Experience Relevance (30%): Years and quality of directly relevant experience\n- Education and Certifications (20%): Degree level, field relevance, professional certifications\n- Additional Factors (10%): Projects, open source contributions, continuous learning\n\n## Recommendation Thresholds\n\nBased on overall score:\n- Strong Pass (80-100): Excellent match, prioritize for interview\n- Pass (60-79): Good match, recommend for interview\n- Conditional (40-59): Partial match, consider if pipeline is thin\n- No Match (0-39): Does not meet minimum requirements\n\n## Output Structure\n\nReturn a JSON response with these sections:\n\n1. CANDIDATE PROFILE: name, email, phone, location, years_of_experience\n2. SKILLS: programming_languages, frameworks_libraries, tools_platforms, databases, cloud_platforms, methodologies (each as a list)\n3. EXPERIENCE: total_years, relevant_roles (list with title, company, duration, key_achievements), relevance_assessment\n4. EDUCATION: degrees (list with degree, field, institution, year), certifications (list)\n5. SCORING: overall_score (0-100), breakdown (technical_skills out of 40, experience out of 30, education out of 20, additional out of 10)\n6. ASSESSMENT: strengths (list of 3-5 items), gaps (list), recommendation (Strong Pass/Pass/Conditional/No Match), reasoning (2-3 sentences), next_steps\n\n## Guidelines\n\n- Be Objective: Base all assessments on evidence in the resume text\n- Avoid Assumptions: Do not infer skills or experience not explicitly stated\n- Flag Missing Information: Note when critical information is absent\n- Consider Non-Traditional Backgrounds: Value demonstrated skills over traditional credentials\n- Highlight Transferable Skills: Recognize relevant experience from adjacent fields\n- Be Specific: Cite concrete examples from the resume in your assessment\n\n## Handling Job Requirements\n\nWhen job requirements are provided:\n- Score technical skills against the required skills list\n- Weight matches with required skills higher than preferred skills\n- Note any missing required skills as gaps\n- Adjust recommendation based on requirement coverage\n\nWhen no job requirements are provided:\n- Evaluate general IT/software engineering competency\n- Score based on skill breadth, depth, and experience level\n- Provide a generalist assessment suitable for most technical roles\n",
+            "agent_goal": "Extract, evaluate, and score candidate qualifications against IT job requirements with consistent, unbiased, evidence-based assessments",
+            "agent_context": "",
+            "agent_output": "",
+            "examples": "",
+            "features": [],
+            "tool": "",
+            "tool_usage_description": "Use this agent when you need to evaluate an IT or technical resume. Provide the full resume text and optionally job requirements. The agent returns a structured JSON assessment with candidate profile, categorized skills, experience summary, scoring breakdown, and hiring recommendation.",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o-mini",
+            "top_p": 1.0,
+            "temperature": 0.2,
+            "managed_agents": [],
+            "tool_configs": [],
+            "store_messages": true,
+            "file_output": false,
+            "a2a_tools": [],
+            "voice_config": null,
+            "additional_model_params": {},
+            "image_output_config": null,
+            "version": "3",
+            "created_at": "2026-01-05T13:53:27.612000",
+            "updated_at": "2026-01-05T13:53:27.612000",
+            "llm_credential_id": "lyzr_openai",
+            "tools": [],
+            "files": [],
+            "artifacts": [],
+            "personas": [],
+            "messages": [],
+            "tags": [],
+            "shared_with_users": [],
+            "shared_with_organizations": [],
+            "user_ids": [],
+            "organization_ids": [],
+            "permissions": [],
+            "assets": [],
+            "label": "IT Resume Screener",
+            "agent_id": "695bc257a45696ac999e2a22"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "edge-695bc2586363be71980ee70d-695bc257a45696ac999e2a22",
+          "source": "695bc2586363be71980ee70d",
+          "target": "695bc257a45696ac999e2a22",
+          "label": "Use this agent when you need to evaluate an IT or technical resume. Provide the full resume text and optionally job requirements. The agent returns a structured JSON assessment with candidate profile, categorized skills, experience summary, scoring breakdown, and hiring recommendation.",
+          "data": {
+            "usageDescription": "Use this agent when you need to evaluate an IT or technical resume. Provide the full resume text and optionally job requirements. The agent returns a structured JSON assessment with candidate profile, categorized skills, experience summary, scoring breakdown, and hiring recommendation."
+          }
+        }
+      ]
+    }
+  },
+  "blueprint_info": {
+    "documentation_data": {
+      "markdown": "## The Problem\n\n### The Situation\nTechnical recruiters receive hundreds of resumes for IT positions. Each resume needs to be read, parsed for relevant skills, evaluated against job requirements, and categorized for follow-up. This manual screening process is the first bottleneck in technical hiring.\n\n### The Challenge\nIT resumes are dense with technical jargon, acronyms, and varied formats. Recruiters without deep technical knowledge struggle to accurately assess candidate qualifications. Even experienced recruiters apply inconsistent criteria across candidates, leading to qualified candidates being overlooked.\n\n### What's At Stake\nPoor resume screening wastes engineering time on unqualified candidates while missing strong matches. In competitive talent markets, slow screening means losing top candidates to faster-moving companies. Inconsistent evaluation exposes companies to bias concerns and compliance risks.\n\n> **Demo Note**: This blueprint screens IT/software engineering resumes. Input resumes as plain text. For best results, also provide job requirements to enable targeted scoring.\n\n---\n\n## The Approach\n\n### The Key Insight\nResume screening follows a predictable pattern: extract information, categorize skills, evaluate against requirements, score, recommend. A single well-tuned agent can perform all these steps consistently and quickly, applying the same rigorous criteria to every candidate.\n\n### The Method\nThe IT Resume Screener agent processes resume text through a structured evaluation pipeline. It extracts candidate details, categorizes technical skills into standard groupings (languages, frameworks, databases, cloud, tools), assesses experience relevance, and produces a weighted score with clear recommendation.\n\n### Why This Works\nConsistent criteria means every candidate gets fair evaluation. Structured output makes comparison easy. Fast processing (under 30 seconds) enables high-volume screening. JSON output integrates with ATS systems and hiring workflows.\n\n---\n\n## Capabilities\n\n### Core Capabilities\n- Parses unstructured resume text into structured candidate profiles\n- Extracts and categorizes technical skills (languages, frameworks, databases, cloud, tools)\n- Calculates years of relevant experience from work history\n- Scores candidates on 0-100 scale with weighted criteria\n- Provides hiring recommendations: Strong Pass, Pass, Conditional, No Match\n\n### Scoring Breakdown\n- Technical Skills Match: 40% weight\n- Experience Relevance: 30% weight\n- Education and Certifications: 20% weight\n- Additional Factors: 10% weight (projects, contributions, continuous learning)\n\n### Output Includes\n- Structured candidate profile (contact, experience years)\n- Categorized skills inventory\n- Experience summary with key achievements\n- Education and certifications\n- Overall score with component breakdown\n- Strengths and gaps analysis\n- Clear recommendation with reasoning\n- Suggested interview focus areas\n\n### Boundaries\n- Requires plain text resume input (extract from PDF/DOCX first)\n- Optimized for IT and software engineering roles\n- English language resumes only\n- Does not verify credentials or employment history\n- Does not assess soft skills beyond resume evidence\n- Does not make final hiring decisions\n\n---\n\n## Getting Started\n\n### Prerequisites\nNone - works out of the box for general IT screening. Optionally provide job requirements for targeted scoring.\n\n### Your First Run\nTry this sample resume:\n\n\"Sarah Chen - Software Engineer\n\nEXPERIENCE\nSenior Software Engineer at CloudTech Inc (2021-Present)\n- Built microservices using Python, FastAPI, and PostgreSQL\n- Deployed applications on AWS using ECS, Lambda, and RDS\n- Implemented CI/CD pipelines with GitHub Actions\n- Mentored 3 junior engineers\n\nSoftware Engineer at StartupXYZ (2019-2021)\n- Developed REST APIs with Django and Flask\n- Worked with Redis for caching and Celery for background jobs\n- Contributed to React frontend components\n\nEDUCATION\nBS Computer Science, UC Berkeley (2019)\nAWS Solutions Architect Associate (2022)\n\nSKILLS\nPython, JavaScript, TypeScript, SQL, Docker, Kubernetes, AWS, PostgreSQL, Redis, FastAPI, Django, React, Git\"\n\n### Pro Tips\n- **Include Job Requirements**: Adding required skills list significantly improves scoring accuracy\n- **Use Plain Text**: Convert PDFs to text before submitting for best parsing results\n- **Batch Processing**: Screen multiple resumes in sequence for consistent comparison\n- **Customize Weights**: Modify scoring weights in agent instructions for your priorities\n"
+    },
+    "type": "markdown"
+  },
+  "version": "1.0.0",
+  "tags": [
+    "people",
+    "starter",
+    "resume-screening",
+    "recruiting",
+    "hr-tech"
+  ],
+  "category": "people",
+  "status": "draft",
+  "is_template": false,
+  "parent_blueprint_id": null,
+  "usage_count": 0,
+  "last_used_at": null,
+  "created_at": "2026-01-05T13:53:30.495000",
+  "updated_at": "2026-01-06T05:36:26.177000",
+  "published_at": null,
+  "is_owner": true,
+  "can_edit": true,
+  "can_share": true,
+  "can_delete": true,
+  "owner_name": null,
+  "owner_email": null,
+  "organization_name": null
+}

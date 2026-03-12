@@ -1,0 +1,141 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Purchase Order Validation Bot
+  description: Automates purchase order validation by checking data 
+    completeness, verifying business rule compliance, and routing to appropriate
+    approvers based on amount and category thresholds.
+  category: finance
+  tags:
+    - finance
+    - procurement
+    - approval-workflow
+    - validation
+    - purchase-orders
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Finance teams process hundreds of purchase orders monthly. Each PO must be checked for data completeness, validated against business rules, and routed to the right approver. Manual review is slow and inconsistent.
+
+    ### The Challenge
+    PO validation requires checking multiple dimensions: Are all required fields present? Does the vendor exist in the system? Is this within budget? Who needs to approve based on the amount? Different people apply these rules differently, leading to errors and delays.
+
+    ### What's At Stake
+    Incomplete POs cause processing delays. Policy violations create compliance risk. Wrong routing wastes approver time. Manual validation bottlenecks slow procurement cycles and frustrates business users.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    PO validation is a sequential process with clear checkpoints: first verify the data exists, then check it complies with rules, then route it appropriately. Each phase has distinct logic that benefits from specialization.
+
+    ### The Method
+    A PO Validation Coordinator manages three specialists:
+
+    1. **Data Completeness Validator**: Checks that all required fields are present, formats are correct, and calculations are accurate
+    2. **Business Rules Checker**: Validates against vendor authorization, budget limits, approval thresholds, and procurement policies
+    3. **Approval Router**: Determines the correct approval path based on amount tiers, category rules, and organizational hierarchy
+
+    ### Why This Works
+    Sequential validation catches issues early. The Data Validator prevents incomplete POs from wasting compliance checking time. The Rules Checker ensures policy adherence before routing. The Router optimizes approval paths for efficiency. Each specialist focuses on what they do best.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - PO data completeness validation
+    - Mathematical accuracy verification
+    - Vendor authorization checking
+    - Budget limit validation
+    - Approval threshold determination
+    - Intelligent approval routing
+    - Risk flag identification
+    - Audit trail generation
+
+    ### Data Validation Checks
+    - Required fields present (header, vendor, line items, totals)
+    - Date formats and logical consistency
+    - Quantity and price validation
+    - Line total and grand total calculations
+    - Currency format compliance
+
+    ### Business Rules Checked
+    - Vendor in approved vendor list
+    - Within department budget allocation
+    - Within requestor purchase authority
+    - Competitive bid requirements (over $10K)
+    - Contract requirements for services
+    - Sole source justification needs
+
+    ### Approval Routing Tiers
+    - Under $1,000: Auto-approval eligible
+    - $1,000-$5,000: Manager approval
+    - $5,000-$25,000: Director approval
+    - $25,000-$100,000: VP/CFO approval
+    - Over $100,000: Executive approval
+
+    ### Boundaries
+    - Validates provided PO data (no ERP integration)
+    - Uses configurable thresholds (adjust in instructions)
+    - English language primary focus
+    - Standard procurement categories
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    None - works out of the box with default thresholds.
+
+    ### Your First Run
+    Try this prompt:
+
+    "Validate this purchase order:
+
+    PO Number: PO-2024-0142
+    Date: January 10, 2024
+    Requestor: Sarah Chen, Marketing Department
+
+    Vendor: Office Supplies Plus (Vendor ID: V-1234)
+
+    Line Items:
+    1. Printer Paper (10 boxes) - $25.00 each = $250.00
+    2. Ink Cartridges (5 units) - $45.00 each = $225.00
+    3. Desk Organizers (3 units) - $35.00 each = $105.00
+
+    Subtotal: $580.00
+    Tax (8%): $46.40
+    Total: $626.40
+
+    Delivery Date: January 20, 2024
+    Ship to: 123 Main St, Suite 400, Springfield, IL 62701"
+
+    ### Pro Tips
+    - **Include All Fields**: Complete data enables full validation
+    - **Specify Department**: Helps with budget and routing checks
+    - **Note Vendor Status**: Mention if new vendor or preferred vendor
+    - **Flag Urgency**: Rush orders may need expedited routing
+    - **Provide Context**: Special circumstances help with policy application
+
+    ### Example Use Cases
+    - Standard supply purchases
+    - IT equipment requests
+    - Professional services engagements
+    - Marketing campaign expenses
+    - Capital equipment purchases
+    - Vendor onboarding validation
+
+root_agents:
+  - ../agents/po-validation-coordinator.yaml
+ids:
+  blueprint: dd17fc34-9614-4947-801f-c72ece2ffa30
+  agents:
+    ../agents/po-validation-coordinator.yaml: 695be121a45696ac999e2d39
+    ../agents/data-completeness-validator.yaml: 695be11e6363be71980ee9b1
+    ../agents/business-rules-checker.yaml: 695be120a45696ac999e2d38
+    ../agents/approval-router.yaml: 695be1206363be71980ee9b2

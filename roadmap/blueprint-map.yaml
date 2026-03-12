@@ -1,0 +1,59 @@
+mappings:
+  # Week 1
+  6d25116a-8c60-4541-9369-20a666bb9aa2: 8fa3b79b-18cd-405c-9c28-f5b71a75bf8c  # BP-038 Ticket Triage Agent
+  131af90e-613f-4af0-9f1f-cb1402311692: 8c08c208-3f6a-48a6-a3ca-d68c02b28b5f  # BP-039 URL Powered FAQ Assistant
+  2d36aa33-db43-466e-b833-1ab6a47432f1: 8fce9177-4fe7-4181-86fe-46f147487836  # BP-043 B2B SaaS Lead Scorer
+  22333c32-3d1a-46c7-91d9-beb0266318e6: b2549a85-5cac-4266-b01b-0f7b3a1b43f9  # BP-044 SDR Cold Outreach Email Writer
+  9af0115d-a37d-4f27-849e-c01dffa4c24a: 0ec99064-8f29-46eb-b0c5-ab98b458109d  # BP-065 Stanford Storm [Moonshot]
+
+  # Week 2
+  403a4fb0-ffc0-4162-9301-e359e9da334e: 3cc6899a-f3f1-4a6e-b6cc-56514e3cc978  # BP-041 IT Candidate Resume Screener
+  e430798e-bf80-40bf-a88f-5b72740b8040: e7c2fccc-9c90-4848-b746-ee67b87a0df6  # BP-042 Employee Policy Q&A Assistant
+  d5e0384b-e89f-4f4f-a7cd-42f289836bb3: 20bce885-1614-4e6f-8afd-20525c399d3e  # BP-045 Blog Article Draft Generator
+  f3aa8a85-7efd-45d9-b474-de145dae761c: 8b121bb8-fed6-47b8-8f45-9508cf088e37  # BP-048 SaaS Vendor Comparison Analyst
+  23a1e715-a377-4e4e-bb93-7f9c5e0b7797: 4e1282f7-852f-4dee-be9a-6ed6c7e992b7  # BP-066 MetaGPT Multi-Agent [Moonshot]
+
+  # Week 3
+  bd56fd7a-4432-4c08-b3b0-024bdf6dc7e6: b89c21ba-cede-4679-9207-387a50acf954  # BP-040 Product Review Sentiment Analyzer
+  53878d66-e95f-48af-932e-2fc7757d3cc1: d686f995-b5df-4f76-b971-7303697b1bae  # BP-046 Email Campaign Performance Analyzer
+  cca999fb-d5ef-4efb-8e2f-defe5def3f8c: d2cca1a6-5729-48cf-bf57-ddc5ab5f4f1f  # BP-050 Multi-Platform Social Post Creator
+  4340bf85-75b4-44d4-a472-5ec5120c35a2: 7baa4281-5ad9-4c48-9a60-d4ca62c94be6  # BP-054 Customer Service Call QA Scorer
+  86aebb0d-232a-4a95-928c-6c621beeb890: 1d6dd179-2aeb-43fd-bd0c-40fc2d6c7b1b  # BP-070 Self-Improving Agent [Moonshot]
+
+  # Week 4
+  7749e813-8ace-45d6-93f1-d14eca919ef0: b1bc65df-c28a-4317-8125-13bdf3574ac6  # BP-053 Support Ticket Escalation Router
+  92998335-1faa-4a10-b113-bd98b3d360e5: cd7031b7-2322-41a8-92f0-da41141d872a  # BP-055 Real-Time Support Agent Assistant
+  6153756d-87ab-46b2-b2b9-0fe8a6a9a43a: cc1c4141-7bf9-4284-819e-7022a22b0736  # BP-051 Target Account Campaign Coordinator
+  106f0e9c-f96e-47ef-9468-9206b20d40f7: b0cf6be5-9360-4c4c-bfe8-46a22c9fe815  # BP-052 Pipeline Revenue Forecast Generator
+  c6807fa4-6e0e-4956-91ff-fe7ef34b8eaa: 35cb1cea-a658-457a-a4d3-e6674ee8b527  # BP-073 Tool-Augmented LLM [Moonshot]
+
+  # Week 5
+  1e353563-80ab-4a32-8940-36ade7ad77a3: 9501387b-bf93-4f09-9625-96c6ca791174  # BP-060 RFP Response Document Drafter
+  ffde6717-d038-40f1-96fb-b6530c5cf215: dd17fc34-9614-4947-801f-c72ece2ffa30  # BP-061 Purchase Order Validation Bot
+  ef062766-ee21-4d58-81ae-d8adc55bcc73: 140c52f2-7904-4ccd-a140-47f4dfeea6e4  # BP-062 IT Incident Response Coordinator
+  a2d4e4aa-6514-4d27-b29e-8fc60b83d177: 79fbf060-357d-4669-ae45-61f44aff7a1b  # BP-063 Pull Request Code Review Assistant
+  f469144e-3de9-4d1a-8c9a-733702c18697: 4ca1a5f0-053f-43c3-9c19-9a3b4b7d3f6e  # BP-076 Agent Swarm [Moonshot]
+
+  # Week 6
+  4d9a2b8a-e0c1-47b8-9512-c39ee5968c4a: 7428a372-5a5b-4363-9d92-f6c45becb717  # BP-047 Sales Proposal Document Generator
+  ca44b0a1-bfe7-44c6-ac34-5c3c22a8d3b7: e41b4b23-1c9c-4993-84ea-a2d6a4272512  # BP-056 Voice-Enabled Customer Support Bot
+  fec5c5c6-0bdd-4444-988a-8966857f8e45: cbcefd3e-580e-4b81-9e72-bef50bae5969  # BP-057 Customer Inquiry Channel Router
+  948fccaf-733e-4bdc-ad32-d18d2698e1bf: 74e50992-e442-42eb-bf19-d0d6db9b88ce  # BP-064 Code Documentation Generator
+  f1fcfc23-cfbe-431a-85fd-d97434af39f0: 9c48e634-30d4-4b06-89fb-0e5d3d215014  # BP-077 Knowledge Graph Agent [Moonshot]
+
+  # Week 7
+  071d6abd-0512-445e-9c3b-76e1f235e041: 50ca9ef6-e2f6-4871-8fcd-62670c693f01  # BP-058 Insurance Claim Intake Processor
+  e4bf00df-7729-4937-9e61-ab3a521221b5: 0fa5a6c1-1903-4137-b801-340bc35384d8  # BP-068 AutoGen Conversational [Moonshot]
+  4f9ab90d-96f2-44e2-9c31-ec3fd3501a0e: 5a6f81f6-82a6-4408-910e-d3fc04537c89  # BP-069 CrewAI Hierarchical [Moonshot]
+  d873c50b-fab4-49f5-9973-90a8b812aa16: be56279a-87a3-4a18-81c1-7d2a3649e4f3  # BP-071 Tree of Thoughts [Moonshot]
+  ae054865-e8d7-45d7-96e8-92149efb1256: fc1cbaa3-9b6d-4089-9381-faa50c4f38b7  # BP-079 Code Interpreter [Moonshot]
+
+  # Featured (no week)
+  efa3bc0f-cf11-47c2-b7cb-01281af5cc22: 2930ae68-d2de-4064-a475-5ec73c8c2de3  # BP-049 Legal Contract Clause Analyzer
+  db3040fe-49d8-418f-b423-ac5142dc0c61: 7487cd07-41cc-46b9-90bf-a17d07a8f617  # BP-059 Regulatory Compliance Assessment System
+  92f28d59-61e2-4095-8a8b-fda637eace82: 90ade6a1-5619-4a39-8bf1-bfd5d1907df1  # BP-067 LLM Council Multi-Agent Deliberation [Featured]
+  9fc9c276-6943-46d6-86d4-52d88c5fb692: d68b4c20-05af-4fed-8661-92189a00d323  # BP-075 Lyzr Six Sigma Quality Methodology [Featured]
+  7072b77b-18e1-4cc2-9a92-f4a5f56ef975: 550b697f-1087-47bd-b739-d69b0123b195  # BP-080 Open Deep Research Synthesis [Featured]
+  11ec70ba-90f8-4725-bcd1-4b3c81931bab: 78d9060a-c901-4f65-9b78-36b367313e40  # BP-072 LangGraph Plan-and-Execute Pattern [Featured]
+  6ca5c506-2988-4bed-b2e8-ad7e156b0118: 37274bdb-6da0-4008-83ba-07951492edcf  # BP-078 Multi-Modal Vision and Text Agent [Featured]
+  2468af26-6c0d-4462-95d3-1da501bbc2a4: 35c69447-9459-45f8-bdd5-c8fd2e2889fa  # BP-081 Daily News Digest

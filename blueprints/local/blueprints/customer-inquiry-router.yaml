@@ -1,0 +1,141 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Customer Inquiry Channel Router
+  description: Intelligently routes customer inquiries across email, chat, 
+    voice, and social media channels based on content analysis, customer 
+    preferences, sentiment, and urgency.
+  category: customer
+  tags:
+    - customer
+    - support
+    - routing
+    - omnichannel
+    - prioritization
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Modern customers reach out through multiple channels: email, chat, phone, and social media. Each inquiry needs to reach the right team quickly, with full context preserved. Manual triage is slow and inconsistent.
+
+    ### The Challenge
+    Effective routing requires understanding intent, knowing customer history, assessing urgency, and matching to the right channel and team. Different channels need different response styles. Context gets lost in handoffs.
+
+    ### What's At Stake
+    Poor routing leads to longer resolution times, customer frustration, and wasted agent time. VIP customers stuck in general queues churn. Urgent issues buried in backlogs escalate. The cost of getting routing wrong compounds with every misdirected inquiry.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Intelligent routing requires multiple perspectives: what the customer wants (intent), who they are (profile), how urgent it is (priority), and where to send it (channel/team). Each perspective benefits from specialized analysis.
+
+    ### The Method
+    A Routing Coordinator manages four specialists in a hybrid parallel-sequential flow:
+
+    1. **Inquiry Analyzer**: Classifies intent, topic, and key entities from raw inquiry text
+    2. **Customer Profile Resolver**: Retrieves tier, preferences, and interaction history
+    3. **Sentiment and Urgency Assessor**: Determines priority from emotional signals and urgency indicators
+    4. **Channel Router**: Makes final routing decision with channel-appropriate handoff context
+
+    ### Why This Works
+    Parallel analysis of inquiry and customer profile minimizes latency. Sentiment-aware prioritization ensures frustrated customers get faster attention. Profile-based routing honors customer preferences. Context preservation eliminates repetition during handoffs.
+
+    ---
+
+    ## Capabilities
+
+    ### Intent Classification
+    - Billing issues and payment problems
+    - Technical support and troubleshooting
+    - Sales inquiries and pre-purchase questions
+    - Account management requests
+    - General information queries
+
+    ### Customer Context Resolution
+    - Tier identification (Enterprise, Premium, Standard, Free)
+    - Channel preference lookup
+    - Interaction history summary
+    - VIP and at-risk flag detection
+    - SLA calculation by tier
+
+    ### Priority Assessment
+    - Sentiment analysis (positive to angry)
+    - Urgency keyword detection
+    - Business impact evaluation
+    - Escalation recommendation
+    - Tier-weighted prioritization
+
+    ### Intelligent Routing
+    - Channel selection based on preferences and situation
+    - Team matching by inquiry type
+    - Queue priority assignment
+    - Context summary for handoff
+    - Channel-appropriate response templates
+
+    ### Omnichannel Support
+    - Email: Formal, detailed responses
+    - Chat: Concise, real-time style
+    - Voice: Empathetic scripts
+    - Social: Public-friendly, brand voice
+
+    ### Boundaries
+    - Requires customer database integration for profile resolution
+    - Best results with CRM and ticket system access
+    - Routes inquiries but does not resolve them
+    - Escalates complex multi-team issues for manual triage
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - Customer database or CRM for profile lookup
+    - Channel routing infrastructure (queue system)
+    - Team assignment mapping
+
+    ### Your First Run
+    Try this prompt:
+
+    "Email from john.smith@enterprise.com: Your billing system charged my card twice this month. I need this fixed immediately - we're an enterprise customer and this is the third time I've reached out about billing issues."
+
+    ### Pro Tips
+    - **Connect to CRM**: Profile resolution works best with real customer data
+    - **Configure Teams**: Map your team structure to routing rules
+    - **Set SLA Thresholds**: Tune priority levels to your service agreements
+    - **Monitor Escalations**: Track escalation patterns to identify systemic issues
+
+    ### Example Use Cases
+    - Inbound inquiry triage for support teams
+    - VIP customer prioritization
+    - After-hours routing to appropriate queues
+    - Cross-channel context preservation
+    - Sentiment-based escalation triggers
+
+    ### Sample Interactions
+
+    Enterprise Customer Issue:
+    Input: "Chat from vip@bigcorp.com: Production is down and we're losing revenue. Need help NOW."
+    Output: Routes to Technical Support via Voice, Priority 1, with full context for immediate callback.
+
+    Frustrated Free User:
+    Input: "Email from user@free.com: I've asked THREE times about password reset. Does anyone actually work here?"
+    Output: Routes to Support via Email, Priority 3, flagged for follow-up on previous requests.
+
+    Sales Inquiry:
+    Input: "Chat from prospect@company.com: Interested in enterprise pricing. Can someone walk me through features?"
+    Output: Routes to Sales via Chat, Priority 2, with product interest context.
+
+root_agents:
+  - ../agents/inquiry-routing-coordinator.yaml
+ids:
+  blueprint: cbcefd3e-580e-4b81-9e72-bef50bae5969
+  agents:
+    ../agents/inquiry-routing-coordinator.yaml: 695bea21a45696ac999e2e2e
+    ../agents/inquiry-analyzer.yaml: 695bea1ea45696ac999e2e2c
+    ../agents/customer-profile-resolver.yaml: 695bea1f6363be71980eea74
+    ../agents/sentiment-urgency-assessor.yaml: 695bea20a45696ac999e2e2d
+    ../agents/channel-router.yaml: 695bea216363be71980eea75

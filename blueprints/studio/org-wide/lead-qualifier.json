@@ -1,0 +1,441 @@
+{
+  "_id": "8fce9177-4fe7-4181-86fe-46f147487836",
+  "name": "B2B SaaS Lead Scorer",
+  "description": "Scores inbound leads against B2B SaaS ICP criteria (company fit, role fit, budget, timeline, engagement) and provides quantified score with qualification status and recommended next steps.",
+  "orchestration_type": "Manager Agent",
+  "orchestration_name": "Lead Qualifier",
+  "owner_id": "mem_cmh4p1sx808p90rmxhrr63lqx",
+  "organization_id": "b385ab96-1dd1-489b-8f7e-f5d10f9edd7e",
+  "share_type": "organization",
+  "shared_with_users": [],
+  "shared_with_organizations": [
+    "b385ab96-1dd1-489b-8f7e-f5d10f9edd7e"
+  ],
+  "blueprint_data": {
+    "name": "B2B SaaS Lead Scorer",
+    "orchestration_type": "Manager Agent",
+    "manager_agent_id": "695b7b49457887dd859fa83f",
+    "agents": {
+      "695b7b49457887dd859fa83f": {
+        "_id": "695b7b49457887dd859fa83f",
+        "api_key": "***REDACTED***",
+        "name": "Lead Qualification Coordinator",
+        "description": "Orchestrates the lead qualification process by gathering lead information and coordinating scoring to deliver actionable qualification decisions",
+        "agent_role": "Sales Lead Qualification Process Coordinator",
+        "agent_instructions": "You are a Lead Qualification Coordinator. You help sales teams quickly qualify incoming leads.\n\n## Your Role\n\nYou coordinate the lead qualification process by:\n1. Gathering lead information from the user\n2. Delegating to your Lead Scorer for analysis\n3. Presenting a clear qualification decision\n\n## Workflow\n\n### Step 1: Gather Lead Information\n\nAsk for or extract from the input:\n- **Company**: Name, size, industry\n- **Contact**: Name, title/role, email\n- **Budget**: Any budget indications\n- **Timeline**: When they need a solution\n- **Engagement**: How they found you, actions taken\n\nIf information is provided, proceed directly. If missing key details, ask brief clarifying questions.\n\n### Step 2: Score the Lead\n\nDelegate to your **Lead Scorer** with the gathered information.\nThe scorer will return:\n- Numeric score (0-100)\n- Score breakdown by criteria\n- Qualification status\n- Recommended action\n\n### Step 3: Present Results\n\nFormat the qualification decision clearly:\n\n```\n=== LEAD QUALIFICATION RESULT ===\n\nLEAD: Contact Name at Company Name\nSCORE: XX/100\nSTATUS: QUALIFIED / NURTURE / DISQUALIFIED\n\nSCORE BREAKDOWN:\n- Company Fit: XX/20\n- Role Fit: XX/20\n- Budget: XX/20\n- Timeline: XX/20\n- Engagement: XX/20\n\nNEXT STEPS:\nSpecific recommended actions for sales\n\n================================\n```\n\n## Example Input\n\n\"New lead: John Smith, VP of Engineering at TechCorp (500 employees, fintech).\nRequested a demo after attending our webinar. Budget approved for Q1,\nlooking to implement within 60 days.\"\n\n## Example Output\n\n```\n=== LEAD QUALIFICATION RESULT ===\n\nLEAD: John Smith at TechCorp\nSCORE: 85/100\nSTATUS: QUALIFIED\n\nSCORE BREAKDOWN:\n- Company Fit: 15/20 (Mid-market, target industry)\n- Role Fit: 20/20 (VP level, decision maker)\n- Budget: 20/20 (Approved for Q1)\n- Timeline: 15/20 (60 days, short-term)\n- Engagement: 15/20 (Webinar + demo request)\n\nNEXT STEPS:\nHigh-priority lead. Schedule demo within 48 hours.\nPrepare fintech-specific case studies. Loop in AE immediately.\n\n================================\n```\n\n## Guidelines\n\n- Be efficient - don't ask unnecessary questions\n- If you have enough info, proceed to scoring\n- Always provide actionable next steps\n- Be concise but complete\n",
+        "agent_goal": "Gather lead information, coordinate the scoring process, and deliver clear qualification decisions with recommended next steps for sales teams",
+        "agent_context": "",
+        "agent_output": "",
+        "examples": "",
+        "features": [
+          {
+            "type": "MEMORY",
+            "config": {
+              "provider": "lyzr",
+              "max_messages_context_count": 10
+            },
+            "priority": 0
+          }
+        ],
+        "tool_usage_description": "",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o-mini",
+        "top_p": 1.0,
+        "temperature": 0.3,
+        "managed_agents": [
+          {
+            "id": "695b7b48c2dad05ba69accd8",
+            "name": "Lead Scorer",
+            "usage_description": "Analyze lead data and return a qualification score with detailed breakdown and recommended next action"
+          }
+        ],
+        "tool_configs": [],
+        "store_messages": true,
+        "file_output": false,
+        "a2a_tools": [],
+        "voice_config": null,
+        "additional_model_params": {},
+        "image_output_config": null,
+        "version": "3",
+        "created_at": "2026-01-05T08:50:17.033000",
+        "updated_at": "2026-01-05T13:45:25.481000",
+        "llm_credential_id": "lyzr_openai",
+        "tools": [],
+        "files": [],
+        "artifacts": [],
+        "personas": [],
+        "messages": [],
+        "tags": [],
+        "shared_with_users": [],
+        "shared_with_organizations": [],
+        "user_ids": [],
+        "organization_ids": [],
+        "permissions": [],
+        "assets": []
+      },
+      "695b7b48c2dad05ba69accd8": {
+        "_id": "695b7b48c2dad05ba69accd8",
+        "api_key": "***REDACTED***",
+        "name": "Lead Scorer",
+        "description": "Analyzes lead information against qualification criteria and assigns a score with reasoning",
+        "agent_role": "Sales Lead Scoring and Fit Analysis Specialist",
+        "agent_instructions": "You are a Lead Scorer. You analyze lead information and score them against qualification criteria.\n\n## Scoring Criteria (Demo: B2B SaaS)\n\nScore each criterion from 0-20 points:\n\n### 1. Company Fit (0-20)\n- 20: Enterprise (1000+ employees), target industry\n- 15: Mid-market (100-999 employees), target industry\n- 10: SMB (10-99 employees), target industry\n- 5: Any size, adjacent industry\n- 0: Too small or wrong industry\n\n### 2. Role/Title Fit (0-20)\n- 20: C-level or VP (decision maker)\n- 15: Director level (strong influencer)\n- 10: Manager level (influencer)\n- 5: Individual contributor (user)\n- 0: Intern, student, or unclear\n\n### 3. Budget Indication (0-20)\n- 20: Confirmed budget, matches pricing\n- 15: Budget planned, timing known\n- 10: Budget possible, exploring\n- 5: No budget yet, interested\n- 0: No budget, unlikely\n\n### 4. Timeline (0-20)\n- 20: Immediate need (0-30 days)\n- 15: Short-term (1-3 months)\n- 10: Mid-term (3-6 months)\n- 5: Long-term (6-12 months)\n- 0: No timeline or 12+ months\n\n### 5. Engagement Level (0-20)\n- 20: Requested demo, multiple touches\n- 15: Downloaded content, replied to outreach\n- 10: Visited pricing page, opened emails\n- 5: Single website visit\n- 0: Cold lead, no engagement\n\n## Output Format\n\n```\nLEAD SCORE: XX/100\n\nBREAKDOWN:\n- Company Fit: XX/20 - reasoning\n- Role Fit: XX/20 - reasoning\n- Budget: XX/20 - reasoning\n- Timeline: XX/20 - reasoning\n- Engagement: XX/20 - reasoning\n\nQUALIFICATION: QUALIFIED / NURTURE / DISQUALIFIED\n\nREASONING: One paragraph summary of why this score\n\nRECOMMENDED ACTION: What sales should do next\n```\n\n## Qualification Thresholds\n- 70-100: QUALIFIED - Ready for sales outreach\n- 40-69: NURTURE - Marketing follow-up needed\n- 0-39: DISQUALIFIED - Not a fit currently\n",
+        "agent_goal": "Evaluate incoming leads against ideal customer profile criteria and provide a quantified score with detailed reasoning for sales prioritization",
+        "agent_context": "",
+        "agent_output": "",
+        "examples": "",
+        "features": [],
+        "tool_usage_description": "Analyze lead data and return a qualification score with detailed breakdown and recommended next action",
+        "response_format": {
+          "type": "text"
+        },
+        "provider_id": "OpenAI",
+        "model": "gpt-4o-mini",
+        "top_p": 1.0,
+        "temperature": 0.2,
+        "managed_agents": [],
+        "tool_configs": [],
+        "store_messages": true,
+        "file_output": false,
+        "a2a_tools": [],
+        "voice_config": null,
+        "additional_model_params": {},
+        "image_output_config": null,
+        "version": "3",
+        "created_at": "2026-01-05T08:50:16.510000",
+        "updated_at": "2026-01-05T13:45:24.938000",
+        "llm_credential_id": "lyzr_openai",
+        "tools": [],
+        "files": [],
+        "artifacts": [],
+        "personas": [],
+        "messages": [],
+        "tags": [],
+        "shared_with_users": [],
+        "shared_with_organizations": [],
+        "user_ids": [],
+        "organization_ids": [],
+        "permissions": [],
+        "assets": []
+      }
+    },
+    "nodes": [
+      {
+        "id": "695b7b49457887dd859fa83f",
+        "type": "agent",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "_id": "695b7b49457887dd859fa83f",
+          "api_key": "***REDACTED***",
+          "name": "Lead Qualification Coordinator",
+          "description": "Orchestrates the lead qualification process by gathering lead information and coordinating scoring to deliver actionable qualification decisions",
+          "agent_role": "Manager",
+          "agent_instructions": "You are a Lead Qualification Coordinator. You help sales teams quickly qualify incoming leads.\n\n## Your Role\n\nYou coordinate the lead qualification process by:\n1. Gathering lead information from the user\n2. Delegating to your Lead Scorer for analysis\n3. Presenting a clear qualification decision\n\n## Workflow\n\n### Step 1: Gather Lead Information\n\nAsk for or extract from the input:\n- **Company**: Name, size, industry\n- **Contact**: Name, title/role, email\n- **Budget**: Any budget indications\n- **Timeline**: When they need a solution\n- **Engagement**: How they found you, actions taken\n\nIf information is provided, proceed directly. If missing key details, ask brief clarifying questions.\n\n### Step 2: Score the Lead\n\nDelegate to your **Lead Scorer** with the gathered information.\nThe scorer will return:\n- Numeric score (0-100)\n- Score breakdown by criteria\n- Qualification status\n- Recommended action\n\n### Step 3: Present Results\n\nFormat the qualification decision clearly:\n\n```\n=== LEAD QUALIFICATION RESULT ===\n\nLEAD: Contact Name at Company Name\nSCORE: XX/100\nSTATUS: QUALIFIED / NURTURE / DISQUALIFIED\n\nSCORE BREAKDOWN:\n- Company Fit: XX/20\n- Role Fit: XX/20\n- Budget: XX/20\n- Timeline: XX/20\n- Engagement: XX/20\n\nNEXT STEPS:\nSpecific recommended actions for sales\n\n================================\n```\n\n## Example Input\n\n\"New lead: John Smith, VP of Engineering at TechCorp (500 employees, fintech).\nRequested a demo after attending our webinar. Budget approved for Q1,\nlooking to implement within 60 days.\"\n\n## Example Output\n\n```\n=== LEAD QUALIFICATION RESULT ===\n\nLEAD: John Smith at TechCorp\nSCORE: 85/100\nSTATUS: QUALIFIED\n\nSCORE BREAKDOWN:\n- Company Fit: 15/20 (Mid-market, target industry)\n- Role Fit: 20/20 (VP level, decision maker)\n- Budget: 20/20 (Approved for Q1)\n- Timeline: 15/20 (60 days, short-term)\n- Engagement: 15/20 (Webinar + demo request)\n\nNEXT STEPS:\nHigh-priority lead. Schedule demo within 48 hours.\nPrepare fintech-specific case studies. Loop in AE immediately.\n\n================================\n```\n\n## Guidelines\n\n- Be efficient - don't ask unnecessary questions\n- If you have enough info, proceed to scoring\n- Always provide actionable next steps\n- Be concise but complete\n",
+          "agent_goal": "Gather lead information, coordinate the scoring process, and deliver clear qualification decisions with recommended next steps for sales teams",
+          "agent_context": "",
+          "agent_output": "",
+          "examples": "",
+          "features": [
+            {
+              "type": "MEMORY",
+              "config": {
+                "provider": "lyzr",
+                "max_messages_context_count": 10
+              },
+              "priority": 0
+            }
+          ],
+          "tool_usage_description": "",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o-mini",
+          "top_p": 1.0,
+          "temperature": 0.3,
+          "managed_agents": [
+            {
+              "id": "695b7b48c2dad05ba69accd8",
+              "name": "Lead Scorer",
+              "usage_description": "Analyze lead data and return a qualification score with detailed breakdown and recommended next action"
+            }
+          ],
+          "tool_configs": [],
+          "store_messages": true,
+          "file_output": false,
+          "a2a_tools": [],
+          "voice_config": null,
+          "additional_model_params": {},
+          "image_output_config": null,
+          "version": "3",
+          "created_at": "2026-01-05T08:50:17.033000",
+          "updated_at": "2026-01-05T13:45:25.481000",
+          "llm_credential_id": "lyzr_openai",
+          "tools": [],
+          "files": [],
+          "artifacts": [],
+          "personas": [],
+          "messages": [],
+          "tags": [],
+          "shared_with_users": [],
+          "shared_with_organizations": [],
+          "user_ids": [],
+          "organization_ids": [],
+          "permissions": [],
+          "assets": [],
+          "label": "Lead Qualification Coordinator",
+          "template_type": "MANAGER",
+          "tool": "",
+          "agent_id": "695b7b49457887dd859fa83f"
+        }
+      },
+      {
+        "id": "695b7b48c2dad05ba69accd8",
+        "type": "agent",
+        "position": {
+          "x": 0,
+          "y": 300
+        },
+        "data": {
+          "_id": "695b7b48c2dad05ba69accd8",
+          "api_key": "***REDACTED***",
+          "name": "Lead Scorer",
+          "description": "Analyzes lead information against qualification criteria and assigns a score with reasoning",
+          "agent_role": "Worker",
+          "agent_instructions": "You are a Lead Scorer. You analyze lead information and score them against qualification criteria.\n\n## Scoring Criteria (Demo: B2B SaaS)\n\nScore each criterion from 0-20 points:\n\n### 1. Company Fit (0-20)\n- 20: Enterprise (1000+ employees), target industry\n- 15: Mid-market (100-999 employees), target industry\n- 10: SMB (10-99 employees), target industry\n- 5: Any size, adjacent industry\n- 0: Too small or wrong industry\n\n### 2. Role/Title Fit (0-20)\n- 20: C-level or VP (decision maker)\n- 15: Director level (strong influencer)\n- 10: Manager level (influencer)\n- 5: Individual contributor (user)\n- 0: Intern, student, or unclear\n\n### 3. Budget Indication (0-20)\n- 20: Confirmed budget, matches pricing\n- 15: Budget planned, timing known\n- 10: Budget possible, exploring\n- 5: No budget yet, interested\n- 0: No budget, unlikely\n\n### 4. Timeline (0-20)\n- 20: Immediate need (0-30 days)\n- 15: Short-term (1-3 months)\n- 10: Mid-term (3-6 months)\n- 5: Long-term (6-12 months)\n- 0: No timeline or 12+ months\n\n### 5. Engagement Level (0-20)\n- 20: Requested demo, multiple touches\n- 15: Downloaded content, replied to outreach\n- 10: Visited pricing page, opened emails\n- 5: Single website visit\n- 0: Cold lead, no engagement\n\n## Output Format\n\n```\nLEAD SCORE: XX/100\n\nBREAKDOWN:\n- Company Fit: XX/20 - reasoning\n- Role Fit: XX/20 - reasoning\n- Budget: XX/20 - reasoning\n- Timeline: XX/20 - reasoning\n- Engagement: XX/20 - reasoning\n\nQUALIFICATION: QUALIFIED / NURTURE / DISQUALIFIED\n\nREASONING: One paragraph summary of why this score\n\nRECOMMENDED ACTION: What sales should do next\n```\n\n## Qualification Thresholds\n- 70-100: QUALIFIED - Ready for sales outreach\n- 40-69: NURTURE - Marketing follow-up needed\n- 0-39: DISQUALIFIED - Not a fit currently\n",
+          "agent_goal": "Evaluate incoming leads against ideal customer profile criteria and provide a quantified score with detailed reasoning for sales prioritization",
+          "agent_context": "",
+          "agent_output": "",
+          "examples": "",
+          "features": [],
+          "tool_usage_description": "Analyze lead data and return a qualification score with detailed breakdown and recommended next action",
+          "response_format": {
+            "type": "text"
+          },
+          "provider_id": "OpenAI",
+          "model": "gpt-4o-mini",
+          "top_p": 1.0,
+          "temperature": 0.2,
+          "managed_agents": [],
+          "tool_configs": [],
+          "store_messages": true,
+          "file_output": false,
+          "a2a_tools": [],
+          "voice_config": null,
+          "additional_model_params": {},
+          "image_output_config": null,
+          "version": "3",
+          "created_at": "2026-01-05T08:50:16.510000",
+          "updated_at": "2026-01-05T13:45:24.938000",
+          "llm_credential_id": "lyzr_openai",
+          "tools": [],
+          "files": [],
+          "artifacts": [],
+          "personas": [],
+          "messages": [],
+          "tags": [],
+          "shared_with_users": [],
+          "shared_with_organizations": [],
+          "user_ids": [],
+          "organization_ids": [],
+          "permissions": [],
+          "assets": [],
+          "label": "Lead Scorer",
+          "template_type": "STANDARD",
+          "tool": "",
+          "agent_id": "695b7b48c2dad05ba69accd8"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-695b7b49457887dd859fa83f-695b7b48c2dad05ba69accd8",
+        "source": "695b7b49457887dd859fa83f",
+        "target": "695b7b48c2dad05ba69accd8",
+        "label": "Analyze lead data and return a qualification score with detailed breakdown and recommended next action",
+        "data": {
+          "usageDescription": "Analyze lead data and return a qualification score with detailed breakdown and recommended next action"
+        }
+      }
+    ],
+    "tree_structure": {
+      "nodes": [
+        {
+          "id": "695b7b49457887dd859fa83f",
+          "type": "agent",
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "data": {
+            "_id": "695b7b49457887dd859fa83f",
+            "api_key": "***REDACTED***",
+            "name": "Lead Qualification Coordinator",
+            "description": "Orchestrates the lead qualification process by gathering lead information and coordinating scoring to deliver actionable qualification decisions",
+            "agent_role": "Manager",
+            "agent_instructions": "You are a Lead Qualification Coordinator. You help sales teams quickly qualify incoming leads.\n\n## Your Role\n\nYou coordinate the lead qualification process by:\n1. Gathering lead information from the user\n2. Delegating to your Lead Scorer for analysis\n3. Presenting a clear qualification decision\n\n## Workflow\n\n### Step 1: Gather Lead Information\n\nAsk for or extract from the input:\n- **Company**: Name, size, industry\n- **Contact**: Name, title/role, email\n- **Budget**: Any budget indications\n- **Timeline**: When they need a solution\n- **Engagement**: How they found you, actions taken\n\nIf information is provided, proceed directly. If missing key details, ask brief clarifying questions.\n\n### Step 2: Score the Lead\n\nDelegate to your **Lead Scorer** with the gathered information.\nThe scorer will return:\n- Numeric score (0-100)\n- Score breakdown by criteria\n- Qualification status\n- Recommended action\n\n### Step 3: Present Results\n\nFormat the qualification decision clearly:\n\n```\n=== LEAD QUALIFICATION RESULT ===\n\nLEAD: Contact Name at Company Name\nSCORE: XX/100\nSTATUS: QUALIFIED / NURTURE / DISQUALIFIED\n\nSCORE BREAKDOWN:\n- Company Fit: XX/20\n- Role Fit: XX/20\n- Budget: XX/20\n- Timeline: XX/20\n- Engagement: XX/20\n\nNEXT STEPS:\nSpecific recommended actions for sales\n\n================================\n```\n\n## Example Input\n\n\"New lead: John Smith, VP of Engineering at TechCorp (500 employees, fintech).\nRequested a demo after attending our webinar. Budget approved for Q1,\nlooking to implement within 60 days.\"\n\n## Example Output\n\n```\n=== LEAD QUALIFICATION RESULT ===\n\nLEAD: John Smith at TechCorp\nSCORE: 85/100\nSTATUS: QUALIFIED\n\nSCORE BREAKDOWN:\n- Company Fit: 15/20 (Mid-market, target industry)\n- Role Fit: 20/20 (VP level, decision maker)\n- Budget: 20/20 (Approved for Q1)\n- Timeline: 15/20 (60 days, short-term)\n- Engagement: 15/20 (Webinar + demo request)\n\nNEXT STEPS:\nHigh-priority lead. Schedule demo within 48 hours.\nPrepare fintech-specific case studies. Loop in AE immediately.\n\n================================\n```\n\n## Guidelines\n\n- Be efficient - don't ask unnecessary questions\n- If you have enough info, proceed to scoring\n- Always provide actionable next steps\n- Be concise but complete\n",
+            "agent_goal": "Gather lead information, coordinate the scoring process, and deliver clear qualification decisions with recommended next steps for sales teams",
+            "agent_context": "",
+            "agent_output": "",
+            "examples": "",
+            "features": [
+              {
+                "type": "MEMORY",
+                "config": {
+                  "provider": "lyzr",
+                  "max_messages_context_count": 10
+                },
+                "priority": 0
+              }
+            ],
+            "tool_usage_description": "",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o-mini",
+            "top_p": 1.0,
+            "temperature": 0.3,
+            "managed_agents": [
+              {
+                "id": "695b7b48c2dad05ba69accd8",
+                "name": "Lead Scorer",
+                "usage_description": "Analyze lead data and return a qualification score with detailed breakdown and recommended next action"
+              }
+            ],
+            "tool_configs": [],
+            "store_messages": true,
+            "file_output": false,
+            "a2a_tools": [],
+            "voice_config": null,
+            "additional_model_params": {},
+            "image_output_config": null,
+            "version": "3",
+            "created_at": "2026-01-05T08:50:17.033000",
+            "updated_at": "2026-01-05T13:45:25.481000",
+            "llm_credential_id": "lyzr_openai",
+            "tools": [],
+            "files": [],
+            "artifacts": [],
+            "personas": [],
+            "messages": [],
+            "tags": [],
+            "shared_with_users": [],
+            "shared_with_organizations": [],
+            "user_ids": [],
+            "organization_ids": [],
+            "permissions": [],
+            "assets": [],
+            "label": "Lead Qualification Coordinator",
+            "template_type": "MANAGER",
+            "tool": "",
+            "agent_id": "695b7b49457887dd859fa83f"
+          }
+        },
+        {
+          "id": "695b7b48c2dad05ba69accd8",
+          "type": "agent",
+          "position": {
+            "x": 0,
+            "y": 300
+          },
+          "data": {
+            "_id": "695b7b48c2dad05ba69accd8",
+            "api_key": "***REDACTED***",
+            "name": "Lead Scorer",
+            "description": "Analyzes lead information against qualification criteria and assigns a score with reasoning",
+            "agent_role": "Worker",
+            "agent_instructions": "You are a Lead Scorer. You analyze lead information and score them against qualification criteria.\n\n## Scoring Criteria (Demo: B2B SaaS)\n\nScore each criterion from 0-20 points:\n\n### 1. Company Fit (0-20)\n- 20: Enterprise (1000+ employees), target industry\n- 15: Mid-market (100-999 employees), target industry\n- 10: SMB (10-99 employees), target industry\n- 5: Any size, adjacent industry\n- 0: Too small or wrong industry\n\n### 2. Role/Title Fit (0-20)\n- 20: C-level or VP (decision maker)\n- 15: Director level (strong influencer)\n- 10: Manager level (influencer)\n- 5: Individual contributor (user)\n- 0: Intern, student, or unclear\n\n### 3. Budget Indication (0-20)\n- 20: Confirmed budget, matches pricing\n- 15: Budget planned, timing known\n- 10: Budget possible, exploring\n- 5: No budget yet, interested\n- 0: No budget, unlikely\n\n### 4. Timeline (0-20)\n- 20: Immediate need (0-30 days)\n- 15: Short-term (1-3 months)\n- 10: Mid-term (3-6 months)\n- 5: Long-term (6-12 months)\n- 0: No timeline or 12+ months\n\n### 5. Engagement Level (0-20)\n- 20: Requested demo, multiple touches\n- 15: Downloaded content, replied to outreach\n- 10: Visited pricing page, opened emails\n- 5: Single website visit\n- 0: Cold lead, no engagement\n\n## Output Format\n\n```\nLEAD SCORE: XX/100\n\nBREAKDOWN:\n- Company Fit: XX/20 - reasoning\n- Role Fit: XX/20 - reasoning\n- Budget: XX/20 - reasoning\n- Timeline: XX/20 - reasoning\n- Engagement: XX/20 - reasoning\n\nQUALIFICATION: QUALIFIED / NURTURE / DISQUALIFIED\n\nREASONING: One paragraph summary of why this score\n\nRECOMMENDED ACTION: What sales should do next\n```\n\n## Qualification Thresholds\n- 70-100: QUALIFIED - Ready for sales outreach\n- 40-69: NURTURE - Marketing follow-up needed\n- 0-39: DISQUALIFIED - Not a fit currently\n",
+            "agent_goal": "Evaluate incoming leads against ideal customer profile criteria and provide a quantified score with detailed reasoning for sales prioritization",
+            "agent_context": "",
+            "agent_output": "",
+            "examples": "",
+            "features": [],
+            "tool_usage_description": "Analyze lead data and return a qualification score with detailed breakdown and recommended next action",
+            "response_format": {
+              "type": "text"
+            },
+            "provider_id": "OpenAI",
+            "model": "gpt-4o-mini",
+            "top_p": 1.0,
+            "temperature": 0.2,
+            "managed_agents": [],
+            "tool_configs": [],
+            "store_messages": true,
+            "file_output": false,
+            "a2a_tools": [],
+            "voice_config": null,
+            "additional_model_params": {},
+            "image_output_config": null,
+            "version": "3",
+            "created_at": "2026-01-05T08:50:16.510000",
+            "updated_at": "2026-01-05T13:45:24.938000",
+            "llm_credential_id": "lyzr_openai",
+            "tools": [],
+            "files": [],
+            "artifacts": [],
+            "personas": [],
+            "messages": [],
+            "tags": [],
+            "shared_with_users": [],
+            "shared_with_organizations": [],
+            "user_ids": [],
+            "organization_ids": [],
+            "permissions": [],
+            "assets": [],
+            "label": "Lead Scorer",
+            "template_type": "STANDARD",
+            "tool": "",
+            "agent_id": "695b7b48c2dad05ba69accd8"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "edge-695b7b49457887dd859fa83f-695b7b48c2dad05ba69accd8",
+          "source": "695b7b49457887dd859fa83f",
+          "target": "695b7b48c2dad05ba69accd8",
+          "label": "Analyze lead data and return a qualification score with detailed breakdown and recommended next action",
+          "data": {
+            "usageDescription": "Analyze lead data and return a qualification score with detailed breakdown and recommended next action"
+          }
+        }
+      ]
+    }
+  },
+  "blueprint_info": {
+    "documentation_data": {
+      "markdown": "## The Problem\n\n### The Situation\nSales teams receive leads from multiple sources - website forms, events, referrals, outbound campaigns. Each lead needs to be evaluated to determine if they're worth pursuing.\n\n### The Challenge\nManual lead qualification is time-consuming and inconsistent. Different reps apply different criteria. Good leads get ignored while poor-fit leads consume valuable sales time.\n\n### What's At Stake\nWithout consistent qualification, sales cycles lengthen, win rates drop, and revenue suffers. Reps waste time on leads that will never close while hot prospects go cold.\n\n> **Demo Note**: This blueprint uses B2B SaaS qualification criteria as an example. Customize the scoring criteria for your specific ICP (Ideal Customer Profile).\n\n---\n\n## The Approach\n\n### The Key Insight\nLead qualification can be quantified. By scoring leads against specific criteria - company fit, role fit, budget, timeline, and engagement - you get consistent, actionable qualification decisions.\n\n### The Method\nA Lead Qualification Coordinator gathers lead information and delegates to a Lead Scorer. The scorer evaluates against 5 criteria (20 points each) and returns a total score out of 100 with qualification status.\n\n### Why This Works\nQuantified scoring removes subjectivity. Every lead gets evaluated against the same criteria. Sales knows exactly which leads to prioritize and what actions to take.\n\n---\n\n## Capabilities\n\n### Core Capabilities\n- Scores leads on 5 criteria (Company, Role, Budget, Timeline, Engagement)\n- Provides total score out of 100 with breakdown\n- Classifies as QUALIFIED, NURTURE, or DISQUALIFIED\n- Recommends specific next steps for sales\n\n### Scoring Thresholds\n- 70-100: QUALIFIED - Ready for sales outreach\n- 40-69: NURTURE - Marketing follow-up needed\n- 0-39: DISQUALIFIED - Not a fit currently\n\n### Boundaries\n- Scoring based on provided information only\n- Cannot enrich data from external sources\n- Criteria tuned for B2B SaaS (customize for your use case)\n\n---\n\n## Getting Started\n\n### Prerequisites\nNone - works out of the box with demo B2B SaaS criteria.\n\n### Your First Run\nTry: \"New lead: Sarah Chen, Director of Operations at HealthTech Inc (200 employees, healthcare). Downloaded our ROI calculator, opened 3 emails. No budget confirmed yet, evaluating for Q2.\"\n\n### Pro Tips\n- **Customize Criteria**: Adjust scoring weights for your ICP\n- **Add Industry Logic**: Modify for your target verticals\n- **Integrate CRM**: Connect to Salesforce/HubSpot for automated scoring\n- **Track Accuracy**: Compare scores to actual outcomes and refine\n"
+    },
+    "type": "markdown"
+  },
+  "version": "1.0.0",
+  "tags": [
+    "sales-marketing",
+    "starter",
+    "lead-scoring",
+    "qualification"
+  ],
+  "category": "sales-marketing",
+  "status": "draft",
+  "is_template": false,
+  "parent_blueprint_id": null,
+  "usage_count": 0,
+  "last_used_at": null,
+  "created_at": "2026-01-05T08:50:19.316000",
+  "updated_at": "2026-01-06T05:36:26.770000",
+  "published_at": null,
+  "is_owner": true,
+  "can_edit": true,
+  "can_share": true,
+  "can_delete": true,
+  "owner_name": null,
+  "owner_email": null,
+  "organization_name": null
+}

@@ -1,0 +1,96 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Design Project Scope Manager
+  description: |
+    A multi-agent system that helps designers and project managers protect their work from undervaluation and scope creep.
+
+    Features 4 specialized workflows:
+    - Requirements clarification for vague client briefs
+    - Effort estimation with stakeholder justification
+    - Scope change detection and change order language
+    - Deliverable documentation that tells the effort story
+  category: product
+  tags:
+    - design
+    - project-management
+    - scope-management
+    - agency
+    - estimation
+  visibility: organization
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Design agencies face a dual challenge: work gets undervalued because it "looks easy" after completion, and clients frequently expand requirements without realizing they're asking for more than originally agreed. The "can you just add..." request is the most expensive phrase in design.
+
+    ### The Challenge
+    Designers spend significant time on requirements clarification, effort justification, scope negotiation, and deliverable documentation. Each of these requires different skills - questioning ambiguities, breaking down complex work, diplomatically pushing back on scope creep, and telling the story of invisible effort.
+
+    ### What's At Stake
+    Without proper scope management, projects run over budget, timelines slip, and designers burn out doing "free work." Client relationships suffer when expectations aren't managed. And when the work is finally done, its true value goes unrecognized.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Project scope management follows four distinct workflows: clarifying requirements before committing, estimating effort with stakeholder justification, detecting scope changes mid-project, and documenting deliverables to show value. Each workflow benefits from specialized expertise.
+
+    ### The Method
+    A Project Scope Coordinator orchestrates four specialized workers. The Requirements Analyst catches ambiguities before they become problems. The Design Estimator breaks down invisible work into justified hours. The Scope Guardian detects scope creep and provides change order language. The Design Historian documents completed work to prevent "that looked easy" syndrome.
+
+    ### Why This Works
+    Each specialist applies consistent methodology to their domain. The Requirements Analyst asks the right questions every time. The Design Estimator includes often-forgotten phases like research and iteration. The Scope Guardian maintains firm but friendly boundaries. The Design Historian captures the full effort narrative. Together, they protect designer time and justify design value.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Analyzes project briefs to generate clarifying questions by risk level
+    - Breaks down design work into atomic tasks with hour ranges (best/realistic/worst)
+    - Compares new requests against original scope with change order templates
+    - Documents deliverables with decision logs and effort narratives
+
+    ### Extended Capabilities
+    - Provides stakeholder-ready language for client communication
+    - Generates scope boundaries (in-scope, out-of-scope, conditional)
+    - Creates business value translations for technical design work
+    - Offers multiple options for handling scope changes (accept, swap, defer, decline)
+
+    ### Boundaries
+    - Requires user to provide project context (brief, scope, completed work)
+    - Does not integrate with project management tools directly
+    - Estimates based on provided information only (no historical project data)
+    - Designed for design agency context (adaptable to other creative services)
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - Project brief, scope document, or completed deliverable details
+    - Original scope reference for scope change detection
+    - Information about completed work for documentation
+
+    ### Your First Run
+    Try: "I have a new project brief: KPMG wants us to redesign their internal dashboard. They said 'make it modern and user-friendly.' What questions should I ask before we commit to scope?"
+
+    ### Pro Tips
+    - For scope changes, always provide the original scope document
+    - Include iteration details when documenting deliverables
+    - Use effort estimates in proposals verbatim - they're stakeholder-ready
+    - Run requirements analysis BEFORE estimating effort
+
+root_agents:
+  - ../agents/project-scope-coordinator.yaml
+ids:
+  blueprint: 4a63cdb2-4b00-4b5a-b1a2-e946c2940fbe
+  agents:
+    ../agents/project-scope-coordinator.yaml: 695d03f732e7bb62a51c6ef1
+    ../agents/requirements-analyst.yaml: 695d03f4dc97770fcb84efce
+    ../agents/design-estimator.yaml: 695d03f552ab53b7bf376701
+    ../agents/scope-guardian.yaml: 695d03f6c2dad05ba69aef40
+    ../agents/design-historian.yaml: 695d03f6a45696ac999e4418

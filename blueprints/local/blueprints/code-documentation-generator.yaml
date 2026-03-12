@@ -1,0 +1,154 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: Code Documentation Generator
+  description: Automatically generates comprehensive documentation for codebases
+    including API references, architecture docs, README files, and inline 
+    comments.
+  category: tech
+  tags:
+    - tech
+    - documentation
+    - developer-tools
+    - code-analysis
+    - api-docs
+  visibility: private
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Developers spend significant time writing documentation that often becomes outdated. Codebases grow faster than documentation keeps up. New team members struggle to understand system architecture and API contracts.
+
+    ### The Challenge
+    Good documentation requires multiple skills: understanding code structure, writing clear API references, explaining architectural decisions, and creating beginner-friendly guides. Few developers excel at all of these.
+
+    ### What's At Stake
+    Poor documentation leads to slower onboarding, more bugs from misunderstanding APIs, and technical debt as knowledge leaves with departing team members. The cost of undocumented code compounds over time.
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Different documentation types require different expertise: structure analysis is mechanical, API docs are formulaic, architecture docs require reasoning, and README writing needs empathy for beginners. Specialization improves quality.
+
+    ### The Method
+    A Documentation Coordinator manages five specialists in a sequential pipeline:
+
+    1. **Code Structure Analyzer**: Maps directory structure, components, and dependencies
+    2. **API Documentation Generator**: Creates function/class/endpoint references from signatures
+    3. **Architecture Documenter**: Documents design patterns and architectural decisions
+    4. **README Generator**: Writes project overviews and setup instructions
+    5. **Code Comment Generator**: Adds inline comments to complex sections
+
+    ### Why This Works
+    Structure analysis first provides foundation for all other documentation. Specialized agents produce higher-quality output in their domain. The coordinator ensures consistency across all documentation types.
+
+    ---
+
+    ## Capabilities
+
+    ### Structure Analysis
+    - Directory hierarchy mapping
+    - Component and module identification
+    - Dependency graph generation
+    - Entry point detection
+    - Complexity metrics
+
+    ### API Documentation
+    - Function signature extraction
+    - Parameter and return type documentation
+    - Exception documentation
+    - Usage examples
+    - Cross-references
+
+    ### Architecture Documentation
+    - System overview diagrams
+    - Design pattern identification
+    - Architectural decision records
+    - Data flow documentation
+    - Technology stack summary
+
+    ### README Generation
+    - Project overview
+    - Installation instructions
+    - Quick start guides
+    - Configuration documentation
+    - Contributing guidelines
+
+    ### Code Commenting
+    - Algorithm explanations
+    - Business logic comments
+    - Edge case documentation
+    - TODO and FIXME markers
+    - Security notes
+
+    ### Supported Languages
+    - JavaScript/TypeScript
+    - Python
+    - Go
+    - Rust
+    - Java
+    - C#
+    - And more (any language with clear syntax)
+
+    ### Boundaries
+    - Requires source code access for analysis
+    - Best results with well-structured codebases
+    - Cannot execute or test code
+    - Relies on code quality for accurate inference
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    - Source code files to document
+    - Understanding of desired documentation scope
+
+    ### Your First Run
+    Try this prompt:
+
+    "Generate complete documentation for this Python Flask API that handles user authentication and profile management."
+
+    Then provide the source files.
+
+    ### Pro Tips
+    - **Start Small**: Document one module before the entire codebase
+    - **Provide Context**: Share the project purpose and target audience
+    - **Iterate**: Generate, review, and refine documentation
+    - **Focus Areas**: Specify which documentation types matter most
+
+    ### Example Use Cases
+    - New project documentation setup
+    - Legacy code documentation
+    - API reference generation
+    - Onboarding documentation
+    - Architecture decision records
+
+    ### Sample Interactions
+
+    API Documentation:
+    Input: "Generate API documentation for this authentication module"
+    Output: Complete API reference with function signatures, parameters, return types, and examples.
+
+    Full Package:
+    Input: "Create complete documentation for this microservice"
+    Output: README, API reference, architecture documentation, and inline comments for complex sections.
+
+    README Only:
+    Input: "Write a README for this CLI tool"
+    Output: Comprehensive README with installation, usage examples, and configuration options.
+
+root_agents:
+  - ../agents/code-documentation-coordinator.yaml
+ids:
+  blueprint: 74e50992-e442-42eb-bf19-d0d6db9b88ce
+  agents:
+    ../agents/code-documentation-coordinator.yaml: 695bebdc6363be71980eea9d
+    ../agents/code-structure-analyzer.yaml: 695bebd9a45696ac999e2e5e
+    ../agents/api-documentation-generator.yaml: 695bebd96363be71980eea9b
+    ../agents/architecture-documenter.yaml: 695bebdaa45696ac999e2e5f
+    ../agents/readme-generator.yaml: 695bebdb6363be71980eea9c
+    ../agents/comment-generator.yaml: 695bebdba45696ac999e2e60

@@ -1,0 +1,85 @@
+apiVersion: lyzr.ai/v1
+kind: Blueprint
+
+metadata:
+  name: B2B SaaS Lead Scorer
+  description: Scores inbound leads against B2B SaaS ICP criteria (company fit,
+    role fit, budget, timeline, engagement) and provides quantified score with
+    qualification status and recommended next steps.
+  category: sales-marketing
+  tags:
+    - sales-marketing
+    - starter
+    - lead-scoring
+    - qualification
+  visibility: organization
+  readme: |
+    ## The Problem
+
+    ### The Situation
+    Sales teams receive leads from multiple sources - website forms, events, referrals, outbound campaigns. Each lead needs to be evaluated to determine if they're worth pursuing.
+
+    ### The Challenge
+    Manual lead qualification is time-consuming and inconsistent. Different reps apply different criteria. Good leads get ignored while poor-fit leads consume valuable sales time.
+
+    ### What's At Stake
+    Without consistent qualification, sales cycles lengthen, win rates drop, and revenue suffers. Reps waste time on leads that will never close while hot prospects go cold.
+
+    > **Demo Note**: This blueprint uses B2B SaaS qualification criteria as an example. Customize the scoring criteria for your specific ICP (Ideal Customer Profile).
+
+    ---
+
+    ## The Approach
+
+    ### The Key Insight
+    Lead qualification can be quantified. By scoring leads against specific criteria - company fit, role fit, budget, timeline, and engagement - you get consistent, actionable qualification decisions.
+
+    ### The Method
+    A Lead Qualification Coordinator gathers lead information and delegates to a Lead Scorer. The scorer evaluates against 5 criteria (20 points each) and returns a total score out of 100 with qualification status.
+
+    ### Why This Works
+    Quantified scoring removes subjectivity. Every lead gets evaluated against the same criteria. Sales knows exactly which leads to prioritize and what actions to take.
+
+    ---
+
+    ## Capabilities
+
+    ### Core Capabilities
+    - Scores leads on 5 criteria (Company, Role, Budget, Timeline, Engagement)
+    - Provides total score out of 100 with breakdown
+    - Classifies as QUALIFIED, NURTURE, or DISQUALIFIED
+    - Recommends specific next steps for sales
+
+    ### Scoring Thresholds
+    - 70-100: QUALIFIED - Ready for sales outreach
+    - 40-69: NURTURE - Marketing follow-up needed
+    - 0-39: DISQUALIFIED - Not a fit currently
+
+    ### Boundaries
+    - Scoring based on provided information only
+    - Cannot enrich data from external sources
+    - Criteria tuned for B2B SaaS (customize for your use case)
+
+    ---
+
+    ## Getting Started
+
+    ### Prerequisites
+    None - works out of the box with demo B2B SaaS criteria.
+
+    ### Your First Run
+    Try: "New lead: Sarah Chen, Director of Operations at HealthTech Inc (200 employees, healthcare). Downloaded our ROI calculator, opened 3 emails. No budget confirmed yet, evaluating for Q2."
+
+    ### Pro Tips
+    - **Customize Criteria**: Adjust scoring weights for your ICP
+    - **Add Industry Logic**: Modify for your target verticals
+    - **Integrate CRM**: Connect to Salesforce/HubSpot for automated scoring
+    - **Track Accuracy**: Compare scores to actual outcomes and refine
+
+root_agents:
+  - ../agents/lead-qualification-manager.yaml
+ids:
+  blueprint: 8fce9177-4fe7-4181-86fe-46f147487836
+  agents:
+    ../agents/lead-qualification-manager.yaml: 695b7b49457887dd859fa83f
+    ../agents/lead-scorer.yaml: 695b7b48c2dad05ba69accd8
